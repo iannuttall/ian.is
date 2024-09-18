@@ -54,18 +54,18 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full" style={{ background: 'linear-gradient(to top left, #152331, #000000)' }}>
       <CardContent className="p-4 flex flex-col items-center">
-        <h2 className="text-lg font-medium mb-1 text-center">{item.title}</h2>
+        <h2 className="text-lg font-medium mb-1 text-center text-[#00ff00]">{item.title}</h2>
         {item.description && (
-          <p className="mb-3 text-xs text-muted-foreground text-center">
+          <p className="mb-3 text-xs text-[#00cc00] text-center">
             {item.description}
           </p>
         )}
         <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm relative">
           <div className="relative">
             <svg
-              className="w-5 h-5 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2"
+              className="w-5 h-5 text-[#00ff00] absolute left-3 top-1/2 transform -translate-y-1/2"
               viewBox="0 0 24 24"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="type your email and hit enter to join"
-              className="w-full pl-10  text-sm"
+              className="w-full pl-10 text-sm bg-black border-[#00ff00] text-[#00ff00] placeholder:text-[#00aa00]"
               disabled={status === 'loading'}
             />
             <AnimatePresence>
@@ -91,7 +91,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
                   transition={{ duration: 0.2 }}
                 >
                   <motion.svg
-                    className="h-5 w-5 text-primary"
+                    className="h-5 w-5 text-[#00ff00]"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -109,8 +109,8 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
             {(status === 'success' || status === 'error') && (
               <motion.div
                 className={`absolute inset-0 flex items-center justify-center ${
-                  status === 'success' ? 'bg-green-500' : 'bg-red-500'
-                } text-white rounded-md overflow-hidden`}
+                  status === 'success' ? 'bg-[#00aa00]' : 'bg-[#aa0000]'
+                } text-[#00ff00] rounded-md overflow-hidden`}
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 exit={{ width: 0 }}

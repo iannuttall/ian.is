@@ -35,7 +35,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white dark:bg-black text-black dark:text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white dark:bg-gradient-to-tl dark:from-[#152331] dark:to-black text-black dark:text-white">
       <div className="w-full max-w-md space-y-4">
         <h1 className="text-4xl font-bold text-center">ian nuttall</h1>
         <p className="text-sm text-muted-foreground text-center">
