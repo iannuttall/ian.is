@@ -11,7 +11,7 @@ export default function LinkItem({ item, index }: { item: LinkItemType; index: n
     setMinimalMode(process.env.NEXT_PUBLIC_MINIMAL_MODE === 'true')
   }, [])
 
-  const IconComponent = getIconComponent(item.type, item.logo, minimalMode)
+  const IconComponent = getIconComponent(item.type, minimalMode, item.logo)
   const title = getFormattedTitle(item.type, item.title)
   const { bgColorClass, borderColorClass, hoverBorderClass, textColorClass } = getColorClasses(item, minimalMode)
   const url = getFormattedUrl(item.type, item.title, item.url)
@@ -126,7 +126,7 @@ function getColorClasses(item: LinkItemType, minimalMode: boolean): { bgColorCla
   }
 }
 
-function getIconComponent(type: string, logo?: string, minimalMode: boolean) {
+function getIconComponent(type: string, minimalMode: boolean, logo?: string) {
   if (logo) {
     return function CustomIcon({ className }: { className?: string }) {
       return (

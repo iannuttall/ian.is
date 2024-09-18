@@ -6,9 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import type { LinkItem } from '../utils/fetchSheetData'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// Define a custom Matrix green color
-const matrixGreen = '#00ff00'
-
 export default function NewsletterSignup({ item }: { item: LinkItem }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')

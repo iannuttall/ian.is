@@ -55,23 +55,27 @@ export default function Home() {
               )}
             </motion.div>
           )}
-          <div className="inline-flex items-center justify-center w-full">
+          {links.length > 0 && (
+            <>
+              <div className="inline-flex items-center justify-center w-full">
                 <hr className="w-full h-px my-4 bg-zinc-200 border-0 dark:bg-zinc-700" />
                 <span className="absolute px-3 font-medium text-xs text-muted-foreground -translate-x-1/2 bg-white dark:bg-black left-1/2 ">
-                socials
+                  socials
                 </span>
-            </div>
-          {links.map((link, index) => (
-            <LinkItem key={index} item={link} index={index} />
-          ))}
+              </div>
+              {links.map((link, index) => (
+                <LinkItem key={index} item={link} index={index} />
+              ))}
+            </>
+          )}
           {projects.length > 0 && (
             <>
-            <div className="inline-flex items-center justify-center w-full">
+              <div className="inline-flex items-center justify-center w-full">
                 <hr className="w-full h-px my-4 bg-zinc-200 border-0 dark:bg-zinc-700" />
                 <span className="absolute px-3 font-medium text-xs text-muted-foreground -translate-x-1/2 bg-white dark:bg-black left-1/2 ">
-                projects
+                  projects
                 </span>
-            </div>
+              </div>
               {projects.map((project, index) => (
                 <LinkItem key={`project-${index}`} item={project} index={index} />
               ))}
