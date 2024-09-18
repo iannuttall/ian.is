@@ -16,9 +16,6 @@ const geistMono = localFont({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || // Use this for your custom domain
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
-
   const title = "ian nuttall";
   const description = "tldr; serial internet biz builder, 100+ exits. always learning. usually from my mistakes.";
 
@@ -29,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       images: [{
-        url: `${baseUrl}/api/og?title=${encodeURIComponent(title)}`,
+        url: `/api/og?title=${encodeURIComponent(title)}`,
         width: 1200,
         height: 630,
       }],
@@ -38,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title,
       description,
-      images: [`${baseUrl}/api/og?title=${encodeURIComponent(title)}`],
+      images: [`/api/og?title=${encodeURIComponent(title)}`],
     },
   };
 }
