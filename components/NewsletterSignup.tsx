@@ -6,10 +6,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import type { LinkItem } from '../utils/fetchSheetData'
 import { motion, AnimatePresence } from 'framer-motion'
 
+// Define a custom Matrix green color
+const matrixGreen = '#00ff00'
+
 export default function NewsletterSignup({ item }: { item: LinkItem }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
+
   const formRef = useRef<HTMLFormElement>(null)
   const successAudioRef = useRef<HTMLAudioElement | null>(null)
   const failAudioRef = useRef<HTMLAudioElement | null>(null)
@@ -54,18 +58,18 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
   }
 
   return (
-    <Card className="w-full" style={{ background: 'linear-gradient(to top left, #152331, #000000)' }}>
+    <Card className="w-full bg-black dark:bg-[#00ff00] text-[#00ff00] dark:text-black">
       <CardContent className="p-4 flex flex-col items-center">
-        <h2 className="text-lg font-medium mb-1 text-center text-[#00ff00]">{item.title}</h2>
+        <h2 className="text-lg font-medium mb-1 text-center">{item.title}</h2>
         {item.description && (
-          <p className="mb-3 text-xs text-[#00cc00] text-center">
+          <p className="mb-3 text-xs text-center">
             {item.description}
           </p>
         )}
         <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm relative">
           <div className="relative">
             <svg
-              className="w-5 h-5 text-[#00ff00] absolute left-3 top-1/2 transform -translate-y-1/2"
+              className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2"
               viewBox="0 0 24 24"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +82,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="type your email and hit enter to join"
-              className="w-full pl-10 text-sm bg-black border-[#00ff00] text-[#00ff00] placeholder:text-[#00aa00]"
+              className="w-full pl-10 text-sm bg-black dark:bg-[#00ff00] text-[#00ff00] dark:text-black border-[#00ff00] dark:border-black placeholder:text-[#00ff00]/70 dark:placeholder:text-black/70"
               disabled={status === 'loading'}
             />
             <AnimatePresence>
@@ -91,7 +95,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
                   transition={{ duration: 0.2 }}
                 >
                   <motion.svg
-                    className="h-5 w-5 text-[#00ff00]"
+                    className="h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -108,9 +112,9 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
           <AnimatePresence>
             {(status === 'success' || status === 'error') && (
               <motion.div
-                className={`absolute inset-0 flex items-center justify-center ${
-                  status === 'success' ? 'bg-[#00aa00]' : 'bg-[#aa0000]'
-                } text-[#00ff00] rounded-md overflow-hidden`}
+                className={`absolute inset-0 flex items-center justify-center rounded-md overflow-hidden ${
+                  status === 'success' ? 'bg-[#00ff00] dark:bg-black text-black dark:text-[#00ff00]' : 'bg-red-500 text-white'
+                }`}
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 exit={{ width: 0 }}

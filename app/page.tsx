@@ -35,7 +35,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white dark:bg-gradient-to-tl dark:from-[#152331] dark:to-black text-black dark:text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-white dark:bg-black text-black dark:text-white">
       <div className="w-full max-w-md space-y-4">
         <h1 className="text-4xl font-bold text-center">ian nuttall</h1>
         <p className="text-sm text-muted-foreground text-center">
@@ -55,6 +55,12 @@ export default function Home() {
               )}
             </motion.div>
           )}
+          <div className="inline-flex items-center justify-center w-full">
+                <hr className="w-full h-px my-4 bg-zinc-200 border-0 dark:bg-zinc-700" />
+                <span className="absolute px-3 font-medium text-xs text-muted-foreground -translate-x-1/2 bg-white dark:bg-black left-1/2 ">
+                socials
+                </span>
+            </div>
           {links.map((link, index) => (
             <LinkItem key={index} item={link} index={index} />
           ))}

@@ -13,6 +13,11 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
   const typedRef = useRef(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const typedInstance = useRef<Typed | null>(null)
+  const [minimalMode, setMinimalMode] = useState(false)
+
+  useEffect(() => {
+    setMinimalMode(process.env.NEXT_PUBLIC_MINIMAL_MODE === 'true')
+  }, [])
 
   const prompt = item.title || DEFAULT_PROMPT
 
@@ -59,7 +64,7 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
   }
 
   return (
-    <Card className="w-full bg-black text-green-500">
+    <Card className={`w-full ${!minimalMode ? "bg-black text-green-500" : ""}`}>
       <CardContent className="p-4">
         <form onSubmit={handleSubmit} className="flex items-center">
           <span className="mr-2">$</span>
