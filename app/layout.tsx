@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
+import Script from 'next/script'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -61,6 +62,13 @@ export default function RootLayout({
           </div>
           {children}
         </ThemeProvider>
+        {process.env.NODE_ENV === 'production' && (
+          <Script
+            strategy="afterInteractive"
+            data-id="101414716"
+            src="//static.getclicky.com/js"
+          />
+        )}
       </body>
     </html>
   );
