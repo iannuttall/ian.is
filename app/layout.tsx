@@ -16,14 +16,11 @@ const geistMono = localFont({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || // Use this for your custom domain
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
 
   const title = "ian nuttall";
-  const description = "serial internet biz builder, 100+ exits. always learning. usually from my mistakes.";
+  const description = "tldr; serial internet biz builder, 100+ exits. always learning. usually from my mistakes.";
 
   return {
     title,
