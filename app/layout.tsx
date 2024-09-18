@@ -15,10 +15,36 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "ian nuttall",
-  description: "i make things stuff on the internet",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+
+  const title = "ian nuttall";
+  const description = "serial internet biz builder, 100+ exits. always learning. usually from my mistakes.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{
+        url: `${baseUrl}/api/og?title=${encodeURIComponent(title)}`,
+        width: 1200,
+        height: 630,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${baseUrl}/api/og?title=${encodeURIComponent(title)}`],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
