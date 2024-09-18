@@ -11,6 +11,7 @@ export interface LinkItem {
   text_color?: string;
   border_color?: string;
   hover_border_color?: string;
+  live: boolean;
 }
 
 const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 24 hours
@@ -51,23 +52,41 @@ export async function fetchSheetData(forceFetch: boolean = false): Promise<LinkI
   const response = await fetch(url)
   const csvData = await response.text()
 
-  const rows = csvData.split('\n').slice(1) // Remove header row
-  const links = rows.map(row => {
-    const [type, title, description, logo, url, order, bg_color, text_color, border_color, hover_border_color] = parseCSVRow(row);
-    return { 
-      type, 
-      title, 
-      description, 
-      logo, 
-      url, 
-      order: parseInt(order, 10),
-      bg_color,
-      text_color,
-      border_color,
-      hover_border_color
-    }
-  }).sort((a, b) => a.order - b.order)
+  const rows = csvData.split('\n')
+  const headers = parseCSVRow(rows[0]).map(header => header.toLowerCase())
 
-  cache.set(CACHE_KEY, links);
-  return links;
+  const links = rows.slice(1).map(row => {
+    const values = parseCSVRow(row);
+    const item: Partial<LinkItem> = {};
+
+    headers.forEach((header, index) => {
+      switch (header) {
+        case 'type':
+        case 'title':
+        case 'description':
+        case 'logo':
+        case 'url':
+        case 'bg_color':
+        case 'text_color':
+        case 'border_color':
+        case 'hover_border_color':
+          item[header] = values[index];
+          break;
+        case 'order':
+          item.order = parseInt(values[index], 10);
+          break;
+        case 'live':
+          item.live = values[index].toLowerCase() === 'true' || values[index] === '1';
+          break;
+      }
+    });
+
+    return item as LinkItem;
+  }).sort((a, b) => a.order - b.order);
+
+  const isProduction = process.env.NODE_ENV === 'production';
+  const filteredLinks = isProduction ? links.filter(link => link.live) : links;
+
+  cache.set(CACHE_KEY, filteredLinks);
+  return filteredLinks;
 }
