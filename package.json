@@ -21,7 +21,9 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "typed.js": "^2.1.0"
+    "typed.js": "^2.1.0",
+    "node-cache": "^5.1.2",
+    "framer-motion": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -34,3 +36,4 @@
     "typescript": "^5"
   }
 }
+

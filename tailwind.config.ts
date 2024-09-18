@@ -1,4 +1,28 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
+
+const colors = [
+  "slate", "gray", "zinc", "neutral", "stone", "red", "orange", "amber", "yellow", 
+  "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", 
+  "purple", "fuchsia", "pink", "rose"
+];
+
+const colorVariants = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+const safelistColors = colors.flatMap(color => 
+  colorVariants.flatMap(variant => [
+    `bg-${color}-${variant}`,
+    `bg-${color}-${variant}/50`,
+    `text-${color}-${variant}`,
+    `border-${color}-${variant}`,
+    `hover:border-${color}-${variant}`,
+    `dark:bg-${color}-${variant}`,
+    `dark:bg-${color}-${variant}/50`,
+    `dark:text-${color}-${variant}`,
+    `dark:border-${color}-${variant}`,
+    `dark:hover:border-${color}-${variant}`
+  ])
+);
 
 const config: Config = {
     darkMode: ["class"],
@@ -7,6 +31,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: safelistColors,
   theme: {
   	extend: {
   		colors: {
@@ -60,8 +85,17 @@ const config: Config = {
   			sans: ["var(--font-geist-sans)"],
   			mono: ["var(--font-geist-mono)"],
   		}
-  	}
+  	},
+  	animation: {
+  		'fade-in': 'fadeIn 0.5s ease-in-out forwards',
+  	},
+  	keyframes: {
+  		fadeIn: {
+  			'0%': { opacity: '0' },
+  			'100%': { opacity: '1' },
+  		},
+  	},
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 };
 export default config;

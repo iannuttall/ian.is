@@ -1,26 +1,46 @@
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import type { LinkItem as LinkItemType } from '../utils/fetchSheetData'
 
-export default function LinkItem({ item }: { item: LinkItemType }) {
+export default function LinkItem({ item, index }: { item: LinkItemType; index: number }) {
   const IconComponent = getIconComponent(item.type, item.logo)
   const title = getFormattedTitle(item.type, item.title)
-  const { bgColorClass, borderColorClass, hoverBorderClass, textColorClass } = getColorClasses(item.type)
+  const { bgColorClass, borderColorClass, hoverBorderClass, textColorClass } = getColorClasses(item)
+  const url = getFormattedUrl(item.type, item.title, item.url)
+
+  if (!url && item.type.toLowerCase() !== 'project') {
+    return null; // Don't render anything if there's no URL for non-project items
+  }
+
+  const content = (
+    <Card className={`transition-colors ${bgColorClass} ${borderColorClass} ${hoverBorderClass}`}>
+      <CardContent className="flex items-center p-4">
+        <div className="flex-shrink-0 mr-4">
+          <IconComponent className={textColorClass} />
+        </div>
+        <div className="flex-grow min-w-0">
+          <h2 className={`text-lg font-medium truncate lowercase ${textColorClass}`}>{title}</h2>
+          {item.description && <p className={`text-xs truncate ${textColorClass} opacity-80`}>{item.description}</p>}
+        </div>
+      </CardContent>
+    </Card>
+  )
 
   return (
-    <Link href={getFormattedUrl(item.type, item.url)} className="block" target="_blank" rel="noopener noreferrer">
-      <Card className={`transition-colors ${bgColorClass} ${borderColorClass} ${hoverBorderClass}`}>
-        <CardContent className="flex items-center p-4">
-          <div className="flex-shrink-0 mr-4">
-            <IconComponent />
-          </div>
-          <div className="flex-grow min-w-0">
-            <h2 className={`text-lg font-medium truncate lowercase ${textColorClass}`}>{title}</h2>
-            {item.description && <p className={`text-xs truncate ${textColorClass} opacity-80`}>{item.description}</p>}
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+    >
+      {url ? (
+        <Link href={url} className="block" target="_blank" rel="noopener noreferrer">
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+    </motion.div>
   )
 }
 
@@ -37,52 +57,83 @@ function getFormattedTitle(type: string, title: string) {
   }
 }
 
-function getFormattedUrl(type: string, url: string) {
+function getFormattedUrl(type: string, username: string, url?: string): string | undefined {
   switch (type.toLowerCase()) {
+    case 'x':
+      return `https://x.com/${username}`
     case 'youtube':
-      return 'https://www.youtube.com/@ianslist' // Replace with your actual YouTube channel URL
+      return `https://youtube.com/@${username}`
+    case 'linkedin':
+      return `https://linkedin.com/in/${username}`
     default:
       return url
   }
 }
 
-function getColorClasses(type: string): { bgColorClass: string; borderColorClass: string; hoverBorderClass: string; textColorClass: string } {
-  switch (type.toLowerCase()) {
-    case 'youtube':
-      return {
-        bgColorClass: 'bg-red-50 dark:bg-red-900/50',
-        borderColorClass: 'border-red-200 dark:border-red-800',
-        hoverBorderClass: 'hover:border-red-400 dark:hover:border-red-600',
-        textColorClass: 'text-red-900 dark:text-red-100'
-      }
-    case 'x':
-      return {
-        bgColorClass: 'bg-zinc-50 dark:bg-zinc-900',
-        borderColorClass: 'border-zinc-200 dark:border-zinc-700',
-        hoverBorderClass: 'hover:border-zinc-500 dark:hover:border-zinc-400',
-        textColorClass: 'text-zinc-900 dark:text-zinc-100'
-      }
-    case 'linkedin':
-      return {
-        bgColorClass: 'bg-blue-50 dark:bg-blue-900/50',
-        borderColorClass: 'border-blue-200 dark:border-blue-800',
-        hoverBorderClass: 'hover:border-blue-400 dark:hover:border-blue-600',
-        textColorClass: 'text-blue-900 dark:text-blue-100'
-      }
-    default:
-      return {
+function getColorClasses(item: LinkItemType): { bgColorClass: string; borderColorClass: string; hoverBorderClass: string; textColorClass: string } {
+  const defaultClasses = {
+    project: {
         bgColorClass: 'bg-white dark:bg-gray-800',
         borderColorClass: 'border-gray-200 dark:border-gray-700',
         hoverBorderClass: 'hover:border-gray-400 dark:hover:border-gray-600',
         textColorClass: 'text-gray-900 dark:text-gray-100'
-      }
+    },
+    youtube: {
+      bgColorClass: 'bg-red-50 dark:bg-red-900/50',
+      borderColorClass: 'border-red-200 dark:border-red-800',
+      hoverBorderClass: 'hover:border-red-400 dark:hover:border-red-600',
+      textColorClass: 'text-red-900 dark:text-red-100'
+    },
+    x: {
+      bgColorClass: 'bg-zinc-50 dark:bg-zinc-900',
+      borderColorClass: 'border-zinc-200 dark:border-zinc-700',
+      hoverBorderClass: 'hover:border-zinc-500 dark:hover:border-zinc-400',
+      textColorClass: 'text-zinc-900 dark:text-zinc-100'
+    },
+    linkedin: {
+      bgColorClass: 'bg-blue-50 dark:bg-blue-900/50',
+      borderColorClass: 'border-blue-200 dark:border-blue-800',
+      hoverBorderClass: 'hover:border-blue-400 dark:hover:border-blue-600',
+      textColorClass: 'text-blue-900 dark:text-blue-100'
+    },
+    default: {
+      bgColorClass: 'bg-white dark:bg-gray-800',
+      borderColorClass: 'border-gray-200 dark:border-gray-700',
+      hoverBorderClass: 'hover:border-gray-400 dark:hover:border-gray-600',
+      textColorClass: 'text-gray-900 dark:text-gray-100'
+    }
+  }
+
+  const type = item.type.toLowerCase()
+  const defaultClass = defaultClasses[type as keyof typeof defaultClasses] || defaultClasses.default
+
+  return {
+    bgColorClass: item.bg_color || defaultClass.bgColorClass,
+    borderColorClass: item.border_color || defaultClass.borderColorClass,
+    hoverBorderClass: item.hover_border_color || defaultClass.hoverBorderClass,
+    textColorClass: item.text_color || defaultClass.textColorClass
   }
 }
 
 function getIconComponent(type: string, logo?: string) {
   if (logo) {
-    return function CustomIcon() {
-      return <div dangerouslySetInnerHTML={{ __html: logo }} className="w-5 h-5" />
+    return function CustomIcon({ className }: { className?: string }) {
+      return (
+        <div 
+          className={`w-5 h-5 ${className}`} 
+          style={{
+            WebkitMaskImage: `url(${logo})`,
+            maskImage: `url(${logo})`,
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center',
+            backgroundColor: 'currentColor'
+          }}
+        />
+      );
     }
   }
 
