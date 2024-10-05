@@ -21,7 +21,12 @@ export default function LinkItem({ item, index }: { item: LinkItemType; index: n
   }
 
   const content = (
-    <Card className={`transition-colors ${bgColorClass} ${borderColorClass} ${hoverBorderClass}`}>
+    <Card className={`relative overflow-hidden transition-colors ${bgColorClass} ${borderColorClass} ${hoverBorderClass}`}>
+      {item.acquired && (
+        <div className="absolute top-0 right-0 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2 py-1 rounded rounded-tl-none rounded-br-none">
+          acquired
+        </div>
+      )}
       <CardContent className="flex items-center p-4">
         <div className="flex-shrink-0 mr-4">
           <IconComponent className={textColorClass} />

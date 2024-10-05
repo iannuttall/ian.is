@@ -12,6 +12,7 @@ export interface LinkItem {
   border_color?: string;
   hover_border_color?: string;
   live: boolean;
+  acquired?: boolean;
 }
 
 const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 24 hours
@@ -77,6 +78,9 @@ export async function fetchSheetData(forceFetch: boolean = false): Promise<LinkI
           break;
         case 'live':
           item.live = values[index].toLowerCase() === 'true' || values[index] === '1';
+          break;
+        case 'acquired':
+          item.acquired = values[index].toLowerCase() === 'true' || values[index] === '1';
           break;
       }
     });
