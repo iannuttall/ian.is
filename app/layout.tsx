@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import Script from 'next/script'
+import { BentoAnalytics } from '@bentonow/bento-nextjs-sdk/analytics'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-mono antialiased`}
       >
+        <BentoAnalytics siteUuid={process.env.NEXT_PUBLIC_BENTO_SITE_ID!} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
