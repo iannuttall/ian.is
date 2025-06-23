@@ -6,13 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import type { LinkItem } from '../utils/fetchSheetData'
 import { motion, AnimatePresence } from 'framer-motion'
 
-declare global {
-  interface Window {
-    bento?: {
-      track: (event: string, data?: { email?: string; source?: string }) => void;
-    }
-  }
-}
 
 export default function NewsletterSignup({ item }: { item: LinkItem }) {
   const [email, setEmail] = useState('')
@@ -40,11 +33,6 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
       })
 
       if (response.ok) {
-        window.bento?.track('$newsletter_signup', { 
-          email,
-          source: 'newsletter_signup'
-        })
-        
         setStatus('success')
         setMessage('Successfully subscribed!')
         setEmail('')
