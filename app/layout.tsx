@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import Script from 'next/script'
-import { BentoAnalytics } from '@bentonow/bento-nextjs-sdk/analytics'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,6 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = "tldr; serial internet biz builder, 100+ exits. always learning. usually from my mistakes.";
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL || 'https://ian.is'),
     title,
     description,
     openGraph: {
@@ -52,7 +52,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-mono antialiased`}
       >
-        <BentoAnalytics siteUuid={process.env.NEXT_PUBLIC_BENTO_SITE_ID!} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

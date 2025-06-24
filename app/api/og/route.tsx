@@ -1,9 +1,7 @@
 import { ImageResponse } from '@vercel/og';
 import { NextRequest } from 'next/server';
 
-export const config = {
-  runtime: 'edge',
-};
+export const runtime = 'edge';
 
 function wrapText(text: string, maxLength: number): string[] {
   const words = text.split(' ');
@@ -26,7 +24,7 @@ function wrapText(text: string, maxLength: number): string[] {
   return lines;
 }
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const title = searchParams.get('title') || 'ian nuttall';

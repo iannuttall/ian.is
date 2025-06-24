@@ -1,20 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  const { uuid } = req.body
+export async function POST(req: NextRequest) {
+  const { uuid } = await req.json()
 
   if (!uuid || typeof uuid !== 'string') {
-    return res.status(400).json({ error: 'Subscriber UUID is required' })
+    return NextResponse.json({ error: 'Subscriber UUID is required' }, { status: 400 })
   }
 
   // Validate UUID format
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
   if (!uuidRegex.test(uuid)) {
-    return res.status(400).json({ error: 'Invalid UUID format' })
+    return NextResponse.json({ error: 'Invalid UUID format' }, { status: 400 })
   }
 
   try {
@@ -24,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!listmonkUrl || !apiUsername || !apiToken) {
       console.error('Missing Listmonk configuration')
-      return res.status(500).json({ error: 'Service not configured' })
+      return NextResponse.json({ error: 'Service not configured' }, { status: 500 })
     }
 
     // Get subscriber details by UUID
@@ -39,23 +35,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!queryResponse.ok) {
       console.error('Failed to query subscriber')
-      return res.status(500).json({ error: 'Failed to process unsubscribe request' })
+      return NextResponse.json({ error: 'Failed to process unsubscribe request' }, { status: 500 })
     }
 
     const queryData = await queryResponse.json()
     const subscriber = queryData.data?.results?.[0]
 
     if (!subscriber) {
-      return res.status(404).json({ error: 'Subscriber not found' })
+      return NextResponse.json({ error: 'Subscriber not found' }, { status: 404 })
     }
 
     // Get all list IDs the subscriber is subscribed to
     const subscribedListIds = subscriber.lists
-      ?.filter((list: any) => list.subscription_status === 'confirmed')
-      ?.map((list: any) => list.id) || []
+      ?.filter((list: { subscription_status: string }) => list.subscription_status === 'confirmed')
+      ?.map((list: { id: number }) => list.id) || []
 
     if (subscribedListIds.length === 0) {
-      return res.status(200).json({ message: 'Already unsubscribed' })
+      return NextResponse.json({ message: 'Already unsubscribed' })
     }
 
     // Unsubscribe from all lists
@@ -74,15 +70,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!unsubscribeResponse.ok) {
       console.error('Failed to unsubscribe')
-      return res.status(500).json({ error: 'Failed to process unsubscribe request' })
+      return NextResponse.json({ error: 'Failed to process unsubscribe request' }, { status: 500 })
     }
 
-    res.status(200).json({ 
+    return NextResponse.json({ 
       message: 'Successfully unsubscribed from all lists',
       email: subscriber.email
     })
   } catch (error) {
     console.error('Unsubscribe error:', error)
-    res.status(500).json({ error: 'Failed to process unsubscribe request' })
+    return NextResponse.json({ error: 'Failed to process unsubscribe request' }, { status: 500 })
   }
 }

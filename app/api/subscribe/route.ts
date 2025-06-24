@@ -1,29 +1,38 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 
 interface ListmonkSubscriber {
   email: string
   name?: string
   status: 'enabled' | 'disabled' | 'blocklisted'
   lists: number[]
-  attribs?: Record<string, any>
+  attribs?: Record<string, unknown>
   preconfirm_subscriptions?: boolean
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+export async function POST(req: NextRequest) {
+  // Check for API key in Authorization header
+  const authHeader = req.headers.get('authorization')
+  const apiKey = process.env.API_KEY
+  
+  // Allow requests without API key for web form submissions
+  // But require API key for external API calls
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const providedKey = authHeader.substring(7)
+    if (apiKey && providedKey !== apiKey) {
+      return NextResponse.json({ error: 'Invalid API key' }, { status: 401 })
+    }
   }
 
-  const { email, name, list_ids, send_welcome = true } = req.body
+  const { email, name, list_ids, send_welcome = true } = await req.json()
 
   if (!email) {
-    return res.status(400).json({ error: 'Email is required' })
+    return NextResponse.json({ error: 'Email is required' }, { status: 400 })
   }
 
   // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email format' })
+    return NextResponse.json({ error: 'Invalid email format' }, { status: 400 })
   }
 
   try {
@@ -34,23 +43,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!listmonkUrl || !apiUsername || !apiToken) {
       console.error('Missing Listmonk configuration')
-      return res.status(500).json({ error: 'Newsletter service not configured' })
+      return NextResponse.json({ error: 'Newsletter service not configured' }, { status: 500 })
     }
 
     // Use provided list_ids or fall back to env variable
     const listIdsSource = list_ids || defaultListIds
     if (!listIdsSource) {
-      return res.status(400).json({ error: 'No list IDs provided' })
+      return NextResponse.json({ error: 'No list IDs provided' }, { status: 400 })
     }
 
     // Parse list IDs (handle both array and comma-separated string)
     const lists = Array.isArray(listIdsSource) 
-      ? listIdsSource.filter(id => !isNaN(Number(id))).map(Number)
-      : listIdsSource.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id))
+      ? listIdsSource.filter((id: unknown) => !isNaN(Number(id))).map(Number)
+      : listIdsSource.split(',').map((id: string) => parseInt(id.trim(), 10)).filter((id: number) => !isNaN(id))
     
     if (lists.length === 0) {
       console.error('No valid list IDs configured')
-      return res.status(500).json({ error: 'Newsletter service not configured' })
+      return NextResponse.json({ error: 'Newsletter service not configured' }, { status: 500 })
     }
 
     // Create subscriber object
@@ -104,7 +113,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             subscriberId = subscriber.id
             
             // Check if they're currently unsubscribed from all lists
-            const wasUnsubscribed = subscriber.lists?.every((list: any) => 
+            const wasUnsubscribed = subscriber.lists?.every((list: { subscription_status: string }) => 
               list.subscription_status === 'unsubscribed'
             ) || subscriber.lists?.length === 0
             
@@ -117,7 +126,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (!subscriberId) {
           console.error('Could not find subscriber ID for email:', email)
-          return res.status(500).json({ error: 'Failed to process subscription' })
+          return NextResponse.json({ error: 'Failed to process subscription' }, { status: 500 })
         }
 
         // Update their lists using the subscriber ID
@@ -136,7 +145,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
 
         if (updateResponse.ok) {
-          return res.status(200).json({ 
+          return NextResponse.json({ 
             message: 'Successfully subscribed to newsletter',
             status: 'updated',
             uuid: subscriberUuid,
@@ -146,9 +155,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       
       console.error('Listmonk API error:', data)
-      return res.status(response.status).json({ 
+      return NextResponse.json({ 
         error: data.message || 'Failed to subscribe' 
-      })
+      }, { status: response.status })
     }
 
     // New subscriber created successfully
@@ -160,7 +169,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const welcomeTemplateId = process.env.LISTMONK_WELCOME_TEMPLATE_ID
       
       if (welcomeTemplateId) {
-        const unsubscribeUrl = `${process.env.NEXT_PUBLIC_URL || req.headers.origin}/unsubscribe?uuid=${subscriberUuid}`
+        const unsubscribeUrl = `${process.env.NEXT_PUBLIC_URL || req.headers.get('origin')}/unsubscribe?uuid=${subscriberUuid}`
         
         try {
           const txResponse = await fetch(`${listmonkUrl}/api/tx`, {
@@ -191,13 +200,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    res.status(200).json({ 
+    return NextResponse.json({ 
       message: 'Successfully subscribed to newsletter',
       status: 'created',
       uuid: subscriberUuid
     })
   } catch (error) {
     console.error('Subscription error:', error)
-    res.status(500).json({ error: 'Failed to process subscription' })
+    return NextResponse.json({ error: 'Failed to process subscription' }, { status: 500 })
   }
 }
