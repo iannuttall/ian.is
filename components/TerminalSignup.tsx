@@ -19,7 +19,7 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
     setMinimalMode(process.env.NEXT_PUBLIC_MINIMAL_MODE === 'true')
   }, [])
 
-  const prompt = item.title || DEFAULT_PROMPT
+  const prompt = DEFAULT_PROMPT
 
   useEffect(() => {
     if (isTyping && typedRef.current && !typedInstance.current) {
@@ -85,13 +85,11 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
       <CardContent className="p-6">
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
-            {item.title || "Get My AI Tool Stack"}
+            Get My AI Tool Stack
           </h2>
-          {item.description && (
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {item.description}
-            </p>
-          )}
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Tools that actually work (from 100+ exits)
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="flex items-center bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md p-3 font-mono text-sm">
           <span className="mr-2 text-slate-500 dark:text-slate-400">→</span>

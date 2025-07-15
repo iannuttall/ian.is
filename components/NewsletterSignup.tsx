@@ -59,13 +59,11 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
     <Card className="w-full border-2 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-blue-200 dark:border-blue-800">
       <CardContent className="p-6 flex flex-col items-center">
         <h2 className="text-xl font-semibold mb-2 text-center text-slate-800 dark:text-slate-200">
-          {item.title || "Get My AI Tool Stack"}
+          Get My AI Tool Stack
         </h2>
-        {item.description && (
-          <p className="mb-4 text-sm text-center text-slate-600 dark:text-slate-400">
-            {item.description}
-          </p>
-        )}
+        <p className="mb-4 text-sm text-center text-slate-600 dark:text-slate-400">
+          Tools that actually work (from 100+ exits)
+        </p>
         <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm relative">
           <div className="relative">
             <svg
