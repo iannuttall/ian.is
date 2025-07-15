@@ -59,7 +59,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
     <Card className="w-full border-2 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-blue-200 dark:border-blue-800">
       <CardContent className="p-6 flex flex-col items-center">
         <h2 className="text-xl font-semibold mb-2 text-center text-slate-800 dark:text-slate-200">
-          {item.title || "Get AI Updates"}
+          {item.title || "Get My AI Tool Stack"}
         </h2>
         {item.description && (
           <p className="mb-4 text-sm text-center text-slate-600 dark:text-slate-400">
@@ -81,7 +81,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="enter your email to get updates on AI tools & experiments"
+              placeholder="your email → get tools that actually work"
               className="w-full pl-10 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 font-mono"
               disabled={status === 'loading'}
               required

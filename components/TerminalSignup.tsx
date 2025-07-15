@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import Typed from 'typed.js'
 import type { LinkItem } from '../utils/fetchSheetData'
 
-const DEFAULT_PROMPT = "get updates on my latest AI tools & experiments"
+const DEFAULT_PROMPT = "get my AI toolkit (from 100+ exits)"
 
 export default function TerminalSignup({ item }: { item: LinkItem }) {
   const [email, setEmail] = useState('')
@@ -85,7 +85,7 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
       <CardContent className="p-6">
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
-            {item.title || "Get AI Updates"}
+            {item.title || "Get My AI Tool Stack"}
           </h2>
           {item.description && (
             <p className="text-sm text-slate-600 dark:text-slate-400">
