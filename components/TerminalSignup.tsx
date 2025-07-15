@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import Typed from 'typed.js'
 import type { LinkItem } from '../utils/fetchSheetData'
 
-const DEFAULT_PROMPT = "type email and hit enter to join ian's list"
+const DEFAULT_PROMPT = "get updates on my latest AI tools & experiments"
 
 export default function TerminalSignup({ item }: { item: LinkItem }) {
   const [email, setEmail] = useState('')
@@ -44,9 +44,26 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement newsletter signup logic
-    setEmail('')
-    setIsTyping(true)
+    
+    if (!email.trim()) return
+    
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      
+      if (response.ok) {
+        setEmail('')
+        setIsTyping(true)
+      } else {
+        // Handle error - could add error state here
+        console.error('Subscription failed')
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error)
+    }
   }
 
   const handleFocus = () => {
@@ -64,13 +81,23 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
   }
 
   return (
-    <Card className={`w-full ${!minimalMode ? "bg-black text-green-500" : ""}`}>
-      <CardContent className="p-4">
-        <form onSubmit={handleSubmit} className="flex items-center">
-          <span className="mr-2">$</span>
+    <Card className={`w-full border-2 ${!minimalMode ? "bg-slate-50 dark:bg-slate-900 border-slate-300 dark:border-slate-600" : "border-slate-200 dark:border-slate-700"}`}>
+      <CardContent className="p-6">
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
+            {item.title || "Get AI Updates"}
+          </h2>
+          {item.description && (
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {item.description}
+            </p>
+          )}
+        </div>
+        <form onSubmit={handleSubmit} className="flex items-center bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md p-3 font-mono text-sm">
+          <span className="mr-2 text-slate-500 dark:text-slate-400">→</span>
           <div className="flex-grow">
             {isTyping ? (
-              <span ref={typedRef}></span>
+              <span ref={typedRef} className="text-slate-700 dark:text-slate-300"></span>
             ) : (
               <input
                 ref={inputRef}
@@ -79,17 +106,13 @@ export default function TerminalSignup({ item }: { item: LinkItem }) {
                 onChange={(e) => setEmail(e.target.value)}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                className="w-full bg-transparent outline-none text-green-500"
+                className="w-full bg-transparent outline-none text-slate-700 dark:text-slate-300 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 placeholder={prompt}
+                required
               />
             )}
           </div>
         </form>
-        {item.description && (
-          <p className="mt-2 text-sm text-green-400 opacity-70">
-            {item.description}
-          </p>
-        )}
       </CardContent>
     </Card>
   )

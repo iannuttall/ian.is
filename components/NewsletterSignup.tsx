@@ -56,18 +56,20 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
   }
 
   return (
-    <Card className="w-full bg-black dark:bg-[#00ff00] text-[#00ff00] dark:text-black">
-      <CardContent className="p-4 flex flex-col items-center">
-        <h2 className="text-lg font-medium mb-1 text-center">{item.title}</h2>
+    <Card className="w-full border-2 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-blue-200 dark:border-blue-800">
+      <CardContent className="p-6 flex flex-col items-center">
+        <h2 className="text-xl font-semibold mb-2 text-center text-slate-800 dark:text-slate-200">
+          {item.title || "Get AI Updates"}
+        </h2>
         {item.description && (
-          <p className="mb-3 text-xs text-center">
+          <p className="mb-4 text-sm text-center text-slate-600 dark:text-slate-400">
             {item.description}
           </p>
         )}
         <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm relative">
           <div className="relative">
             <svg
-              className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2"
+              className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400"
               viewBox="0 0 24 24"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +81,10 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="type your email and hit enter to join"
-              className="w-full pl-10 text-sm bg-black dark:bg-[#00ff00] text-[#00ff00] dark:text-black border-[#00ff00] dark:border-black placeholder:text-[#00ff00]/70 dark:placeholder:text-black/70"
+              placeholder="enter your email to get updates on AI tools & experiments"
+              className="w-full pl-10 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 font-mono"
               disabled={status === 'loading'}
+              required
             />
             <AnimatePresence>
               {status === 'loading' && (
@@ -93,7 +96,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
                   transition={{ duration: 0.2 }}
                 >
                   <motion.svg
-                    className="h-5 w-5"
+                    className="h-5 w-5 text-slate-500 dark:text-slate-400"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -111,7 +114,7 @@ export default function NewsletterSignup({ item }: { item: LinkItem }) {
             {(status === 'success' || status === 'error') && (
               <motion.div
                 className={`absolute inset-0 flex items-center justify-center rounded-md overflow-hidden ${
-                  status === 'success' ? 'bg-[#00ff00] dark:bg-black text-black dark:text-[#00ff00]' : 'bg-red-500 text-white'
+                  status === 'success' ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                 }`}
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}

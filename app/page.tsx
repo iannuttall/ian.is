@@ -41,12 +41,13 @@ export default function Home() {
         <p className="text-sm text-muted-foreground text-center">
         tldr; serial internet biz builder, 100+ exits. always learning. usually from my mistakes.
         </p>
-        <div className="space-y-4 mt-8">
+        <div className="space-y-6 mt-8">
           {isLoaded && newsletterItem && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
+              className="mb-8"
             >
               {newsletterItem.type.toLowerCase() === 'terminal' ? (
                 <TerminalSignup item={newsletterItem} />
