@@ -1,5 +1,4 @@
 import { type SyntheticEvent, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -36,6 +35,18 @@ export function Newsletter({
   }, []);
 
   const ready = email.trim().length > 3 && email.includes("@");
+  const sectionClass = [
+    "@container relative w-full overflow-hidden bg-card",
+    standalone
+      ? "rounded-2xl ring-[0.5px] ring-black/5 shadow-[0_8px_44px_-12px_rgba(0,0,0,0.12)] dark:ring-white/10"
+      : "rounded-t-2xl border-x border-t border-black/[0.06] shadow-xs dark:border-white/10",
+  ].join(" ");
+  const buttonClass = [
+    "absolute top-1/2 right-1 flex size-9 -translate-y-1/2 items-center justify-center rounded-full transition-colors",
+    ready
+      ? "bg-primary text-primary-foreground hover:bg-primary-hover"
+      : "bg-foreground/10 text-foreground/30",
+  ].join(" ");
 
   const submit = async (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     event.preventDefault();
@@ -68,15 +79,7 @@ export function Newsletter({
   };
 
   return (
-    <section
-      className={cn(
-        "@container relative w-full overflow-hidden bg-card",
-        standalone
-          ? "rounded-2xl ring-[0.5px] ring-black/5 shadow-[0_8px_44px_-12px_rgba(0,0,0,0.12)] dark:ring-white/10"
-          : // Flush variant: top + sides only — the parent section's border-b is the bottom edge.
-            "rounded-t-2xl border-x border-t border-black/[0.06] shadow-xs dark:border-white/10",
-      )}
-    >
+    <section className={sectionClass}>
       <div className="grid grid-cols-1 @lg:grid-cols-[22rem_1fr]">
         {/* Left: copy + form */}
         <div className="flex flex-col gap-5 p-6 @lg:p-8">
@@ -115,12 +118,7 @@ export function Newsletter({
                   type="submit"
                   disabled={status === "loading" || !ready}
                   aria-label="Subscribe"
-                  className={cn(
-                    "absolute top-1/2 right-1 flex size-9 -translate-y-1/2 items-center justify-center rounded-full transition-colors",
-                    ready
-                      ? "bg-primary text-primary-foreground hover:bg-primary-hover"
-                      : "bg-foreground/10 text-foreground/30",
-                  )}
+                  className={buttonClass}
                 >
                   {status === "loading" ? <Spinner /> : <ArrowUpIcon />}
                 </button>
