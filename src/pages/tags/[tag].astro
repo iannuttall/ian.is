@@ -1,0 +1,56 @@
+---
+export const prerender = true;
+
+import PostCard from "@/components/posts/PostCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { getPublishedPosts } from "@/lib/posts";
+import { webPageSchema } from "@/lib/seo";
+import { getPostTagGroups } from "@/lib/tags";
+
+export async function getStaticPaths() {
+  const tags = getPostTagGroups(await getPublishedPosts());
+
+  return tags.map((tag) => ({
+    params: { tag: tag.slug },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const path = `/tags/${tag.slug}`;
+const description = `Posts tagged ${tag.label}.`;
+const structuredData = webPageSchema({
+  title: tag.label,
+  description,
+  path,
+  type: "CollectionPage",
+});
+---
+
+<Layout
+  title={tag.label}
+  description={description}
+  canonicalPath={path}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-10">
+    <a
+      href="/tags"
+      class="text-sm text-foreground-muted underline-offset-4 hover:text-foreground hover:underline"
+      >&larr; All tags</a
+    >
+
+    <header class="mb-10 mt-6 flex max-w-2xl flex-col gap-3">
+      <h1 class="text-pretty text-2xl font-medium tracking-normal text-foreground xl:text-3xl">
+        {tag.label}
+      </h1>
+      <p class="text-pretty text-lg/7 font-medium tracking-normal text-foreground-muted xl:text-xl/8">
+        {description}
+      </p>
+    </header>
+
+    <div class="grid gap-2 sm:grid-cols-2">
+      {tag.posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </div>
+</Layout>

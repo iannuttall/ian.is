@@ -1,19 +1,87 @@
-import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { join, relative, resolve } from "node:path";
 
 const SITE = process.env.SITE_URL ?? "https://ian.is";
 const PUBLIC_DIR = resolve(process.cwd(), "public");
 const SITEMAPS_DIR = resolve(PUBLIC_DIR, "sitemaps");
 const POSTS_DIR = resolve(process.cwd(), "src/content/posts");
 
-function postSlugs() {
+function slugifyTag(tag) {
+  return tag
+    .trim()
+    .toLowerCase()
+    .replaceAll("&", " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function postFiles(dir = POSTS_DIR) {
   try {
-    return readdirSync(POSTS_DIR)
-      .filter((name) => /\.(md|mdx)$/.test(name))
-      .map((name) => name.replace(/\.(md|mdx)$/, ""));
+    return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        return postFiles(path);
+      }
+
+      if (!/\.(md|mdx)$/.test(entry.name)) {
+        return [];
+      }
+
+      return [path];
+    });
   } catch {
     return [];
   }
+}
+
+function frontmatter(source) {
+  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  return match?.[1] ?? "";
+}
+
+function frontmatterTags(data) {
+  const inline = data.match(/^tags:\s*\[(.*)]\s*$/m);
+
+  if (inline) {
+    return [...inline[1].matchAll(/["']([^"']+)["']/g)].map((match) => match[1]);
+  }
+
+  const block = data.match(/^tags:\s*\r?\n((?:\s+-\s+.+\r?\n?)+)/m);
+
+  if (!block) {
+    return [];
+  }
+
+  return block[1]
+    .split(/\r?\n/)
+    .map((line) => line.match(/^\s+-\s+(.+?)\s*$/)?.[1])
+    .filter(Boolean)
+    .map((tag) => tag.replace(/^["']|["']$/g, ""));
+}
+
+function posts() {
+  return postFiles().flatMap((path) => {
+    const source = readFileSync(path, "utf8");
+    const data = frontmatter(source);
+
+    if (/^draft:\s*true\s*$/m.test(data)) {
+      return [];
+    }
+
+    return [
+      {
+        slug: relative(POSTS_DIR, path).replace(/\.(md|mdx)$/, ""),
+        tags: frontmatterTags(data),
+      },
+    ];
+  });
 }
 
 function xmlEscape(value) {
@@ -41,11 +109,20 @@ ${paths.map((path) => `  <sitemap><loc>${xmlEscape(new URL(path, SITE).toString(
 `;
 }
 
+const postEntries = posts();
+const tagSlugs = [
+  ...new Set(
+    postEntries.flatMap((post) => post.tags.map(slugifyTag).filter(Boolean)),
+  ),
+].sort();
+
 const pages = [
   "/",
   "/posts",
+  "/tags",
   "/tools",
-  ...postSlugs().map((slug) => `/post/${slug}`),
+  ...postEntries.map((post) => `/post/${post.slug}`),
+  ...tagSlugs.map((tag) => `/tags/${tag}`),
 ].map((path) => new URL(path, SITE).toString());
 
 rmSync(SITEMAPS_DIR, { recursive: true, force: true });
@@ -55,4 +132,3 @@ writeFileSync(resolve(SITEMAPS_DIR, "pages.xml"), urlSet(pages), "utf8");
 writeFileSync(resolve(PUBLIC_DIR, "sitemap.xml"), sitemapIndex(["/sitemaps/pages.xml"]), "utf8");
 
 console.log(`Wrote ${pages.length} URLs to public/sitemap.xml`);
-

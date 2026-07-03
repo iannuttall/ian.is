@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import { render } from "astro:content";
+import TagLink from "@/components/primitives/TagLink.astro";
 import Layout from "@/layouts/Layout.astro";
 import { formatPostDate, getPublishedPosts } from "@/lib/posts";
 import { siteName, toAbsoluteUrl } from "@/lib/site";
@@ -57,9 +58,7 @@ const structuredData = {
           <span class="text-foreground-soft">·</span>
         ) : null}
         {post.data.tags.map((tag) => (
-          <span class="rounded-full bg-muted px-2 py-0.5 text-xs text-foreground-muted">
-            {tag}
-          </span>
+          <TagLink tag={tag} />
         ))}
       </div>
     </header>

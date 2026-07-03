@@ -1,0 +1,16 @@
+---
+import { slugifyTag } from "@/lib/tags";
+
+type Props = {
+  tag: string;
+};
+
+const { tag } = Astro.props;
+---
+
+<a
+  href={`/tags/${slugifyTag(tag)}`}
+  class="rounded-full bg-muted px-2 py-0.5 text-xs text-foreground-muted no-underline"
+>
+  {tag}
+</a>
