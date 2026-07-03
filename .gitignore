@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# cloudflare / wrangler
+.wrangler/
+worker-configuration.d.ts
+
+# secrets & env
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+
+# generated sitemaps (rebuilt by `pnpm build`)
+public/sitemap.xml
+public/sitemaps/
+
+# logs / os
+*.log
+.DS_Store
+

@@ -1,0 +1,52 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { siteName, siteUrl } from "@/lib/site";
+
+const siteHost = new URL(siteUrl).hostname;
+const contactEmail = `privacy@${siteHost.replace(/^www\./, "")}`;
+---
+
+<Layout title="Cookie policy" description={`${siteName} cookie policy.`} canonicalPath="/cookies" noIndex>
+  <article class="legal-page">
+    <header class="legal-header">
+      <h1>Cookie policy</h1>
+      <p>Last updated: 1 July 2026</p>
+    </header>
+
+    <p>
+      This policy explains how {siteName} may use cookies and similar technologies on {siteHost}.
+    </p>
+
+    <h2>What cookies are</h2>
+    <p>
+      Cookies are small files stored by your browser. Similar technologies include local storage,
+      pixels, tags, and identifiers used to remember settings, measure traffic, or support ads.
+    </p>
+
+    <h2>Cookies we may use</h2>
+    <p>
+      The site may use essential cookies for core features, analytics cookies to understand
+      aggregate usage, preference cookies to remember choices, and advertising cookies when ads
+      are enabled.
+    </p>
+
+    <h2>Third-party cookies</h2>
+    <p>
+      Analytics, advertising, embedded content, and infrastructure providers may set their own
+      cookies or similar identifiers. Their use is governed by their own policies.
+    </p>
+
+    <h2>Managing cookies</h2>
+    <p>
+      You can block or delete cookies in your browser settings. Some parts of the site may not
+      work as expected if cookies or storage are disabled.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy can be sent to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+  </article>
+</Layout>

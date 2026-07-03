@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { siteName } from "@/lib/site";
+---
+
+<Layout
+  title="Page not found"
+  description={`The page you were looking for does not exist on ${siteName}.`}
+  canonicalPath="/404"
+  noIndex
+>
+  <section class="site-frame grid min-h-[60svh] content-center gap-4 py-16">
+    <p class="text-sm font-medium text-primary">404</p>
+    <h1 class="text-4xl/tight font-semibold text-foreground sm:text-5xl/tight">
+      Page not found
+    </h1>
+    <p class="max-w-lg text-foreground-muted">
+      This page does not exist, or the URL has changed.
+    </p>
+    <a
+      href="/"
+      class="mt-2 inline-flex h-10 w-fit items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
+    >
+      Go home
+    </a>
+  </section>
+</Layout>

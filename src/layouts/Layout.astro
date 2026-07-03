@@ -1,0 +1,110 @@
+---
+import Header from "@/components/Header.astro";
+import {
+  adsenseClientId,
+  clickySiteId,
+  defaultOgImagePath,
+  googleAnalyticsId,
+  siteDescription,
+  siteName,
+  siteUrl,
+} from "@/lib/site";
+import "@/styles/globals.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  noIndex?: boolean;
+  ogType?: "website" | "article";
+  ogImagePath?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  /** Hide the shared header/footer chrome (e.g. minimal/auth pages). */
+  minimal?: boolean;
+}
+
+const {
+  title = siteName,
+  description = siteDescription,
+  canonicalPath = Astro.url.pathname,
+  noIndex = false,
+  ogType = "website",
+  ogImagePath = defaultOgImagePath,
+  structuredData,
+  minimal = false,
+} = Astro.props;
+
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const baseUrl = Astro.site ?? new URL(siteUrl);
+const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
+const ogImageUrl = new URL(ogImagePath, baseUrl).toString();
+const structuredDataList = (Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []).filter(Boolean);
+const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(Astro.url.hostname);
+const shouldLoadThirdPartyScripts = import.meta.env.PROD && !isLocalHost;
+const hasClicky = clickySiteId.length > 0;
+const hasGoogleAnalytics = googleAnalyticsId.length > 0;
+const hasAdsense = adsenseClientId.length > 0;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    {["/fonts/sans-400.woff2", "/fonts/sans-500.woff2", "/fonts/sans-600.woff2"].map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin="anonymous" />
+    ))}
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    {noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
+    <title>{fullTitle}</title>
+    {shouldLoadThirdPartyScripts && hasClicky ? (
+      <script async data-id={clickySiteId} src="https://static.getclicky.com/js"></script>
+    ) : null}
+    {shouldLoadThirdPartyScripts && hasGoogleAnalytics ? (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+        <script is:inline define:vars={{ googleAnalyticsId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', googleAnalyticsId);
+        </script>
+      </>
+    ) : null}
+    {shouldLoadThirdPartyScripts && hasAdsense ? (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
+        crossorigin="anonymous"
+      ></script>
+    ) : null}
+    {shouldLoadThirdPartyScripts ? <slot name="third-party-scripts" /> : null}
+    {structuredDataList.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} />)}
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-background text-foreground antialiased">
+    <a href="#content" class="skip-link">Skip to content</a>
+    <div class="flex min-h-screen flex-col">
+      {minimal ? null : <Header />}
+      <main id="content" class="flex-1">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

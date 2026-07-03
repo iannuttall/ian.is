@@ -1,0 +1,13 @@
+---
+type Props = {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<span
+  class:list={['font-medium text-foreground', className]}
+>
+  Ian Nuttall
+</span>

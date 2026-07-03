@@ -1,0 +1,16 @@
+{
+  "componentsDir": "src/components/ui",
+  "blocksDir": "src/components/blocks",
+  "utilsImport": "@/lib/utils",
+  "componentsImportBase": "@/components/ui",
+  "blocksImportBase": "@/components/blocks",
+  "libDir": "src/lib",
+  "installed": [
+    "button",
+    "input",
+    "card",
+    "icon",
+    "accordion",
+    "checkbox"
+  ]
+}

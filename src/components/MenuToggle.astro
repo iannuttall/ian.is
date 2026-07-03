@@ -1,0 +1,67 @@
+---
+// Two-line hamburger that morphs to an X — pure CSS animation, no React island.
+// The click handler below is a plain Astro <script> (bundled module, not a
+// hydrated component). For a zero-JS variant, see the checkbox note at the end.
+interface Props {
+  size?: number;
+  /** id of the element this button expands (for aria-controls). */
+  controls?: string;
+  class?: string;
+}
+const { size = 24, controls, class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["menu-toggle", className]}
+  aria-label="Toggle menu"
+  aria-expanded="false"
+  aria-controls={controls}
+>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <line class="line line-top" x1="5" y1="8" x2="19" y2="8"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+    <line class="line line-bottom" x1="5" y1="16" x2="19" y2="16"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+  </svg>
+</button>
+
+<style>
+  .menu-toggle {
+    display: inline-flex;
+    color: var(--foreground);
+    cursor: pointer;
+  }
+  .line {
+    transform-box: view-box;
+    transition: transform 0.2s ease;
+  }
+  /* rotate each line about its own center, then slide both to y=12 → X */
+  .line-top {
+    transform-origin: 12px 8px;
+  }
+  .line-bottom {
+    transform-origin: 12px 16px;
+  }
+  .menu-toggle[aria-expanded="true"] .line-top {
+    transform: translateY(4px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded="true"] .line-bottom {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .line {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Island-free toggle: flip aria-expanded; CSS does the rest.
+  document.querySelectorAll<HTMLButtonElement>(".menu-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+    });
+  });
+</script>

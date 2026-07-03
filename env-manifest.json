@@ -1,0 +1,7 @@
+{
+  "bindings": [],
+  "requiredRemote": [],
+  "optionalRemote": ["LIST_API_TOKEN", "LIST_API_URL"],
+  "d1Migrations": [],
+  "r2Seeds": []
+}

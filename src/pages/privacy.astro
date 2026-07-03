@@ -1,0 +1,60 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { siteName, siteUrl } from "@/lib/site";
+
+const siteHost = new URL(siteUrl).hostname;
+const contactEmail = `privacy@${siteHost.replace(/^www\./, "")}`;
+---
+
+<Layout title="Privacy policy" description={`${siteName} privacy policy.`} canonicalPath="/privacy" noIndex>
+  <article class="legal-page">
+    <header class="legal-header">
+      <h1>Privacy policy</h1>
+      <p>Last updated: 1 July 2026</p>
+    </header>
+
+    <p>
+      {siteName} operates {siteHost}. This policy explains what information may be collected
+      when you use this website and how that information is handled.
+    </p>
+
+    <h2>Information we collect</h2>
+    <p>
+      We keep data collection limited to what is needed to operate, protect, and improve the
+      site. Depending on the features enabled, this may include standard web logs, device and
+      browser information, pages visited, referrers, and messages you send voluntarily.
+    </p>
+
+    <h2>Analytics and advertising</h2>
+    <p>
+      This site may use privacy-conscious analytics, Google Analytics, advertising partners, or
+      similar services. These providers may process usage data, set cookies, or use similar
+      technologies according to their own policies.
+    </p>
+
+    <h2>How we use information</h2>
+    <p>
+      We use collected information to keep the website working, understand aggregate usage,
+      prevent abuse, improve content, and respond to direct requests.
+    </p>
+
+    <h2>Sharing</h2>
+    <p>
+      We do not sell personal information. Information may be shared with service providers that
+      help operate the site, when required by law, or when needed to protect the site and its users.
+    </p>
+
+    <h2>Your choices</h2>
+    <p>
+      You can block cookies, clear local browser data, use privacy controls in your browser, or
+      opt out through supported third-party tools where available.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy can be sent to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+  </article>
+</Layout>

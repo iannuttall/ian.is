@@ -1,0 +1,49 @@
+name: Refresh Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 8 2 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Refresh data
+        run: pnpm data:refresh
+
+      - name: Rebuild sitemaps
+        run: pnpm build:sitemaps
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/generated public/sitemap.xml public/sitemaps
+          if git diff --staged --quiet; then
+            echo "No data changes detected"
+          else
+            git commit -m "chore(data): refresh source data"
+            git push
+          fi
+

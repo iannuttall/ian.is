@@ -1,0 +1,64 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { siteName, siteUrl } from "@/lib/site";
+
+const siteHost = new URL(siteUrl).hostname;
+const contactEmail = `legal@${siteHost.replace(/^www\./, "")}`;
+---
+
+<Layout title="Terms of use" description={`${siteName} terms of use.`} canonicalPath="/terms" noIndex>
+  <article class="legal-page">
+    <header class="legal-header">
+      <h1>Terms of use</h1>
+      <p>Last updated: 1 July 2026</p>
+    </header>
+
+    <p>
+      By using {siteHost}, you agree to these terms. If you do not agree, do not use the site.
+    </p>
+
+    <h2>Informational use</h2>
+    <p>
+      Content on {siteName} is provided for general information only. It may be incomplete,
+      outdated, or contain errors. You should verify important information against original or
+      official sources before relying on it.
+    </p>
+
+    <h2>No professional advice</h2>
+    <p>
+      Nothing on this site is legal, financial, tax, medical, or other professional advice. You
+      are responsible for decisions you make based on the information provided here.
+    </p>
+
+    <h2>Acceptable use</h2>
+    <p>
+      Do not misuse the site, attempt to disrupt it, scrape it in a way that harms availability,
+      bypass access controls, or use it for unlawful activity.
+    </p>
+
+    <h2>Third-party services and links</h2>
+    <p>
+      The site may link to third-party websites or use third-party services. We are not responsible
+      for their content, availability, security, or privacy practices.
+    </p>
+
+    <h2>Disclaimer</h2>
+    <p>
+      The site is provided as is, without warranties of any kind. To the fullest extent permitted
+      by law, we are not liable for damages arising from your use of the site.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      These terms may be updated from time to time. Continued use of the site after changes are
+      posted means you accept the updated terms.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms can be sent to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+  </article>
+</Layout>

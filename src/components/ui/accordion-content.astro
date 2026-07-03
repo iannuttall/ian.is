@@ -1,0 +1,41 @@
+---
+import { cn } from '@/lib/utils';
+import { ChevronDownIcon } from '@/components/ui/icon';
+import type { HTMLAttributes } from 'astro/types'
+
+type AccordionProps = {
+    type?: 'single' | 'multiple';
+    class?: string;
+};
+type AccordionItemProps = HTMLAttributes<'div'> & {
+    value: string;
+    variant?: keyof typeof accordionItemVariants;
+};
+type AccordionTriggerProps = HTMLAttributes<'button'>;
+type AccordionContentProps = HTMLAttributes<'div'>;
+
+const accordionItemVariants = {
+    default: 'border-b',
+    card: 'rounded-xl bg-card px-6 shadow-md',
+};
+
+const {
+  class: className,
+  ...props
+} = Astro.props as AccordionContentProps
+---
+<div
+    data-accordion-content
+    data-state="closed"
+    class={cn(
+      'grid text-sm transition-[grid-template-rows] duration-200 ease-out',
+      'data-[state=closed]:grid-rows-[0fr]',
+      'data-[state=open]:grid-rows-[1fr]',
+      className
+    )}
+    {...props}
+  >
+    <div class="overflow-hidden">
+      <div class="pt-2 pb-4"><slot /></div>
+    </div>
+  </div>

@@ -1,0 +1,39 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { Newsletter } from "@/components/islands/Newsletter";
+import { webPageSchema } from "@/lib/seo";
+
+const structuredData = webPageSchema({
+  title: "Tools",
+  description: "Free tools for SEO and AI.",
+  path: "/tools",
+  type: "CollectionPage",
+});
+---
+
+<Layout
+  title="Tools"
+  description="Free tools for SEO and AI."
+  canonicalPath="/tools"
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <header class="max-w-2xl">
+      <h1 class="text-3xl/tight font-semibold text-foreground">Tools</h1>
+      <p class="mt-3 text-foreground-muted">
+        Free tools for SEO and AI. Nothing here yet &mdash; the first ones are
+        on the way.
+      </p>
+    </header>
+
+    <div class="mt-12">
+      <Newsletter
+        client:visible
+        heading="Be first to try them"
+        description="Subscribe and I'll email you when new tools go live."
+      />
+    </div>
+  </div>
+</Layout>

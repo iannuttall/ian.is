@@ -1,0 +1,569 @@
+@import "tailwindcss";
+
+/* No custom dark variant: Tailwind v4's default `dark:` maps to
+   `@media (prefers-color-scheme: dark)`, so utilities follow the OS
+   automatically — matching the `light-dark()` tokens below. */
+
+/* Primary UI typeface (static instances; the variable cut collides adjacent
+   letters like the "tt" in "Nuttall"). Family name kept generic on purpose. */
+@font-face {
+  font-family: 'Sans';
+  src: url('/fonts/sans-400.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Sans';
+  src: url('/fonts/sans-500.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Sans';
+  src: url('/fonts/sans-600.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Sans';
+  src: url('/fonts/sans-700.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Metric-matched fallback: renders in Arial with the primary font's metrics so
+   there is no layout shift (CLS) or reflow when the web font swaps in. */
+@font-face {
+  font-family: 'Sans Fallback';
+  src: local('Arial');
+  ascent-override: 89.79%;
+  descent-override: 22.36%;
+  line-gap-override: 0%;
+  size-adjust: 107.89%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMonoVF.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100 800;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-raised: var(--background-raised);
+  --color-background-subtle: var(--background-subtle);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-soft: var(--foreground-soft);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-overlay-scrim: var(--overlay-scrim);
+  --radius-xs: calc(var(--radius) - 6px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 2px);
+  --radius-2xl: calc(var(--radius) + 4px);
+  --font-sans: 'Sans', 'Sans Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
+}
+
+:root {
+  /* Enables light-dark() and makes native controls follow the OS. */
+  color-scheme: light dark;
+  --radius: 0.625rem;
+
+  /* Single source of truth for the page content frame width. Change this one
+     value to widen/narrow every page, section, header, and footer at once. */
+  --frame-max: 48rem; /* 3xl */
+
+  /* Single source of truth for the palette. Each token is
+     light-dark(<light>, <dark>) — edit either value in one place and the OS
+     preference switches automatically (no `.dark` class / toggle script). */
+  --background: light-dark(oklch(98.5% 0 0), oklch(20.5% 0 0));
+  --background-raised: light-dark(oklch(100% 0 0), oklch(24% 0 0));
+  --background-subtle: light-dark(oklch(96% 0 0), oklch(17% 0 0));
+  --foreground: light-dark(oklch(20.5% 0 0), oklch(98.5% 0 0));
+  --foreground-muted: light-dark(oklch(45% 0 0), oklch(72% 0 0));
+  --foreground-soft: light-dark(oklch(60% 0 0), oklch(55% 0 0));
+  --border: light-dark(oklch(92% 0 0), oklch(28% 0 0));
+  --border-subtle: light-dark(oklch(95% 0 0), oklch(24% 0 0));
+  --border-strong: light-dark(oklch(85% 0 0), oklch(38% 0 0));
+  --input: light-dark(oklch(92% 0 0), oklch(28% 0 0));
+  --ring: light-dark(oklch(60.9% 0.126 221.723), oklch(78.9% 0.154 211.53));
+
+  --card: light-dark(oklch(100% 0 0), oklch(24% 0 0));
+  --card-foreground: var(--foreground);
+  --popover: light-dark(oklch(100% 0 0), oklch(24% 0 0));
+  --popover-foreground: var(--foreground);
+
+  --primary: light-dark(oklch(60.9% 0.126 221.723), oklch(78.9% 0.154 211.53));
+  --primary-soft: light-dark(oklch(95% 0.04 221.723), oklch(30% 0.07 211.53));
+  --primary-hover: light-dark(oklch(54% 0.13 221.723), oklch(72% 0.16 211.53));
+  --primary-active: light-dark(oklch(48% 0.13 221.723), oklch(65% 0.17 211.53));
+  --primary-foreground: light-dark(oklch(98.5% 0 0), oklch(15% 0.05 211.53));
+
+  --secondary: light-dark(oklch(96% 0 0), oklch(28% 0 0));
+  --secondary-soft: light-dark(oklch(98% 0 0), oklch(24% 0 0));
+  --secondary-hover: light-dark(oklch(92% 0 0), oklch(34% 0 0));
+  --secondary-active: light-dark(oklch(88% 0 0), oklch(40% 0 0));
+  --secondary-foreground: var(--foreground);
+
+  --muted: light-dark(oklch(96% 0 0), oklch(28% 0 0));
+  --muted-foreground: light-dark(oklch(45% 0 0), oklch(72% 0 0));
+  --accent: light-dark(oklch(96% 0 0), oklch(28% 0 0));
+  --accent-foreground: var(--foreground);
+
+  --destructive: light-dark(oklch(57% 0.22 27), oklch(65% 0.22 27));
+  --destructive-soft: light-dark(oklch(95% 0.05 27), oklch(30% 0.1 27));
+  --destructive-hover: light-dark(oklch(50% 0.22 27), oklch(58% 0.22 27));
+  --destructive-foreground: oklch(98.5% 0 0);
+
+  --success: light-dark(oklch(60% 0.16 145), oklch(70% 0.16 145));
+  --success-soft: light-dark(oklch(95% 0.04 145), oklch(28% 0.07 145));
+  --warning: light-dark(oklch(75% 0.16 80), oklch(80% 0.16 80));
+  --warning-soft: light-dark(oklch(95% 0.05 80), oklch(30% 0.08 80));
+  --warning-foreground: light-dark(oklch(30% 0.06 80), oklch(85% 0.13 80));
+  --info: light-dark(oklch(60% 0.13 240), oklch(72% 0.13 240));
+  --info-soft: light-dark(oklch(95% 0.04 240), oklch(28% 0.07 240));
+
+  --overlay-scrim: oklch(0% 0 0 / 0.5);
+}
+
+@layer base {
+  body {
+    font-size: 1rem;
+    line-height: 1.5;
+    /* Inter cv08: capital I with top/bottom serifs (disambiguates I/l/1). */
+    /* font-feature-settings: 'cv08'; */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    /* 550 was a variable-only weight; static Inter uses 500. */
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  button:not(:disabled),
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  .content-prose {
+    color: var(--foreground);
+  }
+
+  .content-prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .content-prose h1 {
+    max-width: 44rem;
+    font-size: 2.5rem;
+    line-height: 1.08;
+  }
+
+  .content-prose h2 {
+    margin-top: 2.5rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .content-prose h3 {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+  }
+
+  .content-prose p,
+  .content-prose li {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--foreground-muted);
+  }
+
+  .content-prose a {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .content-prose ul,
+  .content-prose ol {
+    padding-left: 1.25rem;
+  }
+
+  .content-prose ul {
+    list-style: disc;
+  }
+
+  .content-prose ol {
+    list-style: decimal;
+  }
+
+  .content-prose code {
+    border-radius: 0.375rem;
+    background: var(--muted);
+    padding: 0.125rem 0.25rem;
+    color: var(--foreground);
+    font-size: 0.875em;
+  }
+
+  .content-prose pre {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--muted) !important;
+    padding: 1rem;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .content-prose pre code {
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    color: var(--foreground);
+    font-size: inherit;
+  }
+
+  .content-prose pre span {
+    color: var(--foreground) !important;
+  }
+
+  .docs-prose > :first-child {
+    margin-top: 0;
+  }
+
+  .docs-prose > h2 {
+    margin-top: 3rem;
+    color: var(--foreground);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    letter-spacing: 0;
+  }
+
+  .docs-prose > h3 {
+    margin-top: 2rem;
+    color: var(--foreground);
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    letter-spacing: 0;
+  }
+
+  .docs-prose > p {
+    margin-top: 0.75rem;
+    color: var(--foreground-muted);
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .docs-prose > ul,
+  .docs-prose > ol {
+    margin-top: 0.75rem;
+    padding-left: 1.25rem;
+  }
+
+  .docs-prose > ul {
+    list-style: disc;
+  }
+
+  .docs-prose > ol {
+    list-style: decimal;
+  }
+
+  .docs-prose > ul li,
+  .docs-prose > ol li {
+    color: var(--foreground-muted);
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .docs-prose > ul li + li,
+  .docs-prose > ol li + li {
+    margin-top: 0.375rem;
+  }
+
+  .docs-prose > ul li::marker,
+  .docs-prose > ol li::marker {
+    color: var(--foreground-soft);
+  }
+
+  .docs-prose > p strong,
+  .docs-prose > ul strong,
+  .docs-prose > ol strong {
+    color: var(--foreground);
+    font-weight: 500;
+  }
+
+  .docs-prose > p a,
+  .docs-prose > ul a,
+  .docs-prose > ol a {
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: var(--primary);
+    text-underline-offset: 4px;
+    transition:
+      color 150ms,
+      text-decoration-color 150ms;
+  }
+
+  .docs-prose > p a:hover,
+  .docs-prose > ul a:hover,
+  .docs-prose > ol a:hover {
+    color: var(--primary-hover);
+    text-decoration-color: var(--primary-hover);
+  }
+
+  .docs-prose > p code,
+  .docs-prose > ul code,
+  .docs-prose > ol code,
+  .docs-prose > h2 code,
+  .docs-prose > h3 code,
+  .docs-prose td code {
+    border-radius: 0.375rem;
+    background-color: var(--muted);
+    padding: 0.125rem 0.375rem;
+    font-size: 0.85em;
+  }
+
+  .docs-prose pre {
+    margin-top: 1.25rem;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--muted) !important;
+    padding: 1rem;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .docs-prose pre code {
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0;
+    color: var(--foreground);
+    font-size: inherit;
+  }
+
+  .docs-prose pre span {
+    color: var(--foreground) !important;
+  }
+
+  .docs-prose > table {
+    margin-top: 1.25rem;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+  }
+
+  .docs-prose th {
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    color: var(--foreground);
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .docs-prose td {
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    color: var(--foreground-muted);
+    vertical-align: top;
+  }
+}
+
+/* Logo wink-on-hover: open eye by default, closed wink stroke on hover */
+.logo-hover .logo-wink {
+  display: none;
+}
+.logo-hover:hover .logo-eye {
+  display: none;
+}
+.logo-hover:hover .logo-wink {
+  display: block;
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes braille-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  /* The shared page content frame: centered, full-width up to --frame-max,
+     with the standard horizontal gutter. Used by the header, footer, and every
+     page/section so the width lives in exactly one place. */
+  .site-frame {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--frame-max);
+    padding-inline: 1.5rem; /* px-6 */
+  }
+
+  .tool-form-panel {
+    border-color: var(--border);
+    border-style: solid;
+    border-width: 1px 1px 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    background: var(--card);
+    padding: 1.5rem;
+    box-shadow: 0 8px 44px -12px rgb(0 0 0 / 0.1);
+  }
+
+  .tool-result-root:empty {
+    display: none;
+  }
+
+  .tool-result-root:not(:empty) {
+    padding-block: 3rem 0;
+  }
+
+  @media (width >= 64rem) {
+    .site-frame {
+      padding-inline: 2.5rem; /* lg:px-10 */
+    }
+
+    .tool-form-panel {
+      padding: 2rem;
+    }
+  }
+}
+
+/* Accessibility: keyboard skip link (hidden until focused). */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: var(--radius-md);
+  background: var(--foreground);
+  color: var(--background);
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Shared legal/simple prose page (privacy, terms, cookies). */
+.legal-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--frame-max);
+  padding: 4rem 1.5rem 5rem;
+  color: var(--foreground);
+}
+
+@media (width >= 64rem) {
+  .legal-page {
+    padding-inline: 2.5rem;
+  }
+}
+
+.legal-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-page h1,
+.legal-page h2,
+.legal-page p {
+  margin: 0;
+}
+
+.legal-page h1 {
+  font-size: 2.5rem;
+  line-height: 1.08;
+}
+
+.legal-page h2 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--foreground);
+}
+
+.legal-page p {
+  color: var(--foreground-muted);
+  line-height: 1.75;
+}
+
+.legal-page p + p,
+.legal-page h2 + p {
+  margin-top: 0.75rem;
+}
+
+.legal-page a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}

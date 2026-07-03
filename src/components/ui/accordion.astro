@@ -1,0 +1,32 @@
+---
+import { cn } from '@/lib/utils';
+import { ChevronDownIcon } from '@/components/ui/icon';
+import type { HTMLAttributes } from 'astro/types'
+
+type AccordionProps = {
+    type?: 'single' | 'multiple';
+    class?: string;
+};
+type AccordionItemProps = HTMLAttributes<'div'> & {
+    value: string;
+    variant?: keyof typeof accordionItemVariants;
+};
+type AccordionTriggerProps = HTMLAttributes<'button'>;
+type AccordionContentProps = HTMLAttributes<'div'>;
+
+const accordionItemVariants = {
+    default: 'border-b',
+    card: 'rounded-xl bg-card px-6 shadow-md',
+};
+
+const {
+  type = 'single',
+  class: className } = Astro.props as AccordionProps
+---
+<div
+    data-accordion
+    data-accordion-type={type}
+    class={cn('w-full', className)}
+  >
+    <slot />
+  </div>
