@@ -22,20 +22,26 @@ const { size = 24, controls, class: className } = Astro.props;
   x-bind:aria-expanded="String(open)"
   aria-controls={controls}
 >
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" class="overflow-visible" aria-hidden="true">
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    color="currentColor"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="overflow-visible"
+    aria-hidden="true"
+  >
     <path
-      d="M5 8H19"
-      stroke="currentColor"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      class="[transform-box:view-box] origin-[12px_8px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translateY(4px)_rotate(45deg)_scaleX(1.2)]"
+      d="M4 9L20 9"
+      class="[transform-box:view-box] origin-[12px_9px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translateY(3px)_rotate(45deg)]"
     />
     <path
-      d="M5 16H19"
-      stroke="currentColor"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      class="[transform-box:view-box] origin-[12px_16px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translateY(-4px)_rotate(-45deg)_scaleX(1.2)]"
+      d="M4 15.5L14 15.5"
+      class="[transform-box:view-box] origin-[9px_15.5px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translate(3px,-3.5px)_rotate(-45deg)_scaleX(1.6)]"
     />
   </svg>
 </button>
