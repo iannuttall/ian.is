@@ -33,6 +33,8 @@ pnpm generate-types
   manual toggle is ever needed, reintroduce `color-scheme` overrides, not duplicated
   token blocks.
 - Kiwa UI components live in `src/components/ui` (managed by `kiwa-astro add`).
+- Icon inventory lives in `src/components/icons/*.astro`. Keep these as inline
+  Astro SVG components so icons SSR to HTML and never create a client bundle.
 - `nodejs_compat` is required in `wrangler.jsonc` — Astro's dev/SSR runtime uses
   `process`; without it every route 500s with "process is not defined".
 - pnpm 11 gates native build scripts via `allowBuilds:` (booleans) in
