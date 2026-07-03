@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
 import { getPostTagGroups } from "@/lib/tags";
@@ -19,6 +20,7 @@ const structuredData = webPageSchema({
   title="Tags"
   description="Browse posts by topic."
   canonicalPath="/tags"
+  breadcrumbs={pageBreadcrumbs("Tags", "/tags")}
   structuredData={structuredData}
 >
   <div class="site-frame py-10">

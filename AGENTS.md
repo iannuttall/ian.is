@@ -75,6 +75,11 @@ pnpm generate-types
 
 - Posts are Markdown/MDX in `src/content/posts`, typed by
   `src/content.config.ts` (glob loader). Query via `src/lib/posts.ts`.
+- Breadcrumbs are a layout-level convention: pass `breadcrumbs` from
+  `src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
+  `tagBreadcrumbs`) so the visible header trail and JSON-LD `BreadcrumbList`
+  stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
+  is too long for the header crumb.
 - Newsletter lives off-site at https://list.ian.is (linked, not embedded).
 - Rebuild sitemaps (`node scripts/build-sitemaps.mjs`, runs in `pnpm build`) —
   it enumerates published post slugs and tag archives, so new posts appear in

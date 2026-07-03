@@ -1,5 +1,7 @@
 ---
 import Header from "@/components/Header.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { breadcrumbSchema, type SeoBreadcrumbItem } from "@/lib/seo";
 import {
   adsenseClientId,
   clickySiteId,
@@ -19,6 +21,7 @@ interface Props {
   ogType?: "website" | "article";
   ogImagePath?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: SeoBreadcrumbItem[] | false;
   /** Hide the shared header/footer chrome (e.g. minimal/auth pages). */
   minimal?: boolean;
 }
@@ -31,6 +34,7 @@ const {
   ogType = "website",
   ogImagePath = defaultOgImagePath,
   structuredData,
+  breadcrumbs,
   minimal = false,
 } = Astro.props;
 
@@ -39,6 +43,14 @@ const baseUrl = Astro.site ?? new URL(siteUrl);
 const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
 const ogImageUrl = new URL(ogImagePath, baseUrl).toString();
 const structuredDataList = (Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []).filter(Boolean);
+const isHome = canonicalPath === "/" || canonicalPath === "";
+const breadcrumbItems =
+  breadcrumbs === false
+    ? []
+    : breadcrumbs ?? (isHome || minimal ? [] : pageBreadcrumbs(title, canonicalPath));
+if (breadcrumbItems.length > 1) {
+  structuredDataList.push(breadcrumbSchema(breadcrumbItems, canonicalPath));
+}
 const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(Astro.url.hostname);
 const shouldLoadThirdPartyScripts = import.meta.env.PROD && !isLocalHost;
 const hasClicky = clickySiteId.length > 0;
@@ -102,7 +114,7 @@ const hasAdsense = adsenseClientId.length > 0;
   <body class="min-h-screen bg-background text-foreground antialiased">
     <a href="#content" class="skip-link">Skip to content</a>
     <div class="flex min-h-screen flex-col">
-      {minimal ? null : <Header />}
+      {minimal ? null : <Header breadcrumbs={breadcrumbItems} />}
       <main id="content" class="flex-1">
         <slot />
       </main>

@@ -4,6 +4,7 @@ export const prerender = true;
 import { render } from "astro:content";
 import TagLink from "@/components/primitives/TagLink.astro";
 import Layout from "@/layouts/Layout.astro";
+import { postBreadcrumbs } from "@/lib/breadcrumbs";
 import { formatPostDate, getPublishedPosts } from "@/lib/posts";
 import { siteName, toAbsoluteUrl } from "@/lib/site";
 
@@ -37,6 +38,7 @@ const structuredData = {
   description={post.data.description}
   canonicalPath={path}
   ogType="article"
+  breadcrumbs={postBreadcrumbs(post)}
   structuredData={structuredData}
 >
   <article class="site-frame py-12 sm:py-16">

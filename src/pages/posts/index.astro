@@ -4,6 +4,7 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import PostCard from "@/components/posts/PostCard.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
 
@@ -20,6 +21,7 @@ const structuredData = webPageSchema({
   title="Posts"
   description="Writing on SEO, AI, and building tools."
   canonicalPath="/posts"
+  breadcrumbs={pageBreadcrumbs("Posts", "/posts")}
   structuredData={structuredData}
 >
   <div class="site-frame py-10">

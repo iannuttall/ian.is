@@ -1,0 +1,33 @@
+---
+import type { SeoBreadcrumbItem } from "@/lib/seo";
+
+interface Props {
+  items: SeoBreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+const visibleItems = items.slice(0, -1);
+---
+
+{visibleItems.length > 0 ? (
+  <nav aria-label="Breadcrumb" class="min-w-0 text-sm font-medium text-foreground">
+    <ol class="flex min-w-0 items-center gap-2">
+      {visibleItems.map((item, index) => (
+        <>
+          {index > 0 ? (
+            <li class="shrink-0 font-medium text-foreground-soft opacity-60" aria-hidden="true">/</li>
+          ) : null}
+          <li class="shrink-0 text-foreground">
+            {item.href ? (
+              <a href={item.href} class="hover:text-foreground-muted">
+                {item.label}
+              </a>
+            ) : (
+              <span>{item.label}</span>
+            )}
+          </li>
+        </>
+      ))}
+    </ol>
+  </nav>
+) : null}
