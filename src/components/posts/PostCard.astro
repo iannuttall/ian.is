@@ -20,7 +20,7 @@ const { post, headingLevel = "h2" } = Astro.props;
   class="flex h-full min-h-52 flex-col rounded-lg bg-muted p-6 no-underline transition-colors hover:bg-secondary-hover"
   href={`/post/${post.id}`}
 >
-  <p class="text-sm/6 text-foreground-soft">
+  <p class="text-foreground-soft">
     {formatPostDate(post.data.pubDate)}
   </p>
   {

@@ -11,9 +11,9 @@ export async function getPublishedPosts() {
   );
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long",
+  day: "numeric",
   year: "numeric",
 });
 
