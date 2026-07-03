@@ -115,6 +115,8 @@
   /* Single source of truth for the page content frame width. Change this one
      value to widen/narrow every page, section, header, and footer at once. */
   --frame-max: 48rem; /* 3xl */
+  --body-font-size: var(--text-lg);
+  --body-line-height: 1.6;
 
   /* Single source of truth for the palette. Each token is
      light-dark(<light>, <dark>) — edit either value in one place and the OS
@@ -171,8 +173,9 @@
 
 @layer base {
   body {
-    font-size: 1rem;
-    line-height: 1.5;
+    color: var(--foreground);
+    font-size: var(--body-font-size);
+    line-height: var(--body-line-height);
     /* Inter cv08: capital I with top/bottom serifs (disambiguates I/l/1). */
     /* font-feature-settings: 'cv08'; */
   }
@@ -220,9 +223,9 @@
 
   .content-prose p,
   .content-prose li {
-    font-size: 1rem;
+    font-size: inherit;
     line-height: 1.75;
-    color: var(--foreground-muted);
+    color: inherit;
   }
 
   .content-prose a {
