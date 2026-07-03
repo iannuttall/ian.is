@@ -26,22 +26,23 @@ const { size = 24, controls, class: className } = Astro.props;
     width={size}
     height={size}
     viewBox="0 0 24 24"
-    color="currentColor"
     fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
     class="overflow-visible"
     aria-hidden="true"
   >
     <path
-      d="M4 9L20 9"
+      d="M3 9C3 8.44772 3.44772 8 4 8L20 8C20.5523 8 21 8.44772 21 9C21 9.55229 20.5523 10 20 10L4 10C3.44772 10 3 9.55228 3 9Z"
+      fill="currentColor"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
       class="[transform-box:view-box] origin-[12px_9px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translateY(3px)_rotate(45deg)]"
     />
     <path
-      d="M4 15.5L14 15.5"
-      class="[transform-box:view-box] origin-[9px_15.5px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translate(3px,-3.5px)_rotate(-45deg)_scaleX(1.6)]"
+      d="M3 15C3 14.4477 3.44772 14 4 14L14 14C14.5523 14 15 14.4477 15 15C15 15.5523 14.5523 16 14 16L4 16C3.44772 16 3 15.5523 3 15Z"
+      fill="currentColor"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      class="[transform-box:view-box] origin-[9px_15px] transition-transform duration-200 ease-in-out motion-reduce:transition-none group-aria-expanded/menu:[transform:translate(3px,-3px)_rotate(-45deg)_scaleX(1.5)]"
     />
   </svg>
 </button>
