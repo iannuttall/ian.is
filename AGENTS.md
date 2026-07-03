@@ -13,6 +13,7 @@ pnpm install
 pnpm dev
 pnpm dev:cf
 pnpm build
+pnpm astro check
 pnpm generate-types
 ```
 
@@ -69,15 +70,19 @@ pnpm generate-types
 
 ## Content
 
-- Blog posts are Markdown/MDX in `src/content/blog`, typed by
+- Posts are Markdown/MDX in `src/content/posts`, typed by
   `src/content.config.ts` (glob loader). Query via `src/lib/posts.ts`.
 - Newsletter lives off-site at https://list.ian.is (linked, not embedded).
 - Rebuild sitemaps (`node scripts/build-sitemaps.mjs`, runs in `pnpm build`) —
-  it enumerates blog slugs, so new posts appear in `/sitemap.xml`.
+  it enumerates published post slugs and tag archives, so new posts appear in
+  `/sitemap.xml`.
 
 ## App Rules
 
 - Keep SEO metadata in the root layout contract.
+- Fix lint, typecheck, and `astro check` findings when they appear. Do not leave
+  known check failures behind as "pre-existing" unless the user explicitly
+  chooses to defer them.
 - Generate exact sitemap XML files into `public/`.
 - Follow `~/workers/platform/references/content-rules.md` for user-facing copy.
 - Follow `~/workers/platform/references/design-rules.md` for UI design.

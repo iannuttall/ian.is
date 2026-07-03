@@ -48,7 +48,6 @@ export default defineConfig({
     },
   },
   vite: {
-    configFile: false,
     plugins: [tailwindcss()],
     optimizeDeps: {
       include: optimizerIncludes,

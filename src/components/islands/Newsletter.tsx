@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { type SyntheticEvent, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -37,7 +37,7 @@ export function Newsletter({
 
   const ready = email.trim().length > 3 && email.includes("@");
 
-  const submit = async (event: FormEvent) => {
+  const submit = async (event: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     event.preventDefault();
     if (status === "loading") return;
 

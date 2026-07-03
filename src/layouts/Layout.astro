@@ -74,11 +74,11 @@ const hasAdsense = adsenseClientId.length > 0;
     {noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
     <title>{fullTitle}</title>
     {shouldLoadThirdPartyScripts && hasClicky ? (
-      <script async data-id={clickySiteId} src="https://static.getclicky.com/js"></script>
+      <script is:inline async data-id={clickySiteId} src="https://static.getclicky.com/js"></script>
     ) : null}
     {shouldLoadThirdPartyScripts && hasGoogleAnalytics ? (
       <>
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
         <script is:inline define:vars={{ googleAnalyticsId }}>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -89,13 +89,14 @@ const hasAdsense = adsenseClientId.length > 0;
     ) : null}
     {shouldLoadThirdPartyScripts && hasAdsense ? (
       <script
+        is:inline
         async
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
         crossorigin="anonymous"
       ></script>
     ) : null}
     {shouldLoadThirdPartyScripts ? <slot name="third-party-scripts" /> : null}
-    {structuredDataList.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} />)}
+    {structuredDataList.map((entry) => <script is:inline type="application/ld+json" set:html={JSON.stringify(entry)} />)}
     <slot name="head" />
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">

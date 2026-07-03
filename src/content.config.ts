@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 
 // Posts live as Markdown/MDX files under src/content/posts.
 // Frontmatter is intentionally simple so a local desktop editor can author it.
