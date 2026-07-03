@@ -41,15 +41,16 @@ pnpm generate-types
   `pnpm-workspace.yaml`, not the legacy `onlyBuiltDependencies`. Keep
   esbuild/sharp/workerd/@tailwindcss/oxide set to `true` or installs exit 1.
 
-## Islands & runtime
+## Interactivity & runtime
 
-- React islands live in `src/components/islands/*.tsx` (@astrojs/react). Keep the
-  React runtime in `vite.optimizeDeps.include` + `resolve.dedupe` or CF dev throws
-  "Invalid hook call" from a duplicated React in the SSR bundle.
+- Lightweight interactivity uses Alpine (`@astrojs/alpinejs`) with data
+  definitions in `src/scripts/alpine.ts`. Use Alpine for small stateful UI
+  (menu toggles, forms, filters) so markup stays Astro-first and client bundles
+  stay small. Add React back only for genuinely complex islands that need it.
 - Access Worker env with `import { env } from "cloudflare:workers"` — Astro v6
   removed `Astro.locals.runtime.env`. Type secrets on `Cloudflare.Env` in
   `src/env.d.ts`.
-- Newsletter signup: `<Newsletter />` island → same-origin SSR route
+- Newsletter signup: `<Newsletter />` Alpine-enhanced Astro component → same-origin SSR route
   `src/pages/api/subscribe.ts` (`prerender = false`) → forwards to
   `https://list.ian.is/api/subscribe` with `Authorization: Bearer $LIST_API_TOKEN`.
   Set `LIST_API_TOKEN` (`.dev.vars` locally, `wrangler secret put` in prod); the

@@ -2,7 +2,7 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
-import { Newsletter } from "@/components/islands/Newsletter";
+import Newsletter from "@/components/Newsletter.astro";
 import PostCard from "@/components/posts/PostCard.astro";
 import { getPublishedPosts } from "@/lib/posts";
 import { webSiteSchema } from "@/lib/seo";
@@ -28,7 +28,7 @@ const posts = (await getPublishedPosts()).slice(0, 4);
             things &mdash; and I send the good stuff to my newsletter first.
           </p>
         </div>
-        <Newsletter client:load standalone={false} />
+        <Newsletter standalone={false} />
       </div>
     </div>
   </section>

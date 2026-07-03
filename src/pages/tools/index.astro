@@ -2,7 +2,7 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
-import { Newsletter } from "@/components/islands/Newsletter";
+import Newsletter from "@/components/Newsletter.astro";
 import { webPageSchema } from "@/lib/seo";
 
 const structuredData = webPageSchema({
@@ -30,7 +30,6 @@ const structuredData = webPageSchema({
 
     <div class="mt-12">
       <Newsletter
-        client:visible
         heading="Be first to try them"
         description="Subscribe and I'll email you when new tools go live."
       />

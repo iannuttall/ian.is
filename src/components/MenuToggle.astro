@@ -15,9 +15,11 @@ const { size = 24, controls, class: className } = Astro.props;
     "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     className,
   ]}
-  data-menu-toggle
+  x-data="menuToggle"
+  x-on:click="toggle"
   aria-label="Toggle menu"
   aria-expanded="false"
+  x-bind:aria-expanded="String(open)"
   aria-controls={controls}
 >
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" class="overflow-visible" aria-hidden="true">
@@ -37,13 +39,3 @@ const { size = 24, controls, class: className } = Astro.props;
     />
   </svg>
 </button>
-
-<script is:inline>
-  document.querySelectorAll("[data-menu-toggle]").forEach((button) => {
-    if (button.dataset.menuToggleReady === "true") return;
-    button.dataset.menuToggleReady = "true";
-    button.addEventListener("click", () => {
-      button.setAttribute("aria-expanded", String(button.getAttribute("aria-expanded") !== "true"));
-    });
-  });
-</script>

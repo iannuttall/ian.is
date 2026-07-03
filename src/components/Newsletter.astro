@@ -1,0 +1,159 @@
+---
+interface Props {
+  /** Fully-rounded card (default) vs. flush card with square bottom corners. */
+  standalone?: boolean;
+  heading?: string;
+  description?: string;
+  /** Where the signup came from, forwarded to the list backend. */
+  source?: string;
+}
+
+const {
+  standalone = true,
+  heading = "Subscribe to Ian's List",
+  description = "What I learned this week actually using AI to run my business.",
+  source = "ian.is",
+} = Astro.props;
+
+const sectionClass = [
+  "@container relative w-full overflow-hidden bg-card",
+  standalone
+    ? "rounded-2xl ring-[0.5px] ring-black/5 shadow-[0_8px_44px_-12px_rgba(0,0,0,0.12)] dark:ring-white/10"
+    : "rounded-t-2xl border-x border-t border-black/[0.06] shadow-xs dark:border-white/10",
+];
+
+const cells: [number, number, string][] = [
+  [0, 350.67, "light-dark(#969696,#696969)"],
+  [175.33, 350.67, "light-dark(#737373,#8c8c8c)"],
+  [175.33, 175.33, "light-dark(#505050,#afafaf)"],
+  [350.67, 350.67, "light-dark(#505050,#afafaf)"],
+  [350.67, 175.33, "light-dark(#2d2d2d,#d2d2d2)"],
+  [350.67, 0, "light-dark(#0a0a0a,#f5f5f5)"],
+];
+---
+
+<section class:list={sectionClass} x-data={`newsletterSignup(${JSON.stringify(source)})`}>
+  <div class="grid grid-cols-1 @lg:grid-cols-[22rem_1fr]">
+    <div class="flex flex-col gap-5 p-6 @lg:p-8">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-foreground">
+          <svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true">
+            {cells.map(([x, y, fill]) => (
+              <rect x={x} y={y} width="161.33" height="161.33" style={`fill: ${fill}`} />
+            ))}
+          </svg>
+          <div class="font-semibold">{heading}</div>
+        </div>
+        <p class="text-pretty leading-snug text-foreground-muted">
+          {description}
+        </p>
+      </div>
+
+      <p
+        hidden
+        x-bind:hidden="status !== 'success'"
+        class="flex items-center gap-2 text-sm font-medium text-success"
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 6 9 17l-5-5"></path>
+        </svg>
+        <span x-text="message"></span>
+      </p>
+
+      <form class="w-full" x-on:submit.prevent="submit" x-bind:hidden="status === 'success'">
+        <div class="relative">
+          <label for="newsletter-email" class="sr-only">
+            Email address
+          </label>
+          <input
+            id="newsletter-email"
+            type="email"
+            required
+            x-model="email"
+            placeholder="sam@openai.com"
+            autocomplete="email"
+            class="h-11 w-full rounded-full border border-border bg-background pr-12 pl-4 text-[15px] text-foreground outline-none transition-[color,box-shadow] placeholder:text-foreground-soft focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/20"
+          />
+          <button
+            type="submit"
+            disabled
+            x-bind:disabled="status === 'loading' || !ready"
+            aria-label="Subscribe"
+            class="absolute top-1/2 right-1 flex size-9 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
+            x-bind:class="ready ? 'bg-primary text-primary-foreground hover:bg-primary-hover' : 'bg-foreground/10 text-foreground/30'"
+          >
+            <span hidden x-bind:hidden="status !== 'loading'">
+              <svg
+                class="size-4 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="3"></circle>
+                <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+              </svg>
+            </span>
+            <svg
+              x-bind:hidden="status === 'loading'"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                d="M17.25 10.25 12 4.75l-5.25 5.5"
+              ></path>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                d="M12 19.25V5.75"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <p hidden x-bind:hidden="status !== 'error'" class="mt-2 text-sm text-destructive" x-text="message"></p>
+      </form>
+    </div>
+
+    <div class="relative hidden select-none @lg:block" aria-hidden="true">
+      <div class="absolute top-13 -right-11 flex aspect-[3/5] min-w-80 rotate-1 flex-col gap-4 rounded-lg bg-background-raised p-6 shadow-lg ring-[0.5px] ring-black/5 dark:bg-white/[0.06] dark:ring-white/10"></div>
+      <div class="absolute top-12 -right-12 flex aspect-[3/5] min-w-80 rotate-3 flex-col gap-4 rounded-lg bg-background-raised p-6 shadow-lg ring-[0.5px] ring-black/5 dark:bg-secondary dark:ring-white/10">
+        <div class="flex flex-col gap-0.5">
+          <div class="grid grid-cols-4 gap-2 font-mono text-xs text-foreground-soft">
+            <span>From:</span>
+            <span class="col-span-3">Ian</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2 font-mono text-xs text-foreground-soft">
+            <span>To:</span>
+            <span class="col-span-3">you@gmail.com</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-semibold text-foreground">I built a new thing</div>
+          <div class="text-sm text-foreground-muted" x-text="issueDate"></div>
+        </div>
+        <div class="flex flex-col gap-3">
+          {["80%", "60%", "70%", "30%", "55%"].map((width) => (
+            <div class="h-2 rounded-full bg-foreground/10" style={`width: ${width}`}></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
