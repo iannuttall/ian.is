@@ -1,0 +1,29 @@
+---
+type Props = {
+  posts: {
+    id: string;
+    data: {
+      title: string;
+    };
+  }[];
+  headingLevel?: "h2" | "h3";
+};
+
+const { posts, headingLevel = "h2" } = Astro.props;
+---
+
+<ul class="space-y-5">
+  {
+    posts.map((post) => (
+      <li>
+        <a href={`/post/${post.id}`} class="block no-underline underline-offset-2 hover:underline hover:decoration-dotted">
+          {headingLevel === "h3" ? (
+            <h3 class="text-pretty text-2xl/8 font-medium tracking-normal text-foreground sm:text-3xl/10">{post.data.title}</h3>
+          ) : (
+            <h2 class="text-pretty text-2xl/8 font-medium tracking-normal text-foreground sm:text-3xl/10">{post.data.title}</h2>
+          )}
+        </a>
+      </li>
+    ))
+  }
+</ul>

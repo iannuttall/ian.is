@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
-import PostCard from "@/components/posts/PostCard.astro";
+import PostTitleList from "@/components/posts/PostTitleList.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
@@ -25,23 +25,16 @@ const structuredData = webPageSchema({
   structuredData={structuredData}
 >
   <div class="site-frame py-10">
-    <header class="mb-10 flex max-w-2xl flex-col gap-3">
-      <h1 class="text-pretty text-2xl font-medium tracking-normal text-foreground xl:text-3xl">
-        Notes on SEO, AI, and building tools.
+    <header class="mb-8">
+      <h1 class="text-pretty text-2xl/8 font-medium tracking-normal text-foreground-soft sm:text-3xl/10">
+        Writing
       </h1>
-      <p class="text-pretty text-lg/7 font-medium tracking-normal text-foreground-muted xl:text-xl/8">
-        Guides and experiments from the things I'm working on.
-      </p>
     </header>
 
     {posts.length === 0 ? (
       <p class="text-foreground-muted">No posts yet. Check back soon.</p>
     ) : (
-      <div class="grid gap-2 sm:grid-cols-2">
-        {posts.map((post) => (
-          <PostCard post={post} />
-        ))}
-      </div>
+      <PostTitleList posts={posts} />
     )}
 
     <div class="mt-16">
