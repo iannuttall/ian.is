@@ -50,6 +50,26 @@ This keeps authoring simple while avoiding MDX route sprawl. Route files stay in
 charge of layout, SEO, structured data, and dynamic build-time queries. Markdown
 files stay in charge of authored content.
 
+## Generated public data
+
+Finite public data that only needs periodic refreshes should be generated into
+committed snapshots before adding a runtime API.
+
+Current example:
+
+```txt
+src/generated/github-contributions.json
+```
+
+The homepage GitHub activity widget imports this rolling 12-month snapshot and
+renders fully static HTML. `pnpm data:refresh` updates the snapshot from GitHub
+GraphQL. A scheduled workflow can commit the refreshed JSON daily, but the same
+script can also run from a local/VPS cron if GitHub Actions cost or dependency
+becomes undesirable.
+
+Do not add Hono/API routes for generated public widgets unless the data needs
+request-time behavior, user-specific access, auth, or frequent mutation.
+
 ## Why Astro still fits
 
 - Astro content collections already match the desired publishing model.

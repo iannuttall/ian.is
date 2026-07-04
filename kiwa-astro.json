@@ -11,6 +11,7 @@
     "card",
     "icon",
     "accordion",
-    "checkbox"
+    "checkbox",
+    "tooltip"
   ]
 }

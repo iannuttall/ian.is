@@ -1,0 +1,33 @@
+---
+import { cn } from '@/lib/utils';
+import type { HTMLAttributes } from 'astro/types'
+
+type Side = 'top' | 'right' | 'bottom' | 'left';
+type TooltipContentProps = HTMLAttributes<'div'> & {
+    side?: Side;
+};
+
+const {
+  side = 'top',
+  class: className,
+  ...props
+} = Astro.props as TooltipContentProps
+---
+<div
+    data-tooltip-content
+    data-side={side}
+    data-state="closed"
+    role="tooltip"
+    class={cn(
+      'pointer-events-none absolute z-50 overflow-hidden rounded-md bg-popover px-3 py-1.5 text-xs text-foreground opacity-0 shadow',
+      'whitespace-nowrap transition duration-150 ease-out group-hover/tooltip:opacity-100',
+      side === 'top' && 'bottom-full left-1/2 -translate-x-1/2 mb-2',
+      side === 'bottom' && 'top-full left-1/2 -translate-x-1/2 mt-2',
+      side === 'left' && 'right-full top-1/2 -translate-y-1/2 mr-2',
+      side === 'right' && 'left-full top-1/2 -translate-y-1/2 ml-2',
+      className
+    )}
+    {...props}
+  >
+    <slot />
+  </div>

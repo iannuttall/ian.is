@@ -128,6 +128,11 @@
     transparent 1.25rem
   );
   --prose-divider-background-size: 100% 100%;
+  --github-contribution-none: var(--muted);
+  --github-contribution-first: light-dark(oklch(82% 0.11 145), oklch(38% 0.09 145));
+  --github-contribution-second: light-dark(oklch(70% 0.16 145), oklch(48% 0.12 145));
+  --github-contribution-third: light-dark(oklch(58% 0.17 145), oklch(58% 0.14 145));
+  --github-contribution-fourth: light-dark(oklch(43% 0.13 145), oklch(70% 0.16 145));
 
   /* Single source of truth for the palette. Each token is
      light-dark(<light>, <dark>) — edit either value in one place and the OS

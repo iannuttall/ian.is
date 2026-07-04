@@ -1,0 +1,18 @@
+---
+import { cn } from '@/lib/utils';
+import type { HTMLAttributes } from 'astro/types'
+
+type TooltipTriggerProps = HTMLAttributes<'div'>;
+
+const {
+  class: className,
+  ...props
+} = Astro.props as TooltipTriggerProps
+---
+<div
+    data-tooltip-trigger
+    class={cn('inline-flex', className)}
+    {...props}
+  >
+    <slot />
+  </div>

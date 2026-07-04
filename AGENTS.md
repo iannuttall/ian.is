@@ -15,6 +15,7 @@ pnpm dev:cf
 pnpm build
 pnpm astro check
 pnpm generate-types
+pnpm data:refresh
 ```
 
 ## Stack
@@ -81,6 +82,10 @@ pnpm generate-types
   stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
   is too long for the header crumb.
 - Newsletter lives off-site at https://list.ian.is (linked, not embedded).
+- GitHub homepage activity is static generated data:
+  `pnpm data:refresh` writes `src/generated/github-contributions.json` from
+  GitHub GraphQL. Prefer committed snapshots for finite public widgets; do not
+  add Hono/API routes unless request-time behavior is actually needed.
 - Rebuild sitemaps (`node scripts/build-sitemaps.mjs`, runs in `pnpm build`) —
   it enumerates published post slugs and tag archives, so new posts appear in
   `/sitemap.xml`.

@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
+import GitHubContributions from "@/components/GitHubContributions.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import PostCard from "@/components/posts/PostCard.astro";
 import { getPublishedPosts } from "@/lib/posts";
@@ -34,6 +35,8 @@ const posts = (await getPublishedPosts()).slice(0, 4);
   </section>
 
   <div class="space-y-24 py-24">
+    <GitHubContributions />
+
     <section class="site-frame">
       <div class="mb-10 flex items-end justify-between gap-4">
         <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px] text-foreground xl:text-3xl xl:-tracking-[0.6px]">

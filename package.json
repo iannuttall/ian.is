@@ -10,7 +10,7 @@
     "astro": "astro",
     "generate-types": "wrangler types",
     "build:sitemaps": "node scripts/build-sitemaps.mjs",
-    "data:refresh": "echo \"Add app-specific data refresh scripts\""
+    "data:refresh": "node scripts/refresh-github-contributions.mjs"
   },
   "dependencies": {
     "@astrojs/alpinejs": "^1.0.0",

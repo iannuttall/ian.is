@@ -1,0 +1,121 @@
+---
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import contributions from "@/generated/github-contributions.json";
+
+type ContributionLevel =
+  | "NONE"
+  | "FIRST_QUARTILE"
+  | "SECOND_QUARTILE"
+  | "THIRD_QUARTILE"
+  | "FOURTH_QUARTILE";
+
+const numberFormatter = new Intl.NumberFormat("en-US");
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const levelClass: Record<ContributionLevel, string> = {
+  NONE: "bg-[var(--github-contribution-none)]",
+  FIRST_QUARTILE: "bg-[var(--github-contribution-first)]",
+  SECOND_QUARTILE: "bg-[var(--github-contribution-second)]",
+  THIRD_QUARTILE: "bg-[var(--github-contribution-third)]",
+  FOURTH_QUARTILE: "bg-[var(--github-contribution-fourth)]",
+};
+
+const total = numberFormatter.format(contributions.totalContributions);
+const start = dateFormatter.format(new Date(`${contributions.range.start}T00:00:00Z`));
+const end = dateFormatter.format(new Date(`${contributions.range.end}T00:00:00Z`));
+const summary = `${total} GitHub contributions from ${start} to ${end}`;
+const contributionLabel = (count: number) => `${numberFormatter.format(count)} ${count === 1 ? "contribution" : "contributions"}`;
+const monthFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  timeZone: "UTC",
+});
+const monthLabels = contributions.weeks.reduce(
+  (labels, week, index) => {
+    const firstOfMonth = week.contributionDays.find((day) => day.date.endsWith("-01"));
+
+    if (firstOfMonth) {
+      labels.push({
+        label: monthFormatter.format(new Date(`${firstOfMonth.date}T00:00:00Z`)),
+        column: index + 1,
+      });
+    }
+
+    return labels;
+  },
+  [] as { label: string; column: number }[],
+);
+const chartGridStyle = `grid-template-columns: repeat(${contributions.weeks.length}, 0.625rem);`;
+const tooltipSideForWeek = (index: number) => {
+  if (index <= 3) return "right";
+  if (index >= contributions.weeks.length - 4) return "left";
+  return "top";
+};
+---
+
+<section class="site-frame" aria-labelledby="github-contributions-title">
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-1">
+      <h2 id="github-contributions-title" class="text-pretty text-2xl font-medium -tracking-[0.4px] text-foreground xl:text-3xl xl:-tracking-[0.6px]">
+        GitHub activity
+      </h2>
+      <p class="text-foreground-muted">
+        {summary}
+      </p>
+    </div>
+
+    <div class="-mx-12 w-[calc(100%+6rem)] overflow-x-auto px-12 pb-1" role="img" aria-label={summary}>
+      <div class="flex min-w-max flex-col items-center gap-5">
+        <div class="grid gap-x-[3px] gap-y-2" style={chartGridStyle} aria-hidden="true">
+          {monthLabels.map((month) => (
+            <span
+              class="text-sm leading-none text-foreground-muted"
+              style={`grid-column: ${month.column} / span 4;`}
+            >
+              {month.label}
+            </span>
+          ))}
+        </div>
+
+        <div class="grid gap-x-[3px]" style={chartGridStyle} aria-hidden="true">
+          {contributions.weeks.map((week, weekIndex) => (
+            <div class="grid grid-rows-[repeat(7,0.625rem)] gap-y-[3px]">
+              {week.contributionDays.map((day) => (
+                <div style={`grid-row: ${day.weekday + 1};`}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span
+                        class:list={[
+                          "block size-2.5",
+                          levelClass[day.contributionLevel as ContributionLevel],
+                        ]}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent side={tooltipSideForWeek(weekIndex)}>
+                      {contributionLabel(day.contributionCount)} on {dateFormatter.format(new Date(`${day.date}T00:00:00Z`))}
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div class="flex items-center justify-center gap-3 text-sm text-foreground-muted">
+          <span>{total} contributions</span>
+          <div class="flex items-center gap-1">
+            <span>Less</span>
+            {(["NONE", "FIRST_QUARTILE", "SECOND_QUARTILE", "THIRD_QUARTILE", "FOURTH_QUARTILE"] as ContributionLevel[]).map((level) => (
+              <span class:list={["size-2.5", levelClass[level]]} aria-hidden="true" />
+            ))}
+            <span>More</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
