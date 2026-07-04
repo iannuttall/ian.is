@@ -25,20 +25,15 @@ const {
 const LabelHeading = labelHeadingLevel;
 const sectionClass = "flex flex-col gap-4";
 const labelClass = "text-pretty text-lg leading-[1.6] font-normal tracking-normal text-foreground-soft";
-const labelLinkClass = "group inline-flex items-center self-start text-lg leading-[1.6] text-foreground-soft no-underline";
-const labelTextClass = "transition-colors group-hover:text-foreground";
-const chevronClass =
-  "size-8 text-foreground-soft transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-foreground";
+const labelLinkClass =
+  "inline-flex self-start text-lg leading-[1.6] text-foreground-soft no-underline underline-offset-1 hover:underline hover:decoration-dotted";
 ---
 
 <div class={sectionClass}>
   {
     href ? (
       <a href={href} class={labelLinkClass}>
-        <span class={labelTextClass}>{label}</span>
-        <svg class={chevronClass} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+        {label}
       </a>
     ) : (
       <header>
