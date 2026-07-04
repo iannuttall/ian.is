@@ -11,8 +11,9 @@ const posts = (await getPublishedPosts()).slice(0, 4);
 ---
 
 <Layout
-  title="Ian Nuttall"
-  description="Notes, tools, and experiments with SEO and AI, from Ian Nuttall."
+  title="Ian Nuttall - Marketer, SEO, Software Developer and AI"
+  titleTemplate={false}
+  description="Part entrepreneur, part marketer, part software engineer using AI to build stuff on the internet."
   canonicalPath="/"
   structuredData={webSiteSchema()}
 >
@@ -21,11 +22,10 @@ const posts = (await getPublishedPosts()).slice(0, 4);
       <div class="flex flex-col gap-8 pt-16 sm:pt-24">
         <div class="flex max-w-2xl flex-col gap-4">
           <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
-            Notes, tools, and experiments with SEO and AI.
+            Ian Nuttall
           </h1>
           <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
-            I'm Ian Nuttall. I write about search, AI, and building small useful
-            things &mdash; and I send the good stuff to my newsletter first.
+            Part entrepreneur, part marketer, part software engineer using AI to build stuff on the internet.
           </p>
         </div>
         <Newsletter standalone={false} />

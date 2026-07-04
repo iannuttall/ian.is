@@ -22,6 +22,7 @@ interface Props {
   ogImagePath?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   breadcrumbs?: SeoBreadcrumbItem[] | false;
+  titleTemplate?: boolean;
   /** Hide the shared header/footer chrome (e.g. minimal/auth pages). */
   minimal?: boolean;
 }
@@ -35,10 +36,11 @@ const {
   ogImagePath = defaultOgImagePath,
   structuredData,
   breadcrumbs,
+  titleTemplate = true,
   minimal = false,
 } = Astro.props;
 
-const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const fullTitle = titleTemplate && title !== siteName ? `${title} | ${siteName}` : title;
 const baseUrl = Astro.site ?? new URL(siteUrl);
 const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
 const ogImageUrl = new URL(ogImagePath, baseUrl).toString();
