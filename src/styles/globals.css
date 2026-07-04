@@ -124,7 +124,7 @@
   --background: light-dark(oklch(98.5% 0 0), oklch(20.5% 0 0));
   --background-raised: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --background-subtle: light-dark(oklch(96% 0 0), oklch(17% 0 0));
-  --foreground: light-dark(oklch(20.5% 0 0), oklch(98.5% 0 0));
+  --foreground: light-dark(oklch(27% 0 0), oklch(90% 0 0));
   --foreground-muted: light-dark(oklch(45% 0 0), oklch(72% 0 0));
   --foreground-soft: light-dark(oklch(60% 0 0), oklch(55% 0 0));
   --border: light-dark(oklch(92% 0 0), oklch(28% 0 0));
