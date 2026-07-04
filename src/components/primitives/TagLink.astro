@@ -10,7 +10,7 @@ const { tag } = Astro.props;
 
 <a
   href={`/tags/${slugifyTag(tag)}`}
-  class="text-foreground-soft no-underline"
+  class="text-foreground-soft no-underline underline-offset-2 hover:underline hover:decoration-dotted"
 >
   #{tag}
 </a>

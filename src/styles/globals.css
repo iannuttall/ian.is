@@ -244,12 +244,6 @@
     color: var(--foreground-muted);
   }
 
-  .content-prose a {
-    color: var(--foreground);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-  }
-
   .content-prose ul,
   .content-prose ol {
     padding-left: 1.25rem;
@@ -403,6 +397,7 @@
   .docs-prose > ol a:hover {
     color: var(--primary-hover);
     text-decoration-color: var(--primary-hover);
+    text-decoration-style: dotted;
   }
 
   .docs-prose > p code,
@@ -609,5 +604,9 @@
 .legal-page a {
   color: var(--primary);
   text-decoration: underline;
-  text-underline-offset: 0.18em;
+  text-underline-offset: 2px;
+}
+
+.legal-page a:hover {
+  text-decoration-style: dotted;
 }

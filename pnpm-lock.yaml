@@ -51,6 +51,9 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.9
         version: 0.9.9(prettier@3.9.4)(typescript@6.0.3)
+      '@astrojs/markdown-remark':
+        specifier: ^7.2.0
+        version: 7.2.0
       '@types/node':
         specifier: ^24.8.1
         version: 24.13.2
