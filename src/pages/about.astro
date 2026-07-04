@@ -1,0 +1,122 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { webPageSchema } from "@/lib/seo";
+
+const intro = [
+  "I'm a placeholder person working at the intersection of marketing, SEO, software, and AI.",
+  "Right now I'm experimenting with small tools, durable content systems, and weird little interfaces that make the internet more useful.",
+  "Before this, I did a bunch of dummy things at made-up companies, shipped pretend products, and learned fake lessons from projects that do not exist yet.",
+  "This page is temporary. The structure is here so the content can get real later without changing the design.",
+];
+
+const work = [
+  { title: "Independent", description: "Building tools and writing", meta: "Now" },
+  { title: "Example Studio", description: "Founder", meta: "2024-26" },
+  { title: "Acme Search", description: "SEO and growth", meta: "2021-24" },
+  { title: "Tiny Software Co.", description: "Product and engineering", meta: "2018-21" },
+];
+
+const projects = [
+  { title: "Posts", description: "Notes and experiments", href: "/posts" },
+  { title: "Tools", description: "Small utilities for SEO and AI", href: "/tools" },
+  { title: "GitHub Activity", description: "A rolling contribution snapshot", href: "/" },
+  { title: "AMA", description: "A future question queue", href: "#" },
+];
+
+const writing = [
+  { title: "Designing a markdown-first website", description: "Dummy essay", href: "#" },
+  { title: "Making AI search useful", description: "Dummy notes", href: "#" },
+  { title: "Why static pages still matter", description: "Dummy post", href: "#" },
+];
+
+const structuredData = webPageSchema({
+  title: "About",
+  description: "About Ian Nuttall.",
+  path: "/about",
+  type: "AboutPage",
+});
+
+const sectionClass = "flex flex-col gap-3";
+const sectionTitleClass = "text-lg leading-[1.6] font-normal tracking-normal text-foreground-soft";
+const listClass = "flex flex-col gap-4 sm:gap-1.5";
+const itemClass = "flex";
+const linkClass = "group/list-item inline-flex flex-1 items-baseline gap-2 no-underline";
+const titleClass =
+  "text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1 group-hover/list-item:underline group-hover/list-item:decoration-dotted";
+const descriptionClass = "hidden text-base leading-[1.6] text-foreground-muted sm:inline";
+const metaClass = "ml-auto hidden shrink-0 text-base leading-[1.6] text-foreground-soft sm:inline";
+---
+
+<Layout
+  title="About"
+  description="About Ian Nuttall."
+  canonicalPath="/about"
+  breadcrumbs={pageBreadcrumbs("About", "/about")}
+  structuredData={structuredData}
+>
+  <article class="site-frame py-10">
+    <div class="flex flex-col gap-10">
+      <h1 class="text-pretty text-xl leading-[1.6] font-medium tracking-normal text-foreground">
+        About Ian Nuttall
+      </h1>
+
+      <div class="size-20 overflow-hidden rounded-lg bg-muted text-2xl font-medium text-foreground">
+        <div class="flex size-full items-center justify-center">IN</div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        {intro.map((paragraph) => (
+          <p class="max-w-2xl text-xl leading-[1.6] font-medium tracking-normal text-foreground">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      <section class={sectionClass}>
+        <h2 class={sectionTitleClass}>Work</h2>
+        <ul class={listClass}>
+          {work.map((item) => (
+            <li class={itemClass}>
+              <a href="#" class={linkClass}>
+                <span class={titleClass}>{item.title}</span>
+                <span class={descriptionClass}>{item.description}</span>
+                <span class={metaClass}>{item.meta}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class={sectionClass}>
+        <h2 class={sectionTitleClass}>Projects</h2>
+        <ul class={listClass}>
+          {projects.map((item) => (
+            <li class={itemClass}>
+              <a href={item.href} class={linkClass}>
+                <span class={titleClass}>{item.title}</span>
+                <span class={descriptionClass}>{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class={sectionClass}>
+        <h2 class={sectionTitleClass}>Writing</h2>
+        <ul class={listClass}>
+          {writing.map((item) => (
+            <li class={itemClass}>
+              <a href={item.href} class={linkClass}>
+                <span class={titleClass}>{item.title}</span>
+                <span class={descriptionClass}>{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </article>
+</Layout>

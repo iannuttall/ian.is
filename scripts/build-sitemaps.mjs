@@ -118,6 +118,7 @@ const tagSlugs = [
 
 const pages = [
   "/",
+  "/about",
   "/posts",
   "/tags",
   "/tools",
