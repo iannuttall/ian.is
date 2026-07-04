@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
-import PostTitleList from "@/components/posts/PostTitleList.astro";
+import PostListSection from "@/components/posts/PostListSection.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
@@ -25,17 +25,7 @@ const structuredData = webPageSchema({
   structuredData={structuredData}
 >
   <div class="site-frame py-10">
-    <header class="mb-8">
-      <h1 class="text-pretty text-2xl/8 font-medium tracking-normal text-foreground-soft sm:text-3xl/10">
-        Writing
-      </h1>
-    </header>
-
-    {posts.length === 0 ? (
-      <p class="text-foreground-muted">No posts yet. Check back soon.</p>
-    ) : (
-      <PostTitleList posts={posts} />
-    )}
+    <PostListSection posts={posts} labelHeadingLevel="h1" />
 
     <div class="mt-16">
       <Newsletter />

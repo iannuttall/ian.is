@@ -1,0 +1,57 @@
+---
+import PostTitleList from "@/components/posts/PostTitleList.astro";
+
+type Props = {
+  posts: {
+    id: string;
+    data: {
+      title: string;
+    };
+  }[];
+  href?: string;
+  label?: string;
+  labelHeadingLevel?: "h1" | "h2";
+  postHeadingLevel?: "h2" | "h3";
+};
+
+const {
+  posts,
+  href,
+  label = "Posts",
+  labelHeadingLevel = "h2",
+  postHeadingLevel = "h2",
+} = Astro.props;
+
+const LabelHeading = labelHeadingLevel;
+const sectionClass = "flex flex-col gap-4";
+const labelClass = "text-pretty text-lg leading-[1.6] font-normal tracking-normal text-foreground-soft";
+const labelLinkClass = "group inline-flex items-center self-start text-lg leading-[1.6] text-foreground-soft no-underline";
+const labelTextClass = "transition-colors group-hover:text-foreground";
+const chevronClass =
+  "size-8 text-foreground-soft transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-foreground";
+---
+
+<div class={sectionClass}>
+  {
+    href ? (
+      <a href={href} class={labelLinkClass}>
+        <span class={labelTextClass}>{label}</span>
+        <svg class={chevronClass} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10.75 8.75L14.25 12L10.75 15.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    ) : (
+      <header>
+        <LabelHeading class={labelClass}>{label}</LabelHeading>
+      </header>
+    )
+  }
+
+  {
+    posts.length === 0 ? (
+      <p class="text-foreground-muted">No posts yet. Check back soon.</p>
+    ) : (
+      <PostTitleList posts={posts} headingLevel={postHeadingLevel} />
+    )
+  }
+</div>
