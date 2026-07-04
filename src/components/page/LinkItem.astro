@@ -13,9 +13,9 @@ const { title, href = "#", meta } = Astro.props;
     <span class="text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1 group-hover/list-item:underline group-hover/list-item:decoration-dotted">
       {title}
     </span>
-    <span class="hidden text-xl leading-[1.6] font-medium tracking-normal text-foreground-muted sm:inline [&>p]:m-0">
+    <div class="hidden text-xl leading-[1.6] font-medium tracking-normal text-foreground-muted sm:block [&>p]:m-0">
       <slot />
-    </span>
+    </div>
     {meta ? (
       <span class="ml-auto hidden shrink-0 text-xl leading-[1.6] font-medium tracking-normal text-foreground-soft sm:inline">
         {meta}

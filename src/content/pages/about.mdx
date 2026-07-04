@@ -1,0 +1,74 @@
+---
+title: "About"
+headline: "About Ian Nuttall"
+description: "About Ian Nuttall."
+---
+
+import PageHero from "@/components/page/PageHero.astro";
+import PageBody from "@/components/page/PageBody.astro";
+import PageText from "@/components/page/PageText.astro";
+import PageSection from "@/components/page/PageSection.astro";
+import LinkList from "@/components/page/LinkList.astro";
+import LinkItem from "@/components/page/LinkItem.astro";
+
+<PageHero title={frontmatter.headline}>
+I'm a placeholder person working at the intersection of marketing, SEO, software, and AI.
+</PageHero>
+
+<PageBody>
+  <PageText>
+Right now I'm experimenting with small tools, durable content systems, and weird little interfaces that make the internet more useful.
+
+Before this, I did a bunch of dummy things at made-up companies, shipped pretend products, and learned fake lessons from projects that do not exist yet.
+
+This page is temporary. The structure is here so the content can get real later without changing the design.
+  </PageText>
+
+  <PageSection title="Work">
+    <LinkList>
+      <LinkItem title="Independent" meta="Now">
+        Building tools and writing
+      </LinkItem>
+      <LinkItem title="Example Studio" meta="2024-26">
+        Founder
+      </LinkItem>
+      <LinkItem title="Acme Search" meta="2021-24">
+        SEO and growth
+      </LinkItem>
+      <LinkItem title="Tiny Software Co." meta="2018-21">
+        Product and engineering
+      </LinkItem>
+    </LinkList>
+  </PageSection>
+
+  <PageSection title="Projects">
+    <LinkList>
+      <LinkItem title="Posts" href="/posts">
+        Notes and experiments
+      </LinkItem>
+      <LinkItem title="Tools" href="/tools">
+        Small utilities for SEO and AI
+      </LinkItem>
+      <LinkItem title="GitHub Activity" href="/">
+        A rolling contribution snapshot
+      </LinkItem>
+      <LinkItem title="AMA">
+        A future question queue
+      </LinkItem>
+    </LinkList>
+  </PageSection>
+
+  <PageSection title="Writing">
+    <LinkList>
+      <LinkItem title="Designing a markdown-first website">
+        Dummy essay
+      </LinkItem>
+      <LinkItem title="Making AI search useful">
+        Dummy notes
+      </LinkItem>
+      <LinkItem title="Why static pages still matter">
+        Dummy post
+      </LinkItem>
+    </LinkList>
+  </PageSection>
+</PageBody>
