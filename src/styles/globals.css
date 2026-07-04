@@ -247,6 +247,34 @@
     list-style: decimal;
   }
 
+  .content-prose h2 ~ h2 {
+    margin-top: 4rem;
+  }
+
+  .content-prose hr,
+  .content-prose h2 ~ h2::before {
+    content: '';
+    display: block;
+    width: 7rem;
+    height: 0.125rem;
+    border: 0;
+    background: repeating-linear-gradient(
+      to right,
+      var(--border) 0,
+      var(--border) 0.75rem,
+      transparent 0.75rem,
+      transparent 1.25rem
+    );
+  }
+
+  .content-prose hr {
+    margin: 4rem auto;
+  }
+
+  .content-prose h2 ~ h2::before {
+    margin: 0 auto 4rem;
+  }
+
   .content-prose code {
     border-radius: 0.375rem;
     background: var(--muted);
