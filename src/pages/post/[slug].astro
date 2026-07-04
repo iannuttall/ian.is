@@ -42,7 +42,7 @@ const structuredData = {
   structuredData={structuredData}
 >
   <article class="site-frame py-12 sm:py-16">
-    <header class="space-y-2">
+    <header class="flex flex-col gap-2">
       <time class="text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
         {formatPostDate(post.data.updatedDate ?? post.data.pubDate)}
       </time>
