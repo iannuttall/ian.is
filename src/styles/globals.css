@@ -117,6 +117,17 @@
   --frame-max: 48rem; /* 3xl */
   --body-font-size: var(--text-lg);
   --body-line-height: 1.6;
+  --prose-divider-width: 7rem;
+  --prose-divider-height: 0.125rem;
+  --prose-divider-spacing: 4rem;
+  --prose-divider-background: repeating-linear-gradient(
+    to right,
+    var(--border) 0,
+    var(--border) 0.75rem,
+    transparent 0.75rem,
+    transparent 1.25rem
+  );
+  --prose-divider-background-size: 100% 100%;
 
   /* Single source of truth for the palette. Each token is
      light-dark(<light>, <dark>) — edit either value in one place and the OS
@@ -248,31 +259,28 @@
   }
 
   .content-prose h2 ~ h2 {
-    margin-top: 4rem;
+    margin-top: var(--prose-divider-spacing);
   }
 
   .content-prose hr,
   .content-prose h2 ~ h2::before {
     content: '';
     display: block;
-    width: 7rem;
-    height: 0.125rem;
+    width: var(--prose-divider-width);
+    height: var(--prose-divider-height);
     border: 0;
-    background: repeating-linear-gradient(
-      to right,
-      var(--border) 0,
-      var(--border) 0.75rem,
-      transparent 0.75rem,
-      transparent 1.25rem
-    );
+    background: var(--prose-divider-background);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: var(--prose-divider-background-size);
   }
 
   .content-prose hr {
-    margin: 4rem auto;
+    margin: var(--prose-divider-spacing) auto;
   }
 
   .content-prose h2 ~ h2::before {
-    margin: 0 auto 4rem;
+    margin: 0 auto var(--prose-divider-spacing);
   }
 
   .content-prose code {
