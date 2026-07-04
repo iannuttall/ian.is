@@ -43,14 +43,14 @@ const structuredData = {
 >
   <article class="site-frame py-12 sm:py-16">
     <header class="flex flex-col gap-2">
-      <time class="text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
+      <time class="tracking-tighter text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
         {formatPostDate(post.data.updatedDate ?? post.data.pubDate)}
       </time>
       <h1 class="text-3xl/tight font-medium text-foreground sm:text-4xl">
         {post.data.title}
       </h1>
       {post.data.tags.length > 0 ? (
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-foreground-soft">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-foreground-soft">
           {post.data.tags.map((tag) => (
             <TagLink tag={tag} />
           ))}

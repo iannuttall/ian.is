@@ -225,7 +225,7 @@
   .content-prose li {
     font-size: inherit;
     line-height: 1.75;
-    color: inherit;
+    color: var(--foreground-muted);
   }
 
   .content-prose a {
