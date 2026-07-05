@@ -2,7 +2,6 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
-import GitHubContributions from "@/components/GitHubContributions.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
@@ -39,8 +38,6 @@ const posts = (await getPublishedPosts()).slice(0, 5);
     <section class="site-frame">
       <ProjectsSection />
     </section>
-
-    <GitHubContributions />
 
     <section class="site-frame">
       <PostListSection posts={posts} href="/posts" postHeadingLevel="h3" />

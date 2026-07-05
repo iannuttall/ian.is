@@ -494,17 +494,6 @@
   }
 }
 
-@keyframes github-sparkline-enter {
-  from {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  to {
-    opacity: var(--github-sparkline-opacity);
-    transform: scaleY(1);
-  }
-}
-
 @layer components {
   /* The shared page content frame: centered, full-width up to --frame-max,
      with the standard horizontal gutter. Used by the header, footer, and every
