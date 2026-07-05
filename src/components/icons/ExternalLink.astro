@@ -1,0 +1,33 @@
+---
+type Props = {
+  size?: string | number;
+  strokeWidth?: string | number;
+  [key: string]: unknown;
+};
+
+const { size = 20, strokeWidth = 1.5, ...props } = Astro.props as Props;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  {...props}
+>
+  <path
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width={strokeWidth}
+    d="M17.25 15.25V6.75H8.75"
+  />
+  <path
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width={strokeWidth}
+    d="M17 7L6.75 17.25"
+  />
+</svg>
