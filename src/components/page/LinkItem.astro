@@ -3,12 +3,15 @@ type Props = {
   title: string;
   href?: string;
   meta?: string;
+  external?: boolean;
 };
 
-import { externalLinkAttrs } from "@/lib/external-links.mjs";
+import ExternalLink from "@/components/icons/ExternalLink.astro";
+import { externalLinkAttrs, isExternalHref } from "@/lib/external-links.mjs";
 
-const { title, href = "#", meta } = Astro.props;
+const { title, href = "#", meta, external } = Astro.props;
 const linkAttrs = externalLinkAttrs(href);
+const isExternal = external ?? isExternalHref(href);
 ---
 
 <li class="flex">
@@ -16,6 +19,12 @@ const linkAttrs = externalLinkAttrs(href);
     <span class="text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1 group-hover/list-item:underline group-hover/list-item:decoration-dotted">
       {title}
     </span>
+    {isExternal ? (
+      <ExternalLink
+        class="size-5 shrink-0 translate-y-0.5 text-foreground"
+        aria-hidden="true"
+      />
+    ) : null}
     <div class="hidden text-xl leading-[1.6] font-medium tracking-normal text-foreground-soft sm:block [&>p]:m-0">
       <slot />
     </div>
