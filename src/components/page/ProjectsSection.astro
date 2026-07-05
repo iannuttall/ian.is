@@ -1,0 +1,33 @@
+---
+import PageSection from "@/components/page/PageSection.astro";
+import LinkList from "@/components/page/LinkList.astro";
+import LinkItem from "@/components/page/LinkItem.astro";
+
+const projects = [
+  {
+    title: "Keep",
+    href: "https://keep.md",
+    description: "Save anything to Markdown for AI agents",
+  },
+  {
+    title: "ilo",
+    href: "https://ilo.so",
+    description: "Agent-first performance analytics for 𝕏",
+  },
+  {
+    title: "MCP Boilerplate",
+    href: "https://mcpboilerplate.com",
+    description: "MCP starter kit for vibe coders",
+  },
+];
+---
+
+<PageSection title="Projects">
+  <LinkList>
+    {projects.map((project) => (
+      <LinkItem title={project.title} href={project.href} external>
+        {project.description}
+      </LinkItem>
+    ))}
+  </LinkList>
+</PageSection>

@@ -4,6 +4,7 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import GitHubContributions from "@/components/GitHubContributions.astro";
 import Newsletter from "@/components/Newsletter.astro";
+import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
 import { getPublishedPosts } from "@/lib/posts";
 import { webSiteSchema } from "@/lib/seo";
@@ -35,6 +36,10 @@ const posts = (await getPublishedPosts()).slice(0, 5);
   </section>
 
   <div class="space-y-24 py-24">
+    <section class="site-frame">
+      <ProjectsSection />
+    </section>
+
     <GitHubContributions />
 
     <section class="site-frame">
