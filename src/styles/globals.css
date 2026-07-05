@@ -115,6 +115,8 @@
   /* Single source of truth for the page content frame width. Change this one
      value to widen/narrow every page, section, header, and footer at once. */
   --frame-max: 48rem; /* 3xl */
+  --rail-side-width: 12rem;
+  --rail-gap: 2rem;
   --body-font-size: var(--text-lg);
   --body-line-height: 1.6;
   --prose-divider-width: 7rem;

@@ -3,11 +3,20 @@ type Props = {
   title: string;
 };
 
+import PageRail from "@/components/page/PageRail.astro";
+
 const { title } = Astro.props;
 ---
 
 <section class="flex flex-col bg-background pt-4 text-foreground">
-  <div class="site-frame">
+  <PageRail
+    class="group/page-hero"
+    leftClass="bottom-16 sm:bottom-24"
+    rightClass="top-[calc(50%+2rem)] -translate-y-1/2"
+  >
+    <Fragment slot="left">
+      <slot name="left" />
+    </Fragment>
     <div class="flex flex-col gap-8 pt-16 pb-16 sm:pt-24 sm:pb-24">
       <div class="flex max-w-2xl flex-col gap-4">
         <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
@@ -18,5 +27,8 @@ const { title } = Astro.props;
         </div>
       </div>
     </div>
-  </div>
+    <Fragment slot="right">
+      <slot name="right" />
+    </Fragment>
+  </PageRail>
 </section>

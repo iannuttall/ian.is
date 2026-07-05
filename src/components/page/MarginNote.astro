@@ -1,0 +1,20 @@
+---
+type Props = {
+  defaultOpen?: boolean;
+  class?: string;
+};
+
+const { defaultOpen = true, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "text-sm leading-[1.6] font-medium tracking-normal text-foreground-soft transition-opacity duration-150",
+    defaultOpen
+      ? "opacity-100"
+      : "opacity-0 group-hover/page-hero:opacity-100 group-focus-within/page-hero:opacity-100",
+    className,
+  ]}
+>
+  <slot />
+</div>

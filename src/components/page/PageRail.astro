@@ -1,0 +1,42 @@
+---
+type Props = {
+  class?: string;
+  contentClass?: string;
+  leftClass?: string;
+  rightClass?: string;
+};
+
+const {
+  class: className,
+  contentClass,
+  leftClass,
+  rightClass,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "site-frame relative",
+    className,
+  ]}
+>
+  <aside
+    class:list={[
+      "absolute right-[calc(100%+var(--rail-gap))] hidden w-[var(--rail-side-width)] min-w-0 min-[82rem]:block",
+      leftClass,
+    ]}
+  >
+    <slot name="left" />
+  </aside>
+  <div class:list={["min-w-0", contentClass]}>
+    <slot />
+  </div>
+  <aside
+    class:list={[
+      "absolute left-[calc(100%+var(--rail-gap))] hidden w-[var(--rail-side-width)] min-w-0 min-[82rem]:block",
+      rightClass,
+    ]}
+  >
+    <slot name="right" />
+  </aside>
+</div>
