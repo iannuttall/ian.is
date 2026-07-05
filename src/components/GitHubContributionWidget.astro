@@ -6,36 +6,52 @@ import {
   getRecentContributionDays,
   githubContributions,
 } from "@/lib/github-contributions";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { externalLinkAttrs } from "@/lib/external-links.mjs";
 
 type Props = {
   days?: number;
 };
 
-const { days = 14 } = Astro.props;
+const { days = 30 } = Astro.props;
 const recentDays = getRecentContributionDays(days);
 const total = contributionNumberFormatter.format(githubContributions.totalContributions);
 const summary = `${total} GitHub contributions in the last 12 months`;
+const profileHref = `https://github.com/${githubContributions.username}`;
+const linkAttrs = externalLinkAttrs(profileHref);
 const maxCount = Math.max(...recentDays.map((day) => day.contributionCount), 1);
-const barHeight = (count: number) => Math.max(Math.round((count / maxCount) * 16), 2);
+const barHeight = (count: number) => {
+  if (count === 0) return 2;
+
+  return Math.max(Math.round((count / maxCount) * 16), 3);
+};
 const barOpacity = (count: number) => {
   if (count === 0) return 0.1;
 
   return Math.min(0.85, 0.25 + (count / maxCount) * 0.55).toFixed(2);
 };
-const pulseDuration = (index: number) => `${2 + (index % 4) * 0.35}s`;
-const pulseDelay = (index: number) => `${((index * 37) % 180) / 100}s`;
 ---
 
-<div class="flex flex-col gap-2 text-sm leading-[1.5] font-medium tracking-normal text-foreground-soft" aria-label={summary}>
+<a
+  {...linkAttrs}
+  class="group/github-widget flex w-fit flex-col gap-2 text-sm leading-[1.5] font-medium tracking-normal text-foreground-soft no-underline"
+  aria-label={`${summary}. View GitHub profile.`}
+>
   <div class="text-foreground-muted">GitHub activity</div>
   <div class="flex h-4 items-end gap-0.5" aria-hidden="true">
     {recentDays.map((day, index) => (
-      <span
-        class="block w-[3px] origin-bottom rounded-full bg-foreground motion-reduce:![animation:none]"
-        style={`height: ${barHeight(day.contributionCount)}px; opacity: var(--github-sparkline-opacity); --github-sparkline-opacity: ${barOpacity(day.contributionCount)}; --github-sparkline-pulse-opacity: ${day.contributionCount === 0 ? 0.18 : 1}; animation: github-sparkline-enter 420ms cubic-bezier(0.34,1.56,0.64,1) ${index * 40}ms both, github-sparkline-pulse ${pulseDuration(index)} ease-in-out ${pulseDelay(index)} infinite;`}
-        title={`${formatContributionCount(day.contributionCount)} on ${formatContributionDate(day.date)}`}
-      />
+      <Tooltip class="h-4">
+        <TooltipTrigger class="flex h-4 items-end">
+          <span
+            class="block w-[3px] origin-bottom bg-foreground transition-[opacity,transform] duration-300 ease-out group-hover/github-widget:opacity-35 group-hover/tooltip:!opacity-100 group-hover/tooltip:scale-y-125 motion-reduce:![animation:none] motion-reduce:transition-none"
+            style={`height: ${barHeight(day.contributionCount)}px; opacity: var(--github-sparkline-opacity); --github-sparkline-opacity: ${barOpacity(day.contributionCount)}; animation: github-sparkline-enter 420ms cubic-bezier(0.34,1.56,0.64,1) ${index * 30}ms both;`}
+          />
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          {formatContributionCount(day.contributionCount)} on {formatContributionDate(day.date)}
+        </TooltipContent>
+      </Tooltip>
     ))}
   </div>
   <div>{total} contributions</div>
-</div>
+</a>

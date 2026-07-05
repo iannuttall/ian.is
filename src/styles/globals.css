@@ -505,16 +505,6 @@
   }
 }
 
-@keyframes github-sparkline-pulse {
-  0%,
-  100% {
-    opacity: var(--github-sparkline-opacity);
-  }
-  50% {
-    opacity: var(--github-sparkline-pulse-opacity);
-  }
-}
-
 @layer components {
   /* The shared page content frame: centered, full-width up to --frame-max,
      with the standard horizontal gutter. Used by the header, footer, and every
