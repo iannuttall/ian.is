@@ -5,6 +5,7 @@ import cloudflare from "@astrojs/cloudflare";
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
+import { externalLinkAttrs } from "./src/lib/external-links.mjs";
 
 const site = process.env.SITE_URL ?? "https://ian.is";
 const markdownLinkClass =
@@ -39,7 +40,16 @@ function rehypeTailwindMarkdownLinks() {
         return;
       }
 
-      node.properties = appendClassName(markdownLinkClass, node.properties);
+      const href = getStringProperty(node.properties?.href);
+      const properties = appendClassName(markdownLinkClass, node.properties);
+
+      node.properties =
+        href
+          ? {
+              ...properties,
+              ...externalLinkAttrs(href, site),
+            }
+          : properties;
     });
   };
 }
@@ -85,6 +95,19 @@ function appendClassName(className, properties) {
     ...normalizedProperties,
     className: Array.from(classes),
   };
+}
+
+/** @param {unknown} value */
+function getStringProperty(value) {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value) && typeof value[0] === "string") {
+    return value[0];
+  }
+
+  return undefined;
 }
 
 export default defineConfig({

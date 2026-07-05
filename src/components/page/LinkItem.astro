@@ -5,11 +5,14 @@ type Props = {
   meta?: string;
 };
 
+import { externalLinkAttrs } from "@/lib/external-links.mjs";
+
 const { title, href = "#", meta } = Astro.props;
+const linkAttrs = externalLinkAttrs(href);
 ---
 
 <li class="flex">
-  <a href={href} class="group/list-item inline-flex flex-1 items-baseline gap-2 no-underline">
+  <a {...linkAttrs} class="group/list-item inline-flex flex-1 items-baseline gap-2 no-underline">
     <span class="text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1 group-hover/list-item:underline group-hover/list-item:decoration-dotted">
       {title}
     </span>
