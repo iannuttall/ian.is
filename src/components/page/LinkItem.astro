@@ -9,14 +9,29 @@ type Props = {
 import ExternalLink from "@/components/icons/ExternalLink.astro";
 import { externalLinkAttrs, isExternalHref } from "@/lib/external-links.mjs";
 
-const { title, href = "#", meta, external } = Astro.props;
-const linkAttrs = externalLinkAttrs(href);
-const isExternal = external ?? isExternalHref(href);
+const { title, href, meta, external } = Astro.props;
+const hasHref = typeof href === "string" && href.length > 0;
+const linkAttrs = hasHref ? externalLinkAttrs(href) : {};
+const isExternal = hasHref && (external ?? isExternalHref(href));
+const Element = hasHref ? "a" : "div";
 ---
 
 <li class="flex">
-  <a {...linkAttrs} class="group/list-item inline-flex flex-1 items-baseline gap-2 no-underline">
-    <span class="text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1 group-hover/list-item:underline group-hover/list-item:decoration-dotted">
+  <Element
+    {...linkAttrs}
+    class:list={[
+      "inline-flex flex-1 items-baseline gap-2 no-underline",
+      hasHref ? "group/list-item" : null,
+    ]}
+  >
+    <span
+      class:list={[
+        "text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1",
+        hasHref
+          ? "group-hover/list-item:underline group-hover/list-item:decoration-dotted"
+          : null,
+      ]}
+    >
       {title}
     </span>
     {isExternal ? (
@@ -33,5 +48,5 @@ const isExternal = external ?? isExternalHref(href);
         {meta}
       </span>
     ) : null}
-  </a>
+  </Element>
 </li>
