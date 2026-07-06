@@ -149,18 +149,21 @@
   --border-subtle: light-dark(oklch(95% 0 0), oklch(24% 0 0));
   --border-strong: light-dark(oklch(85% 0 0), oklch(38% 0 0));
   --input: light-dark(oklch(92% 0 0), oklch(28% 0 0));
-  --ring: light-dark(oklch(60.9% 0.126 221.723), oklch(78.9% 0.154 211.53));
+  --ring: light-dark(#0066db, #ff6b01);
 
   --card: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --card-foreground: var(--foreground);
   --popover: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --popover-foreground: var(--foreground);
 
-  --primary: light-dark(oklch(60.9% 0.126 221.723), oklch(78.9% 0.154 211.53));
-  --primary-soft: light-dark(oklch(95% 0.04 221.723), oklch(30% 0.07 211.53));
-  --primary-hover: light-dark(oklch(54% 0.13 221.723), oklch(72% 0.16 211.53));
-  --primary-active: light-dark(oklch(48% 0.13 221.723), oklch(65% 0.17 211.53));
-  --primary-foreground: light-dark(oklch(98.5% 0 0), oklch(15% 0.05 211.53));
+  --selection-background: light-dark(rgba(0, 154, 250, 0.1), rgba(240, 104, 0, 0.1));
+  --selection-foreground: light-dark(#0066db, #ff6b01);
+
+  --primary: light-dark(#0066db, #ff6b01);
+  --primary-soft: var(--selection-background);
+  --primary-hover: light-dark(#005bc4, #f05f00);
+  --primary-active: light-dark(#004da8, #d95500);
+  --primary-foreground: light-dark(#ffffff, #1a0b00);
 
   --secondary: light-dark(oklch(96% 0 0), oklch(28% 0 0));
   --secondary-soft: light-dark(oklch(98% 0 0), oklch(24% 0 0));
@@ -196,6 +199,11 @@
     line-height: var(--body-line-height);
     /* Inter cv08: capital I with top/bottom serifs (disambiguates I/l/1). */
     /* font-feature-settings: 'cv08'; */
+  }
+
+  ::selection {
+    background-color: var(--selection-background);
+    color: var(--selection-foreground);
   }
 
   h1, h2, h3, h4, h5, h6 {
