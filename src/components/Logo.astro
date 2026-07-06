@@ -1,13 +1,21 @@
 ---
 type Props = {
   class?: string
+  imgClass?: string
 }
 
-const { class: className } = Astro.props
+const { class: className, imgClass } = Astro.props
 ---
 
-<span
-  class:list={['font-medium text-foreground', className]}
->
-  Ian Nuttall
-</span>
+<picture class:list={['inline-flex items-center', className]}>
+  <source srcset="/logo-white.svg" media="(prefers-color-scheme: dark)" />
+  <img
+    src="/logo-black.svg"
+    alt="Ian Nuttall"
+    width="600"
+    height="600"
+    loading="eager"
+    decoding="async"
+    class:list={['block size-[1em]', imgClass]}
+  />
+</picture>
