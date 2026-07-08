@@ -17,6 +17,8 @@
   ·
   <a href="SECURITY.md">Security</a>
   ·
+  <a href="LICENSE">License</a>
+  ·
   <a href="AGENTS.md">Agent notes</a>
 </p>
 
@@ -26,7 +28,7 @@
   <img alt="TypeScript ready" src="https://img.shields.io/badge/TypeScript-ready-3178c6?style=flat-square">
   <img alt="pnpm 11" src="https://img.shields.io/badge/pnpm-11-f69220?style=flat-square">
   <img alt="Security checks" src="https://img.shields.io/badge/security-gitleaks%20%2B%20audit-3fb950?style=flat-square">
-  <img alt="License" src="https://img.shields.io/badge/license-not%20declared-lightgrey?style=flat-square">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square">
 </p>
 
 ## What this repo contains
@@ -225,14 +227,10 @@ pnpm ian site check-remote-env
 
 This is one repo, but the apps deploy separately.
 
-The site deploys to Cloudflare Workers from `apps/site`. `apps/site/wrangler.jsonc`
-does not define production routes by default. Attaching `ian.is/*` is a go-live
-step.
+The site deploys to Cloudflare Workers from `apps/site`.
 
 The newsletter deploys to the VPS from `apps/newsletter`. The GitHub Actions
 workflow is path-filtered so site-only changes do not deploy the newsletter.
-Actions are currently disabled on the public repo until production secrets and
-branch rules are wired intentionally.
 
 ## Security checks
 
@@ -249,12 +247,8 @@ pnpm ian site check
 pnpm ian check newsletter
 ```
 
-`pnpm security:check` runs `pnpm audit` and `gitleaks`. Install `gitleaks`
-locally if needed.
-
-```sh
-brew install gitleaks
-```
+`pnpm security:check` runs `pnpm audit` and `gitleaks`. If `gitleaks` is missing
+on macOS, the script installs it with Homebrew before scanning.
 
 See `SECURITY.md` for the reporting policy and public repo rules.
 
@@ -282,5 +276,4 @@ instructions so Claude and Codex read one source of truth.
 
 ## License
 
-No open-source license is declared yet. You can read the code, but you do not
-have permission to copy, redistribute, or reuse it until a license is added.
+MIT.

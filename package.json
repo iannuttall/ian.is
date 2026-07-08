@@ -16,7 +16,7 @@
     "site:worker:deploy": "pnpm -C apps/site deploy:built",
     "ian": "node packages/ian/bin/ian.mjs",
     "security:audit": "pnpm audit",
-    "security:secrets": "gitleaks detect --source . --redact --no-banner --verbose",
+    "security:secrets": "node scripts/security-secrets.mjs",
     "security:check": "pnpm run security:audit && pnpm run security:secrets",
     "newsletter:build": "pnpm --filter email build",
     "newsletter:clean": "pnpm --filter email clean",
