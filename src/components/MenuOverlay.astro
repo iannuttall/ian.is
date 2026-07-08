@@ -1,0 +1,111 @@
+---
+import GithubLogo from "@/components/icons/GithubLogo.astro";
+import XLogo from "@/components/icons/XLogo.astro";
+import YoutubeLogo from "@/components/icons/YoutubeLogo.astro";
+import { externalLinkAttrs } from "@/lib/external-links.mjs";
+
+const mainItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Posts", href: "/posts" },
+  { label: "Tools", href: "/tools" },
+];
+
+const projectItems = [
+  { label: "Keep", href: "https://keep.md" },
+  { label: "ilo", href: "https://ilo.so" },
+  { label: "MCP Boilerplate", href: "https://mcpboilerplate.com" },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isActive(href: string) {
+  if (!href.startsWith("/")) return false;
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+const navLinkClass =
+  "py-2 text-xl font-semibold no-underline transition-colors";
+const inactiveLinkClass = "text-foreground-muted hover:text-foreground";
+const activeLinkClass = "text-foreground";
+const sectionLabelClass = "text-sm font-medium text-foreground-soft";
+const socialLinkClass =
+  "p-2 text-foreground-soft transition-colors hover:text-foreground";
+---
+
+<div
+  x-cloak
+  x-show="$store.menu.open"
+  x-transition:enter="transition duration-150 ease-out"
+  x-transition:enter-start="opacity-0 scale-[0.98]"
+  x-transition:enter-end="opacity-100 scale-100"
+  x-transition:leave="transition duration-150 ease-in"
+  x-transition:leave-start="opacity-100 scale-100"
+  x-transition:leave-end="opacity-0 scale-[0.99]"
+  x-on:keydown.escape.window="$store.menu.close()"
+  x-effect="document.body.style.overflow = $store.menu.open ? 'hidden' : ''"
+  class="fixed inset-0 z-40 origin-top overflow-y-auto bg-background pt-20 text-foreground"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+>
+  <nav class="site-frame flex min-h-[calc(100dvh-5rem)] flex-col gap-8 pb-10" aria-label="Site">
+    <div class="flex flex-col gap-1">
+      {mainItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            navLinkClass,
+            isActive(item.href) ? activeLinkClass : inactiveLinkClass,
+          ]}
+          x-on:click="$store.menu.close()"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <span class={sectionLabelClass}>Projects</span>
+      <div class="flex flex-col gap-1">
+        {projectItems.map((item) => (
+          <a
+            {...externalLinkAttrs(item.href)}
+            class:list={[navLinkClass, inactiveLinkClass]}
+            x-on:click="$store.menu.close()"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-auto flex items-center gap-4">
+      <a
+        {...externalLinkAttrs("https://x.com/iannuttall")}
+        class={socialLinkClass}
+        aria-label="Ian Nuttall on X"
+        x-on:click="$store.menu.close()"
+      >
+        <XLogo size={28} aria-hidden="true" />
+      </a>
+      <a
+        {...externalLinkAttrs("https://www.youtube.com/@iannuttall")}
+        class={socialLinkClass}
+        aria-label="Ian Nuttall on YouTube"
+        x-on:click="$store.menu.close()"
+      >
+        <YoutubeLogo size={30} aria-hidden="true" />
+      </a>
+      <a
+        {...externalLinkAttrs("https://github.com/iannuttall")}
+        class={socialLinkClass}
+        aria-label="Ian Nuttall on GitHub"
+        x-on:click="$store.menu.close()"
+      >
+        <GithubLogo size={28} aria-hidden="true" />
+      </a>
+    </div>
+  </nav>
+</div>

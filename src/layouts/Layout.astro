@@ -1,5 +1,6 @@
 ---
 import Header from "@/components/Header.astro";
+import MenuOverlay from "@/components/MenuOverlay.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { breadcrumbSchema, type SeoBreadcrumbItem } from "@/lib/seo";
 import {
@@ -116,6 +117,7 @@ const hasAdsense = adsenseClientId.length > 0;
     <a href="#content" class="skip-link">Skip to content</a>
     <div class="flex min-h-screen flex-col">
       {minimal ? null : <Header breadcrumbs={breadcrumbItems} />}
+      {minimal ? null : <MenuOverlay />}
       <main id="content" class="flex-1">
         <slot />
       </main>

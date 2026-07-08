@@ -193,6 +193,10 @@
 }
 
 @layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+
   body {
     color: var(--foreground);
     font-size: var(--body-font-size);
