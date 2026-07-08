@@ -230,6 +230,21 @@
     display: none !important;
   }
 
+  html[data-newsletter-subscribed='true'] [data-newsletter-shell] {
+    border-bottom-width: 0 !important;
+    padding-bottom: 4rem;
+  }
+
+  html[data-newsletter-subscribed='true'] [data-newsletter-card] {
+    display: none !important;
+  }
+
+  @media (min-width: 40rem) {
+    html[data-newsletter-subscribed='true'] [data-newsletter-shell] {
+      padding-bottom: 6rem;
+    }
+  }
+
   .content-prose {
     color: var(--foreground);
   }

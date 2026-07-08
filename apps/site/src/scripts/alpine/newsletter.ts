@@ -1,9 +1,8 @@
+import { newsletterSubscribedKey } from "@/lib/newsletter";
 import { playErrorSound } from "./audio";
 import { burstConfetti } from "./confetti";
 import { getStoredBoolean, setStoredBoolean } from "./storage";
 import type { AlpineRuntime } from "./types";
-
-const subscribedKey = "ian.newsletter.subscribed";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -33,11 +32,11 @@ type NewsletterState = {
 };
 
 function hasSubscribed() {
-  return getStoredBoolean(subscribedKey);
+  return getStoredBoolean(newsletterSubscribedKey);
 }
 
 function setSubscribed(value: boolean) {
-  setStoredBoolean(subscribedKey, value);
+  setStoredBoolean(newsletterSubscribedKey, value);
 }
 
 function issueDate() {

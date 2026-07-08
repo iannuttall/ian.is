@@ -26,10 +26,10 @@ const sectionClass = [
 ---
 
 <section
+  data-newsletter-card
   class:list={sectionClass}
   x-data={`newsletterSignup(${JSON.stringify({ source, heading, description })})`}
   x-show="visible"
-  x-cloak
 >
   <div class="grid grid-cols-1 @lg:grid-cols-[22rem_1fr]">
     <div class="flex flex-col gap-5 p-6 @lg:p-8">

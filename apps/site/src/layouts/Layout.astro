@@ -2,6 +2,7 @@
 import Header from "@/components/Header.astro";
 import MenuOverlay from "@/components/MenuOverlay.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { newsletterSubscribedKey } from "@/lib/newsletter";
 import { breadcrumbSchema, type SeoBreadcrumbItem } from "@/lib/seo";
 import {
   adsenseClientId,
@@ -65,6 +66,13 @@ const hasAdsense = adsenseClientId.length > 0;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline define:vars={{ newsletterSubscribedKey }}>
+      try {
+        if (window.localStorage.getItem(newsletterSubscribedKey) === "true") {
+          document.documentElement.dataset.newsletterSubscribed = "true";
+        }
+      } catch {}
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     {["/fonts/sans-400.woff2", "/fonts/sans-500.woff2", "/fonts/sans-600.woff2"].map((href) => (
