@@ -6,6 +6,7 @@ React islands.
 ## Current rule
 
 Use named Alpine controllers registered in `apps/site/src/scripts/alpine.ts`.
+Keep controller implementations in `apps/site/src/scripts/alpine/`.
 
 Good:
 
@@ -47,7 +48,8 @@ new Alpine shapes.
 
 ## Preferred shape
 
-- Put reusable state in `apps/site/src/scripts/alpine.ts`.
+- Keep `apps/site/src/scripts/alpine.ts` as the small entrypoint.
+- Put reusable state in focused files under `apps/site/src/scripts/alpine/`.
 - Keep storage keys in one place.
 - Use `Alpine.store(...)` for state shared across components.
 - Use `Alpine.data(...)` for component-local behavior.
@@ -61,6 +63,17 @@ Example:
 ```
 
 ## Newsletter state
+
+Newsletter files currently split like this:
+
+```txt
+apps/site/src/scripts/alpine.ts              Alpine entrypoint
+apps/site/src/scripts/alpine/newsletter.ts   Newsletter controllers
+apps/site/src/scripts/alpine/menu.ts         Menu controllers
+apps/site/src/scripts/alpine/storage.ts      localStorage helpers
+apps/site/src/scripts/alpine/confetti.ts     Confetti effect
+apps/site/src/scripts/alpine/types.ts        Shared Alpine type
+```
 
 The newsletter currently stores a successful signup in:
 
