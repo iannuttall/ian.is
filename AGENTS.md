@@ -6,11 +6,14 @@ This repo is the monorepo for:
 ian.is
 ```
 
-The current live app is `apps/site`, an Astro + Cloudflare Worker app. Keep
-root commands working as thin workspace wrappers so day-to-day usage does not
-depend on remembering the app path.
-Root scripts should use workspace-relative `pnpm -C apps/site ...` commands,
-matching the proven shape in `~/dev/apps/keep`.
+The current live site is `apps/site`, an Astro + Cloudflare Worker app. The
+newsletter platform is `apps/newsletter`, a Node/Postgres VPS app with an Astro
+web surface, Hono API, CLI, MCP package, and React Email templates.
+
+Keep root commands working as thin workspace wrappers so day-to-day usage does
+not depend on remembering app paths. Root scripts should use
+workspace-relative `pnpm -C apps/<app> ...` commands, matching the proven shape
+in `~/dev/apps/keep`.
 
 ## Commands
 
@@ -22,6 +25,10 @@ pnpm build
 pnpm astro check
 pnpm generate-types
 pnpm data:refresh
+pnpm newsletter:build
+pnpm newsletter:lint
+pnpm newsletter:test
+pnpm newsletter:typecheck
 ```
 
 ## Stack
@@ -29,6 +36,10 @@ pnpm data:refresh
 - Astro 7 (`output: "server"`) on the `@astrojs/cloudflare` adapter (Worker mode).
 - Mostly SSG: static pages set `export const prerender = true`; leave it off for
   future request-time/SSR routes (Workers AI, D1, R2, auth, etc.).
+- Newsletter (`apps/newsletter`) deploys separately to the VPS platform. Do not
+  collapse Postgres, PG Boss-style queue work, SES/webhooks, or the public
+  unsubscribe/preferences pages into the Cloudflare Worker just because they
+  share a repo.
 - Tailwind v4 via `@tailwindcss/vite`. Design system ported from `~/dev/apps/ilo`
   (InterVariable + JetBrains Mono, OKLCH tokens, `--frame-max` / `.site-frame`).
 - Dark mode is **single-source `light-dark()`** in `apps/site/src/styles/globals.css`: every
@@ -63,6 +74,10 @@ pnpm data:refresh
   Set `LIST_API_TOKEN` (`.dev.vars` locally, `wrangler secret put` in prod); the
   route returns a graceful 503 when it's absent. Astro's CSRF check already 403s
   cross-origin POSTs.
+- Newsletter public pages live in `apps/newsletter/packages/web`; mutation and
+  platform behavior live in `apps/newsletter/packages/core` and
+  `apps/newsletter/packages/api`. Keep public page design in Astro and keep API
+  routes thin.
 
 ## Fonts
 
@@ -95,6 +110,9 @@ pnpm data:refresh
 - Rebuild sitemaps (`pnpm build:sitemaps`, runs in `pnpm build`) —
   it enumerates published post slugs and tag archives, so new posts appear in
   `/sitemap.xml`.
+- Extract shared site/newsletter design into root `packages/*` only when the
+  shared package preserves exact output and removes real duplication. Do not
+  make broad component rewrites while moving runtimes around.
 
 ## App Rules
 

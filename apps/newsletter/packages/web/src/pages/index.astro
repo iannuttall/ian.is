@@ -1,0 +1,22 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { getWebConfig } from '@/lib/config'
+
+const config = getWebConfig()
+---
+
+<Layout title={config.appName}>
+  <section class="site-frame pb-20 pt-16 text-foreground sm:pb-24 sm:pt-24">
+    <div class="max-w-2xl overflow-hidden rounded-lg border border-border bg-background-raised p-6 shadow-sm sm:p-8">
+      <div class="flex flex-col gap-4">
+        <p class="text-base font-medium text-foreground-soft">{config.appName}</p>
+        <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
+          Email preferences
+        </h1>
+        <p class="text-pretty text-xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-2xl/9">
+          This service handles subscription preferences and delivery endpoints.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -12,6 +12,17 @@
     "generate-types": "pnpm -C apps/site generate-types",
     "build:sitemaps": "pnpm -C apps/site build:sitemaps",
     "data:refresh": "pnpm -C apps/site data:refresh",
-    "deploy": "pnpm -C apps/site deploy"
+    "site:deploy": "pnpm -C apps/site deploy",
+    "newsletter:build": "pnpm --filter email build",
+    "newsletter:clean": "pnpm --filter email clean",
+    "newsletter:email:preview": "pnpm --filter email email:preview",
+    "newsletter:lint": "pnpm --filter email lint",
+    "newsletter:lint:fix": "pnpm --filter email lint:fix",
+    "newsletter:test": "pnpm --filter email test",
+    "newsletter:typecheck": "pnpm --filter email typecheck",
+    "newsletter:web:dev": "pnpm --filter @email/web dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.5"
   }
 }

@@ -1,0 +1,107 @@
+name: Deploy Newsletter Production
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".dockerignore"
+      - ".github/workflows/deploy-newsletter-production.yml"
+      - "apps/newsletter/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-newsletter-production
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  APP_NAME: email
+  DEPLOY_APP_DIR: /opt/apps/email
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Build production image
+        run: |
+          IMAGE_REF="${APP_NAME}:gha-$(printf '%s' "$GITHUB_SHA" | cut -c1-7)"
+          docker build --platform linux/amd64 -f apps/newsletter/Dockerfile -t "$IMAGE_REF" .
+          docker save "$IMAGE_REF" | gzip > email-image.tar.gz
+          printf 'IMAGE_REF=%s\n' "$IMAGE_REF" >> "$GITHUB_ENV"
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      - name: Sync app source
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "install -d -m 755 $DEPLOY_APP_DIR && find $DEPLOY_APP_DIR -name '._*' -delete"
+          rsync -az --delete \
+            --compress-choice=zstd \
+            --filter='P .env.production' \
+            --exclude '.git' \
+            --exclude '._*' \
+            --exclude '__MACOSX' \
+            --exclude 'node_modules' \
+            --exclude 'dist' \
+            --exclude '.turbo' \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            -e "ssh" \
+            ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_APP_DIR/"
+
+      - name: Upload image
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: scp email-image.tar.gz "$DEPLOY_USER@$DEPLOY_HOST:/tmp/email-image.tar.gz"
+
+      - name: Deploy on server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "
+            set -euo pipefail
+            cd $DEPLOY_APP_DIR
+            test -f .env.production
+            docker load -i /tmp/email-image.tar.gz
+            rm -f /tmp/email-image.tar.gz
+            if grep -q '^APP_IMAGE=' .env.production; then
+              sed -i 's|^APP_IMAGE=.*|APP_IMAGE=${IMAGE_REF}|' .env.production
+            else
+              printf '\nAPP_IMAGE=%s\n' '${IMAGE_REF}' >> .env.production
+            fi
+            docker compose --env-file .env.production -f apps/newsletter/docker-compose.prod.yml run --rm ops
+            docker compose --env-file .env.production -f apps/newsletter/docker-compose.prod.yml up -d postgres app web
+            if command -v vps-docker-cleanup >/dev/null 2>&1; then
+              vps-docker-cleanup '${APP_NAME}'
+            else
+              docker image prune -f
+              docker builder prune -f --filter 'until=24h' || true
+              docker builder prune -a -f --keep-storage 4GB || true
+            fi
+          "
