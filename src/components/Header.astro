@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro'
+import Logo from './Logo.astro'
 import MenuToggle from './MenuToggle.astro'
 import type { SeoBreadcrumbItem } from '@/lib/seo'
 
@@ -8,9 +9,17 @@ interface Props {
 }
 
 const { breadcrumbs = [] } = Astro.props;
+const navBreadcrumbs = breadcrumbs.slice(1);
 ---
 
-<header class="site-frame flex items-center gap-1 py-5">
-  <MenuToggle class="-ml-3 size-10 shrink-0 rounded-md" />
-  <Breadcrumbs items={breadcrumbs} />
+<header class="site-frame flex items-center gap-3 py-5">
+  <a
+    href="/"
+    class="inline-flex size-10 shrink-0 items-center justify-center text-foreground no-underline"
+    aria-label="Ian Nuttall home"
+  >
+    <Logo class="text-4xl" />
+  </a>
+  <Breadcrumbs items={navBreadcrumbs} />
+  <MenuToggle class="-mr-3 ml-auto size-10 shrink-0 rounded-md" />
 </header>
