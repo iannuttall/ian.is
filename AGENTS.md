@@ -103,6 +103,8 @@ Local VPS deploy shape:
 pnpm install
 pnpm ian help
 pnpm ian check site
+pnpm ian site check-remote-env
+pnpm ian site secrets-sync --dry-run
 pnpm ian check newsletter-web
 pnpm ian check newsletter
 pnpm ian build site
@@ -150,6 +152,10 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
   Astro SVG components so icons SSR to HTML and never create a client bundle.
 - `nodejs_compat` is required in `wrangler.jsonc` — Astro's dev/SSR runtime uses
   `process`; without it every route 500s with "process is not defined".
+- `cache.enabled` is on in `apps/site/wrangler.jsonc`. Static/prerendered
+  assets get cache headers from `apps/site/public/_headers`; future SSR/API/MCP
+  GET routes must set explicit `Cache-Control` if they should be cached and
+  `no-store` if they mutate or return personalized data.
 - pnpm 11 gates native build scripts via `allowBuilds:` (booleans) in
   `pnpm-workspace.yaml`, not the legacy `onlyBuiltDependencies`. Keep
   esbuild/sharp/workerd/@tailwindcss/oxide set to `true` or installs exit 1.
@@ -166,9 +172,12 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
 - Newsletter signup: `<Newsletter />` Alpine-enhanced Astro component → same-origin SSR route
   `apps/site/src/pages/api/subscribe.ts` (`prerender = false`) → forwards to
   `https://list.ian.is/api/subscribe` with `Authorization: Bearer $LIST_API_TOKEN`.
-  Set `LIST_API_TOKEN` (`.dev.vars` locally, `wrangler secret put` in prod); the
-  route returns a graceful 503 when it's absent. Astro's CSRF check already 403s
-  cross-origin POSTs.
+  `LIST_API_TOKEN` is a required Worker secret declared in
+  `apps/site/wrangler.jsonc` and tracked in `apps/site/env-manifest.json`.
+  Put it in `apps/site/.dev.vars` locally, sync it with
+  `pnpm ian site secrets-sync`, and verify prod with
+  `pnpm ian site check-remote-env`. The route returns a graceful 503 when it's
+  absent. Astro's CSRF check already 403s cross-origin POSTs.
 - Newsletter public pages live in `apps/newsletter/packages/web`; mutation and
   platform behavior live in `apps/newsletter/packages/core` and
   `apps/newsletter/packages/api`. Keep public page design in Astro and keep API

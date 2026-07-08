@@ -37,6 +37,8 @@ Site:
   pnpm ian site dev
   pnpm ian site build
   pnpm ian site check
+  pnpm ian site check-remote-env
+  pnpm ian site secrets-sync [--dry-run]
   pnpm ian site refresh
 
 Targets:
@@ -180,6 +182,9 @@ function site(argv) {
     "dev:cf": ["dev:cf"],
     build: ["build"],
     check: ["astro", "check"],
+    "check-remote-env": ["-C", "apps/site", "check:remote-env"],
+    "secrets-sync": ["-C", "apps/site", "secrets:sync", ...argv.slice(1)],
+    "secrets-sync:dry": ["-C", "apps/site", "secrets:sync:dry"],
     "generate-types": ["generate-types"],
     refresh: ["data:refresh"],
   };

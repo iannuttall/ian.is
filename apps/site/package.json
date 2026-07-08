@@ -9,9 +9,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types",
+    "check:remote-env": "node scripts/check-remote-env.mjs",
+    "secrets:sync": "node scripts/sync-secrets.mjs",
+    "secrets:sync:dry": "node scripts/sync-secrets.mjs --dry-run",
     "build:sitemaps": "node scripts/build-sitemaps.mjs",
     "data:refresh": "node scripts/refresh-github-contributions.mjs",
-    "deploy": "pnpm run build && wrangler deploy"
+    "deploy": "pnpm run check:remote-env && pnpm run build && wrangler deploy",
+    "deploy:built": "pnpm run check:remote-env && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/alpinejs": "^1.0.0",

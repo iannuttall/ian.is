@@ -13,7 +13,7 @@
     "build:sitemaps": "pnpm -C apps/site build:sitemaps",
     "data:refresh": "pnpm -C apps/site data:refresh",
     "site:deploy": "pnpm -C apps/site deploy",
-    "site:worker:deploy": "pnpm -C apps/site wrangler deploy",
+    "site:worker:deploy": "pnpm -C apps/site deploy:built",
     "ian": "node packages/ian/bin/ian.mjs",
     "newsletter:build": "pnpm --filter email build",
     "newsletter:clean": "pnpm --filter email clean",

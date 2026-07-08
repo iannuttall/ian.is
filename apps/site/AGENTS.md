@@ -25,7 +25,19 @@ pnpm build
 pnpm astro check
 pnpm generate-types
 pnpm data:refresh
+pnpm ian site check-remote-env
+pnpm ian site secrets-sync --dry-run
 ```
+
+## Newsletter Signup
+
+- The homepage newsletter form posts to the same-origin Astro route
+  `src/pages/api/subscribe.ts`.
+- That route forwards to the newsletter VPS API using `LIST_API_TOKEN`; never
+  expose that token to the browser.
+- `LIST_API_TOKEN` is required in `wrangler.jsonc` and `env-manifest.json`.
+  Keep it in `.dev.vars` locally, sync it with `pnpm ian site secrets-sync`,
+  and verify Cloudflare with `pnpm ian site check-remote-env`.
 
 ## Content And Routes
 

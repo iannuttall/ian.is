@@ -44,6 +44,8 @@ pnpm ian newsletter migrate
 pnpm ian newsletter seed-aliases --email you@gmail.com --count 20
 pnpm ian newsletter render --subject "Test" --body-file apps/newsletter/draft.md
 pnpm ian site check
+pnpm ian site check-remote-env
+pnpm ian site secrets-sync --dry-run
 pnpm ian check newsletter-web
 pnpm ian build newsletter-web
 pnpm ian check newsletter
@@ -60,5 +62,9 @@ This is one git repo with separate app deploys.
 - Cloudflare Builds for the site should use root directory `/`, build command
   `pnpm build`, deploy command `pnpm site:worker:deploy`, and watch only
   `apps/site/**`, `packages/**`, and root workspace files.
+- `LIST_API_TOKEN` is required for homepage newsletter signup. Store it in
+  `apps/site/.dev.vars` for local Worker dev, sync it to Cloudflare with
+  `pnpm ian site secrets-sync`, and verify remote state with
+  `pnpm ian site check-remote-env`.
 - Root workspace file changes can affect multiple apps, so run the relevant
   checks before pushing.

@@ -24,8 +24,15 @@ build.
 
 - [ ] Decide the first stable API contract for `ian.is`.
 - [ ] Add Hono only when there is real request-time behavior.
+- [ ] Revisit Astro `<ClientRouter />` only when the no-hard-refresh UX is worth
+      the extra client runtime. Current measured cost is about 15.7 KB raw /
+      5.5 KB gzip JS.
 - [ ] Keep finite public data as generated static snapshots when possible.
 - [ ] Avoid database reads on high-traffic SEO pages.
+- [ ] Use Workers Cache (`cache.enabled`) plus explicit `Cache-Control` headers
+      for deterministic SSR/API responses once the site has request-time tools.
+- [ ] Use manual `caches.default` only for expensive, safe, high-cardinality GET
+      routes with normalized cache keys.
 - [ ] Add API auth conventions before adding admin-only endpoints.
 - [ ] Document Cloudflare Worker build/deploy boundaries when `apps/api` exists.
 
