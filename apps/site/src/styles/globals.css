@@ -226,6 +226,10 @@
     cursor: pointer;
   }
 
+  [x-cloak] {
+    display: none !important;
+  }
+
   .content-prose {
     color: var(--foreground);
   }

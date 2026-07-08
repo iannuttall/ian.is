@@ -1,9 +1,11 @@
 ---
 export const prerender = true;
 
+import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import TagLink from "@/components/primitives/TagLink.astro";
 import Layout from "@/layouts/Layout.astro";
+import Newsletter from "@/components/Newsletter.astro";
 import { postBreadcrumbs } from "@/lib/breadcrumbs";
 import { formatPostDate, getPublishedPosts } from "@/lib/posts";
 import { siteName, toAbsoluteUrl } from "@/lib/site";
@@ -16,7 +18,8 @@ export async function getStaticPaths() {
   }));
 }
 
-const { post } = Astro.props;
+type Props = { post: CollectionEntry<"posts"> };
+const { post } = Astro.props as Props;
 const { Content } = await render(post);
 const path = `/post/${post.id}`;
 
@@ -51,7 +54,7 @@ const structuredData = {
       </h1>
       {post.data.tags.length > 0 ? (
         <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-foreground-soft">
-          {post.data.tags.map((tag) => (
+          {post.data.tags.map((tag: string) => (
             <TagLink tag={tag} />
           ))}
         </div>
@@ -60,6 +63,14 @@ const structuredData = {
 
     <div class="content-prose mt-10">
       <Content />
+    </div>
+
+    <div class="mt-16">
+      <Newsletter
+        heading="Get the next one"
+        description="Subscribe and I'll email you when I publish something new."
+        source={`ian.is/post/${post.id}`}
+      />
     </div>
   </article>
 </Layout>

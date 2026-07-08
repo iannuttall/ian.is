@@ -18,7 +18,11 @@ const posts = (await getPublishedPosts()).slice(0, 5);
   canonicalPath="/"
   structuredData={webSiteSchema()}
 >
-  <section class="flex flex-col border-b border-border bg-background pt-4 text-foreground">
+  <section
+    class="flex flex-col bg-background pt-4 text-foreground"
+    x-data="newsletterShell"
+    x-bind:class="subscribed ? 'pb-16 sm:pb-24' : 'border-b border-border'"
+  >
     <div class="site-frame">
       <div class="flex flex-col gap-8 pt-16 sm:pt-24">
         <div class="flex max-w-2xl flex-col gap-4">
@@ -39,8 +43,10 @@ const posts = (await getPublishedPosts()).slice(0, 5);
       <ProjectsSection />
     </section>
 
-    <section class="site-frame">
-      <PostListSection posts={posts} href="/posts" postHeadingLevel="h3" />
-    </section>
+    {posts.length > 0 ? (
+      <section class="site-frame">
+        <PostListSection posts={posts} href="/posts" postHeadingLevel="h3" />
+      </section>
+    ) : null}
   </div>
 </Layout>

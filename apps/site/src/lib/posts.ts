@@ -1,12 +1,10 @@
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-/** Published posts, newest first. Drafts are hidden in production only. */
-export async function getPublishedPosts() {
-  const posts = await getCollection("posts", ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-  });
+/** Published posts, newest first. Drafts are always hidden from public routes. */
+export async function getPublishedPosts(): Promise<CollectionEntry<"posts">[]> {
+  const posts = (await getCollection("posts")) as CollectionEntry<"posts">[];
 
-  return posts.sort(
+  return posts.filter((post) => post.data.draft !== true).sort(
     (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
   );
 }
