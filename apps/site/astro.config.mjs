@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import alpine from "@astrojs/alpinejs";
 import cloudflare from "@astrojs/cloudflare";
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
@@ -115,7 +114,6 @@ export default defineConfig({
   output: "server",
   trailingSlash: "never",
   integrations: [
-    alpine({ entrypoint: "./src/scripts/alpine.ts" }),
     mdx(),
   ],
   markdown: {

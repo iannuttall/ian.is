@@ -67,9 +67,10 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
     initialDescription:
       config.description ?? "What I learned this week actually using AI to run my business.",
     initialSubject: "I built a new thing",
-    successHeading: "You're on the list",
-    successDescription: "I'll send the first email soon. Thanks for signing up.",
-    successSubject: "You're on the list",
+    successHeading: "Check your email",
+    successDescription:
+      "I sent you a confirmation email. Move it to your inbox if it lands somewhere weird.",
+    successSubject: "Check your email inbox",
     errorSubject: "Error signing up. Please try again.",
 
     get ready() {
@@ -106,7 +107,7 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
 
         if (res.ok && data.ok === true) {
           this.status = "success";
-          this.message = "You're on the list.";
+          this.message = "You're in. Check your inbox.";
           this.email = "";
           setSubscribed(true);
           burstConfetti();

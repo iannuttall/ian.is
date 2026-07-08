@@ -122,5 +122,13 @@ const hasAdsense = adsenseClientId.length > 0;
         <slot />
       </main>
     </div>
+    <script>
+      import Alpine from "alpinejs";
+      import setupAlpine from "@/scripts/alpine";
+
+      setupAlpine(Alpine);
+      window.Alpine = Alpine;
+      Alpine.start();
+    </script>
   </body>
 </html>

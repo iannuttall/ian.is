@@ -156,9 +156,6 @@ importers:
 
   apps/site:
     dependencies:
-      '@astrojs/alpinejs':
-        specifier: ^1.0.0
-        version: 1.0.0(@types/alpinejs@3.13.11)(alpinejs@3.15.12)
       '@astrojs/cloudflare':
         specifier: ^14.0.2
         version: 14.0.2(@types/node@24.13.2)(astro@7.0.4(@astrojs/markdown-remark@7.2.0)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@24.13.2)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.8.3))(esbuild@0.28.1)(jiti@2.7.0)(workerd@1.20260630.1)(wrangler@4.106.0)(yaml@2.8.3)
@@ -205,6 +202,9 @@ importers:
       '@astrojs/markdown-remark':
         specifier: ^7.2.0
         version: 7.2.0
+      '@types/alpinejs':
+        specifier: ^3.13.11
+        version: 3.13.11
       '@types/canvas-confetti':
         specifier: ^1.9.0
         version: 1.9.0
@@ -221,12 +221,6 @@ importers:
   packages/ian: {}
 
 packages:
-
-  '@astrojs/alpinejs@1.0.0':
-    resolution: {integrity: sha512-xmLFD8MBunXCG39nS3dmINQfdhqlDNbHAYyw8n6jfLGL/AFeyYOtz6p1EtXX8NEbGLHk7mUOHoaC3j1WudUYoQ==}
-    peerDependencies:
-      '@types/alpinejs': ^3.0.0
-      alpinejs: ^3.0.0
 
   '@astrojs/check@0.9.9':
     resolution: {integrity: sha512-A5UW8uIuErLWEoRQvzgXpO1gTjUFtK8r7nU2Z7GewAMxUb7bPvpk11qaKKgxqXlHJWlAvaaxy+Xg28A6bmQ1Tg==}
@@ -4163,11 +4157,6 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
-
-  '@astrojs/alpinejs@1.0.0(@types/alpinejs@3.13.11)(alpinejs@3.15.12)':
-    dependencies:
-      '@types/alpinejs': 3.13.11
-      alpinejs: 3.15.12
 
   '@astrojs/check@0.9.9(prettier@3.9.4)(typescript@5.9.3)':
     dependencies:
