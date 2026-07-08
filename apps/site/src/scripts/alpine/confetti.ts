@@ -1,44 +1,44 @@
-const colors = ["#2563eb", "#f97316", "#22c55e", "#facc15", "#ec4899"];
+import confetti from "canvas-confetti";
+import { playPartyHorn } from "./audio";
+
+const count = 200;
+const defaults = {
+  disableForReducedMotion: true,
+  origin: { y: 0.7 },
+  ticks: 260,
+} satisfies confetti.Options;
+
+function fire(particleRatio: number, opts: confetti.Options) {
+  confetti({
+    ...defaults,
+    ...opts,
+    particleCount: Math.floor(count * particleRatio),
+  });
+}
 
 export function burstConfetti() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  playPartyHorn();
 
-  for (let index = 0; index < 28; index += 1) {
-    const piece = document.createElement("span");
-    const size = 6 + Math.random() * 6;
-    const x = 50 + (Math.random() - 0.5) * 30;
-    const y = 42 + (Math.random() - 0.5) * 12;
-    const dx = (Math.random() - 0.5) * 260;
-    const dy = 120 + Math.random() * 190;
-    const rotate = (Math.random() - 0.5) * 720;
-
-    piece.setAttribute("aria-hidden", "true");
-    piece.style.position = "fixed";
-    piece.style.left = `${x}vw`;
-    piece.style.top = `${y}vh`;
-    piece.style.width = `${size}px`;
-    piece.style.height = `${size * 1.6}px`;
-    piece.style.borderRadius = "2px";
-    piece.style.background = colors[index % colors.length];
-    piece.style.pointerEvents = "none";
-    piece.style.zIndex = "9999";
-    piece.style.transform = "translate(-50%, -50%)";
-
-    document.body.appendChild(piece);
-    piece
-      .animate(
-        [
-          { opacity: 1, transform: "translate(-50%, -50%) rotate(0deg)" },
-          {
-            opacity: 0,
-            transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${rotate}deg)`,
-          },
-        ],
-        {
-          duration: 900 + Math.random() * 350,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-        },
-      )
-      .finished.finally(() => piece.remove());
-  }
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+  });
+  fire(0.2, {
+    spread: 60,
+  });
+  fire(0.35, {
+    decay: 0.91,
+    scalar: 0.8,
+    spread: 100,
+  });
+  fire(0.1, {
+    decay: 0.92,
+    scalar: 1.2,
+    spread: 120,
+    startVelocity: 25,
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+  });
 }

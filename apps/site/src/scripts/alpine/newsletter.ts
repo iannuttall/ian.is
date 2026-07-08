@@ -1,3 +1,4 @@
+import { playErrorSound } from "./audio";
 import { burstConfetti } from "./confetti";
 import { getStoredBoolean, setStoredBoolean } from "./storage";
 import type { AlpineRuntime } from "./types";
@@ -116,10 +117,12 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
         setSubscribed(false);
         this.status = "error";
         this.message = data.error ?? "Something went wrong. Please try again.";
+        playErrorSound();
       } catch {
         setSubscribed(false);
         this.status = "error";
         this.message = "Network error. Please try again.";
+        playErrorSound();
       }
     },
   }));
