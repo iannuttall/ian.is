@@ -42,6 +42,8 @@ build.
       Node.
 - [ ] Let the Astro site call newsletter API endpoints for public signup and
       future subscriber-aware behavior.
+- [ ] Add a real first/welcome email for new subscribers; signup is single
+      opt-in, so do not promise a confirmation link.
 - [ ] Add issue archive sync from newsletter API to static files in the site
       repo.
 - [ ] Make archive sync publish only issues that are eligible for public release.
