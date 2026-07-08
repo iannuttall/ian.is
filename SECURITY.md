@@ -1,13 +1,27 @@
 # Security
 
-## Reporting
+## Reporting a vulnerability
 
 Do not open a public issue for a suspected vulnerability.
 
-Email security reports to Ian Nuttall using the contact details on `https://ian.is`.
-Include the affected app/package, reproduction steps, and the impact.
+Use GitHub's private vulnerability reporting flow instead:
 
-## Public Repo Rules
+```txt
+https://github.com/iannuttall/ian.is/security/advisories/new
+```
+
+That keeps the report private inside GitHub and does not expose an email
+address.
+
+Please include:
+
+- The affected app, package, route, or command.
+- Clear reproduction steps.
+- The practical impact.
+- Any logs, screenshots, or request examples that make the issue easier to
+  verify.
+
+## Secret handling
 
 - Production secrets must never be committed.
 - Use ignored local env files for development:
@@ -17,13 +31,11 @@ Include the affected app/package, reproduction steps, and the impact.
   - `.dev.vars.*`
 - Checked-in example env files must contain only empty or placeholder values.
 - Production secrets belong in GitHub Actions secrets, Cloudflare Worker
-  secrets, VPS `.env.production`, or another managed secret store.
-- Cloudflare route/DNS changes are a go-live action. Do not attach `ian.is/*`
-  to a Worker without explicit approval.
+  secrets, VPS env files, or another managed secret store.
 
-## Local Checks
+## Local checks
 
-Before making the repository public or pushing sensitive changes:
+Run these before pushing sensitive changes:
 
 ```sh
 pnpm security:check
@@ -31,13 +43,6 @@ pnpm ian site check
 pnpm ian check newsletter
 ```
 
-`pnpm security:check` runs:
-
-- `pnpm audit`
-- `gitleaks detect --source . --redact --no-banner --verbose`
-
-Install `gitleaks` locally if needed:
-
-```sh
-brew install gitleaks
-```
+`pnpm security:check` runs `pnpm audit` and the local secret scan helper at
+`scripts/security-secrets.mjs`. The helper runs `gitleaks`; on macOS it installs
+`gitleaks` with Homebrew first if it is missing.
