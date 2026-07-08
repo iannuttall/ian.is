@@ -35,17 +35,18 @@ const socialLinkClass =
 ---
 
 <div
+  x-data
   x-cloak
   x-show="$store.menu.open"
-  x-transition:enter="transition duration-150 ease-out"
-  x-transition:enter-start="opacity-0 scale-[0.98]"
-  x-transition:enter-end="opacity-100 scale-100"
-  x-transition:leave="transition duration-150 ease-in"
-  x-transition:leave-start="opacity-100 scale-100"
-  x-transition:leave-end="opacity-0 scale-[0.99]"
+  x-transition:enter="transition-opacity duration-150 ease-out"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition-opacity duration-150 ease-in"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
   x-on:keydown.escape.window="$store.menu.close()"
   x-effect="document.body.style.overflow = $store.menu.open ? 'hidden' : ''"
-  class="fixed inset-0 z-40 origin-top overflow-y-auto bg-background pt-20 text-foreground"
+  class="fixed inset-0 z-[999] min-h-dvh overflow-y-auto bg-background pt-20 text-foreground"
   role="dialog"
   aria-modal="true"
   aria-label="Site menu"
