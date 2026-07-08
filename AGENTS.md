@@ -27,8 +27,75 @@ parallel copies of agent instructions.
 - `apps/newsletter/packages/cli`: operator CLI.
 - `apps/newsletter/packages/mcp`: stdio MCP server.
 - `apps/newsletter/packages/web`: Astro public pages.
+- `packages/ian`: tiny local helper CLI for short human/agent commands.
 - `packages/*`: future shared packages only. Add one when it removes real
   duplication without changing output.
+
+## Deployment Boundaries
+
+This is one git repository, but each app deploys independently.
+
+- Commit and push normal source changes from this monorepo root.
+- Site changes live under `apps/site` and deploy through the Cloudflare Worker
+  site path. Do not run or edit the newsletter VPS deploy for site-only changes.
+- Newsletter changes live under `apps/newsletter` and deploy through
+  `.github/workflows/deploy-newsletter-production.yml`.
+- The newsletter workflow is path-filtered. It runs on pushes to `main` only
+  when these paths change:
+  - `.dockerignore`
+  - `.github/workflows/deploy-newsletter-production.yml`
+  - `apps/newsletter/**`
+  - `package.json`
+  - `pnpm-lock.yaml`
+  - `pnpm-workspace.yaml`
+- Newsletter API changes are under `apps/newsletter/packages/api`, so they
+  trigger the newsletter VPS deploy.
+- Site API changes are under `apps/site/src/pages/api`, so they are site changes
+  and must not trigger the newsletter VPS deploy.
+- Root workspace files (`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`)
+  can affect both apps. If they change, run checks for every affected app. The
+  newsletter deploy workflow intentionally treats those files as newsletter
+  deploy inputs.
+
+Newsletter deploy shape:
+
+- GitHub Actions builds only `apps/newsletter/Dockerfile`.
+- It syncs only the root workspace files needed for the build plus
+  `apps/newsletter/**` to `/opt/apps/email`.
+- It runs only the newsletter compose file:
+  `apps/newsletter/docker-compose.prod.yml`.
+- It runs migrations through `ops`.
+- It starts only `postgres`, `app`, and `web`; the sender `worker` stays behind
+  the explicit `sender` profile.
+
+Cloudflare site deploy shape:
+
+- The Cloudflare Worker app for `apps/site` should use this monorepo root as
+  its root directory.
+- Cloudflare build command: `pnpm build`.
+- Cloudflare deploy command: `pnpm site:worker:deploy`.
+- Cloudflare build watch include paths should be:
+  - `apps/site/**`
+  - `packages/**`
+  - `package.json`
+  - `pnpm-lock.yaml`
+  - `pnpm-workspace.yaml`
+- Do not include `apps/newsletter/**` in the site Worker watch paths. Newsletter
+  production deploys through GitHub Actions and the VPS.
+- If a separate Cloudflare Hono API app is added later, put it in its own app
+  directory such as `apps/api`, give it its own `wrangler.jsonc`, root script,
+  and Cloudflare Worker build watch paths. Do not make site-only changes deploy
+  the API Worker or newsletter VPS app.
+
+Local VPS deploy shape:
+
+- `vps deploy email` reads inventory from
+  `~/blueprints/vps/inventory/apps/email.json`.
+- That inventory points `localRoot` at this monorepo root, but uses
+  `composeFile`, `caddyFile`, and `syncIncludes` so only the newsletter deploy
+  slice is copied and run.
+- Do not move newsletter deploy files to the repo root just to satisfy tooling;
+  update the app inventory or VPS CLI instead.
 
 ## Commands
 
@@ -37,9 +104,11 @@ pnpm install
 pnpm dev
 pnpm dev:cf
 pnpm build
+pnpm site:worker:deploy
 pnpm astro check
 pnpm generate-types
 pnpm data:refresh
+pnpm ian help
 pnpm newsletter:build
 pnpm newsletter:lint
 pnpm newsletter:test

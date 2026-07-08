@@ -207,6 +207,8 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0)
 
+  packages/ian: {}
+
 packages:
 
   '@astrojs/alpinejs@1.0.0':

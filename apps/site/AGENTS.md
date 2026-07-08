@@ -10,6 +10,11 @@ Read the root `AGENTS.md` first. This file only adds site-specific direction.
 - Mostly SSG: export `prerender = true` for pages that can be static.
 - Leave API, auth, Worker AI, D1, R2, or future request-time routes as SSR.
 - Use `pnpm -C apps/site ...` for app-local commands, or the root wrappers.
+- Site changes are Cloudflare Worker changes. They should not trigger or use the
+  newsletter VPS deploy unless root workspace files also changed.
+- Cloudflare Builds should deploy this app with root directory `/`, build
+  command `pnpm build`, deploy command `pnpm site:worker:deploy`, and watch
+  paths for `apps/site/**`, `packages/**`, and root workspace files.
 
 ## Commands
 

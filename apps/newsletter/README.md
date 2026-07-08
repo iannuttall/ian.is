@@ -118,21 +118,21 @@ Create `.env.local` from `.env.example`, then run a local database:
 ```bash
 docker compose --env-file apps/newsletter/.env.local -f apps/newsletter/docker-compose.yml -p email-localtest down -v
 docker compose --env-file apps/newsletter/.env.local -f apps/newsletter/docker-compose.yml -p email-localtest up -d postgres
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js db migrate --json
+pnpm ian newsletter migrate
 ```
 
 Seed aliases for a local inbox you control:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js contact seed-aliases --email user@gmail.com --count 20 --json
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js contact seed-intelligence --email user@gmail.com --count 20 --json
+pnpm ian newsletter seed-aliases --email user@gmail.com --count 20
+pnpm ian newsletter seed-intelligence --email user@gmail.com --count 20
 ```
 
 Render and create a draft:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js template render --subject "Local email platform test" --body-file apps/newsletter/draft.md --template react-newsletter --out-dir apps/newsletter/rendered --json
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js draft create --subject "Local email platform test" --body-file apps/newsletter/draft.md --template react-newsletter --json
+pnpm ian newsletter render --subject "Local email platform test" --body-file apps/newsletter/draft.md
+pnpm ian newsletter draft --subject "Local email platform test" --body-file apps/newsletter/draft.md
 ```
 
 Preview the React Email templates locally:
@@ -148,26 +148,26 @@ Send a real demo email only after `.env.local` points at the provider you mean
 to use:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js draft create --subject "Local email platform test" --body-file apps/newsletter/local-test/draft.md --template react-newsletter --preview "A local test of Ian's List" --json
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js broadcast test --yes --draft-id <draft_id> --to you@example.com --json
+pnpm ian newsletter draft --subject "Local email platform test" --body-file apps/newsletter/local-test/draft.md --preview "A local test of Ian's List"
+pnpm ian newsletter test-send --draft-id <draft_id> --to you@example.com
 ```
 
 Run the API locally for subscribe, click, and unsubscribe routes:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js api serve --port 3000
+pnpm ian newsletter api --port 3000
 ```
 
 Run the public Astro pages locally:
 
 ```bash
-EMAIL_API_INTERNAL_URL=http://127.0.0.1:3000 pnpm --filter @email/web dev
+pnpm ian newsletter web
 ```
 
 Only run the worker when you are ready to send real provider mail:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js worker send --yes --batch-size 100 --interval-ms 10000
+pnpm ian newsletter worker
 ```
 
 ## CLI

@@ -37,6 +37,12 @@ When production data or sending is involved, read
 - SQL migrations live in `migrations`.
 - Docker image is built with `pnpm --filter @email/cli deploy --legacy --prod`
   because that is pnpm's deploy compatibility flag.
+- Production deploy is scoped to this app. GitHub Actions builds
+  `apps/newsletter/Dockerfile`, syncs root workspace files plus
+  `apps/newsletter/**`, runs `apps/newsletter/docker-compose.prod.yml`, migrates
+  with `ops`, and starts `postgres`, `app`, and `web`.
+- The sender `worker` is never part of the normal deploy start set; it stays
+  behind the explicit `sender` profile.
 
 ## Validation
 
@@ -181,7 +187,7 @@ Available templates:
 Before real sends, render the chosen template locally:
 
 ```bash
-node --env-file=apps/newsletter/.env.local apps/newsletter/packages/cli/dist/index.js template render --subject "Subject" --body-file apps/newsletter/draft.md --template react-newsletter --out-dir apps/newsletter/rendered-email --json
+pnpm ian newsletter render --subject "Subject" --body-file apps/newsletter/draft.md --out-dir apps/newsletter/rendered-email
 ```
 
 When adding template behavior, keep rendering in `packages/core`, then expose it
