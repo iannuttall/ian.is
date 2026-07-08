@@ -16,10 +16,9 @@ worker-configuration.d.ts
 .env.*
 
 # generated sitemaps (rebuilt by `pnpm build`)
-public/sitemap.xml
-public/sitemaps/
+apps/site/public/sitemap.xml
+apps/site/public/sitemaps/
 
 # logs / os
 *.log
 .DS_Store
-

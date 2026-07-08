@@ -1,10 +1,16 @@
 # Agent Notes
 
-This repo is the Astro + Cloudflare Worker app for:
+This repo is the monorepo for:
 
 ```txt
 ian.is
 ```
+
+The current live app is `apps/site`, an Astro + Cloudflare Worker app. Keep
+root commands working as thin workspace wrappers so day-to-day usage does not
+depend on remembering the app path.
+Root scripts should use workspace-relative `pnpm -C apps/site ...` commands,
+matching the proven shape in `~/dev/apps/keep`.
 
 ## Commands
 
@@ -25,7 +31,7 @@ pnpm data:refresh
   future request-time/SSR routes (Workers AI, D1, R2, auth, etc.).
 - Tailwind v4 via `@tailwindcss/vite`. Design system ported from `~/dev/apps/ilo`
   (InterVariable + JetBrains Mono, OKLCH tokens, `--frame-max` / `.site-frame`).
-- Dark mode is **single-source `light-dark()`** in `src/styles/globals.css`: every
+- Dark mode is **single-source `light-dark()`** in `apps/site/src/styles/globals.css`: every
   palette token is `light-dark(<light>, <dark>)` under `:root` with
   `color-scheme: light dark`, so it auto-switches with the OS from one definition.
   This intentionally diverges from the sibling sites (ilo/audits/binday duplicate a
@@ -33,8 +39,8 @@ pnpm data:refresh
   script here; `dark:` utilities use Tailwind v4's default media-based variant. If a
   manual toggle is ever needed, reintroduce `color-scheme` overrides, not duplicated
   token blocks.
-- Kiwa UI components live in `src/components/ui` (managed by `kiwa-astro add`).
-- Icon inventory lives in `src/components/icons/*.astro`. Keep these as inline
+- Kiwa UI components live in `apps/site/src/components/ui` (managed by `kiwa-astro add`).
+- Icon inventory lives in `apps/site/src/components/icons/*.astro`. Keep these as inline
   Astro SVG components so icons SSR to HTML and never create a client bundle.
 - `nodejs_compat` is required in `wrangler.jsonc` — Astro's dev/SSR runtime uses
   `process`; without it every route 500s with "process is not defined".
@@ -45,14 +51,14 @@ pnpm data:refresh
 ## Interactivity & runtime
 
 - Lightweight interactivity uses Alpine (`@astrojs/alpinejs`) with data
-  definitions in `src/scripts/alpine.ts`. Use Alpine for small stateful UI
+  definitions in `apps/site/src/scripts/alpine.ts`. Use Alpine for small stateful UI
   (menu toggles, forms, filters) so markup stays Astro-first and client bundles
   stay small. Add React back only for genuinely complex islands that need it.
 - Access Worker env with `import { env } from "cloudflare:workers"` — Astro v6
   removed `Astro.locals.runtime.env`. Type secrets on `Cloudflare.Env` in
-  `src/env.d.ts`.
+  `apps/site/src/env.d.ts`.
 - Newsletter signup: `<Newsletter />` Alpine-enhanced Astro component → same-origin SSR route
-  `src/pages/api/subscribe.ts` (`prerender = false`) → forwards to
+  `apps/site/src/pages/api/subscribe.ts` (`prerender = false`) → forwards to
   `https://list.ian.is/api/subscribe` with `Authorization: Bearer $LIST_API_TOKEN`.
   Set `LIST_API_TOKEN` (`.dev.vars` locally, `wrangler secret put` in prod); the
   route returns a graceful 503 when it's absent. Astro's CSRF check already 403s
@@ -69,24 +75,24 @@ pnpm data:refresh
 - `@font-face` uses `font-display: swap` plus a `Sans Fallback` (local Arial with
   `size-adjust`/`ascent-override`) so there's no layout shift while loading.
 - Above-the-fold weights (400/500/600) are `<link rel="preload">`ed in
-  `Layout.astro`; `public/_headers` sets 1-year immutable cache on `/fonts/*`.
+  `Layout.astro`; `apps/site/public/_headers` sets 1-year immutable cache on `/fonts/*`.
 - Default body size is `1rem` (16px), `line-height: 1.5` (`globals.css`).
 
 ## Content
 
-- Posts are Markdown/MDX in `src/content/posts`, typed by
-  `src/content.config.ts` (glob loader). Query via `src/lib/posts.ts`.
+- Posts are Markdown/MDX in `apps/site/src/content/posts`, typed by
+  `apps/site/src/content.config.ts` (glob loader). Query via `apps/site/src/lib/posts.ts`.
 - Breadcrumbs are a layout-level convention: pass `breadcrumbs` from
-  `src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
+  `apps/site/src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
   `tagBreadcrumbs`) so the visible header trail and JSON-LD `BreadcrumbList`
   stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
   is too long for the header crumb.
 - Newsletter lives off-site at https://list.ian.is (linked, not embedded).
 - GitHub homepage activity is static generated data:
-  `pnpm data:refresh` writes `src/generated/github-contributions.json` from
+  `pnpm data:refresh` writes `apps/site/src/generated/github-contributions.json` from
   GitHub GraphQL. Prefer committed snapshots for finite public widgets; do not
   add Hono/API routes unless request-time behavior is actually needed.
-- Rebuild sitemaps (`node scripts/build-sitemaps.mjs`, runs in `pnpm build`) —
+- Rebuild sitemaps (`pnpm build:sitemaps`, runs in `pnpm build`) —
   it enumerates published post slugs and tag archives, so new posts appear in
   `/sitemap.xml`.
 
@@ -96,7 +102,7 @@ pnpm data:refresh
 - Fix lint, typecheck, and `astro check` findings when they appear. Do not leave
   known check failures behind as "pre-existing" unless the user explicitly
   chooses to defer them.
-- Generate exact sitemap XML files into `public/`.
+- Generate exact sitemap XML files into `apps/site/public/`.
 - Follow `~/workers/platform/references/content-rules.md` for user-facing copy.
 - Follow `~/workers/platform/references/design-rules.md` for UI design.
 - Do not commit `.wrangler/`, `dist/`, `.astro/`, `node_modules/`, `.dev.vars`, or generated runtime-only data.

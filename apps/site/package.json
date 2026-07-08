@@ -1,0 +1,38 @@
+{
+  "name": "@ian/site",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "dev:cf": "wrangler dev",
+    "build": "node scripts/build-sitemaps.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate-types": "wrangler types",
+    "build:sitemaps": "node scripts/build-sitemaps.mjs",
+    "data:refresh": "node scripts/refresh-github-contributions.mjs",
+    "deploy": "pnpm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/alpinejs": "^1.0.0",
+    "@astrojs/cloudflare": "^14.0.2",
+    "@astrojs/mdx": "^7.0.0",
+    "@astrojs/rss": "^4.0.19",
+    "@kiwa-ui/enhance": "^2.1.0",
+    "@tailwindcss/vite": "^4.3.2",
+    "alpinejs": "^3.15.12",
+    "astro": "^7.0.4",
+    "clsx": "^2.1.1",
+    "lucide": "^1.22.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2",
+    "wrangler": "^4.106.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/markdown-remark": "^7.2.0",
+    "@types/node": "^24.8.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.2"
+  }
+}
