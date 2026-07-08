@@ -15,6 +15,21 @@ not depend on remembering app paths. Root scripts should use
 workspace-relative `pnpm -C apps/<app> ...` commands, matching the proven shape
 in `~/dev/apps/keep`.
 
+`CLAUDE.md` files should be symlinks to matching `AGENTS.md` files. Do not keep
+parallel copies of agent instructions.
+
+## Repo Map
+
+- `apps/site`: public Astro + Cloudflare Worker site.
+- `apps/newsletter`: VPS newsletter platform.
+- `apps/newsletter/packages/core`: newsletter domain logic.
+- `apps/newsletter/packages/api`: Hono API.
+- `apps/newsletter/packages/cli`: operator CLI.
+- `apps/newsletter/packages/mcp`: stdio MCP server.
+- `apps/newsletter/packages/web`: Astro public pages.
+- `packages/*`: future shared packages only. Add one when it removes real
+  duplication without changing output.
+
 ## Commands
 
 ```sh
