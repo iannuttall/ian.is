@@ -60,7 +60,7 @@ pages. The `email` CLI binary and MCP tool names stay stable by design.
 
 `MAIN_SITE_NAME` and `MAIN_SITE_URL` are used by `packages/web` for the header
 breadcrumb back to the parent site. If omitted, the web pages fall back to
-`EMAIL_APP_NAME` and `BASE_URL`.
+`Ian Nuttall` and `https://ian.is`.
 
 `BASE_URL` is the public origin used in generated email links.
 `EMAIL_API_INTERNAL_URL` is only used by `packages/web` so public pages can
@@ -98,12 +98,18 @@ has AWS credentials through the normal AWS SDK provider chain.
 Commands in this README assume you are running them from the monorepo root.
 
 ```bash
+pnpm ian check newsletter-web
+pnpm ian build newsletter-web
+pnpm ian check newsletter
 pnpm newsletter:lint:fix
 pnpm newsletter:typecheck
 pnpm newsletter:test
 pnpm newsletter:build
 pnpm newsletter:lint
 ```
+
+Prefer the `pnpm ian ...` helpers for routine checks. Use the raw newsletter
+scripts when you need the lower-level package output.
 
 Postgres integration tests are opt-in:
 

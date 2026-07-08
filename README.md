@@ -18,6 +18,9 @@ pnpm site:worker:deploy
 pnpm astro check
 pnpm generate-types
 pnpm ian help
+pnpm ian check newsletter-web
+pnpm ian build newsletter-web
+pnpm ian check newsletter
 pnpm newsletter:lint
 pnpm newsletter:typecheck
 pnpm newsletter:test
@@ -41,6 +44,9 @@ pnpm ian newsletter migrate
 pnpm ian newsletter seed-aliases --email you@gmail.com --count 20
 pnpm ian newsletter render --subject "Test" --body-file apps/newsletter/draft.md
 pnpm ian site check
+pnpm ian check newsletter-web
+pnpm ian build newsletter-web
+pnpm ian check newsletter
 ```
 
 ## Deploys
