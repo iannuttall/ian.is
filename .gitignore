@@ -15,6 +15,10 @@ worker-configuration.d.ts
 .dev.vars.*
 .env
 .env.*
+!.dev.vars.example
+!**/.dev.vars.example
+!.env.example
+!**/.env.example
 
 # generated sitemaps (rebuilt by `pnpm build`)
 apps/site/public/sitemap.xml

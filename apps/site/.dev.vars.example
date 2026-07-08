@@ -1,0 +1,10 @@
+# Copy to `.dev.vars` for local `wrangler dev`, and sync Worker secrets in prod:
+#   pnpm ian site secrets-sync
+#   pnpm ian site check-remote-env
+#
+# API token for the list.ian.is newsletter service (packages/api on the VPS).
+# Sent as `Authorization: Bearer <token>` by src/pages/api/subscribe.ts.
+LIST_API_TOKEN=""
+
+# Optional: override the newsletter API base (defaults to https://list.ian.is).
+# LIST_API_URL="https://list.ian.is"

@@ -25,6 +25,7 @@ pnpm newsletter:lint
 pnpm newsletter:typecheck
 pnpm newsletter:test
 pnpm newsletter:build
+pnpm security:check
 ```
 
 ## Agent Docs
@@ -68,3 +69,20 @@ This is one git repo with separate app deploys.
   `pnpm ian site check-remote-env`.
 - Root workspace file changes can affect multiple apps, so run the relevant
   checks before pushing.
+
+## Security Before Publishing
+
+Run these before making the repo public or pushing sensitive changes:
+
+```sh
+pnpm security:check
+pnpm ian site check
+pnpm ian check newsletter
+```
+
+Secrets belong in GitHub Actions secrets, Cloudflare Worker secrets, VPS env
+files, or ignored local env files. Do not commit `.env`, `.env.*`,
+`.dev.vars`, or `.dev.vars.*`; only checked-in example files are allowed.
+
+Cloudflare Worker routes/DNS are a go-live step, not a normal verification
+step. The site Worker can be built and checked without attaching `ian.is/*`.

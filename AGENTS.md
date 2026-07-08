@@ -36,6 +36,9 @@ parallel copies of agent instructions.
 This is one git repository, but each app deploys independently.
 
 - Commit and push normal source changes from this monorepo root.
+- Do not run production deploy commands or attach Cloudflare routes/DNS unless
+  the user explicitly asks to deploy or go live. Build, check, dry-run, and
+  local verification are fine; public traffic changes are not verification.
 - Site changes live under `apps/site` and deploy through the Cloudflare Worker
   site path. Do not run or edit the newsletter VPS deploy for site-only changes.
 - Newsletter changes live under `apps/newsletter` and deploy through
@@ -82,6 +85,9 @@ Cloudflare site deploy shape:
   - `pnpm-workspace.yaml`
 - Do not include `apps/newsletter/**` in the site Worker watch paths. Newsletter
   production deploys through GitHub Actions and the VPS.
+- `apps/site/wrangler.jsonc` should not define `routes` until cutover is
+  intentional. Attaching `ian.is/*` or changing DNS is a go-live task and must
+  be called out explicitly.
 - If a separate Cloudflare Hono API app is added later, put it in its own app
   directory such as `apps/api`, give it its own `wrangler.jsonc`, root script,
   and Cloudflare Worker build watch paths. Do not make site-only changes deploy
@@ -117,6 +123,7 @@ pnpm site:worker:deploy
 pnpm astro check
 pnpm generate-types
 pnpm data:refresh
+pnpm security:check
 pnpm newsletter:build
 pnpm newsletter:lint
 pnpm newsletter:test
@@ -127,6 +134,23 @@ Prefer `pnpm ian check <target>` and `pnpm ian build <target>` for routine
 validation. Targets are `site`, `newsletter`, `newsletter-api`,
 `newsletter-cli`, `newsletter-core`, `newsletter-mcp`, and `newsletter-web`.
 Use raw `pnpm --filter ...` only when debugging package-level tooling.
+
+## Public Repo Security
+
+- Run `pnpm security:check` before making the repo public or pushing security
+  sensitive changes. It runs `pnpm audit` and a full-history `gitleaks` scan.
+- Run app checks after dependency/security changes:
+  `pnpm ian site check` and `pnpm ian check newsletter`.
+- Never commit real secrets, production env files, private keys, database
+  dumps, generated deploy state, or local runtime output.
+- `.env`, `.env.*`, `.dev.vars`, and `.dev.vars.*` are ignored. Example files
+  such as `.env.example` and `.dev.vars.example` are allowed only with empty or
+  placeholder values.
+- GitHub Actions secrets, Cloudflare Worker secrets, VPS `.env.production`, and
+  local ignored env files are the only places production secrets should live.
+- Public pull requests must not get access to production secrets. Production
+  deploy workflows should stay on `push` to `main` or explicit trusted
+  dispatches, with branch protection on `main`.
 
 ## Stack
 

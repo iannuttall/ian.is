@@ -8,3 +8,8 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+
+overrides:
+  esbuild: 0.28.1
+  postcss: 8.5.10
+  yaml: 2.8.3
