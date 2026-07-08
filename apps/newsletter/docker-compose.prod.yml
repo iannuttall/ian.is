@@ -1,3 +1,5 @@
+name: ${COMPOSE_PROJECT_NAME:-email}
+
 x-email-env: &email-env
   NODE_ENV: production
   EMAIL_APP_NAME: ${EMAIL_APP_NAME:-Email}

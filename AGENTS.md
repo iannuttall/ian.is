@@ -101,6 +101,13 @@ Local VPS deploy shape:
 
 ```sh
 pnpm install
+pnpm ian help
+pnpm ian check site
+pnpm ian check newsletter-web
+pnpm ian check newsletter
+pnpm ian build site
+pnpm ian build newsletter-web
+pnpm ian build newsletter
 pnpm dev
 pnpm dev:cf
 pnpm build
@@ -108,12 +115,16 @@ pnpm site:worker:deploy
 pnpm astro check
 pnpm generate-types
 pnpm data:refresh
-pnpm ian help
 pnpm newsletter:build
 pnpm newsletter:lint
 pnpm newsletter:test
 pnpm newsletter:typecheck
 ```
+
+Prefer `pnpm ian check <target>` and `pnpm ian build <target>` for routine
+validation. Targets are `site`, `newsletter`, `newsletter-api`,
+`newsletter-cli`, `newsletter-core`, `newsletter-mcp`, and `newsletter-web`.
+Use raw `pnpm --filter ...` only when debugging package-level tooling.
 
 ## Stack
 

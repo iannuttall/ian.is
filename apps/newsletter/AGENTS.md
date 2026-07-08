@@ -49,11 +49,20 @@ When production data or sending is involved, read
 Run from the monorepo root before committing newsletter changes:
 
 ```bash
+pnpm ian check newsletter
+pnpm ian build newsletter
 pnpm newsletter:lint
 pnpm newsletter:typecheck
 pnpm newsletter:test
 pnpm newsletter:build
 docker compose -f apps/newsletter/docker-compose.yml config
+```
+
+For web-only changes, the short commands are:
+
+```bash
+pnpm ian check newsletter-web
+pnpm ian build newsletter-web
 ```
 
 `pnpm lint` includes `scripts/check-file-lines.mjs`. New TypeScript modules

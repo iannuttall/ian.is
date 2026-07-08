@@ -16,8 +16,8 @@ export function getWebConfig(env: NodeJS.ProcessEnv = process.env): WebConfig {
     apiInternalUrl: trimTrailingSlash(
       readEnv(env.EMAIL_API_INTERNAL_URL) ?? 'http://127.0.0.1:3000',
     ),
-    mainSiteName: readEnv(env.MAIN_SITE_NAME) ?? appName,
-    mainSiteUrl: trimTrailingSlash(readEnv(env.MAIN_SITE_URL) ?? baseUrl),
+    mainSiteName: readEnv(env.MAIN_SITE_NAME) ?? 'Ian Nuttall',
+    mainSiteUrl: trimTrailingSlash(readEnv(env.MAIN_SITE_URL) ?? 'https://ian.is'),
   }
 }
 

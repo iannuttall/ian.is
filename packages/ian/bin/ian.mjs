@@ -15,6 +15,8 @@ function help() {
 
 Usage:
   pnpm ian <command>
+  pnpm ian check [target]
+  pnpm ian build [target]
 
 Newsletter:
   pnpm ian newsletter doctor
@@ -36,6 +38,15 @@ Site:
   pnpm ian site build
   pnpm ian site check
   pnpm ian site refresh
+
+Targets:
+  site
+  newsletter
+  newsletter-api
+  newsletter-cli
+  newsletter-core
+  newsletter-mcp
+  newsletter-web
 
 Notes:
   Newsletter commands load apps/newsletter/.env.local when it exists.
@@ -187,10 +198,46 @@ function site(argv) {
   pnpm(aliases[command]);
 }
 
+function targetCommand(action, target) {
+  const commands = {
+    check: {
+      site: ["--dir", "apps/site", "astro", "check"],
+      newsletter: ["newsletter:typecheck"],
+      "newsletter-api": ["--filter", "@email/api", "typecheck"],
+      "newsletter-cli": ["--filter", "@email/cli", "typecheck"],
+      "newsletter-core": ["--filter", "@email/core", "typecheck"],
+      "newsletter-mcp": ["--filter", "@email/mcp", "typecheck"],
+      "newsletter-web": ["--filter", "@email/web", "typecheck"],
+    },
+    build: {
+      site: ["build"],
+      newsletter: ["newsletter:build"],
+      "newsletter-api": ["--filter", "@email/api", "build"],
+      "newsletter-cli": ["--filter", "@email/cli", "build"],
+      "newsletter-core": ["--filter", "@email/core", "build"],
+      "newsletter-mcp": ["--filter", "@email/mcp", "build"],
+      "newsletter-web": ["--filter", "@email/web", "build"],
+    },
+  };
+
+  const normalizedTarget = target ?? "site";
+  const command = commands[action]?.[normalizedTarget];
+
+  if (!command) {
+    console.error(`Unknown ${action} target: ${normalizedTarget}\n`);
+    console.error(help());
+    process.exit(2);
+  }
+
+  pnpm(command);
+}
+
 const [area, ...rest] = process.argv.slice(2);
 
 if (!area || area === "help" || area === "--help" || area === "-h") {
   console.log(help());
+} else if (area === "check" || area === "build") {
+  targetCommand(area, rest[0]);
 } else if (area === "newsletter" || area === "email") {
   newsletter(rest);
 } else if (area === "site") {
