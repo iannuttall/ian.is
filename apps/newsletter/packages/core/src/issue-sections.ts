@@ -1,5 +1,6 @@
 import { type CSSProperties, Fragment, createElement as h, type ReactNode } from 'react'
 import { Column, Hr, Img, Link, Markdown, Row, Section, Text } from 'react-email'
+import { withHardLineBreaks } from './issue-markdown.js'
 import {
   issueInlineMarkdownStyles,
   issueLeadMarkdownStyles,
@@ -49,7 +50,7 @@ export function mdBlock(
     markdownContainerStyles: containerStyle ?? {},
     markdownCustomStyles: customStyles,
     // biome-ignore lint/correctness/noChildrenProp: React Email Markdown types require this prop.
-    children: withHighlights(markdown),
+    children: withHardLineBreaks(withHighlights(markdown)),
   })
 }
 

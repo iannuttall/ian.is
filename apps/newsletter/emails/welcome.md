@@ -30,5 +30,5 @@ Please do these three things if you can:
 - Sit back and wait until I email you some interesting stuff.
 :::
 
-Cheers,\
+Cheers,
 Ian

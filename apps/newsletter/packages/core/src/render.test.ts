@@ -19,7 +19,12 @@ describe('renderDraft', () => {
     const rendered = await renderDraftEmail({
       subject: 'Default subject',
       preview: 'Preview text',
-      bodyMarkdown: 'Hello [there](https://example.com?a=1&b=2).',
+      bodyMarkdown: [
+        'Hello [there](https://example.com?a=1&b=2).',
+        '',
+        'Cheers,',
+        'Ian',
+      ].join('\n'),
     })
 
     assert.equal(rendered.subject, 'Default subject')
@@ -29,6 +34,7 @@ describe('renderDraft', () => {
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
     assert.match(rendered.html, /Inter, Helvetica, Arial, sans-serif/)
     assert.match(rendered.html, /Ian(&#x27;|')s List/)
+    assert.match(rendered.html, /Cheers,<br/)
     assert.match(rendered.text, /Hello/)
   })
 
