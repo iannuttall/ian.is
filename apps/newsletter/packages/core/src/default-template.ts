@@ -42,10 +42,12 @@ const defaultModularTypes = new Set([
   'poll',
 ])
 
-// Default text sits 40px from the shell edge on desktop. On mobile the default
-// shell owns one explicit 16px content edge; modular section cells inherit that
-// same edge so body text, headings, link blocks, classifieds, and footer copy
-// line up top-to-bottom.
+// Default text sits 40px from the shell edge on desktop. React Email puts
+// Section padding on a generated inner <td>, so responsive gutter classes must
+// live on Column cells instead of Section wrappers. On mobile the default shell
+// owns one explicit 16px content edge; modular section cells inherit that same
+// edge so body text, headings, link blocks, classifieds, and footer copy line
+// up top-to-bottom.
 const defaultResponsiveCss = `${issueResponsiveCss}
   .default-footer .issue-footer-blurb {
     padding-left: 40px !important;
@@ -56,17 +58,17 @@ const defaultResponsiveCss = `${issueResponsiveCss}
     padding-right: 40px !important;
   }
   @media only screen and (max-width: 599px) {
-    .default-header,
-    .default-text-wrap,
-    .default-colored-wrap {
+    .default-header-cell,
+    .default-content-cell,
+    .default-surface-cell {
       padding-left: 16px !important;
       padding-right: 16px !important;
     }
-    .default-wrap {
+    .default-module-cell {
       padding-left: 0 !important;
       padding-right: 0 !important;
     }
-    .default-wrap .issue-cell,
+    .default-module-cell .issue-cell,
     .default-footer .issue-footer-blurb,
     .default-footer .issue-footer-links {
       padding-left: 16px !important;
@@ -134,17 +136,17 @@ function defaultBlock(section: IssueSection) {
     return h(
       Fragment,
       null,
-      h(
-        Section,
-        { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
+      defaultCell(
+        'default-content-cell',
+        defaultEmailStyles.textWrap,
         squareHeading(
           section.attrs.title,
           resolveSectionColors(section.attrs.color).square,
         ),
       ),
-      h(
-        Section,
-        { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
+      defaultCell(
+        'default-content-cell',
+        defaultEmailStyles.textWrap,
         mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
       ),
     )
@@ -155,28 +157,28 @@ function defaultBlock(section: IssueSection) {
     // exactly on the 40px gutter, regardless of the body wrapper below.
     const title = section.attrs.title ?? defaultSectionTitles[section.type]
     const heading = title
-      ? h(
-          Section,
-          { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
+      ? defaultCell(
+          'default-content-cell',
+          defaultEmailStyles.textWrap,
           squareHeading(title, resolveSectionColors(section.attrs.color).square),
         )
       : null
     const body = defaultColoredTypes.has(section.type)
-      ? h(
-          Section,
-          { className: 'default-colored-wrap', style: defaultEmailStyles.coloredWrap },
+      ? defaultCell(
+          'default-surface-cell',
+          defaultEmailStyles.coloredWrap,
           renderIssueSection(section, false),
         )
-      : h(
-          Section,
-          { className: 'default-wrap', style: defaultEmailStyles.modularWrap },
+      : defaultCell(
+          'default-module-cell',
+          defaultEmailStyles.modularWrap,
           renderIssueSection(section, false),
         )
     return h(Fragment, null, heading, body)
   }
-  return h(
-    Section,
-    { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
+  return defaultCell(
+    'default-content-cell',
+    defaultEmailStyles.textWrap,
     mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
   )
 }
@@ -188,38 +190,58 @@ function defaultFooterBand() {
 function defaultHeader() {
   return h(
     Section,
-    { className: 'default-header', style: defaultEmailStyles.header },
+    { style: defaultEmailStyles.header },
     h(
       Row,
       null,
       h(
         Column,
-        {
-          style: { ...defaultEmailStyles.headerCell, textAlign: 'left' as const },
-          width: '50%',
-        },
-        h(
-          Link,
-          untrackedLinkProps({
-            href: 'https://ian.is',
-            style: defaultEmailStyles.logoLink,
-          }),
-          h(Img, {
-            src: 'https://list.ian.is/favicon-light.png',
-            alt: 'Ian Nuttall',
-            width: 32,
-            height: 32,
-            style: defaultEmailStyles.logo,
-          }),
-        ),
-      ),
-      h(
-        Column,
-        { align: 'right', style: defaultEmailStyles.headerCell, width: '50%' },
-        h(Text, { style: defaultEmailStyles.company }, "Ian's List"),
+        { className: 'default-header-cell', style: defaultEmailStyles.headerInset },
+        headerRow(),
       ),
     ),
   )
+}
+
+function headerRow() {
+  return h(
+    Row,
+    null,
+    h(
+      Column,
+      {
+        style: { ...defaultEmailStyles.headerCell, textAlign: 'left' as const },
+        width: '50%',
+      },
+      h(
+        Link,
+        untrackedLinkProps({
+          href: 'https://ian.is',
+          style: defaultEmailStyles.logoLink,
+        }),
+        h(Img, {
+          src: 'https://list.ian.is/favicon-light.png',
+          alt: 'Ian Nuttall',
+          width: 32,
+          height: 32,
+          style: defaultEmailStyles.logo,
+        }),
+      ),
+    ),
+    h(
+      Column,
+      { align: 'right', style: defaultEmailStyles.headerCell, width: '50%' },
+      h(Text, { style: defaultEmailStyles.company }, "Ian's List"),
+    ),
+  )
+}
+
+function defaultCell(
+  className: string,
+  style: ComponentProps<typeof Column>['style'],
+  ...children: ReactNode[]
+) {
+  return h(Section, null, h(Row, null, h(Column, { className, style }, ...children)))
 }
 
 function fontFaces() {

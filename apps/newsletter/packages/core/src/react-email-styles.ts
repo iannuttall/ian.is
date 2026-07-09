@@ -60,6 +60,8 @@ export const defaultEmailStyles = {
   },
   header: {
     margin: '0 0 12px',
+  },
+  headerInset: {
     // Match the 40px horizontal inset of text blocks so the mark and the
     // body copy share the same left edge.
     padding: '0 40px',
