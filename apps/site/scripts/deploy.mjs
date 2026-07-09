@@ -11,11 +11,13 @@ const siteDir = process.cwd();
 const builtConfigPath = resolve(siteDir, "dist/server/wrangler.json");
 const deployConfigPath = resolve(siteDir, "dist/server/wrangler.deploy.jsonc");
 const deployId = git(["rev-parse", "HEAD"]);
-const source = process.env.GITHUB_ACTIONS
-  ? "github"
-  : process.env.CF_PAGES || process.env.CLOUDFLARE_BUILD_ID
-    ? "cloudflare"
-    : "local";
+const source =
+  process.env.DEPLOY_SOURCE ??
+  (process.env.GITHUB_ACTIONS
+    ? "github"
+    : process.env.CF_PAGES || process.env.CLOUDFLARE_BUILD_ID
+      ? "cloudflare"
+      : "local");
 const statusUrl =
   process.env.DEPLOY_STATUS_URL ??
   "https://ian.is/.well-known/deploy.json";
