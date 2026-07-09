@@ -133,8 +133,8 @@ export const issueStyles = {
     height: '25px',
   }),
   headingSquareCell: {
-    padding: '15px 0 10px 0',
-    verticalAlign: 'top',
+    padding: '15px 0',
+    verticalAlign: 'middle',
   },
   headingSquare: issueText({
     display: 'block',
@@ -145,8 +145,8 @@ export const issueStyles = {
     fontSize: '1px',
   }),
   headingCell: {
-    padding: '15px 20px 10px 14px',
-    verticalAlign: 'top',
+    padding: '15px 20px 15px 14px',
+    verticalAlign: 'middle',
   },
   headingText: issueText({
     fontSize: '23px',

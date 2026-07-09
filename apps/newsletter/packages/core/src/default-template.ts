@@ -170,53 +170,33 @@ function defaultFooterBand() {
       Section,
       { style: defaultEmailStyles.footerInner },
       h(
-        Row,
-        null,
+        Text,
+        { style: defaultEmailStyles.footerText },
+        h('strong', null, "Ian's List"),
+        ' is a weekly email about building useful things with AI, written by ',
         h(
-          Column,
-          {
-            className: 'issue-stack',
-            style: defaultEmailStyles.footerBlurbCell,
-            width: '62%',
-          },
-          h(
-            Text,
-            { style: defaultEmailStyles.footerText },
-            h('strong', null, "Ian's List"),
-            ' is a weekly email about building useful things with AI, written by ',
-            h(
-              Link,
-              untrackedLinkProps({
-                href: 'https://ian.is',
-                style: defaultEmailStyles.footerLink,
-              }),
-              'Ian Nuttall',
-            ),
-            '.',
-          ),
+          Link,
+          untrackedLinkProps({
+            href: 'https://ian.is',
+            style: defaultEmailStyles.footerLink,
+          }),
+          'Ian Nuttall',
         ),
+        '.',
+      ),
+      h(
+        Text,
+        { style: defaultEmailStyles.footerLinkLine },
         h(
-          Column,
-          {
-            className: 'issue-stack',
-            style: defaultEmailStyles.footerLinksCell,
-            width: '38%',
-          },
-          h(
-            Text,
-            { style: defaultEmailStyles.footerLinkLine },
-            h(
-              Link,
-              { href: '{{unsubscribeUrl}}', style: defaultEmailStyles.footerLink },
-              'Unsubscribe',
-            ),
-          ),
-          h(
-            Text,
-            { style: defaultEmailStyles.footerSmall },
-            '20-22 Wenlock Road, London, N1 7GU',
-          ),
+          Link,
+          { href: '{{unsubscribeUrl}}', style: defaultEmailStyles.footerLink },
+          'Unsubscribe',
         ),
+      ),
+      h(
+        Text,
+        { style: defaultEmailStyles.footerSmall },
+        '20-22 Wenlock Road, London, N1 7GU',
       ),
     ),
   )
@@ -239,10 +219,10 @@ function defaultHeader() {
             style: defaultEmailStyles.logoLink,
           }),
           h(Img, {
-            src: 'https://ian.is/logo-black.png',
+            src: 'https://list.ian.is/favicon-light.png',
             alt: 'Ian Nuttall',
-            width: 33,
-            height: 20,
+            width: 32,
+            height: 32,
             style: defaultEmailStyles.logo,
           }),
         ),
