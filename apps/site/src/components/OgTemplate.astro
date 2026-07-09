@@ -2,28 +2,31 @@
 interface Props {
   title: string;
   description?: string;
-  url: string;
 }
 
-const { title, description, url } = Astro.props;
-const host = new URL(url).host;
+const { title, description } = Astro.props;
 ---
 
 <div
-  class="flex h-[630px] w-[1200px] flex-col justify-between overflow-hidden bg-background px-20 py-16 font-sans text-foreground"
+  class="flex h-[630px] w-[1200px] flex-col overflow-hidden bg-background px-20 pt-20 pb-14 font-sans text-foreground"
   style="color-scheme: light;"
 >
-  <div class="flex items-center justify-between text-[30px] leading-none">
-    <div class="font-medium">Ian Nuttall</div>
-    <div class="font-medium text-foreground-muted">{host}</div>
+  <div class="flex items-center">
+    <img src="/logo-black.svg" alt="Ian Nuttall" width="64" height="64" class="block size-16" />
   </div>
 
-  <div class="flex flex-col gap-8">
-    <h1 class="max-w-[980px] text-balance text-[80px] font-medium leading-[1.05]">
+  <div class="flex flex-1 flex-col justify-center">
+    <h1
+      class="max-w-full overflow-hidden text-[76px] font-medium leading-[1.08]"
+      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
+    >
       {title}
     </h1>
     {description ? (
-      <p class="max-w-[900px] text-balance text-[42px] font-medium leading-[1.2] text-foreground-muted">
+      <p
+        class="mt-6 max-w-full overflow-hidden text-[42px] font-medium leading-[1.3] text-foreground-muted"
+        style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;"
+      >
         {description}
       </p>
     ) : null}

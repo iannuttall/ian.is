@@ -28,6 +28,8 @@ const structuredData = webPageSchema({
 <Layout
   title={title}
   description={description}
+  ogTitle={page.data.ogTitle}
+  ogDescription={page.data.ogDescription}
   canonicalPath={path}
   breadcrumbs={pageBreadcrumbs(page.data.breadcrumbTitle ?? title, path)}
   structuredData={structuredData}

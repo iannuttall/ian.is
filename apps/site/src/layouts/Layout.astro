@@ -23,6 +23,8 @@ interface Props {
   noIndex?: boolean;
   ogType?: "website" | "article";
   ogImagePath?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   breadcrumbs?: SeoBreadcrumbItem[] | false;
   titleTemplate?: boolean;
@@ -37,6 +39,8 @@ const {
   noIndex = false,
   ogType = "website",
   ogImagePath,
+  ogTitle,
+  ogDescription,
   structuredData,
   breadcrumbs,
   titleTemplate = true,
@@ -44,6 +48,8 @@ const {
 } = Astro.props;
 
 const fullTitle = titleTemplate && title !== siteName ? `${title} | ${siteName}` : title;
+const fullOgTitle = ogTitle ?? title;
+const fullOgDescription = ogDescription ?? description;
 const baseUrl = Astro.site ?? new URL(siteUrl);
 const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
 const ogImageUrl = toOgImageUrl(canonicalUrl, ogImagePath);
@@ -83,14 +89,14 @@ const isOgPreview = Astro.url.searchParams.has("og");
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={fullOgTitle} />
+    <meta property="og:description" content={fullOgDescription} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={fullOgTitle} />
+    <meta name="twitter:description" content={fullOgDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
     <link rel="icon" type="image/png" href="/favicon-light.png?v=20260706-2" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/png" href="/favicon-dark.png?v=20260706-2" media="(prefers-color-scheme: dark)" />
@@ -125,7 +131,7 @@ const isOgPreview = Astro.url.searchParams.has("og");
   </head>
   <body class:list={["min-h-screen bg-background antialiased", isOgPreview ? "m-0 overflow-hidden" : ""]}>
     {isOgPreview ? (
-      <OgTemplate title={fullTitle} description={description} url={canonicalUrl} />
+      <OgTemplate title={fullOgTitle} description={fullOgDescription} />
     ) : (
       <>
         <a href="#content" class="skip-link">Skip to content</a>
@@ -137,7 +143,7 @@ const isOgPreview = Astro.url.searchParams.has("og");
           </main>
         </div>
         <template data-og-template data-og-width="1200" data-og-height="630">
-          <OgTemplate title={fullTitle} description={description} url={canonicalUrl} />
+          <OgTemplate title={fullOgTitle} description={fullOgDescription} />
         </template>
         <script>
           import Alpine from "alpinejs";
