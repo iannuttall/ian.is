@@ -182,6 +182,9 @@ Emails must stay composable and deterministic: write campaign bodies in
 Markdown, then use shared directive blocks for layout. Do not create custom
 React email components for one campaign. If a new visual pattern is needed,
 add it as a reusable section in `packages/core` and cover it with render tests.
+For multi-item blocks like `links` and `classifieds`, separate items with a
+standalone `---` line. Do not use Markdown bullets for those items. Classifieds
+button attrs are `button` and `button-url`.
 
 Available templates:
 

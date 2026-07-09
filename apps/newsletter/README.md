@@ -228,6 +228,28 @@ Campaigns should be plain Markdown plus those shared section blocks. Avoid
 one-off React email files for individual sends. Add new reusable section
 components in `packages/core` when the design needs a new pattern.
 
+Multi-item email blocks use `---` between items, not Markdown bullets:
+
+```md
+::: links title="Worth a Click"
+[Passport Index](https://example.com)
+Explore the power of passports
+
+Ranks each passport by a mobility score.
+---
+[Paku](https://example.com)
+Air quality monitor
+
+Configure alerts for nearby sensors.
+:::
+
+::: classifieds title="Classifieds" button="Book yours ↗︎" button-url="https://ian.is/advertise"
+[MicroSponsor](https://example.com) is a tiny classified placement for builders.
+---
+[Toolmaker Jobs](https://example.com) lists small teams hiring practical software people.
+:::
+```
+
 Render the selected template before real sends:
 
 ```bash
