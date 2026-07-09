@@ -142,6 +142,13 @@ export const issueStyles = {
     lineHeight: '27px',
     margin: 0,
   }),
+  headingMarker: issueText({
+    display: 'inline-block',
+    fontSize: '21px',
+    lineHeight: '1',
+    marginRight: '10px',
+    verticalAlign: 'middle',
+  }),
   narrowLeftCell: {
     padding: '15px 10px 5px 20px',
     verticalAlign: 'top',

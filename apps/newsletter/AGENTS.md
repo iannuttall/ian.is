@@ -186,7 +186,7 @@ For multi-item blocks like `links` and `classifieds`, separate items with a
 standalone `---` line. Do not use Markdown bullets for those items. Classifieds
 button attrs are `button` and `button-url`.
 Section headings use inline text markers, not separate square/icon columns:
-`■` default, `✦` sponsor, `＋` links, `◆` classifieds. Override per section
+`▲` default, `✦` sponsor, `＋` links, `◆` classifieds. Override per section
 with `marker="..."` if a campaign needs a different symbol.
 
 Available templates:

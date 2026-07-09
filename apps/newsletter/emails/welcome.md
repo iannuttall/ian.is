@@ -25,10 +25,10 @@ Just practical notes, tools, workflows, and experiments in using AI for product 
 Please do these three things if you can:
 
 - Mark email&#64;ian.is as "Not spam".
-- Drag this email from Promotions (or wherever it goes) to Primary in Gmail.
+- Drag this email from Promotions (or wherever) to Primary in Gmail.
 - Hit reply and say "hi" so the email overlords know I'm a good guy.
-- Sit back and wait until I email you some interesting stuff
+- Sit back and wait until I email you some interesting stuff.
 :::
 
-Cheers,
+Cheers,\
 Ian

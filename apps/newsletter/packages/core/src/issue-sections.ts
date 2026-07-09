@@ -54,10 +54,10 @@ export function mdBlock(
 }
 
 export function headingMarker(section: IssueSection): string {
-  return section.attrs.marker ?? sectionMarkers[section.type] ?? '■'
+  return section.attrs.marker ?? sectionMarkers[section.type] ?? '▲'
 }
 
-export function squareHeading(title: string, marker = '■') {
+export function squareHeading(title: string, marker = '▲') {
   return h(
     Section,
     null,
@@ -67,7 +67,12 @@ export function squareHeading(title: string, marker = '■') {
       h(
         Column,
         { style: issueStyles.headingCell },
-        h(Text, { style: issueStyles.headingText }, `${marker} ${title}`),
+        h(
+          Text,
+          { style: issueStyles.headingText },
+          h('span', { style: issueStyles.headingMarker }, marker),
+          h('span', null, title),
+        ),
       ),
     ),
   )
