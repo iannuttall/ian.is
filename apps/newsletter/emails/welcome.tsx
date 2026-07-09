@@ -1,39 +1,60 @@
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { DefaultEmail } from '@email/core'
 
-export const welcomeBodyMarkdown = `Hey, it's Ian.
+type WelcomeEmailContent = {
+  subject: string
+  preview: string
+  template: string
+  bodyMarkdown: string
+}
 
-You're on Ian's List.
+const contentPath = join(dirname(fileURLToPath(import.meta.url)), 'welcome.md')
 
-I write a weekly email about building useful things with AI. Expect practical notes, small tools, workflows, SEO experiments, and lessons from things that did not go to plan.
+export const welcomeEmail = parseMarkdownEmail(readFileSync(contentPath, 'utf8'))
 
-No hype. No fake urgency. Just useful things I have tried, built, broken, or learned.
-
-::: text title="What you can expect"
-- Practical "I built X" walkthroughs
-- Quick tips for getting better results from AI tools
-- Useful tools, prompts, workflows, and examples
-- Clear explanations for developers, marketers, and non-technical builders
-:::
-
-::: text title="Help this land in the right place"
-Please do these three things if you can:
-
-1. Mark email&#64;ian.is as not spam.
-2. Move this email to Primary if Gmail puts it in Promotions.
-3. Hit reply and say hi. It helps email providers learn that you want these emails.
-:::
-
-That is it for now. I will send the first proper issue soon.
-
-Cheers,
-Ian`
+function parseMarkdownEmail(raw: string): WelcomeEmailContent {
+  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
+  if (!match) {
+    throw new Error('welcome.md must start with frontmatter.')
+  }
+  const frontmatter = Object.fromEntries(
+    (match[1] ?? '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        const separator = line.indexOf(':')
+        if (separator === -1) throw new Error(`Invalid frontmatter line: ${line}`)
+        const key = line.slice(0, separator).trim()
+        const value = line
+          .slice(separator + 1)
+          .trim()
+          .replace(/^["']|["']$/g, '')
+        return [key, value]
+      }),
+  )
+  const subject = frontmatter.subject
+  const preview = frontmatter.preview
+  const template = frontmatter.template ?? 'default'
+  if (!subject) throw new Error('welcome.md is missing subject.')
+  if (!preview) throw new Error('welcome.md is missing preview.')
+  return {
+    subject,
+    preview,
+    template,
+    bodyMarkdown: (match[2] ?? '').trim(),
+  }
+}
 
 export default function WelcomeEmailPreview() {
   return (
     <DefaultEmail
-      subject="Welcome to Ian's List"
-      preview="What to expect and how to keep these emails out of spam."
-      bodyMarkdown={welcomeBodyMarkdown}
+      subject={welcomeEmail.subject}
+      preview={welcomeEmail.preview}
+      template={welcomeEmail.template}
+      bodyMarkdown={welcomeEmail.bodyMarkdown}
     />
   )
 }
