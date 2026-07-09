@@ -197,6 +197,12 @@ export const issueStyles = {
     margin: '0 0 15px',
   },
   classifiedNote: issueText({ color: issueColors.grey, marginBottom: '15px' }),
+  classifiedLink: {
+    color: issueColors.ink,
+    fontWeight: 600,
+    textDecoration: 'underline',
+    textUnderlineOffset: '2px',
+  },
   button: {
     backgroundColor: issueColors.button,
     borderRadius: '10px',

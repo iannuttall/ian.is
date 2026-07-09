@@ -118,6 +118,9 @@ node --env-file=.env.local packages/cli/dist/index.js template render --subject 
 ```
 
 Use the default template for normal broadcasts.
+Compose emails from Markdown plus shared section directives. Do not make
+one-off React email files for individual campaigns; add reusable `packages/core`
+sections instead.
 
 Use `metadata.links` to tag tracked links by index:
 

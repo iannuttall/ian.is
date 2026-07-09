@@ -222,6 +222,10 @@ Markdown is the authoring format. The default template is the normal Ian's List
 React Email shell. It also accepts section blocks like `links`, `sponsor`, `box`,
 `classifieds`, `quote`, and `poll`.
 
+Campaigns should be plain Markdown plus those shared section blocks. Avoid
+one-off React email files for individual sends. Add new reusable section
+components in `packages/core` when the design needs a new pattern.
+
 Render the selected template before real sends:
 
 ```bash

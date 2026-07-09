@@ -13,7 +13,7 @@ import {
   resolveSectionColors,
 } from './issue-styles.js'
 
-const defaultClassifiedsButton = "Advertise on Ian's List"
+const defaultClassifiedsButton = 'Book yours ->'
 const defaultClassifiedsButtonUrl = 'https://ian.is/advertise'
 
 export function issueSpacer(key?: string) {
@@ -236,7 +236,10 @@ export function sponsorSection(section: IssueSection, withHeading = true) {
 export function classifiedsSection(section: IssueSection, withHeading = true) {
   const colors = resolveSectionColors(section.attrs.color)
   const entries = section.items.flatMap((item, index) => {
-    const entry = mdBlock(item)
+    const entry = mdBlock(item, {
+      ...issueMarkdownStyles,
+      link: issueStyles.classifiedLink,
+    })
     if (index === section.items.length - 1) return [entry]
     return [entry, h(Hr, { key: `divider-${index}`, style: issueStyles.divider })]
   })

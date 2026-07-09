@@ -178,6 +178,11 @@ events or inferred opens from clicks.
 Markdown is the authoring format. The default template is the normal Ian's List
 React Email shell.
 
+Emails must stay composable and deterministic: write campaign bodies in
+Markdown, then use shared directive blocks for layout. Do not create custom
+React email components for one campaign. If a new visual pattern is needed,
+add it as a reusable section in `packages/core` and cover it with render tests.
+
 Available templates:
 
 - `default`: Ian's List shell. Body text renders at 18px; it accepts section blocks
