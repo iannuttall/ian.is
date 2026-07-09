@@ -13,7 +13,7 @@ import {
   resolveSectionColors,
 } from './issue-styles.js'
 
-const defaultClassifiedsButton = 'Book yours ->'
+const defaultClassifiedsButton = 'Book yours →'
 const defaultClassifiedsButtonUrl = 'https://ian.is/advertise'
 
 export function issueSpacer(key?: string) {
