@@ -21,6 +21,12 @@ RUN printf '%s\n' \
   '  "@tailwindcss/oxide": true' \
   '  esbuild: true' \
   '  sharp: true' \
+  '  workerd: true' \
+  '' \
+  'overrides:' \
+  '  esbuild: 0.28.1' \
+  '  postcss: 8.5.10' \
+  '  yaml: 2.8.3' \
   > pnpm-workspace.yaml
 RUN pnpm install --frozen-lockfile --filter email --filter '@email/*'
 RUN pnpm --filter email build

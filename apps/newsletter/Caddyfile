@@ -19,7 +19,7 @@
   }
 
   @web {
-    path / /unsubscribe* /_astro/* /fonts/* /favicon*
+    path / /unsubscribe* /_astro/* /fonts/* /favicon* /email-logo*
   }
 
   handle @web {
