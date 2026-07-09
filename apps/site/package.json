@@ -14,8 +14,9 @@
     "secrets:sync:dry": "node scripts/sync-secrets.mjs --dry-run",
     "build:sitemaps": "node scripts/build-sitemaps.mjs",
     "data:refresh": "node scripts/refresh-github-contributions.mjs",
-    "deploy": "pnpm run check:remote-env && pnpm run build && wrangler deploy",
-    "deploy:built": "pnpm run check:remote-env && wrangler deploy"
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:built": "node scripts/deploy.mjs --built",
+    "deploy:dry-run": "node scripts/deploy.mjs --dry-run"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.0.2",

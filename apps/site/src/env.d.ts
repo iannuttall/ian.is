@@ -5,6 +5,10 @@
 // `cloudflare:workers` env resolves against the `Cloudflare.Env` interface.
 declare namespace Cloudflare {
   interface Env {
+    DEPLOYED_AT?: string;
+    DEPLOY_ID?: string;
+    DEPLOY_SOURCE?: string;
+    GIT_SHA?: string;
     LIST_API_TOKEN: string;
     LIST_API_URL?: string;
   }

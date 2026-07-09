@@ -227,7 +227,17 @@ pnpm ian site check-remote-env
 
 This is one repo, but the apps deploy separately.
 
-The site deploys to Cloudflare Workers from `apps/site`.
+The site deploys to Cloudflare Workers from `apps/site`. Cloudflare Build should
+use:
+
+```sh
+pnpm build
+pnpm site:worker:deploy
+```
+
+Local deploys and Cloudflare deploys both publish the current git SHA at
+`/.well-known/deploy.json`. If that SHA is already live, the deploy command
+exits cleanly without deploying again.
 
 The newsletter deploys to the VPS from `apps/newsletter`. The GitHub Actions
 workflow is path-filtered so site-only changes do not deploy the newsletter.

@@ -77,6 +77,9 @@ Cloudflare site deploy shape:
   its root directory.
 - Cloudflare build command: `pnpm build`.
 - Cloudflare deploy command: `pnpm site:worker:deploy`.
+- Cloudflare Build and local deploys must use the deploy wrapper, not raw
+  `wrangler deploy`. The wrapper writes a deploy marker from the current git
+  SHA to `/.well-known/deploy.json` and skips when that SHA is already live.
 - Cloudflare build watch include paths should be:
   - `apps/site/**`
   - `packages/**`
@@ -85,9 +88,9 @@ Cloudflare site deploy shape:
   - `pnpm-workspace.yaml`
 - Do not include `apps/newsletter/**` in the site Worker watch paths. Newsletter
   production deploys through GitHub Actions and the VPS.
-- `apps/site/wrangler.jsonc` should not define `routes` until cutover is
-  intentional. Attaching `ian.is/*` or changing DNS is a go-live task and must
-  be called out explicitly.
+- `apps/site/wrangler.jsonc` owns the live custom domains for `ian.is` and
+  `www.ian.is`. Do not add unrelated routes or domains without an explicit
+  deploy/DNS request.
 - If a separate Cloudflare Hono API app is added later, put it in its own app
   directory such as `apps/api`, give it its own `wrangler.jsonc`, root script,
   and Cloudflare Worker build watch paths. Do not make site-only changes deploy

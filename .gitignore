@@ -8,6 +8,8 @@ node_modules/
 
 # cloudflare / wrangler
 .wrangler/
+wrangler.deploy.jsonc
+wrangler.deploy.jsonc.tmp
 worker-configuration.d.ts
 
 # secrets & env

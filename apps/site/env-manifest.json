@@ -1,7 +1,13 @@
 {
   "bindings": [],
   "requiredRemote": ["LIST_API_TOKEN"],
-  "optionalRemote": ["LIST_API_URL"],
+  "optionalRemote": [
+    "DEPLOYED_AT",
+    "DEPLOY_ID",
+    "DEPLOY_SOURCE",
+    "GIT_SHA",
+    "LIST_API_URL"
+  ],
   "d1Migrations": [],
   "r2Seeds": []
 }

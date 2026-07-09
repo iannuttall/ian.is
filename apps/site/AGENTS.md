@@ -15,6 +15,9 @@ Read the root `AGENTS.md` first. This file only adds site-specific direction.
 - Cloudflare Builds should deploy this app with root directory `/`, build
   command `pnpm build`, deploy command `pnpm site:worker:deploy`, and watch
   paths for `apps/site/**`, `packages/**`, and root workspace files.
+- Do not deploy this app with raw `wrangler deploy`. Use `pnpm -C apps/site
+  deploy` locally or `pnpm site:worker:deploy` from Cloudflare Build so the
+  live deploy marker can skip duplicate deploys for the same git SHA.
 
 ## Commands
 
