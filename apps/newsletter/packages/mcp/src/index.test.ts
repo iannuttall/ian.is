@@ -66,7 +66,7 @@ describe('mcp server', () => {
       arguments: {
         subject: 'Rendered',
         bodyMarkdown: 'Read [this](https://example.com).',
-        template: 'react-minimal',
+        template: 'default',
       },
     })
     const renderedContent = rendered.content as Array<{ text?: string }>

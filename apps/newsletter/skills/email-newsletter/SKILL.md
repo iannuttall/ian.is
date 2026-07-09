@@ -107,18 +107,17 @@ node --env-file=.env.local packages/cli/dist/index.js purchase record --email pe
 Create a draft from Markdown:
 
 ```bash
-node --env-file=.env.local packages/cli/dist/index.js draft create --subject "Subject" --body-file draft.md --template react-newsletter --metadata-file draft.metadata.json --json
+node --env-file=.env.local packages/cli/dist/index.js draft create --subject "Subject" --body-file draft.md --metadata-file draft.metadata.json --json
 ```
 
-Render the selected template before sending:
+Render the email before sending:
 
 ```bash
 node --env-file=.env.local packages/cli/dist/index.js template list --json
-node --env-file=.env.local packages/cli/dist/index.js template render --subject "Subject" --body-file draft.md --template react-newsletter --out-dir rendered-email --json
+node --env-file=.env.local packages/cli/dist/index.js template render --subject "Subject" --body-file draft.md --out-dir rendered-email --json
 ```
 
-Use `react-newsletter` for normal broadcasts, `react-minimal` for short
-plain-feeling emails, and `default` for backwards-compatible Markdown rendering.
+Use the default template for normal broadcasts.
 
 Use `metadata.links` to tag tracked links by index:
 

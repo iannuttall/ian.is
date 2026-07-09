@@ -12,13 +12,15 @@ describe('template routes', () => {
     const templates = (await templatesResponse.json()) as {
       templates: Array<{ key: string }>
     }
-    assert.ok(templates.templates.some((template) => template.key === 'react-minimal'))
-    assert.ok(templates.templates.some((template) => template.key === 'react-note'))
+    assert.deepEqual(
+      templates.templates.map((template) => template.key),
+      ['default'],
+    )
 
     const rendered = (await authorized(app, '/api/templates/render', {
       subject: 'Template QA',
       bodyMarkdown: 'Read [this](https://example.com).',
-      template: 'react-newsletter',
+      template: 'default',
       preview: 'Preview',
     })) as { html: string; text: string }
     assert.match(rendered.html, /https:\/\/example.com/)

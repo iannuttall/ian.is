@@ -175,25 +175,15 @@ events or inferred opens from clicks.
 
 ## Template Rules
 
-Markdown is the authoring format. The draft `template` field chooses the email
-shell.
+Markdown is the authoring format. The default template is the normal Ian's List
+React Email shell.
 
 Available templates:
 
-- `default`: backwards-compatible Markdown shell.
-- `react-newsletter`: React Email shell for normal broadcasts.
-- `react-minimal`: React Email shell for short plain-feeling emails.
-- `react-note`: barebones-inspired minimal shell for concise notes. Body
-  text renders at 18px; it also accepts the react-issue section blocks
+- `default`: Ian's List shell. Body text renders at 18px; it accepts section blocks
   (`links`, `sponsor`, `box`, `classifieds`, `quote`, `poll`) for mixed campaigns.
-- `react-issue`: Dense Discovery-inspired modular magazine issue shell. The
-  body is Markdown plus `::: type key="value"` section blocks (`header`, `hero`, `lead`,
-  `text`, `links`, `sponsor`, `box`, `classifieds`, `quote`, `poll`, `footer`); items
-  inside `links`/`classifieds` are separated by `---` lines. Logo images
-  default to `https://ian.is/email/logo-top.png` / `logo-bottom.png` (the
-  two-piece header overlap trick); override with `logo-base` on the hero.
 
-Before real sends, render the chosen template locally:
+Before real sends, render the email locally:
 
 ```bash
 pnpm ian newsletter render --subject "Subject" --body-file apps/newsletter/draft.md --out-dir apps/newsletter/rendered-email

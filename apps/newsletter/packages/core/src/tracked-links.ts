@@ -14,8 +14,9 @@ export async function rewriteTrackedLinks(input: {
   let linkIndex = 0
   const links: Array<ReturnType<EmailStore['createLink']>> = []
   const rewritten = input.html.replace(
-    /href="(https?:\/\/[^"#]+[^"]*)"/g,
-    (match, escapedOriginalUrl: string) => {
+    /<a\b([^>]*?)href="(https?:\/\/[^"#]+[^"]*)"([^>]*)>/g,
+    (match, beforeHref: string, escapedOriginalUrl: string, afterHref: string) => {
+      if (isUntrackedLink(`${beforeHref} ${afterHref}`)) return match
       const originalUrl = decodeHtmlAttribute(escapedOriginalUrl)
       if (originalUrl.startsWith(`${input.baseUrl}/unsubscribe/`)) {
         return match
@@ -42,9 +43,13 @@ export async function rewriteTrackedLinks(input: {
         }),
       )
       linkIndex += 1
-      return `href="${input.baseUrl}/t/click/${token}"`
+      return `<a${beforeHref}href="${input.baseUrl}/t/click/${token}"${afterHref}>`
     },
   )
   await Promise.all(links)
   return rewritten
+}
+
+function isUntrackedLink(attributes: string): boolean {
+  return /\bdata-track=(?:"false"|'false')/i.test(attributes)
 }

@@ -132,18 +132,27 @@ export const issueStyles = {
     lineHeight: '25px',
     height: '25px',
   }),
-  // Zero left padding like DD's td.title: the square sits flush with the
-  // section box edge, with body copy indented past it.
-  headingCell: {
-    padding: '15px 20px 10px 0',
+  headingSquareCell: {
+    padding: '15px 0 10px 0',
+    verticalAlign: 'top',
   },
-  // DD 396 square marker: a 26px left border matching the 27px line height
-  // reads as a colored square in front of the heading.
+  headingSquare: issueText({
+    display: 'block',
+    width: '26px',
+    height: '26px',
+    lineHeight: '26px',
+    margin: 0,
+    fontSize: '1px',
+  }),
+  headingCell: {
+    padding: '15px 20px 10px 14px',
+    verticalAlign: 'top',
+  },
   headingText: issueText({
     fontSize: '23px',
     fontWeight: 700,
     lineHeight: '27px',
-    paddingLeft: '14px',
+    margin: 0,
   }),
   narrowLeftCell: {
     padding: '15px 10px 5px 20px',
@@ -317,9 +326,10 @@ export const issueResponsiveCss = `
     .issue-hide-mobile {
       display: none !important;
     }
-    .issue-square {
-      border-left-width: 9px !important;
-      padding-left: 6px !important;
+    .issue-heading-square {
+      width: 26px !important;
+      height: 26px !important;
+      line-height: 26px !important;
     }
     .issue-spacer {
       height: 15px !important;

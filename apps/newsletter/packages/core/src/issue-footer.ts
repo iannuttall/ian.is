@@ -6,7 +6,7 @@ import type { IssueSection } from './issue-parser.js'
 import { issueSpacer, mdBlock } from './issue-sections.js'
 import { issueColors, issueLayout, issueStyles } from './issue-styles.js'
 
-const defaultBlurb = `**Ian's List** is a weekly-ish email about building useful things on the internet, written by [Ian Nuttall](${issueSiteUrl}). Thanks for reading all the way to the end.
+const defaultBlurb = `**Ian's List** is a weekly email about building useful things on the internet, written by [Ian Nuttall](${issueSiteUrl}). Thanks for reading all the way to the end.
 
 If someone forwarded this to you, you can [subscribe here](${issueSiteUrl}).`
 

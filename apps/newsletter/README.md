@@ -198,8 +198,8 @@ email contact external-id person@example.com --provider stripe --external-id cus
 email purchase record --email person@example.com --provider stripe --external-id pi_123 --idempotency-key stripe:pi_123 --product-key course --amount-cents 50000 --currency USD --json
 email audience preview --contact-tag high-value --json
 email template list --json
-email template render --subject "Hello" --body-file draft.md --template react-newsletter --out-dir rendered --json
-email draft create --subject "Hello" --body-file draft.md --template react-newsletter --json
+email template render --subject "Hello" --body-file draft.md --out-dir rendered --json
+email draft create --subject "Hello" --body-file draft.md --json
 email broadcast preview-plan --sample-limit 25 --json
 email broadcast create --draft-id <draft_id> --scheduled-at 2026-06-20T12:00:00.000Z --json
 email canary create --draft-id <draft_id> --steps 50,500,2000,all --json
@@ -218,17 +218,14 @@ Use `--json` for scripts and agents.
 
 ## Templates
 
-Markdown is the authoring format. The draft `template` field chooses the email
-shell:
-
-- `default`: backwards-compatible Markdown shell.
-- `react-newsletter`: React Email shell for normal broadcasts.
-- `react-minimal`: React Email shell for short plain-feeling emails.
+Markdown is the authoring format. The default template is the normal Ian's List
+React Email shell. It also accepts section blocks like `links`, `sponsor`, `box`,
+`classifieds`, `quote`, and `poll`.
 
 Render the selected template before real sends:
 
 ```bash
-email template render --subject "Subject" --body-file draft.md --template react-newsletter --out-dir rendered --json
+email template render --subject "Subject" --body-file draft.md --out-dir rendered --json
 ```
 
 Preview the React Email templates while editing:

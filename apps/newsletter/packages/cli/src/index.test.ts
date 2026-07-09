@@ -160,7 +160,7 @@ describe('cli', () => {
         '--body',
         'Body',
         '--template',
-        'react-newsletter',
+        'default',
         '--preview',
         'Inbox preview',
         '--json',
@@ -172,7 +172,7 @@ describe('cli', () => {
     )
 
     assert.equal(code, 0)
-    assert.equal(platform.draftTemplate, 'react-newsletter')
+    assert.equal(platform.draftTemplate, 'default')
     assert.equal(platform.draftPreview, 'Inbox preview')
   })
 
@@ -182,7 +182,7 @@ describe('cli', () => {
       stdout: (text) => output.push(text),
     })
     assert.equal(listCode, 0)
-    assert.match(output.join(''), /react-newsletter/)
+    assert.match(output.join(''), /default/)
 
     output.length = 0
     const renderCode = await runCli(
@@ -194,14 +194,14 @@ describe('cli', () => {
         '--body',
         'Read [this](https://example.com).',
         '--template',
-        'react-minimal',
+        'default',
         '--json',
       ],
       { stdout: (text) => output.push(text) },
     )
     assert.equal(renderCode, 0)
     const rendered = JSON.parse(output.join('')).data
-    assert.equal(rendered.template, 'react-minimal')
+    assert.equal(rendered.template, 'default')
     assert.match(rendered.html, /https:\/\/example.com/)
   })
 

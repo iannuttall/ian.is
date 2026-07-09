@@ -15,15 +15,14 @@ describe('renderDraft', () => {
     assert.doesNotMatch(rendered.html, /javascript:/)
   })
 
-  it('renders React Email templates from markdown', async () => {
+  it('renders the default React Email template from markdown', async () => {
     const rendered = await renderDraftEmail({
-      subject: 'React subject',
+      subject: 'Default subject',
       preview: 'Preview text',
-      template: 'react-newsletter',
       bodyMarkdown: 'Hello [there](https://example.com?a=1&b=2).',
     })
 
-    assert.equal(rendered.subject, 'React subject')
+    assert.equal(rendered.subject, 'Default subject')
     assert.match(rendered.html, /<!DOCTYPE html|<!doctype html/i)
     assert.match(rendered.html, /Preview text/)
     assert.match(rendered.html, /https:\/\/example.com\?a=1&b=2/)
@@ -33,84 +32,17 @@ describe('renderDraft', () => {
     assert.match(rendered.text, /Hello/)
   })
 
-  it('renders the modular issue template with sections', async () => {
+  it('renders modular sections inside the default template', async () => {
     const rendered = await renderDraftEmail({
-      subject: 'Issue 1',
-      preview: 'Issue preview',
-      template: 'react-issue',
-      bodyMarkdown: [
-        '::: hero color="#E999BE" image="https://example.com/head.jpg" title="Welcome to Issue 1!" online-url="https://example.com/issues/1"',
-        '> A quote worth reading.',
-        ':::',
-        '',
-        '::: sponsor title="Sponsor Title" image="https://example.com/sponsor.png"',
-        'Sponsored copy with a ==highlighted deal== and a [link](https://example.com).',
-        ':::',
-        '',
-        '::: poll question="Favourite tool?" results-url="https://example.com/polls"',
-        '[Editor](https://example.com/vote-a)',
-        '---',
-        '[Terminal](https://example.com/vote-b)',
-        ':::',
-        '',
-        '::: links title="Apps & Sites"',
-        '[Passport Index](https://example.com/passports)',
-        'Explore the power of passports',
-        '',
-        'The description paragraph.',
-        ':::',
-        '',
-        '::: classifieds note="Paid ads." button="Book yours →" button-url="https://example.com/book"',
-        'A classified entry.',
-        ':::',
-      ].join('\n'),
-    })
-
-    assert.match(rendered.html, /#E999BE/)
-    assert.match(rendered.html, /logo-top\.png/)
-    assert.match(rendered.html, /logo-bottom\.png/)
-    assert.match(rendered.html, />Sponsor Title</)
-    assert.match(rendered.html, /#F1F1F1/)
-    assert.match(rendered.html, /border-left:26px solid/)
-    assert.match(rendered.html, /Passport Index/)
-    assert.match(rendered.html, /Book yours/)
-    assert.match(rendered.html, /background-color:#FDF2B4/)
-    assert.match(rendered.html, /Favourite tool\?/)
-    assert.match(rendered.html, /Previous poll results/)
-    assert.match(rendered.html, /#F1C755/)
-    assert.match(rendered.html, /Advertise on Ian(&#x27;|')s List/)
-    assert.match(rendered.html, /{{unsubscribeUrl}}/)
-    assert.match(rendered.html, /\[if mso\]/)
-    assert.match(rendered.html, /<table[^>]*width="640"/)
-    assert.match(rendered.text, /classified entry/)
-  })
-
-  it('renders the simple issue header with a color strip', async () => {
-    const rendered = await renderDraftEmail({
-      subject: 'Issue 2',
-      template: 'react-issue',
-      bodyMarkdown: [
-        '::: header color="green" title="Issue 2" online-url="https://example.com/issues/2"',
-        ':::',
-        '',
-        'Body text.',
-      ].join('\n'),
-    })
-
-    assert.match(rendered.html, /#F1F6EF/)
-    assert.match(rendered.html, /logo-mark\.png/)
-    assert.match(rendered.html, /Ian(&#x27;|')s List/)
-    assert.match(rendered.html, /Issue 2/)
-    assert.doesNotMatch(rendered.html, /logo-top\.png/)
-    assert.match(rendered.html, /Enjoyed this issue/)
-  })
-
-  it('renders issue sections inside the note template', async () => {
-    const rendered = await renderDraftEmail({
-      subject: 'Note',
-      template: 'react-note',
+      subject: 'Welcome',
+      template: 'default',
       bodyMarkdown: [
         'Plain intro text.',
+        '',
+        '::: text title="What to expect"',
+        '- Practical walkthroughs',
+        '- Useful tools',
+        ':::',
         '',
         '::: sponsor title="Sponsor Title" label-url="https://example.com"',
         'Sponsored copy.',
@@ -126,17 +58,19 @@ describe('renderDraft', () => {
     })
 
     assert.match(rendered.html, /Plain intro text/)
+    assert.match(rendered.html, /What to expect/)
     assert.match(rendered.html, />Sponsor Title</)
     assert.match(rendered.html, /#F1F1F1/)
     assert.match(rendered.html, /Worth a Click/)
     assert.match(rendered.html, /\[if mso\]/)
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
+    assert.doesNotMatch(rendered.html, /Advertise on Ian/)
   })
 
   it('lists available templates', () => {
     assert.deepEqual(
       listEmailTemplates().map((template) => template.key),
-      ['default', 'react-newsletter', 'react-minimal', 'react-note', 'react-issue'],
+      ['default'],
     )
   })
 })

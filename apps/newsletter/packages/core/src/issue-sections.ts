@@ -44,8 +44,6 @@ export function mdBlock(
   })
 }
 
-// DD 396 heading: a colored square (26px left border matching the 27px line
-// height) in front of bold heading text, sitting on white above the section.
 export function squareHeading(title: string, square: string) {
   return h(
     Section,
@@ -55,18 +53,16 @@ export function squareHeading(title: string, square: string) {
       null,
       h(
         Column,
+        { style: issueStyles.headingSquareCell, width: 26 },
+        h(Text, {
+          className: 'issue-heading-square',
+          style: { ...issueStyles.headingSquare, backgroundColor: square },
+        }),
+      ),
+      h(
+        Column,
         { style: issueStyles.headingCell },
-        h(
-          Text,
-          {
-            className: 'issue-square',
-            style: {
-              ...issueStyles.headingText,
-              borderLeft: `26px solid ${square}`,
-            },
-          },
-          title,
-        ),
+        h(Text, { style: issueStyles.headingText }, title),
       ),
     ),
   )

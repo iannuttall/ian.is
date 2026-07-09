@@ -8,16 +8,6 @@ export const fontFallback: ['Helvetica', 'Arial', 'sans-serif'] = [
   'sans-serif',
 ]
 
-export const siteColors = {
-  backgroundSubtle: '#f9fafb',
-  card: '#fffffe',
-  foreground: '#222222',
-  foregroundSoft: '#808080',
-  border: '#e4e4e4',
-  primary: '#0092b8',
-  primaryForeground: '#fafafa',
-} as const
-
 export const barebonesColors = {
   bg: '#FFFFFF',
   bg2: '#F3F4F6',
@@ -31,13 +21,6 @@ export const barebonesColors = {
   strokeStrong: '#E4E4E7',
   brand: '#614500',
 } as const
-
-export const newsletterLinkHoverCss = `
-  a:hover {
-    text-decoration-style: dotted !important;
-    text-underline-offset: 2px !important;
-  }
-`
 
 export const interFonts = [
   {
@@ -54,105 +37,7 @@ export const interFonts = [
   },
 ] as const
 
-export const newsletterStyles = {
-  body: {
-    margin: 0,
-    padding: 0,
-    backgroundColor: siteColors.backgroundSubtle,
-    color: siteColors.foreground,
-    fontFamily,
-  },
-  frame: {
-    maxWidth: '620px',
-    margin: '0 auto',
-    backgroundColor: siteColors.card,
-  },
-  contentWrap: {
-    backgroundColor: siteColors.card,
-    padding: '42px 32px 40px',
-  },
-  header: {
-    margin: '0 0 24px',
-  },
-  mark: {
-    display: 'inline-block',
-    margin: '0 8px 0 0',
-    verticalAlign: 'middle',
-  },
-  headerText: {
-    display: 'inline-block',
-    margin: 0,
-    color: siteColors.foreground,
-    fontSize: '16px',
-    lineHeight: '1.25',
-    fontWeight: 600,
-    verticalAlign: 'middle',
-  },
-  content: {
-    color: siteColors.foreground,
-    fontSize: '16px',
-    lineHeight: '1.65',
-  },
-  footer: {
-    margin: '44px 0 0',
-    padding: '26px 0 0',
-    borderTop: `1px solid ${siteColors.border}`,
-  },
-  footerText: {
-    margin: '0 0 8px',
-    color: siteColors.foregroundSoft,
-    fontSize: '14px',
-    lineHeight: '1.55',
-    fontFamily,
-  },
-  footerLink: {
-    color: siteColors.foregroundSoft,
-    textDecoration: 'underline',
-    textUnderlineOffset: '2px',
-  },
-  button: {
-    backgroundColor: siteColors.primary,
-    borderRadius: '8px',
-    color: siteColors.primaryForeground,
-    display: 'inline-block',
-    fontSize: '16px',
-    fontWeight: 500,
-    lineHeight: '1',
-    padding: '16px 20px',
-    textDecoration: 'none',
-  },
-} satisfies Record<string, CSSProperties>
-
-export const minimalStyles = {
-  body: {
-    margin: 0,
-    padding: '20px',
-    backgroundColor: '#ffffff',
-    color: siteColors.foreground,
-    fontFamily,
-  },
-  container: {
-    maxWidth: '620px',
-    margin: '0 auto',
-  },
-  content: {
-    color: siteColors.foreground,
-    fontSize: '16px',
-    lineHeight: '1.65',
-  },
-  footer: {
-    margin: '28px 0 0',
-    color: '#71717a',
-    fontSize: '13px',
-    lineHeight: '1.5',
-  },
-  footerLink: {
-    color: '#71717a',
-    textDecoration: 'underline',
-  },
-} satisfies Record<string, CSSProperties>
-
-export const noteStyles = {
+export const defaultEmailStyles = {
   body: {
     margin: 0,
     padding: 0,
@@ -189,6 +74,16 @@ export const noteStyles = {
   },
   mark: {
     display: 'block',
+  },
+  logoLink: {
+    display: 'inline-block',
+    textDecoration: 'none',
+  },
+  logo: {
+    display: 'block',
+    border: 0,
+    outline: 'none',
+    textDecoration: 'none',
   },
   company: {
     margin: 0,
@@ -228,9 +123,53 @@ export const noteStyles = {
     lineHeight: '27px',
     textAlign: 'left',
   },
+  footerInner: {
+    padding: '40px 20px',
+    textAlign: 'left',
+  },
+  footerBlurbCell: {
+    padding: '0 20px 0 0',
+    verticalAlign: 'top',
+  },
+  footerLinksCell: {
+    padding: '0 0 0 20px',
+    verticalAlign: 'top',
+  },
+  footerText: {
+    margin: '0 0 20px',
+    color: barebonesColors.fg,
+    fontSize: '16px',
+    fontWeight: 400,
+    lineHeight: '23px',
+    textAlign: 'left',
+    fontFamily,
+  },
+  footerLinkLine: {
+    margin: '0 0 20px',
+    color: barebonesColors.fg,
+    fontSize: '16px',
+    fontWeight: 400,
+    lineHeight: '23px',
+    textAlign: 'left',
+    fontFamily,
+  },
+  footerLink: {
+    color: barebonesColors.fg,
+    textDecoration: 'underline',
+    textUnderlineOffset: '2px',
+  },
+  footerSmall: {
+    margin: 0,
+    color: barebonesColors.fg3,
+    fontSize: '16px',
+    fontWeight: 400,
+    lineHeight: '22px',
+    textAlign: 'left',
+    fontFamily,
+  },
 } satisfies Record<string, CSSProperties>
 
-export const noteMarkdownStyles = {
+export const defaultEmailMarkdownStyles = {
   h1: {
     margin: '0 0 24px',
     color: barebonesColors.fg,
@@ -277,37 +216,29 @@ export const noteMarkdownStyles = {
   },
   code: {
     fontFamily: 'Menlo,Consolas,monospace',
-    fontSize: '14px',
+    fontSize: '18px',
+    lineHeight: '27px',
     backgroundColor: barebonesColors.bg2,
     padding: '2px 4px',
     borderRadius: '4px',
   },
-} satisfies Record<string, CSSProperties>
-
-export const markdownStyles = {
-  h1: { fontSize: '24px', lineHeight: '1.3', fontWeight: 500 },
-  h2: { fontSize: '20px', lineHeight: '1.35', fontWeight: 500 },
-  p: { margin: '0 0 16px' },
-  link: {
-    color: siteColors.foreground,
-    textDecoration: 'underline',
-    textUnderlineOffset: '2px',
-    backgroundColor: 'transparent',
-  },
-  ul: { margin: '0 0 16px', paddingLeft: '22px' },
-  ol: { margin: '0 0 16px', paddingLeft: '22px' },
-  li: { margin: '0 0 8px' },
-  blockquote: {
-    margin: '0 0 16px',
-    paddingLeft: '16px',
-    borderLeft: '3px solid #d4d4d8',
-    color: '#3f3f46',
-  },
-  code: {
+  codeInline: {
     fontFamily: 'Menlo,Consolas,monospace',
-    fontSize: '14px',
-    backgroundColor: '#f4f4f5',
+    fontSize: '18px',
+    lineHeight: '27px',
+    backgroundColor: barebonesColors.bg2,
     padding: '2px 4px',
     borderRadius: '4px',
+  },
+  pre: {
+    margin: '0 0 24px',
+    padding: '16px',
+    backgroundColor: barebonesColors.bg2,
+    color: barebonesColors.fg,
+    fontFamily: 'Menlo,Consolas,monospace',
+    fontSize: '16px',
+    lineHeight: '24px',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
   },
 } satisfies Record<string, CSSProperties>

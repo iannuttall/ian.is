@@ -30,7 +30,7 @@ Commands:
 
   Templates:
   email template list [--json]
-  email template render --subject SUBJECT (--body TEXT | --body-file PATH) [--template default|react-newsletter|react-minimal|react-note|react-issue] [--preview TEXT] [--out-dir PATH] [--json]
+  email template render --subject SUBJECT (--body TEXT | --body-file PATH) [--template default] [--preview TEXT] [--out-dir PATH] [--json]
 
   Drafts and broadcasts:
   email draft create --subject SUBJECT (--body TEXT | --body-file PATH) [--template NAME] [--preview TEXT] [--metadata-file PATH] [--json]
