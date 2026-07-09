@@ -99,10 +99,8 @@ function blurb(footer: IssueSection | undefined) {
 }
 
 function footerLinks(attrs: Record<string, string>) {
-  const archiveUrl = attrs['archive-url'] ?? issueSiteUrl
   // Default is on; pass advertise-url="" to hide it.
   const advertiseUrl = attrs['advertise-url'] ?? `${issueSiteUrl}/advertise`
-  const line = { ...issueStyles.footerText, marginBottom: 0 }
   const groupEnd = issueStyles.footerText
   const extras: ReactNode[] = []
   if (advertiseUrl) {
@@ -121,9 +119,10 @@ function footerLinks(attrs: Record<string, string>) {
   return h(
     Fragment,
     null,
+    ...extras,
     h(
       Text,
-      { style: line },
+      { style: groupEnd },
       h(
         Link,
         { href: '{{unsubscribeUrl}}', style: issueStyles.footerLink },
@@ -132,10 +131,12 @@ function footerLinks(attrs: Record<string, string>) {
     ),
     h(
       Text,
-      { style: groupEnd },
-      h(Link, { href: archiveUrl, style: issueStyles.footerLink }, 'Browse older issues'),
+      { className: 'issue-address', style: issueStyles.footerSmall },
+      antiLinkedAddress(),
     ),
-    ...extras,
-    h(Text, { style: issueStyles.footerSmall }, '20-22 Wenlock Road, London, N1 7GU'),
   )
+}
+
+function antiLinkedAddress() {
+  return '20-22\u200B Wenlock Road,\u200B London,\u200B N1\u200B 7GU'
 }

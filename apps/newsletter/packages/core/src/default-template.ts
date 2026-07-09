@@ -79,6 +79,8 @@ const defaultResponsiveCss = `${issueResponsiveCss}
 
 export function DefaultEmail(draft: DraftInput) {
   const parsed = parseIssueSections(draft.bodyMarkdown)
+  const header = parsed.find((section) => section.type === 'header')
+  const footer = parsed.find((section) => section.type === 'footer')
   const sections = parsed.filter(
     (section) => !['hero', 'header', 'footer'].includes(section.type),
   )
@@ -110,9 +112,9 @@ export function DefaultEmail(draft: DraftInput) {
         h(
           Section,
           { style: defaultEmailStyles.shell },
-          defaultHeader(),
+          defaultHeader(header),
           h(Section, { style: defaultEmailStyles.contentArea }, ...blocks),
-          defaultFooterBand(),
+          defaultFooterBand(footer),
         ),
       ),
     ),
@@ -183,11 +185,11 @@ function defaultBlock(section: IssueSection) {
   )
 }
 
-function defaultFooterBand() {
-  return issueFooter(undefined, undefined, barebonesColors.bg3, 'default-footer')
+function defaultFooterBand(footer: IssueSection | undefined) {
+  return issueFooter(footer, undefined, barebonesColors.bg3, 'default-footer')
 }
 
-function defaultHeader() {
+function defaultHeader(header: IssueSection | undefined) {
   return h(
     Section,
     { style: defaultEmailStyles.header },
@@ -197,13 +199,14 @@ function defaultHeader() {
       h(
         Column,
         { className: 'default-header-cell', style: defaultEmailStyles.headerInset },
-        headerRow(),
+        headerRow(header),
       ),
     ),
   )
 }
 
-function headerRow() {
+function headerRow(header: IssueSection | undefined) {
+  const label = header?.attrs.name ?? "Ian's List"
   return h(
     Row,
     null,
@@ -220,7 +223,7 @@ function headerRow() {
           style: defaultEmailStyles.logoLink,
         }),
         h(Img, {
-          src: 'https://list.ian.is/favicon-light.png',
+          src: 'https://list.ian.is/email-logo-light.png',
           alt: 'Ian Nuttall',
           width: 32,
           height: 32,
@@ -231,7 +234,7 @@ function headerRow() {
     h(
       Column,
       { align: 'right', style: defaultEmailStyles.headerCell, width: '50%' },
-      h(Text, { style: defaultEmailStyles.company }, "Ian's List"),
+      h(Text, { style: defaultEmailStyles.company }, label),
     ),
   )
 }

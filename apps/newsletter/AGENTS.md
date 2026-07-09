@@ -187,6 +187,7 @@ Available templates:
 
 - `default`: Ian's List shell. Body text renders at 18px; it accepts section blocks
   (`links`, `sponsor`, `box`, `classifieds`, `quote`, `poll`) for mixed campaigns.
+  Use `::: header name="Issue 001"` to override the top-right label.
 
 Before real sends, render the email locally:
 

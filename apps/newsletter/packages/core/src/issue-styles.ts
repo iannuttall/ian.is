@@ -293,8 +293,8 @@ export const issueStyles = {
   },
   footerText: issueText({ marginBottom: '15px', textAlign: 'left' as const }),
   footerSmall: issueText({
-    fontSize: '14px',
-    lineHeight: '19px',
+    fontSize: '16px',
+    lineHeight: '23px',
     color: issueColors.grey,
     marginBottom: '15px',
     textAlign: 'left' as const,
@@ -311,13 +311,14 @@ export const issueStyles = {
   },
 } satisfies Record<string, CSSProperties>
 
-// Outlook's Word engine can substitute Times New Roman when it sees a web
-// font it does not know. This conditional forces the fallback stack there.
-// React cannot render HTML comments, so the renderer injects this into <head>.
 export const issueMsoHeadHtml =
   '<!--[if mso]><style>table,td,p,h1,h2,h3,span,a,div{font-family:Helvetica,Arial,sans-serif !important;}</style><![endif]-->'
 
 export const issueResponsiveCss = `
+  a[x-apple-data-detectors], .issue-address, .issue-address a {
+    color: ${issueColors.grey} !important;
+    text-decoration: none !important;
+  }
   a:hover {
     text-decoration-style: dotted !important;
     text-underline-offset: 2px !important;

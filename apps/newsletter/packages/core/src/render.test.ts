@@ -37,6 +37,9 @@ describe('renderDraft', () => {
       subject: 'Welcome',
       template: 'default',
       bodyMarkdown: [
+        '::: header name="Issue 001"',
+        ':::',
+        '',
         'Plain intro text.',
         '',
         '::: text title="What to expect"',
@@ -65,8 +68,11 @@ describe('renderDraft', () => {
     assert.match(rendered.html, /What to expect/)
     assert.match(rendered.html, />Sponsor Title</)
     assert.match(rendered.html, /#F1F1F1/)
+    assert.match(rendered.html, /Issue 001/)
     assert.match(rendered.html, /Worth a Click/)
     assert.match(rendered.html, /Classifieds/)
+    assert.match(rendered.html, /Advertise on Ian(&#x27;|')s List[\s\S]*Unsubscribe/)
+    assert.doesNotMatch(rendered.html, /Browse older issues/)
     assert.match(rendered.html, /Book yours ↗︎/)
     assert.match(rendered.html, /\[if mso\]/)
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
