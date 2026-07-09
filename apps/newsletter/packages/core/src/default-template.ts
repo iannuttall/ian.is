@@ -223,7 +223,7 @@ function headerRow(header: IssueSection | undefined) {
           style: defaultEmailStyles.logoLink,
         }),
         h(Img, {
-          src: 'https://list.ian.is/email-logo-light.png?v=20260709-1',
+          src: 'https://list.ian.is/email-logo-light.png?v=20260709-2',
           alt: 'Ian Nuttall',
           width: 32,
           height: 32,
