@@ -67,7 +67,7 @@ describe('renderDraft', () => {
     assert.match(rendered.html, /#F1F1F1/)
     assert.match(rendered.html, /Worth a Click/)
     assert.match(rendered.html, /Classifieds/)
-    assert.match(rendered.html, /Book yours →/)
+    assert.match(rendered.html, /Book yours ↗/)
     assert.match(rendered.html, /\[if mso\]/)
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
   })
