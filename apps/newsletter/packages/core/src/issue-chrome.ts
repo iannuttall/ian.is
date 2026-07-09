@@ -207,7 +207,7 @@ function headlineRow(attrs: Record<string, string>) {
             { href: attrs['online-url'], style: issueStyles.onlineLink },
             'View/share online',
           ),
-          ' ↗',
+          ' ↗︎',
         ),
       )
     : null
