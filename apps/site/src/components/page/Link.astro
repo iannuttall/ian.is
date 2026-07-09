@@ -1,0 +1,46 @@
+---
+type Props = {
+  href: string;
+  external?: boolean;
+  class?: string;
+  iconClass?: string;
+  [key: string]: unknown;
+};
+
+import ExternalLink from "@/components/icons/ExternalLink.astro";
+import { externalLinkAttrs, isExternalHref } from "@/lib/external-links.mjs";
+
+const {
+  href,
+  external,
+  class: className,
+  iconClass,
+  ...props
+} = Astro.props as Props;
+const isExternal = external ?? isExternalHref(href);
+const linkAttrs = isExternal ? externalLinkAttrs(href) : { href };
+---
+
+<a
+  {...linkAttrs}
+  {...props}
+  class:list={[
+    "group/link inline-flex items-baseline gap-1 no-underline align-baseline text-current",
+    className,
+  ]}
+>
+  <span class="underline underline-offset-1 group-hover/link:decoration-dotted">
+    <slot />
+  </span>
+  {
+    isExternal ? (
+      <ExternalLink
+        class:list={[
+          "size-[0.8em] shrink-0 translate-y-[0.08em] text-current",
+          iconClass,
+        ]}
+        aria-hidden="true"
+      />
+    ) : null
+  }
+</a>

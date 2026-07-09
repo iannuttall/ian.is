@@ -12,6 +12,7 @@ import PageSection from "@/components/page/PageSection.astro";
 import LinkList from "@/components/page/LinkList.astro";
 import LinkItem from "@/components/page/LinkItem.astro";
 import MarginNote from "@/components/page/MarginNote.astro";
+import Link from "@/components/page/Link.astro";
 
 <PageHero title={frontmatter.headline}>
 <MarginNote slot="right" defaultOpen={false}>
@@ -29,13 +30,13 @@ Ian Nuttall is a British marketer, software engineer, and entrepreneur with over
 
   My marketing is just as minimal. I use programmatic SEO to show my products in Google and AI search right when people are looking.
 
-  Before this I was founder of [Practical Programmatic](https://practicalprogrammatic.com), the largest programmatic SEO course on the web, with over 1,000 students.
+  Before this I was founder of <Link href="https://practicalprogrammatic.com" external>Practical Programmatic</Link>, the largest programmatic SEO course on the web, with over 1,000 students.
 
   Before Practical Programmatic, I was the solo founder of URL Monitor, an SEO product to get more pages indexed in Google. URL Monitor was acquired for $250,000 and has now been rebranded as Cromojo.
 
   Before URL Monitor, I ran a very large portfolio of programmatic SEO content sites. The biggest of which I acquired for $2,000 and exited for $500,000 two years later.
 
-  Before the portfolio, I was co-founder of Clever Bytes, an education startup where I handled the tech behind [Kids Konnect](https://kidskonnect.com), [A-Level Biology](https://alevelbiology.co.uk), [Teach Computer Science](https://teachcomputerscience.com) and other portfolio products. Clever Bytes was acquired in a full 7-figure exit in 2021.
+  Before the portfolio, I was co-founder of Clever Bytes, an education startup where I handled the tech behind <Link href="https://kidskonnect.com" external>Kids Konnect</Link>, <Link href="https://alevelbiology.co.uk" external>A-Level Biology</Link>, <Link href="https://teachcomputerscience.com" external>Teach Computer Science</Link> and other portfolio products. Clever Bytes was acquired in a full 7-figure exit in 2021.
   </PageText>
 
   <ProjectsSection />
