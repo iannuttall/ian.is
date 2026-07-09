@@ -197,14 +197,20 @@ export function boxSection(section: IssueSection, withHeading = true) {
           content,
           image,
           [issueLayout.wideCol, issueLayout.narrowCol],
-          [issueStyles.wideLeftCell, issueStyles.narrowRightCell],
+          [
+            { ...issueStyles.wideLeftCell, padding: '15px 10px 15px 20px' },
+            { ...issueStyles.narrowRightCell, padding: '15px 20px 15px 10px' },
+          ],
           background,
         )
       : stackedColumns(
           image,
           content,
           [issueLayout.narrowCol, issueLayout.wideCol],
-          [issueStyles.narrowLeftCell, issueStyles.wideRightCell],
+          [
+            { ...issueStyles.narrowLeftCell, padding: '15px 10px 15px 20px' },
+            { ...issueStyles.wideRightCell, padding: '15px 20px 15px 10px' },
+          ],
           background,
         )
   } else {
