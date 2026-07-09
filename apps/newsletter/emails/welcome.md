@@ -1,19 +1,21 @@
 ---
-subject: "Welcome to Ian's List"
-preview: "What to expect and how to keep these emails out of spam."
+subject: "You're on the list"
+preview: "What I learned this week actually using AI to run my business."
 template: "default"
 ---
 
-Hey, it's Ian.
+Hey, it's Ian! You're on my list.
 
-You're on Ian's List.
+TLDR; It's a weekly email about what I learned this week actually using AI to run my business.
 
-I write a weekly email about building useful things with AI. Expect practical notes, small tools, workflows, SEO experiments, and lessons from things that did not go to plan.
+No hype, FOMO, fake urgency, or "this is wild", "it's so over", "we're so back!" etc.
 
-No hype. No fake urgency. Just useful things I have tried, built, broken, or learned.
+Just practical notes, tools, workflows, and experiments in using AI for product devs, marketers, and SEOs like me.
+
 
 ::: text title="What you can expect"
-- Practical "I built X" walkthroughs
+- Practical "How I built X" walkthroughs
+- Lessons learned from using agents 8+ hours a day
 - Quick tips for getting better results from AI tools
 - Useful tools, prompts, workflows, and examples
 - Clear explanations for developers, marketers, and non-technical builders
@@ -22,12 +24,11 @@ No hype. No fake urgency. Just useful things I have tried, built, broken, or lea
 ::: text title="Help this land in the right place"
 Please do these three things if you can:
 
-1. Mark email&#64;ian.is as not spam.
-2. Move this email to Primary if Gmail puts it in Promotions.
-3. Hit reply and say hi. It helps email providers learn that you want these emails.
+- Mark email&#64;ian.is as "Not spam".
+- Drag this email from Promotions (or wherever it goes) to Primary in Gmail.
+- Hit reply and say "hi" so the email overlords know I'm a good guy.
+- Sit back and wait until I email you some interesting stuff
 :::
-
-That is it for now. I will send the first proper issue soon.
 
 Cheers,
 Ian

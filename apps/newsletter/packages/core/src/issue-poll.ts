@@ -1,7 +1,7 @@
 import { Fragment, createElement as h } from 'react'
 import { Column, Link, Row, Section, Text } from 'react-email'
 import type { IssueSection } from './issue-parser.js'
-import { squareHeading } from './issue-sections.js'
+import { headingMarker, squareHeading } from './issue-sections.js'
 import { issueLayout, issueStyles, resolveSectionColors } from './issue-styles.js'
 
 const letters = 'ABCDEFGHIJ'
@@ -71,7 +71,9 @@ export function pollSection(section: IssueSection, withHeading = true) {
   return h(
     Fragment,
     null,
-    withHeading ? squareHeading(section.attrs.title ?? 'Poll', colors.square) : null,
+    withHeading
+      ? squareHeading(section.attrs.title ?? 'Poll', headingMarker(section))
+      : null,
     h(
       Section,
       null,

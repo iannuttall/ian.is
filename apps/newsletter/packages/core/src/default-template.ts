@@ -15,8 +15,8 @@ import {
 } from 'react-email'
 import { issueFooter } from './issue-footer.js'
 import { type IssueSection, parseIssueSections } from './issue-parser.js'
-import { issueSpacer, mdBlock, squareHeading } from './issue-sections.js'
-import { issueResponsiveCss, resolveSectionColors } from './issue-styles.js'
+import { headingMarker, issueSpacer, mdBlock, squareHeading } from './issue-sections.js'
+import { issueResponsiveCss } from './issue-styles.js'
 import { renderIssueSection } from './issue-template.js'
 import {
   barebonesColors,
@@ -141,10 +141,7 @@ function defaultBlock(section: IssueSection) {
       defaultCell(
         'default-content-cell',
         defaultEmailStyles.textWrap,
-        squareHeading(
-          section.attrs.title,
-          resolveSectionColors(section.attrs.color).square,
-        ),
+        squareHeading(section.attrs.title, headingMarker(section)),
       ),
       defaultCell(
         'default-content-cell',
@@ -162,7 +159,7 @@ function defaultBlock(section: IssueSection) {
       ? defaultCell(
           'default-content-cell',
           defaultEmailStyles.textWrap,
-          squareHeading(title, resolveSectionColors(section.attrs.color).square),
+          squareHeading(title, headingMarker(section)),
         )
       : null
     const body = defaultColoredTypes.has(section.type)

@@ -132,20 +132,8 @@ export const issueStyles = {
     lineHeight: '25px',
     height: '25px',
   }),
-  headingSquareCell: {
-    padding: '15px 0',
-    verticalAlign: 'middle',
-  },
-  headingSquare: issueText({
-    display: 'block',
-    width: '26px',
-    height: '26px',
-    lineHeight: '26px',
-    margin: 0,
-    fontSize: '1px',
-  }),
   headingCell: {
-    padding: '15px 20px 15px 14px',
+    padding: '15px 0',
     verticalAlign: 'middle',
   },
   headingText: issueText({
@@ -336,11 +324,6 @@ export const issueResponsiveCss = `
     }
     .issue-hide-mobile {
       display: none !important;
-    }
-    .issue-heading-square {
-      width: 26px !important;
-      height: 26px !important;
-      line-height: 26px !important;
     }
     .issue-spacer {
       height: 15px !important;

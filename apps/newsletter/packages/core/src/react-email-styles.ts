@@ -201,7 +201,7 @@ export const defaultEmailMarkdownStyles = {
     textUnderlineOffset: '2px',
     backgroundColor: 'transparent',
   },
-  ul: { margin: '0 0 24px', paddingLeft: '22px' },
+  ul: { margin: '0 0 24px', paddingLeft: '22px', listStyleType: 'square' },
   ol: { margin: '0 0 24px', paddingLeft: '22px' },
   li: {
     margin: '0 0 8px',

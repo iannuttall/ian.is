@@ -15,6 +15,12 @@ import {
 
 const defaultClassifiedsButton = 'Book yours ↗︎'
 const defaultClassifiedsButtonUrl = 'https://ian.is/advertise'
+const sectionMarkers: Record<string, string> = {
+  sponsor: '✦',
+  links: '＋',
+  classifieds: '◆',
+  poll: '?',
+}
 
 export function issueSpacer(key?: string) {
   // Non-breaking space keeps clients that collapse empty cells honest.
@@ -47,7 +53,11 @@ export function mdBlock(
   })
 }
 
-export function squareHeading(title: string, square: string) {
+export function headingMarker(section: IssueSection): string {
+  return section.attrs.marker ?? sectionMarkers[section.type] ?? '■'
+}
+
+export function squareHeading(title: string, marker = '■') {
   return h(
     Section,
     null,
@@ -56,16 +66,8 @@ export function squareHeading(title: string, square: string) {
       null,
       h(
         Column,
-        { style: issueStyles.headingSquareCell, width: 26 },
-        h(Text, {
-          className: 'issue-heading-square',
-          style: { ...issueStyles.headingSquare, backgroundColor: square },
-        }),
-      ),
-      h(
-        Column,
         { style: issueStyles.headingCell },
-        h(Text, { style: issueStyles.headingText }, title),
+        h(Text, { style: issueStyles.headingText }, `${marker} ${title}`),
       ),
     ),
   )
@@ -109,10 +111,7 @@ export function textSection(section: IssueSection, withHeading = true) {
     Fragment,
     null,
     withHeading && section.attrs.title
-      ? squareHeading(
-          section.attrs.title,
-          resolveSectionColors(section.attrs.color).square,
-        )
+      ? squareHeading(section.attrs.title, headingMarker(section))
       : null,
     h(
       Section,
@@ -131,7 +130,6 @@ export function textSection(section: IssueSection, withHeading = true) {
 }
 
 export function linksSection(section: IssueSection, withHeading = true) {
-  const colors = resolveSectionColors(section.attrs.color)
   const rows = section.items.map((item, index) => {
     const parsed = parseLinkItem(item)
     const title = h(
@@ -159,7 +157,9 @@ export function linksSection(section: IssueSection, withHeading = true) {
   return h(
     Fragment,
     null,
-    withHeading ? squareHeading(section.attrs.title ?? 'Links', colors.square) : null,
+    withHeading
+      ? squareHeading(section.attrs.title ?? 'Links', headingMarker(section))
+      : null,
     h(Section, null, ...rows),
   )
 }
@@ -168,7 +168,7 @@ export function boxSection(section: IssueSection, withHeading = true) {
   const colors = resolveSectionColors(section.attrs.color)
   const heading =
     withHeading && section.attrs.title
-      ? squareHeading(section.attrs.title, colors.square)
+      ? squareHeading(section.attrs.title, headingMarker(section))
       : null
   const background = colors.tint
   const content = mdBlock(section.body)
@@ -240,7 +240,6 @@ export function sponsorSection(section: IssueSection, withHeading = true) {
 }
 
 export function classifiedsSection(section: IssueSection, withHeading = true) {
-  const colors = resolveSectionColors(section.attrs.color)
   const entries = section.items.flatMap((item, index) => {
     const entry = mdBlock(item, {
       ...issueMarkdownStyles,
@@ -269,7 +268,7 @@ export function classifiedsSection(section: IssueSection, withHeading = true) {
     Fragment,
     null,
     withHeading
-      ? squareHeading(section.attrs.title ?? 'Classifieds', colors.square)
+      ? squareHeading(section.attrs.title ?? 'Classifieds', headingMarker(section))
       : null,
     h(
       Section,
@@ -300,10 +299,7 @@ export function quoteSection(section: IssueSection, withHeading = true) {
     Fragment,
     null,
     withHeading && section.attrs.title
-      ? squareHeading(
-          section.attrs.title,
-          resolveSectionColors(section.attrs.color).square,
-        )
+      ? squareHeading(section.attrs.title, headingMarker(section))
       : null,
     h(
       Section,

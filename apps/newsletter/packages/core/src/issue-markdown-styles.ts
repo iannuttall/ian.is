@@ -17,7 +17,7 @@ const markdownBase = {
   }),
   h2: issueText({ fontWeight: 600, paddingBottom: '5px' }),
   h3: issueText({ fontWeight: 600, paddingBottom: '5px' }),
-  ul: { margin: '0 0 15px', paddingLeft: '22px' },
+  ul: { margin: '0 0 15px', paddingLeft: '22px', listStyleType: 'square' },
   ol: { margin: '0 0 15px', paddingLeft: '22px' },
   li: issueText({ marginBottom: '8px' }),
   blockQuote: {

@@ -250,6 +250,10 @@ Configure alerts for nearby sensors.
 :::
 ```
 
+Section headings use text markers, so email clients cannot squash icon cells on
+mobile. Defaults are `■` for normal text sections, `✦` for sponsor, `＋` for
+links, and `◆` for classifieds. Override with `marker="..."` on any section.
+
 Render the selected template before real sends:
 
 ```bash
