@@ -42,20 +42,35 @@ const defaultModularTypes = new Set([
   'poll',
 ])
 
-// Default text sits 40px from the shell edge; modular sections carry their own
-// 20px cell gutters, so the wrapper adds the other 20px (28px on mobile,
-// where .issue-cell drops to 12px) to keep one shared content edge.
+// Default text sits 40px from the shell edge on desktop. On mobile the default
+// shell owns one explicit 16px content edge; modular section cells inherit that
+// same edge so body text, headings, link blocks, classifieds, and footer copy
+// line up top-to-bottom.
 const defaultResponsiveCss = `${issueResponsiveCss}
+  .default-footer .issue-footer-blurb {
+    padding-left: 40px !important;
+    padding-right: 10px !important;
+  }
+  .default-footer .issue-footer-links {
+    padding-left: 10px !important;
+    padding-right: 40px !important;
+  }
   @media only screen and (max-width: 599px) {
     .default-header,
     .default-text-wrap,
     .default-colored-wrap {
-      padding-left: 20px !important;
-      padding-right: 20px !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
     .default-wrap {
-      padding-left: 8px !important;
-      padding-right: 8px !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .default-wrap .issue-cell,
+    .default-footer .issue-footer-blurb,
+    .default-footer .issue-footer-links {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
   }
 `
@@ -167,7 +182,7 @@ function defaultBlock(section: IssueSection) {
 }
 
 function defaultFooterBand() {
-  return issueFooter(undefined, undefined, barebonesColors.bg3)
+  return issueFooter(undefined, undefined, barebonesColors.bg3, 'default-footer')
 }
 
 function defaultHeader() {

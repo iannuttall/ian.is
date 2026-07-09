@@ -17,11 +17,31 @@ export const issueDefaultLogoBase = 'https://ian.is/email'
 // stays on the 640px grid: an outer 100% Section carries the background, an
 // inner Container carries the content. The width attribute override keeps a
 // fixed 640 for Outlook's Word engine, which ignores max-width.
-export function fullBleed(background: string | undefined, ...children: ReactNode[]) {
+export function fullBleed(
+  background: string | undefined,
+  ...children: ReactNode[]
+): ReactNode
+export function fullBleed(
+  background: string | undefined,
+  className: string | undefined,
+  ...children: ReactNode[]
+): ReactNode
+export function fullBleed(
+  background: string | undefined,
+  classOrChild?: string | ReactNode,
+  ...rest: ReactNode[]
+) {
   const bg = background ? { backgroundColor: background } : {}
+  const className = typeof classOrChild === 'string' ? classOrChild : undefined
+  const children =
+    typeof classOrChild === 'string'
+      ? rest
+      : classOrChild === undefined
+        ? rest
+        : [classOrChild, ...rest]
   return h(
     Section,
-    { style: bg },
+    { className, style: bg },
     h(Container, { width: issueLayout.width, style: issueStyles.frame }, ...children),
   )
 }

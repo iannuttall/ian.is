@@ -18,11 +18,13 @@ export function issueFooter(
   footer: IssueSection | undefined,
   shareUrl?: string,
   background?: string,
+  className?: string,
 ) {
   const attrs = footer?.attrs ?? {}
   const url = attrs['share-url'] ?? shareUrl
   return fullBleed(
     background ?? issueColors.highlight,
+    className,
     issueSpacer('footer-top'),
     url ? shareBlock(url, attrs['share-text'] ?? defaultShareText) : null,
     h(
@@ -34,7 +36,7 @@ export function issueFooter(
         h(
           Column,
           {
-            className: 'issue-stack issue-cell',
+            className: 'issue-stack issue-cell issue-footer-blurb',
             style: issueStyles.wideLeftCell,
             width: issueLayout.wideCol,
           },
@@ -43,7 +45,7 @@ export function issueFooter(
         h(
           Column,
           {
-            className: 'issue-stack issue-cell',
+            className: 'issue-stack issue-cell issue-footer-links',
             style: issueStyles.narrowRightCell,
             width: issueLayout.narrowCol,
           },
