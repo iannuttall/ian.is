@@ -13,6 +13,9 @@ import {
   resolveSectionColors,
 } from './issue-styles.js'
 
+const defaultClassifiedsButton = "Advertise on Ian's List"
+const defaultClassifiedsButtonUrl = 'https://ian.is/advertise'
+
 export function issueSpacer(key?: string) {
   // Non-breaking space keeps clients that collapse empty cells honest.
   return h(
@@ -243,16 +246,14 @@ export function classifiedsSection(section: IssueSection, withHeading = true) {
         p: issueStyles.classifiedNote,
       })
     : null
+  const buttonLabel = section.attrs.button ?? defaultClassifiedsButton
+  const buttonUrl = section.attrs['button-url'] ?? defaultClassifiedsButtonUrl
   const button =
-    section.attrs.button && section.attrs['button-url']
+    buttonLabel && buttonUrl
       ? h(
           Text,
           { style: { margin: '0 0 15px', padding: 0 } },
-          h(
-            Link,
-            { href: section.attrs['button-url'], style: issueStyles.button },
-            section.attrs.button,
-          ),
+          h(Link, { href: buttonUrl, style: issueStyles.button }, buttonLabel),
         )
       : null
   return h(

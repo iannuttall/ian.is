@@ -13,6 +13,7 @@ import {
   Section,
   Text,
 } from 'react-email'
+import { issueFooter } from './issue-footer.js'
 import { type IssueSection, parseIssueSections } from './issue-parser.js'
 import { issueSpacer, mdBlock, squareHeading } from './issue-sections.js'
 import { issueResponsiveCss, resolveSectionColors } from './issue-styles.js'
@@ -46,9 +47,15 @@ const defaultModularTypes = new Set([
 // where .issue-cell drops to 12px) to keep one shared content edge.
 const defaultResponsiveCss = `${issueResponsiveCss}
   @media only screen and (max-width: 599px) {
+    .default-header,
+    .default-text-wrap,
+    .default-colored-wrap {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
     .default-wrap {
-      padding-left: 28px !important;
-      padding-right: 28px !important;
+      padding-left: 8px !important;
+      padding-right: 8px !important;
     }
   }
 `
@@ -114,7 +121,7 @@ function defaultBlock(section: IssueSection) {
       null,
       h(
         Section,
-        { style: defaultEmailStyles.textWrap },
+        { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
         squareHeading(
           section.attrs.title,
           resolveSectionColors(section.attrs.color).square,
@@ -122,7 +129,7 @@ function defaultBlock(section: IssueSection) {
       ),
       h(
         Section,
-        { style: defaultEmailStyles.textWrap },
+        { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
         mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
       ),
     )
@@ -135,14 +142,14 @@ function defaultBlock(section: IssueSection) {
     const heading = title
       ? h(
           Section,
-          { style: defaultEmailStyles.textWrap },
+          { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
           squareHeading(title, resolveSectionColors(section.attrs.color).square),
         )
       : null
     const body = defaultColoredTypes.has(section.type)
       ? h(
           Section,
-          { style: defaultEmailStyles.coloredWrap },
+          { className: 'default-colored-wrap', style: defaultEmailStyles.coloredWrap },
           renderIssueSection(section, false),
         )
       : h(
@@ -154,64 +161,28 @@ function defaultBlock(section: IssueSection) {
   }
   return h(
     Section,
-    { style: defaultEmailStyles.textWrap },
+    { className: 'default-text-wrap', style: defaultEmailStyles.textWrap },
     mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
   )
 }
 
 function defaultFooterBand() {
-  return h(
-    Section,
-    {
-      className: 'default-wrap',
-      style: { ...defaultEmailStyles.modularWrap, backgroundColor: barebonesColors.bg3 },
-    },
-    h(
-      Section,
-      { style: defaultEmailStyles.footerInner },
-      h(
-        Text,
-        { style: defaultEmailStyles.footerText },
-        h('strong', null, "Ian's List"),
-        ' is a weekly email about building useful things with AI, written by ',
-        h(
-          Link,
-          untrackedLinkProps({
-            href: 'https://ian.is',
-            style: defaultEmailStyles.footerLink,
-          }),
-          'Ian Nuttall',
-        ),
-        '.',
-      ),
-      h(
-        Text,
-        { style: defaultEmailStyles.footerLinkLine },
-        h(
-          Link,
-          { href: '{{unsubscribeUrl}}', style: defaultEmailStyles.footerLink },
-          'Unsubscribe',
-        ),
-      ),
-      h(
-        Text,
-        { style: defaultEmailStyles.footerSmall },
-        '20-22 Wenlock Road, London, N1 7GU',
-      ),
-    ),
-  )
+  return issueFooter(undefined, undefined, barebonesColors.bg3)
 }
 
 function defaultHeader() {
   return h(
     Section,
-    { style: defaultEmailStyles.header },
+    { className: 'default-header', style: defaultEmailStyles.header },
     h(
       Row,
       null,
       h(
         Column,
-        { style: defaultEmailStyles.headerCell, width: '50%' },
+        {
+          style: { ...defaultEmailStyles.headerCell, textAlign: 'left' as const },
+          width: '50%',
+        },
         h(
           Link,
           untrackedLinkProps({

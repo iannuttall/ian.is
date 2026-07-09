@@ -161,14 +161,17 @@ export const issueStyles = {
   wideRightCell: {
     padding: '15px 20px 5px 10px',
     verticalAlign: 'top',
+    textAlign: 'left' as const,
   },
   wideLeftCell: {
     padding: '15px 10px 5px 20px',
     verticalAlign: 'top',
+    textAlign: 'left' as const,
   },
   narrowRightCell: {
     padding: '15px 20px 5px 10px',
     verticalAlign: 'top',
+    textAlign: 'left' as const,
   },
   fullCell: {
     padding: '15px 20px 5px',
@@ -282,12 +285,13 @@ export const issueStyles = {
     textDecoration: 'underline',
     textUnderlineOffset: '2px',
   },
-  footerText: issueText({ marginBottom: '15px' }),
+  footerText: issueText({ marginBottom: '15px', textAlign: 'left' as const }),
   footerSmall: issueText({
     fontSize: '14px',
     lineHeight: '19px',
     color: issueColors.grey,
     marginBottom: '15px',
+    textAlign: 'left' as const,
   }),
   footerLink: {
     color: issueColors.ink,

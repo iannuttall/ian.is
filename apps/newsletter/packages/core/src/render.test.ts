@@ -54,6 +54,10 @@ describe('renderDraft', () => {
         '',
         'Description text.',
         ':::',
+        '',
+        '::: classifieds title="Classifieds"',
+        '[MicroSponsor](https://example.com/micro) helps builders reach useful readers.',
+        ':::',
       ].join('\n'),
     })
 
@@ -62,9 +66,10 @@ describe('renderDraft', () => {
     assert.match(rendered.html, />Sponsor Title</)
     assert.match(rendered.html, /#F1F1F1/)
     assert.match(rendered.html, /Worth a Click/)
+    assert.match(rendered.html, /Classifieds/)
+    assert.match(rendered.html, /Advertise on Ian/)
     assert.match(rendered.html, /\[if mso\]/)
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
-    assert.doesNotMatch(rendered.html, /Advertise on Ian/)
   })
 
   it('lists available templates', () => {
