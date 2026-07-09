@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  url: string;
+}
+
+const { title, description, url } = Astro.props;
+const host = new URL(url).host;
+---
+
+<div
+  class="flex h-[630px] w-[1200px] flex-col justify-between overflow-hidden bg-background px-20 py-16 font-sans text-foreground"
+  style="color-scheme: light;"
+>
+  <div class="flex items-center justify-between text-[30px] leading-none">
+    <div class="font-medium">Ian Nuttall</div>
+    <div class="font-medium text-foreground-muted">{host}</div>
+  </div>
+
+  <div class="flex flex-col gap-8">
+    <h1 class="max-w-[980px] text-balance text-[80px] font-medium leading-[1.05]">
+      {title}
+    </h1>
+    {description ? (
+      <p class="max-w-[900px] text-balance text-[42px] font-medium leading-[1.2] text-foreground-muted">
+        {description}
+      </p>
+    ) : null}
+  </div>
+</div>

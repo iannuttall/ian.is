@@ -1,17 +1,18 @@
 ---
 import Header from "@/components/Header.astro";
 import MenuOverlay from "@/components/MenuOverlay.astro";
+import OgTemplate from "@/components/OgTemplate.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { newsletterSubscribedKey } from "@/lib/newsletter";
 import { breadcrumbSchema, type SeoBreadcrumbItem } from "@/lib/seo";
 import {
   adsenseClientId,
   clickySiteId,
-  defaultOgImagePath,
   googleAnalyticsId,
   siteDescription,
   siteName,
   siteUrl,
+  toOgImageUrl,
 } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -35,7 +36,7 @@ const {
   canonicalPath = Astro.url.pathname,
   noIndex = false,
   ogType = "website",
-  ogImagePath = defaultOgImagePath,
+  ogImagePath,
   structuredData,
   breadcrumbs,
   titleTemplate = true,
@@ -45,7 +46,7 @@ const {
 const fullTitle = titleTemplate && title !== siteName ? `${title} | ${siteName}` : title;
 const baseUrl = Astro.site ?? new URL(siteUrl);
 const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
-const ogImageUrl = new URL(ogImagePath, baseUrl).toString();
+const ogImageUrl = toOgImageUrl(canonicalUrl, ogImagePath);
 const structuredDataList = (Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []).filter(Boolean);
 const isHome = canonicalPath === "/" || canonicalPath === "";
 const breadcrumbItems =
@@ -60,6 +61,7 @@ const shouldLoadThirdPartyScripts = import.meta.env.PROD && !isLocalHost;
 const hasClicky = clickySiteId.length > 0;
 const hasGoogleAnalytics = googleAnalyticsId.length > 0;
 const hasAdsense = adsenseClientId.length > 0;
+const isOgPreview = Astro.url.searchParams.has("og");
 ---
 
 <!doctype html>
@@ -121,22 +123,31 @@ const hasAdsense = adsenseClientId.length > 0;
     {structuredDataList.map((entry) => <script is:inline type="application/ld+json" set:html={JSON.stringify(entry)} />)}
     <slot name="head" />
   </head>
-  <body class="min-h-screen bg-background antialiased">
-    <a href="#content" class="skip-link">Skip to content</a>
-    <div class="flex min-h-screen flex-col">
-      {minimal ? null : <Header breadcrumbs={breadcrumbItems} />}
-      {minimal ? null : <MenuOverlay />}
-      <main id="content" class="flex-1">
-        <slot />
-      </main>
-    </div>
-    <script>
-      import Alpine from "alpinejs";
-      import setupAlpine from "@/scripts/alpine";
+  <body class:list={["min-h-screen bg-background antialiased", isOgPreview ? "m-0 overflow-hidden" : ""]}>
+    {isOgPreview ? (
+      <OgTemplate title={fullTitle} description={description} url={canonicalUrl} />
+    ) : (
+      <>
+        <a href="#content" class="skip-link">Skip to content</a>
+        <div class="flex min-h-screen flex-col">
+          {minimal ? null : <Header breadcrumbs={breadcrumbItems} />}
+          {minimal ? null : <MenuOverlay />}
+          <main id="content" class="flex-1">
+            <slot />
+          </main>
+        </div>
+        <template data-og-template data-og-width="1200" data-og-height="630">
+          <OgTemplate title={fullTitle} description={description} url={canonicalUrl} />
+        </template>
+        <script>
+          import Alpine from "alpinejs";
+          import setupAlpine from "@/scripts/alpine";
 
-      setupAlpine(Alpine);
-      window.Alpine = Alpine;
-      Alpine.start();
-    </script>
+          setupAlpine(Alpine);
+          window.Alpine = Alpine;
+          Alpine.start();
+        </script>
+      </>
+    )}
   </body>
 </html>
