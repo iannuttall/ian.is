@@ -5,7 +5,7 @@ export const siteUrl = "https://ian.is";
 export const canonicalHost = "ian.is";
 export const siteDescription = "Notes, tools, and experiments with SEO and AI.";
 export const ogImageServiceUrl = "https://og.ian.is/";
-export const clickySiteId = "";
+export const clickySiteId = "101414716";
 export const googleAnalyticsId = "";
 export const adsenseClientId = "";
 
