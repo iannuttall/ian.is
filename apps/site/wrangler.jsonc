@@ -31,9 +31,6 @@
       "LIST_API_TOKEN"
     ]
   },
-  "cache": {
-    "enabled": true
-  },
   "observability": {
     "enabled": true
   }

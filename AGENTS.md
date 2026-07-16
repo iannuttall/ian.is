@@ -179,10 +179,11 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
   Astro SVG components so icons SSR to HTML and never create a client bundle.
 - `nodejs_compat` is required in `wrangler.jsonc` — Astro's dev/SSR runtime uses
   `process`; without it every route 500s with "process is not defined".
-- `cache.enabled` is on in `apps/site/wrangler.jsonc`. Static/prerendered
-  assets get cache headers from `apps/site/public/_headers`; future SSR/API/MCP
-  GET routes must set explicit `Cache-Control` if they should be cached and
-  `no-store` if they mutate or return personalized data.
+- Cloudflare Static Assets cache automatically across the network. Do not enable
+  the top-level Worker cache for the site's default entrypoint: it can cache
+  generated 404s and future SSR responses before the Worker runs. Asset response
+  headers live in `apps/site/public/_headers`; SSR/API/MCP routes must set
+  explicit `Cache-Control` or `no-store` themselves.
 - pnpm 11 gates native build scripts via `allowBuilds:` (booleans) in
   `pnpm-workspace.yaml`, not the legacy `onlyBuiltDependencies`. Keep
   esbuild/sharp/workerd/@tailwindcss/oxide set to `true` or installs exit 1.
