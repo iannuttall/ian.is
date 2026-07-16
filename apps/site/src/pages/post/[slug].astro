@@ -8,7 +8,7 @@ import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import { postBreadcrumbs } from "@/lib/breadcrumbs";
 import { formatPostDate, getPublishedPosts } from "@/lib/posts";
-import { siteName, toAbsoluteUrl } from "@/lib/site";
+import { blogPostingSchema } from "@/lib/seo";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -23,17 +23,13 @@ const { post } = Astro.props as Props;
 const { Content } = await render(post);
 const path = `/post/${post.id}`;
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: post.data.title,
+const structuredData = blogPostingSchema({
+  title: post.data.title,
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString(),
   dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
-  url: toAbsoluteUrl(path),
-  mainEntityOfPage: toAbsoluteUrl(path),
-  author: { "@type": "Person", name: siteName },
-};
+  path,
+});
 ---
 
 <Layout

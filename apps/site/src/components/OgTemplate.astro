@@ -16,12 +16,12 @@ const { title, description } = Astro.props;
   </div>
 
   <div class="flex flex-1 flex-col justify-center">
-    <h1
+    <div
       class="max-w-full overflow-hidden text-[76px] font-medium leading-[1.08]"
       style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
     >
       {title}
-    </h1>
+    </div>
     {description ? (
       <p
         class="mt-6 max-w-full overflow-hidden text-[42px] font-medium leading-[1.3] text-foreground-muted"

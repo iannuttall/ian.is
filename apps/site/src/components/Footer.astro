@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro'
 import { externalLinkAttrs } from "@/lib/external-links.mjs";
+import { personProfiles } from "@/lib/site";
 
 const linkRows = [
   [
@@ -40,7 +41,7 @@ const linkClass =
       }
       <a
         class="text-2xl/none text-foreground underline-offset-2 transition-colors hover:text-foreground-muted hover:underline hover:decoration-dotted"
-        {...externalLinkAttrs("https://x.com/iannuttall")}
+        {...externalLinkAttrs(personProfiles.x)}
         aria-label="Ian Nuttall on X"
       >
         𝕏

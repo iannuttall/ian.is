@@ -1,7 +1,7 @@
 ---
 title: "About"
 headline: "About Ian Nuttall"
-description: "Ian Nuttall is a British marketer, software engineer, and entrepreneur with over 20 years experience building internet businesses."
+description: "Ian Nuttall is a British marketer, software engineer and entrepreneur with over 20 years of experience building internet businesses and AI tools."
 ogTitle: "About Ian Nuttall"
 ---
 
@@ -14,13 +14,14 @@ import LinkList from "@/components/page/LinkList.astro";
 import LinkItem from "@/components/page/LinkItem.astro";
 import MarginNote from "@/components/page/MarginNote.astro";
 import Link from "@/components/page/Link.astro";
+import { personDescription } from "@/lib/site";
 
 <PageHero title={frontmatter.headline}>
 <MarginNote slot="right" defaultOpen={false}>
 I don't usually talk in third person, btw. This is just for Google (it's an SEO thing).
 </MarginNote>
 
-Ian Nuttall is a British marketer, software engineer, and entrepreneur with over 20 years experience building internet businesses.
+{personDescription}
 </PageHero>
 
 <PageBody>

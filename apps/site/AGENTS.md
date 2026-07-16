@@ -18,6 +18,9 @@ Read the root `AGENTS.md` first. This file only adds site-specific direction.
 - Do not deploy this app with raw `wrangler deploy`. Use `pnpm -C apps/site
   deploy` locally or `pnpm site:worker:deploy` from Cloudflare Build so the
   live deploy marker can skip duplicate deploys for the same git SHA.
+- Keep canonical URLs slashless through Astro's `trailingSlash: "never"` and
+  Wrangler assets `html_handling: "drop-trailing-slash"`. Cloudflare's default
+  asset handling adds slashes to directory index pages.
 
 ## Commands
 
@@ -49,6 +52,20 @@ pnpm ian site secrets-sync --dry-run
 - `/blog` is wrong terminology for this site.
 - Use `src/lib/posts.ts` and `src/lib/breadcrumbs.ts` helpers rather than
   rebuilding content and breadcrumb logic in pages.
+
+## Agent Discovery
+
+- Cloudflare Markdown for Agents owns `Accept: text/markdown` negotiation in
+  production. Do not generate Markdown page mirrors or add Worker rewrite
+  logic for them.
+- `scripts/build-agent-discovery.mjs` generates `dist/client/llms.txt` from
+  every indexable HTML page in the finished build. Keep it automatic. Do not
+  add a maintained route list.
+- Public Agent Skills source files live in `agent-skills/*/SKILL.md`. The same
+  build script publishes the files and a digest-backed
+  `/.well-known/agent-skills/index.json`.
+- Keep the origin `Content-Signal` response header aligned with Cloudflare's
+  managed `robots.txt` policy: `search=yes, ai-train=no, use=reference`.
 
 ## Design
 

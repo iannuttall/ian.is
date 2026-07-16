@@ -1,8 +1,10 @@
 ---
 import GithubLogo from "@/components/icons/GithubLogo.astro";
+import LinkedinLogo from "@/components/icons/LinkedinLogo.astro";
 import XLogo from "@/components/icons/XLogo.astro";
 import YoutubeLogo from "@/components/icons/YoutubeLogo.astro";
 import { externalLinkAttrs } from "@/lib/external-links.mjs";
+import { personProfiles } from "@/lib/site";
 
 const mainItems = [
   { label: "Home", href: "/" },
@@ -84,7 +86,7 @@ const socialLinkClass =
 
     <div class="mt-auto flex items-center gap-4">
       <a
-        {...externalLinkAttrs("https://x.com/iannuttall")}
+        {...externalLinkAttrs(personProfiles.x)}
         class={socialLinkClass}
         aria-label="Ian Nuttall on X"
         x-on:click="$store.menu.close()"
@@ -92,7 +94,15 @@ const socialLinkClass =
         <XLogo size={28} aria-hidden="true" />
       </a>
       <a
-        {...externalLinkAttrs("https://www.youtube.com/@iannuttall")}
+        {...externalLinkAttrs(personProfiles.linkedin)}
+        class={socialLinkClass}
+        aria-label="Ian Nuttall on LinkedIn"
+        x-on:click="$store.menu.close()"
+      >
+        <LinkedinLogo size={28} aria-hidden="true" />
+      </a>
+      <a
+        {...externalLinkAttrs(personProfiles.youtube)}
         class={socialLinkClass}
         aria-label="Ian Nuttall on YouTube"
         x-on:click="$store.menu.close()"
@@ -100,7 +110,7 @@ const socialLinkClass =
         <YoutubeLogo size={30} aria-hidden="true" />
       </a>
       <a
-        {...externalLinkAttrs("https://github.com/iannuttall")}
+        {...externalLinkAttrs(personProfiles.github)}
         class={socialLinkClass}
         aria-label="Ian Nuttall on GitHub"
         x-on:click="$store.menu.close()"

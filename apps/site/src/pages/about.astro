@@ -4,7 +4,7 @@ export const prerender = true;
 import { getEntry, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
-import { webPageSchema } from "@/lib/seo";
+import { profilePageSchema } from "@/lib/seo";
 
 const page = await getEntry("pages", "about");
 
@@ -17,11 +17,10 @@ const title = page.data.title;
 const description = page.data.description;
 const path = "/about";
 
-const structuredData = webPageSchema({
-  title,
+const structuredData = profilePageSchema({
+  title: page.data.headline,
   description,
   path,
-  type: "AboutPage",
 });
 ---
 
