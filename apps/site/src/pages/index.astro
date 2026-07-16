@@ -7,15 +7,14 @@ import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
 import { getPublishedPosts } from "@/lib/posts";
 import { webSiteSchema } from "@/lib/seo";
-import { personDescription } from "@/lib/site";
 
 const posts = (await getPublishedPosts()).slice(0, 5);
 ---
 
 <Layout
-  title="Ian Nuttall | Marketer, Software Engineer and Entrepreneur"
+  title="Ian Nuttall - Marketer, AI Software Engineer and Entrepreneur"
   titleTemplate={false}
-  description={personDescription}
+  description="Part entrepreneur, part marketer, part software engineer using AI to build stuff on the internet."
   ogTitle="Ian Nuttall"
   canonicalPath="/"
   structuredData={webSiteSchema()}
@@ -33,7 +32,7 @@ const posts = (await getPublishedPosts()).slice(0, 5);
             Ian Nuttall
           </h1>
           <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
-            British marketer, software engineer and entrepreneur building simple AI tools, apps and internet businesses.
+            Part entrepreneur, part marketer, part software engineer using AI to build stuff on the internet.
           </p>
         </div>
         <Newsletter standalone={false} />
