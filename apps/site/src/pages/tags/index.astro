@@ -24,14 +24,14 @@ const structuredData = webPageSchema({
   structuredData={structuredData}
 >
   <div class="site-frame py-10">
-    <header class="mb-10 flex max-w-2xl flex-col gap-3">
+    <div class="mb-10 flex max-w-2xl flex-col gap-3">
       <h1 class="text-pretty text-2xl font-medium tracking-normal text-foreground xl:text-3xl">
         Browse posts by topic.
       </h1>
       <p class="text-pretty text-lg/7 font-medium tracking-normal text-foreground-muted xl:text-xl/8">
         Tags from the posts I've published so far.
       </p>
-    </header>
+    </div>
 
     {tags.length === 0 ? (
       <p class="text-foreground-muted">No tags yet. Check back soon.</p>

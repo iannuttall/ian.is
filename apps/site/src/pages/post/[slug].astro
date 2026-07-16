@@ -43,7 +43,7 @@ const structuredData = blogPostingSchema({
   structuredData={structuredData}
 >
   <article class="site-frame py-12 sm:py-16">
-    <header class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
       <time class="tracking-tighter text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
         {formatPostDate(post.data.updatedDate ?? post.data.pubDate)}
       </time>
@@ -57,7 +57,7 @@ const structuredData = blogPostingSchema({
           ))}
         </div>
       ) : null}
-    </header>
+    </div>
 
     <div class="content-prose mt-10">
       <Content />

@@ -142,9 +142,11 @@ const isOgPreview = Astro.url.searchParams.has("og");
             <slot />
           </main>
         </div>
-        <template data-og-template data-og-width="1200" data-og-height="630">
-          <OgTemplate title={fullOgTitle} description={fullOgDescription} />
-        </template>
+        <footer hidden aria-hidden="true">
+          <template data-og-template data-og-width="1200" data-og-height="630">
+            <OgTemplate title={fullOgTitle} description={fullOgDescription} />
+          </template>
+        </footer>
         <script>
           import Alpine from "alpinejs";
           import setupAlpine from "@/scripts/alpine";
