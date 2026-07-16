@@ -11,6 +11,7 @@ export const personProfiles = {
   github: "https://github.com/iannuttall",
   linkedin: "https://www.linkedin.com/in/iannuttall",
   x: "https://x.com/iannuttall",
+  youtube: "https://www.youtube.com/@inuttall",
 } as const;
 export const ogImageServiceUrl = "https://og.ian.is/";
 export const clickySiteId = "101414716";
