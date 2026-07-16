@@ -2,7 +2,6 @@
 import GithubLogo from "@/components/icons/GithubLogo.astro";
 import LinkedinLogo from "@/components/icons/LinkedinLogo.astro";
 import XLogo from "@/components/icons/XLogo.astro";
-import YoutubeLogo from "@/components/icons/YoutubeLogo.astro";
 import { externalLinkAttrs } from "@/lib/external-links.mjs";
 import { personProfiles } from "@/lib/site";
 
@@ -100,14 +99,6 @@ const socialLinkClass =
         x-on:click="$store.menu.close()"
       >
         <LinkedinLogo size={28} aria-hidden="true" />
-      </a>
-      <a
-        {...externalLinkAttrs(personProfiles.youtube)}
-        class={socialLinkClass}
-        aria-label="Ian Nuttall on YouTube"
-        x-on:click="$store.menu.close()"
-      >
-        <YoutubeLogo size={30} aria-hidden="true" />
       </a>
       <a
         {...externalLinkAttrs(personProfiles.github)}
