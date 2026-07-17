@@ -1,0 +1,13 @@
+{
+  // Pasting (Cmd+V) or drag-dropping an image into a content markdown file
+  // copies it into a folder named after the document, next to the document.
+  // Astro's image pipeline picks up the relative reference and optimizes it
+  // at build, so committed sources can stay as pasted (png and friends).
+  "markdown.copyFiles.destination": {
+    "**/src/content/posts/*.{md,mdx}": "${documentBaseName}/",
+    "**/src/content/feed/*.{md,mdx}": "${documentBaseName}/",
+    "**/src/content/ama/*.{md,mdx}": "${documentBaseName}/"
+  },
+  "markdown.editor.filePaste.copyIntoWorkspace": "mediaFiles",
+  "markdown.editor.drop.copyIntoWorkspace": "mediaFiles"
+}
