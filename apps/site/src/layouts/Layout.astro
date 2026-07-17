@@ -3,6 +3,7 @@ import Header from "@/components/Header.astro";
 import MenuOverlay from "@/components/MenuOverlay.astro";
 import OgTemplate from "@/components/OgTemplate.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { feedLinks } from "@/lib/feeds";
 import { newsletterSubscribedKey } from "@/lib/newsletter";
 import { breadcrumbSchema, type SeoBreadcrumbItem } from "@/lib/seo";
 import {
@@ -88,6 +89,9 @@ const isOgPreview = Astro.url.searchParams.has("og");
     ))}
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {feedLinks.map((feed) => (
+      <link rel="alternate" type="application/rss+xml" title={feed.title} href={feed.path} />
+    ))}
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={fullOgTitle} />
     <meta property="og:description" content={fullOgDescription} />
