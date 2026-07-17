@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // AMA inbox CLI. Questions live in D1 (write-only inbox fed by /api/ama);
-// answers are committed content in src/content/ama. Answering a question here
-// writes the markdown file and marks the D1 row, then a normal git push
-// publishes it through the regular site build.
+// answers are committed content in src/content/ama. `answer` creates a
+// draft file (draft: true, hidden from every build surface) and opens it in
+// an app; `publish` clears the draft flag and marks the D1 row, then a
+// normal git push publishes it through the regular site build.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import * as p from "@clack/prompts";
@@ -112,7 +112,7 @@ function slugify(question) {
   return slug;
 }
 
-function frontmatter(row, answeredDate) {
+function frontmatter(row, answeredDate, { draft = false } = {}) {
   const lines = [
     "---",
     `question: ${JSON.stringify(row.question)}`,
@@ -122,6 +122,7 @@ function frontmatter(row, answeredDate) {
   }
   lines.push(`asked: ${isoDate(row.created_at)}`);
   lines.push(`answered: ${answeredDate}`);
+  if (draft) lines.push("draft: true");
   lines.push("---");
   return lines.join("\n");
 }
@@ -131,16 +132,21 @@ function bodyOf(markdown) {
   return (match ? match[1] : markdown).trim();
 }
 
-function openEditor(path) {
-  const editor = process.env.VISUAL ?? process.env.EDITOR ?? "nano";
-  const [bin, ...args] = editor.split(/\s+/);
-  const result = spawnSync(bin, [...args, path], { stdio: "inherit" });
-  return result.status === 0;
+// Drafts open in an app, not a blocking terminal editor. Override the
+// launcher with IAN_OPEN_CMD (defaults to VS Code's `code`).
+function openDraft(path) {
+  const command = process.env.IAN_OPEN_CMD ?? "code";
+  const [bin, ...args] = command.split(/\s+/);
+  let result = spawnSync(bin, [...args, path], { stdio: "ignore" });
+  if ((result.error || result.status !== 0) && process.platform === "darwin") {
+    result = spawnSync("open", [path], { stdio: "ignore" });
+  }
+  return !result.error && result.status === 0;
 }
 
 function pendingQuestions() {
   return d1(
-    "SELECT id, question, context, created_at FROM ama_questions WHERE status = 'pending' ORDER BY created_at ASC",
+    "SELECT id, question, context, slug, created_at FROM ama_questions WHERE status = 'pending' ORDER BY created_at ASC",
   );
 }
 
@@ -161,7 +167,12 @@ function list() {
     console.log(`${row.id}${status}`);
     console.log(`  ${truncate(row.question, 100)}`);
     if (row.context) console.log(`  context: ${truncate(row.context, 100)}`);
-    console.log(`  asked: ${row.created_at}${row.slug ? `  → /ama/${row.slug}` : ""}`);
+    const slugNote = row.slug
+      ? row.status === "answered"
+        ? `  → /ama/${row.slug}`
+        : `  → draft: /ama/${row.slug}`
+      : "";
+    console.log(`  asked: ${row.created_at}${slugNote}`);
     console.log();
   }
 }
@@ -268,59 +279,112 @@ async function answer() {
   }
 
   const answeredDate = isoDate();
-  const header = frontmatter(row, answeredDate);
+  const slug = assertSafeSlug(flagValue("--slug") ?? row.slug ?? slugify(row.question));
+  const target = join(CONTENT_DIR, `${slug}.md`);
   const answerFile = flagValue("--file");
-  let fileContents;
+  mkdirSync(CONTENT_DIR, { recursive: true });
 
+  // --file skips the draft stage: full contents provided, publish immediately.
   if (answerFile) {
     const body = readFileSync(resolve(answerFile), "utf8").trim();
     if (!body) {
       p.cancel(`${answerFile} is empty.`);
       process.exit(1);
     }
-    fileContents = `${header}\n\n${body}\n`;
-  } else {
-    const draftPath = join(tmpdir(), `ama-${row.id}.md`);
-    writeFileSync(draftPath, `${header}\n\n`, "utf8");
-    p.log.step("Opening your editor. Write the answer in markdown below the frontmatter, save, and quit.");
+    const fileContents = `${frontmatter(row, answeredDate)}\n\n${body}\n`;
 
-    if (!openEditor(draftPath)) {
-      p.cancel("Editor exited with an error.");
-      process.exit(1);
+    p.note(truncate(body, 300), `src/content/ama/${slug}.md`);
+    if (!flags.has("--yes")) {
+      const confirmed = await p.confirm({ message: "Publish this answer file?" });
+      if (p.isCancel(confirmed) || !confirmed) {
+        p.cancel("Nothing saved.");
+        return;
+      }
     }
 
-    fileContents = readFileSync(draftPath, "utf8");
-    if (!bodyOf(fileContents)) {
-      rmSync(draftPath, { force: true });
-      p.cancel("Empty answer — nothing saved.");
-      return;
-    }
-    if (!fileContents.endsWith("\n")) fileContents += "\n";
-    rmSync(draftPath, { force: true });
+    writeFileSync(target, fileContents, "utf8");
+    d1(
+      `UPDATE ama_questions SET status = 'answered', slug = ${sqlQuote(
+        slug,
+      )}, answered_at = datetime('now') WHERE id = ${sqlQuote(row.id)}`,
+    );
+    p.outro(
+      `Wrote src/content/ama/${slug}.md — commit and push to publish /ama/${slug}`,
+    );
+    return;
   }
 
-  const slug = assertSafeSlug(flagValue("--slug") ?? slugify(row.question));
-  const target = join(CONTENT_DIR, `${slug}.md`);
-
-  p.note(truncate(bodyOf(fileContents), 300), `src/content/ama/${slug}.md`);
-  if (!flags.has("--yes")) {
-    const confirmed = await p.confirm({ message: "Publish this answer file?" });
-    if (p.isCancel(confirmed) || !confirmed) {
-      p.cancel("Nothing saved.");
-      return;
-    }
+  // Default: create the draft in place (hidden from builds by draft: true)
+  // and open it in the draft app. Publishing is a separate, checkable step.
+  if (!existsSync(target)) {
+    writeFileSync(target, `${frontmatter(row, answeredDate, { draft: true })}\n\n`, "utf8");
   }
-
-  mkdirSync(CONTENT_DIR, { recursive: true });
-  writeFileSync(target, fileContents, "utf8");
-  d1(
-    `UPDATE ama_questions SET status = 'answered', slug = ${sqlQuote(
-      slug,
-    )}, answered_at = datetime('now') WHERE id = ${sqlQuote(row.id)}`,
-  );
-
+  if (row.slug !== slug) {
+    d1(
+      `UPDATE ama_questions SET slug = ${sqlQuote(slug)} WHERE id = ${sqlQuote(row.id)}`,
+    );
+  }
+  if (!openDraft(target)) {
+    p.log.warn(`Could not launch the draft app — open src/content/ama/${slug}.md yourself.`);
+  }
   p.outro(
-    `Wrote src/content/ama/${slug}.md — commit and push to publish /ama/${slug}`,
+    `Draft: src/content/ama/${slug}.md — write the answer, then: pnpm ian ama publish ${slug}`,
+  );
+}
+
+function draftRows() {
+  return d1(
+    "SELECT id, question, slug, created_at FROM ama_questions WHERE status = 'pending' AND slug IS NOT NULL ORDER BY created_at ASC",
+  );
+}
+
+function publish() {
+  const drafts = draftRows();
+  if (drafts.length === 0) {
+    console.log("No drafts to publish. Start one with: pnpm ian ama answer");
+    return;
+  }
+
+  const requested = positional[0];
+  let row;
+  if (requested) {
+    // Accept a slug or a git-style id prefix.
+    row =
+      drafts.find((candidate) => candidate.slug === requested) ??
+      findByIdPrefix(drafts, requested);
+  } else if (drafts.length === 1) {
+    row = drafts[0];
+  } else {
+    console.error("More than one draft — pick one:");
+    for (const draft of drafts) {
+      console.error(`  ${draft.slug}  (${truncate(draft.question, 70)})`);
+    }
+    process.exit(1);
+  }
+
+  assertSafeSlug(row.slug);
+  const target = join(CONTENT_DIR, `${row.slug}.md`);
+  if (!existsSync(target)) {
+    console.error(`Draft file missing: src/content/ama/${row.slug}.md`);
+    process.exit(1);
+  }
+
+  let contents = readFileSync(target, "utf8");
+  if (!bodyOf(contents)) {
+    console.error(`src/content/ama/${row.slug}.md has no answer yet — nothing published.`);
+    process.exit(1);
+  }
+
+  contents = contents.replace(/^draft:\s*true\s*\r?\n/m, "");
+  contents = contents.replace(/^answered:.*$/m, `answered: ${isoDate()}`);
+  if (!contents.endsWith("\n")) contents += "\n";
+  writeFileSync(target, contents, "utf8");
+
+  d1(
+    `UPDATE ama_questions SET status = 'answered', answered_at = datetime('now') WHERE id = ${sqlQuote(row.id)}`,
+  );
+  console.log(
+    `Published src/content/ama/${row.slug}.md — commit and push to go live at /ama/${row.slug}`,
   );
 }
 
@@ -330,7 +394,8 @@ function help() {
 Usage:
   pnpm ian ama list [--all] [--remote]
   pnpm ian ama show <id> [--remote]
-  pnpm ian ama answer [id] [--file draft.md] [--slug custom-slug] [--yes] [--remote]
+  pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug] [--yes] [--remote]
+  pnpm ian ama publish [slug|id] [--remote]
   pnpm ian ama hide <id> [--remote]
   pnpm ian ama seed
 
@@ -338,9 +403,10 @@ Questions live in the ${DB_NAME} D1 database (local state by default; pass
 --remote for production). Answers are markdown files in src/content/ama and
 publish through a normal git push.
 
-The answer editor is $VISUAL or $EDITOR (falls back to nano). For VS Code:
-  EDITOR="code --wait" pnpm ian ama answer <id>
-or export EDITOR="code --wait" in your shell profile.`);
+answer creates the draft file (draft: true, hidden from builds) and opens it
+in VS Code; publish clears the draft flag once the answer is written. Set
+IAN_OPEN_CMD to open drafts in a different app. --file skips the draft stage
+and publishes the given markdown body immediately.`);
 }
 
 try {
@@ -356,6 +422,8 @@ try {
     seed();
   } else if (command === "answer") {
     await answer();
+  } else if (command === "publish") {
+    publish();
   } else {
     console.error(`Unknown command: ${command}\n`);
     help();
