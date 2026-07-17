@@ -24,7 +24,10 @@
     "directory": "./dist/client",
     "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // The Worker must see asset requests so the markdown handler can do
+    // Accept: text/markdown negotiation at canonical URLs.
+    "run_worker_first": true
   },
   "d1_databases": [
     {

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
+import { agentMarkdown } from "@iannuttall/seo-graph-astro";
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
@@ -115,6 +116,9 @@ export default defineConfig({
   trailingSlash: "never",
   integrations: [
     mdx(),
+    // Emits a deterministic .md twin per indexable page plus
+    // agent-routes.json; llms.txt stays owned by build-agent-discovery.mjs.
+    agentMarkdown(),
   ],
   markdown: {
     processor: markdownProcessor,

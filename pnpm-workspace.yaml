@@ -9,6 +9,11 @@ allowBuilds:
   sharp: true
   workerd: true
 
+minimumReleaseAgeExclude:
+  # Own packages: publish → consume immediately.
+  - '@iannuttall/seo-graph-astro'
+  - '@iannuttall/seo-graph-core'
+
 overrides:
   esbuild: 0.28.1
   postcss: 8.5.10
