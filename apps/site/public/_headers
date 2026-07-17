@@ -1,6 +1,6 @@
 /*
   Cache-Control: public, max-age=600, s-maxage=2592000, stale-while-revalidate=86400
-  Content-Signal: search=yes, ai-train=no, use=reference
+  Content-Signal: search=yes, ai-input=yes, ai-train=yes
   Strict-Transport-Security: max-age=31536000
   Link: <https://ian.is/sitemap.xml>; rel="sitemap"; type="application/xml"
   Link: <https://ian.is/llms.txt>; rel="llms-txt"; type="text/markdown"

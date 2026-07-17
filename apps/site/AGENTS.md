@@ -64,8 +64,10 @@ pnpm ian site secrets-sync --dry-run
 - Public Agent Skills source files live in `agent-skills/*/SKILL.md`. The same
   build script publishes the files and a digest-backed
   `/.well-known/agent-skills/index.json`.
-- Keep the origin `Content-Signal` response header aligned with Cloudflare's
-  managed `robots.txt` policy: `search=yes, ai-train=no, use=reference`.
+- The site blocks no bots. Keep the origin `Content-Signal` response header
+  and `public/robots.txt` fully open (`search=yes, ai-input=yes, ai-train=yes`),
+  and keep Cloudflare zone features (managed robots.txt / AI Crawl Control)
+  from injecting `Disallow` rules.
 
 ## Design
 
