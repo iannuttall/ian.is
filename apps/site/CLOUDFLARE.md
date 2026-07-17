@@ -25,9 +25,19 @@ own artifacts.
 
 ## Route Markdown requests at the edge
 
-In Cloudflare open **Rules → Transform Rules → URL Rewrite Rules**. Both
-rules use the Expression Editor (the visual builder cannot represent them —
-cancel its prompt to discard).
+These rules are config-as-code via the workers CLI — do not hand-edit them
+in the dashboard:
+
+```sh
+workers rules rewrites list ian-is
+workers rules rewrites put-markdown ian-is [--dry-run]
+```
+
+`put-markdown` is idempotent (it merges onto the existing rules by name)
+and derives the expressions from the app's inventory domain. The
+authoritative rule contents are below; the dashboard path, if ever needed,
+is **Rules → Transform Rules → URL Rewrite Rules** with the Expression
+Editor (the visual builder cannot represent these expressions).
 
 ### Rule 1 — "Home .md rewrite"
 
