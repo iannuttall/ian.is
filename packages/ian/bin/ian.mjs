@@ -36,7 +36,8 @@ Newsletter:
 AMA:
   pnpm ian ama list [--all]
   pnpm ian ama show <id>
-  pnpm ian ama answer [id] [--file draft.md] [--slug custom-slug]
+  pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug]
+  pnpm ian ama publish [slug|id]
   pnpm ian ama hide <id>
   pnpm ian ama seed
 
