@@ -157,7 +157,7 @@ function newsletter(argv) {
     return;
   }
 
-  const templateArgs = withDefaultOption(rest, "--template", getOption(rest, "--template", "react-newsletter"));
+  const templateArgs = withDefaultOption(rest, "--template", getOption(rest, "--template", "default"));
   const renderArgs = withDefaultOption(templateArgs, "--out-dir", getOption(rest, "--out-dir", "apps/newsletter/rendered"));
 
   const aliases = {

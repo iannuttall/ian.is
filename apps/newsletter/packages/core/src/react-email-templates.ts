@@ -18,6 +18,11 @@ export function isReactEmailTemplate(template?: string): boolean {
   return !template || template === 'default'
 }
 
+export function isKnownEmailTemplate(template?: string): boolean {
+  if (!template) return true
+  return emailTemplateDefinitions.some((definition) => definition.key === template)
+}
+
 export async function renderReactEmailTemplate(input: {
   draft: DraftInput
   fallbackText: string

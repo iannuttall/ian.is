@@ -2,6 +2,7 @@ import { marked } from 'marked'
 import sanitizeHtml from 'sanitize-html'
 import {
   emailTemplateDefinitions,
+  isKnownEmailTemplate,
   isReactEmailTemplate,
   renderReactEmailTemplate,
 } from './react-email-templates.js'
@@ -35,6 +36,10 @@ export function renderDraft(input: DraftInput): RenderedEmail {
 }
 
 export async function renderDraftEmail(input: DraftInput): Promise<RenderedEmail> {
+  if (!isKnownEmailTemplate(input.template)) {
+    const known = emailTemplateDefinitions.map((definition) => definition.key).join(', ')
+    throw new Error(`Unknown email template "${input.template}". Known templates: ${known}`)
+  }
   const contentHtml = renderMarkdownContent(input.bodyMarkdown)
   if (isReactEmailTemplate(input.template)) {
     return await renderReactEmailTemplate({
