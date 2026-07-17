@@ -21,6 +21,20 @@ const posts = defineCollection({
     }),
 });
 
+// AMA answers live as Markdown files under src/content/ama. Questions arrive
+// through /api/ama into D1; `pnpm ian ama answer` turns one into a file here.
+const ama = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/ama" }),
+  schema: z.object({
+    question: z.string(),
+    breadcrumbTitle: z.string().optional(),
+    context: z.string().optional(),
+    asked: z.coerce.date(),
+    answered: z.coerce.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
   schema: z.object({
@@ -34,4 +48,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { pages, posts };
+export const collections = { ama, pages, posts };

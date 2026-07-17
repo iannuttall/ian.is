@@ -11,6 +11,7 @@ const SITE = process.env.SITE_URL ?? "https://ian.is";
 const PUBLIC_DIR = resolve(process.cwd(), "public");
 const SITEMAPS_DIR = resolve(PUBLIC_DIR, "sitemaps");
 const POSTS_DIR = resolve(process.cwd(), "src/content/posts");
+const AMA_DIR = resolve(process.cwd(), "src/content/ama");
 
 function slugifyTag(tag) {
   return tag
@@ -84,6 +85,19 @@ function posts() {
   });
 }
 
+function amaSlugs() {
+  return postFiles(AMA_DIR).flatMap((path) => {
+    const source = readFileSync(path, "utf8");
+    const data = frontmatter(source);
+
+    if (/^draft:\s*true\s*$/m.test(data)) {
+      return [];
+    }
+
+    return [relative(AMA_DIR, path).replace(/\.(md|mdx)$/, "")];
+  });
+}
+
 function xmlEscape(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -119,10 +133,12 @@ const tagSlugs = [
 const pages = [
   "/",
   "/about",
+  "/ama",
   "/posts",
   "/tags",
   "/tools",
   ...postEntries.map((post) => `/post/${post.slug}`),
+  ...amaSlugs().map((slug) => `/ama/${slug}`),
   ...tagSlugs.map((tag) => `/tags/${tag}`),
 ].map((path) => new URL(path, SITE).toString());
 

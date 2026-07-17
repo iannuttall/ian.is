@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { webPageSchema } from "@/lib/seo";
 
@@ -22,13 +23,11 @@ const structuredData = webPageSchema({
   structuredData={structuredData}
 >
   <div class="site-frame py-12 sm:py-16">
-    <div class="max-w-2xl">
-      <h1 class="text-3xl/tight font-semibold text-foreground">Tools</h1>
-      <p class="mt-3 text-foreground-muted">
-        Free tools for SEO and AI. Nothing here yet, but the first ones are on
-        the way.
+    <PageHeader title="Tools" subtitle="Free tools for SEO and AI.">
+      <p class="text-foreground-muted">
+        Nothing here yet, but the first ones are on the way.
       </p>
-    </div>
+    </PageHeader>
 
     <div class="mt-12">
       <Newsletter

@@ -2,6 +2,7 @@
   "bindings": [],
   "requiredRemote": ["LIST_API_TOKEN"],
   "optionalRemote": [
+    "AMA_IP_SALT",
     "DEPLOYED_AT",
     "DEPLOY_ID",
     "DEPLOY_SOURCE",

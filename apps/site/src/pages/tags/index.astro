@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
@@ -23,20 +24,17 @@ const structuredData = webPageSchema({
   breadcrumbs={pageBreadcrumbs("Tags", "/tags")}
   structuredData={structuredData}
 >
-  <div class="site-frame py-10">
-    <div class="mb-10 flex max-w-2xl flex-col gap-3">
-      <h1 class="text-pretty text-2xl font-medium tracking-normal text-foreground xl:text-3xl">
-        Browse posts by topic.
-      </h1>
-      <p class="text-pretty text-lg/7 font-medium tracking-normal text-foreground-muted xl:text-xl/8">
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader title="Tags" subtitle="Browse posts by topic.">
+      <p class="text-foreground-muted">
         Tags from the posts I've published so far.
       </p>
-    </div>
+    </PageHeader>
 
     {tags.length === 0 ? (
-      <p class="text-foreground-muted">No tags yet. Check back soon.</p>
+      <p class="mt-12 text-foreground-muted">No tags yet. Check back soon.</p>
     ) : (
-      <div class="grid gap-2 sm:grid-cols-2">
+      <div class="mt-12 grid gap-2 sm:grid-cols-2">
         {tags.map((tag) => (
           <a
             class="flex h-full min-h-32 flex-col rounded-lg bg-muted p-6 no-underline transition-colors hover:bg-secondary-hover"

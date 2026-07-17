@@ -57,6 +57,7 @@ export function webPageSchema(options: {
   description: string;
   path: string;
   type?: "WebPage" | "CollectionPage" | "AboutPage" | "FAQPage";
+  mainEntity?: Record<string, unknown>;
 }) {
   const url = toAbsoluteUrl(options.path);
   const pageId = `${url}#webpage`;
@@ -79,6 +80,7 @@ export function webPageSchema(options: {
         about: { "@id": schemaIds.person },
         creator: { "@id": schemaIds.person },
         publisher: { "@id": schemaIds.person },
+        ...(options.mainEntity ? { mainEntity: options.mainEntity } : {}),
       },
     ],
   };
@@ -138,6 +140,46 @@ export function blogPostingSchema(options: {
         isPartOf: { "@id": schemaIds.website },
         author: { "@id": schemaIds.person },
         publisher: { "@id": schemaIds.person },
+      },
+    ],
+  };
+}
+
+export function qaPageSchema(options: {
+  question: string;
+  context?: string;
+  path: string;
+  asked: string;
+  answered: string;
+  answerText: string;
+}) {
+  const url = toAbsoluteUrl(options.path);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      personEntity(),
+      webSiteEntity(),
+      {
+        "@id": `${url}#qapage`,
+        "@type": "QAPage",
+        url,
+        inLanguage: "en",
+        isPartOf: { "@id": schemaIds.website },
+        mainEntity: {
+          "@type": "Question",
+          name: options.question,
+          text: options.context ?? options.question,
+          dateCreated: options.asked,
+          answerCount: 1,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: options.answerText,
+            dateCreated: options.answered,
+            url,
+            author: { "@id": schemaIds.person },
+          },
+        },
       },
     ],
   };

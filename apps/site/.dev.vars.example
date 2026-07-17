@@ -8,3 +8,7 @@ LIST_API_TOKEN=""
 
 # Optional: override the newsletter API base (defaults to https://list.ian.is).
 # LIST_API_URL="https://list.ian.is"
+
+# Optional: salt for hashing AMA submitter IPs (src/pages/api/ama.ts). Falls
+# back to a public default; set a random value in prod (openssl rand -hex 32).
+# AMA_IP_SALT=""

@@ -18,7 +18,7 @@ const requestedKeys = argv.filter(
   (arg, index) =>
     arg !== "--dry-run" &&
     arg !== "--env-file" &&
-    index !== envFileFlagIndex + 1 &&
+    (envFileFlagIndex === -1 || index !== envFileFlagIndex + 1) &&
     /^[A-Z0-9_]+$/.test(arg),
 );
 

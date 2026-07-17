@@ -26,6 +26,16 @@
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
   },
+  "d1_databases": [
+    {
+      // Shared site database: each feature gets its own namespaced tables
+      // (ama_*) and migrations in ./migrations.
+      "binding": "DB",
+      "database_name": "ian-db",
+      "database_id": "7a18281e-207e-4af3-a546-469d19a637c7",
+      "migrations_dir": "migrations"
+    }
+  ],
   "secrets": {
     "required": [
       "LIST_API_TOKEN"

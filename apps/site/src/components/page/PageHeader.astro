@@ -1,0 +1,23 @@
+---
+// Shared page header matching the homepage hero typography, so archive and
+// detail pages stay on the same type scale as the home h1/subtitle.
+
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<header class="flex max-w-2xl flex-col gap-4">
+  <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+    {title}
+  </h1>
+  {subtitle ? (
+    <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
+      {subtitle}
+    </p>
+  ) : null}
+  <slot />
+</header>

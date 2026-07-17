@@ -3,7 +3,8 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
-import PostListSection from "@/components/posts/PostListSection.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import PostTitleList from "@/components/posts/PostTitleList.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { getPublishedPosts } from "@/lib/posts";
 import { webPageSchema } from "@/lib/seo";
@@ -24,8 +25,16 @@ const structuredData = webPageSchema({
   breadcrumbs={pageBreadcrumbs("Posts", "/posts")}
   structuredData={structuredData}
 >
-  <div class="site-frame py-10">
-    <PostListSection posts={posts} labelHeadingLevel="h1" />
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader title="Posts" subtitle="Writing on SEO, AI, and building tools." />
+
+    <div class="mt-12">
+      {posts.length === 0 ? (
+        <p class="text-foreground-muted">No posts yet. Check back soon.</p>
+      ) : (
+        <PostTitleList posts={posts} headingLevel="h2" />
+      )}
+    </div>
 
     <a
       href="/tags"

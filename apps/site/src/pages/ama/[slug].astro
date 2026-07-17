@@ -1,0 +1,75 @@
+---
+export const prerender = true;
+
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import AmaAsk from "@/components/ama/AmaAsk.astro";
+import Layout from "@/layouts/Layout.astro";
+import { formatAmaDate, getAnsweredQuestions } from "@/lib/ama";
+import { amaBreadcrumbs } from "@/lib/breadcrumbs";
+import { qaPageSchema } from "@/lib/seo";
+
+export async function getStaticPaths() {
+  const entries = await getAnsweredQuestions();
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<"ama"> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const path = `/ama/${entry.id}`;
+
+const structuredData = qaPageSchema({
+  question: entry.data.question,
+  context: entry.data.context,
+  path,
+  asked: entry.data.asked.toISOString(),
+  answered: entry.data.answered.toISOString(),
+  answerText: entry.body ?? "",
+});
+---
+
+<Layout
+  title={entry.data.question}
+  description={entry.data.context ?? `My answer to: ${entry.data.question}`}
+  canonicalPath={path}
+  ogType="article"
+  breadcrumbs={amaBreadcrumbs(entry)}
+  structuredData={structuredData}
+>
+  <article class="site-frame py-12 sm:py-16">
+    <div class="flex flex-col gap-2">
+      <time
+        class="tracking-tighter text-foreground-soft"
+        datetime={entry.data.asked.toISOString()}
+      >
+        Asked {formatAmaDate(entry.data.asked)}
+      </time>
+      <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+        {entry.data.question}
+      </h1>
+      {entry.data.context ? (
+        <p class="mt-2 text-lg text-foreground-muted">{entry.data.context}</p>
+      ) : null}
+    </div>
+
+    <hr class="mt-10 border-border" />
+
+    <div class="content-prose mt-10">
+      <Content />
+    </div>
+
+    <div class="mt-16 flex flex-col gap-4">
+      <a
+        href="/ama"
+        class="inline-flex self-start text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+      >
+        All answered questions
+      </a>
+      <AmaAsk heading="Ask your own" description="Got a follow-up or something new? Ask away." />
+    </div>
+  </article>
+</Layout>

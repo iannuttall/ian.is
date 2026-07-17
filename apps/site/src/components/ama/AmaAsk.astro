@@ -1,0 +1,107 @@
+---
+import ChatCircleDots from "@/components/icons/ChatCircleDots.astro";
+
+interface Props {
+  heading?: string;
+  description?: string;
+}
+
+const {
+  heading = "Ask a question",
+  description = "It lands in my inbox, and good ones get answered here.",
+} = Astro.props;
+
+const previewPlaceholder = "How do you decide what to build?";
+---
+
+<section
+  class="@container relative w-full overflow-hidden rounded-2xl bg-card ring-[0.5px] ring-black/5 shadow-[0_8px_44px_-12px_rgba(0,0,0,0.12)] dark:ring-white/10"
+  x-data={`amaAsk(${JSON.stringify({ heading, description })})`}
+>
+  <div class="grid grid-cols-1 @lg:grid-cols-[22rem_1fr]">
+    <div class="flex flex-col gap-5 p-6 @lg:p-8">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-foreground">
+          <ChatCircleDots aria-hidden="true" class="size-5 shrink-0" />
+          <h2 class="font-semibold" x-text="displayHeading">{heading}</h2>
+        </div>
+        <p
+          class="text-pretty leading-snug"
+          x-bind:class="status === 'error' ? 'text-destructive' : 'text-foreground-muted'"
+          x-text="displayDescription"
+        >
+          {description}
+        </p>
+      </div>
+
+      <form class="w-full" x-on:submit.prevent="submit">
+        <div class="relative">
+          <label for="ama-question" class="sr-only">Your question</label>
+          <input
+            id="ama-question"
+            type="text"
+            required
+            maxlength="500"
+            x-model="question"
+            x-bind:aria-invalid="status === 'error' ? 'true' : 'false'"
+            aria-describedby="ama-status"
+            placeholder="Ask me anything..."
+            autocomplete="off"
+            class="h-11 w-full rounded-full border border-border bg-background pr-18 pl-4 text-[15px] text-foreground outline-none transition-[border-color,color,box-shadow] placeholder:text-foreground-soft focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/20 aria-invalid:border-destructive aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-destructive/20"
+          />
+          <button
+            type="submit"
+            disabled
+            x-bind:disabled="status === 'loading' || !ready"
+            class="absolute top-1/2 right-1 inline-flex h-9 -translate-y-1/2 items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover disabled:bg-foreground/10 disabled:text-foreground/30"
+            x-text="status === 'loading' ? '...' : 'Ask'"
+          >
+            Ask
+          </button>
+        </div>
+        <p id="ama-status" class="sr-only" aria-live="polite" x-text="message"></p>
+      </form>
+
+      <div class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label for="ama-website">Website</label>
+        <input
+          id="ama-website"
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+          x-model="website"
+        />
+      </div>
+    </div>
+
+    <div class="relative hidden select-none @lg:block" aria-hidden="true">
+      <div class="absolute top-13 -right-11 flex aspect-[3/5] w-80 rotate-1 flex-col gap-4 rounded-lg bg-background-raised p-6 shadow-lg ring-[0.5px] ring-black/5 dark:bg-white/[0.06] dark:ring-white/10"></div>
+      <div class="absolute top-12 -right-12 flex aspect-[3/5] w-80 rotate-3 flex-col gap-4 overflow-hidden rounded-lg bg-background-raised p-6 shadow-lg ring-[0.5px] ring-black/5 dark:bg-secondary dark:ring-white/10">
+        <div class="flex flex-col gap-0.5">
+          <div class="grid grid-cols-4 gap-2 font-mono text-xs text-foreground-soft">
+            <span>From:</span>
+            <span class="col-span-3">you</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2 font-mono text-xs text-foreground-soft">
+            <span>To:</span>
+            <span class="col-span-3">Ian</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div
+            class="line-clamp-3 text-sm font-semibold break-words text-foreground"
+            x-text={`question.trim() ? question : ${JSON.stringify(previewPlaceholder)}`}
+          >
+            {previewPlaceholder}
+          </div>
+          <div class="text-sm text-foreground-muted">Waiting for an answer</div>
+        </div>
+        <div class="flex flex-col gap-3">
+          {["80%", "60%", "70%", "30%", "55%"].map((width) => (
+            <div class="h-2 rounded-full bg-foreground/10" style={`width: ${width}`}></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

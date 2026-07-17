@@ -33,6 +33,13 @@ Newsletter:
   pnpm ian newsletter email-preview
   pnpm ian newsletter cli -- <raw email cli args>
 
+AMA:
+  pnpm ian ama list [--all]
+  pnpm ian ama show <id>
+  pnpm ian ama answer [id] [--file draft.md] [--slug custom-slug]
+  pnpm ian ama hide <id>
+  pnpm ian ama seed
+
 Site:
   pnpm ian site dev
   pnpm ian site build
@@ -247,6 +254,8 @@ if (!area || area === "help" || area === "--help" || area === "-h") {
   newsletter(rest);
 } else if (area === "site") {
   site(rest);
+} else if (area === "ama") {
+  pnpm(["-C", "apps/site", "ama", ...rest]);
 } else {
   console.error(`Unknown command: ${area}\n`);
   console.error(help());

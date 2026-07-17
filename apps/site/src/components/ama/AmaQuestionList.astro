@@ -1,0 +1,44 @@
+---
+import { formatAmaDate } from "@/lib/ama";
+
+type Props = {
+  entries: {
+    id: string;
+    data: {
+      question: string;
+      answered: Date;
+    };
+  }[];
+  headingLevel?: "h2" | "h3";
+};
+
+const { entries, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+---
+
+{
+  entries.length === 0 ? (
+    <p class="text-foreground-muted">No answers yet. Ask the first question above.</p>
+  ) : (
+    <ul class="-mx-3.5 flex flex-col">
+      {entries.map((entry) => (
+        <li class="flex">
+          <a
+            href={`/ama/${entry.id}`}
+            class="flex flex-1 flex-col gap-0.5 rounded-lg px-3.5 py-3 no-underline transition-colors hover:bg-muted"
+          >
+            <Heading class="line-clamp-2 text-pretty text-xl leading-[1.6] font-medium tracking-normal text-foreground">
+              {entry.data.question}
+            </Heading>
+            <time
+              class="text-foreground-soft"
+              datetime={entry.data.answered.toISOString()}
+            >
+              {formatAmaDate(entry.data.answered)}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

@@ -1,0 +1,61 @@
+---
+export const prerender = true;
+
+import AmaAsk from "@/components/ama/AmaAsk.astro";
+import AmaQuestionList from "@/components/ama/AmaQuestionList.astro";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import { getAnsweredQuestions } from "@/lib/ama";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { webPageSchema } from "@/lib/seo";
+import { toAbsoluteUrl } from "@/lib/site";
+
+const description =
+  "Ask me anything about SEO, AI, or building tools. I answer the good ones here.";
+
+const entries = await getAnsweredQuestions();
+const structuredData = webPageSchema({
+  title: "AMA",
+  description,
+  path: "/ama",
+  type: "CollectionPage",
+  mainEntity:
+    entries.length > 0
+      ? {
+          "@type": "ItemList",
+          itemListElement: entries.map((entry, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: entry.data.question,
+            url: toAbsoluteUrl(`/ama/${entry.id}`),
+          })),
+        }
+      : undefined,
+});
+---
+
+<Layout
+  title="AMA"
+  description={description}
+  canonicalPath="/ama"
+  breadcrumbs={pageBreadcrumbs("AMA", "/ama")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title="Ask me anything"
+      subtitle="Questions about SEO, AI, or building things on the internet. I answer the good ones here."
+    />
+
+    <div class="mt-12">
+      <AmaAsk />
+    </div>
+
+    <div class="mt-16 flex flex-col gap-4">
+      <h2 class="text-pretty text-lg leading-[1.6] font-medium tracking-normal text-foreground-soft">
+        Answered
+      </h2>
+      <AmaQuestionList entries={entries} headingLevel="h3" />
+    </div>
+  </div>
+</Layout>

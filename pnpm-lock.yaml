@@ -202,6 +202,9 @@ importers:
       '@astrojs/markdown-remark':
         specifier: ^7.2.0
         version: 7.2.0
+      '@clack/prompts':
+        specifier: ^0.11.0
+        version: 0.11.0
       '@types/alpinejs':
         specifier: ^3.13.11
         version: 3.13.11

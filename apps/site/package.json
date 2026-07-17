@@ -14,6 +14,7 @@
     "secrets:sync:dry": "node scripts/sync-secrets.mjs --dry-run",
     "build:sitemaps": "node scripts/build-sitemaps.mjs",
     "data:refresh": "node scripts/refresh-github-contributions.mjs",
+    "ama": "node scripts/ama.mjs",
     "deploy": "node scripts/deploy.mjs",
     "deploy:built": "node scripts/deploy.mjs --built",
     "deploy:dry-run": "node scripts/deploy.mjs --dry-run"
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/markdown-remark": "^7.2.0",
+    "@clack/prompts": "^0.11.0",
     "@types/alpinejs": "^3.13.11",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.8.1",

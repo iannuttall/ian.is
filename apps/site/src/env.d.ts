@@ -9,6 +9,7 @@ declare namespace Cloudflare {
     DEPLOY_ID?: string;
     DEPLOY_SOURCE?: string;
     GIT_SHA?: string;
+    AMA_IP_SALT?: string;
     LIST_API_TOKEN: string;
     LIST_API_URL?: string;
   }
