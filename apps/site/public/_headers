@@ -8,28 +8,36 @@
   Link: <https://ian.is/.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
 
 /_astro/*
+  ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
 
 # Long-term immutable caching for self-hosted fonts (stable filenames).
 /fonts/*
+  ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
 
 /favicon*
+  ! Cache-Control
   Cache-Control: public, max-age=86400, s-maxage=2592000, stale-while-revalidate=604800
 
 /logo-*
+  ! Cache-Control
   Cache-Control: public, max-age=86400, s-maxage=2592000, stale-while-revalidate=604800
 
 /sitemap.xml
+  ! Cache-Control
   Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 /sitemaps/*
+  ! Cache-Control
   Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 /robots.txt
+  ! Cache-Control
   Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 /rss.xml
+  ! Cache-Control
   Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
 
 /llms.txt
