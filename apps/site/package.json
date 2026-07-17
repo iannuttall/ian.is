@@ -43,6 +43,7 @@
     "@types/alpinejs": "^3.13.11",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.8.1",
+    "schema-dts": "^2.0.0",
     "typescript": "^6.0.3",
     "vite": "^8.1.2"
   }

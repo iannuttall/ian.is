@@ -220,6 +220,9 @@ importers:
       '@types/node':
         specifier: ^24.8.1
         version: 24.13.2
+      schema-dts:
+        specifier: ^2.0.0
+        version: 2.0.0(typescript@6.0.3)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
