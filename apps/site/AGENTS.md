@@ -55,9 +55,12 @@ pnpm ian site secrets-sync --dry-run
 
 ## Agent Discovery
 
-- Cloudflare Markdown for Agents owns `Accept: text/markdown` negotiation in
-  production. Do not generate Markdown page mirrors or add Worker rewrite
-  logic for them.
+- Agent markdown is self-managed: the `agentMarkdown()` integration from
+  `@iannuttall/seo-graph-astro` emits a static `.md` twin per indexable page
+  plus `agent-routes.json` at build time. `Accept: text/markdown` negotiation
+  is two Cloudflare URL Rewrite (transform) rules on the zone that rewrite
+  extensionless page paths to their `.md` asset — never Worker logic, and
+  never `run_worker_first` (bot traffic must not bill Worker CPU).
 - `scripts/build-agent-discovery.mjs` generates `dist/client/llms.txt` from
   every indexable HTML page in the finished build. Keep it automatic. Do not
   add a maintained route list.
