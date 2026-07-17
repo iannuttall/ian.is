@@ -26,6 +26,9 @@ worker-configuration.d.ts
 apps/site/public/sitemap.xml
 apps/site/public/sitemaps/
 
+# local weekly-issue working files and feedback (personal data, never committed)
+notes/
+
 # logs / os
 *.log
 .DS_Store
