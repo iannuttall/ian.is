@@ -338,6 +338,18 @@ traffic, so this stays inside the no-worker-first rule.
   build. This deliberately does not violate the no-web-admin rule
   because the public site gains no admin surface and no server-side
   content path — the admin app produces commits, nothing else.
+  Candidate v1: Keystatic (MIT, Thinkmill, maintained) in GitHub mode,
+  deployed as its own app serving only the admin UI — the documented
+  static-site + separate-CMS-deploy pattern — behind Cloudflare Access.
+  Its known gap: it does not read Astro Zod schemas; collections are
+  re-declared in `keystatic.config.ts` and can drift. Bridge idea worth
+  building (and publishing): codegen the Keystatic config from
+  `src/content.config.ts`. AMA answering needs a small companion page in
+  the same app (shared D1 binding for the inbox; answers still commit
+  via the GitHub App). Being MIT, Keystatic is also absorbable code for
+  the longer-term own-product ambition (fields system, Markdoc/MDX
+  editor, GitHub commit flow), unlike AGPL references which stay
+  ideas-only.
 - Uniques/sessions in analytics (needs the rotating-hash design above).
 - Any admin web surface.
 
