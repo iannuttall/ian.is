@@ -39,6 +39,16 @@ export function amaBreadcrumbs(entry: CollectionEntry<"ama">): SeoBreadcrumbItem
   ]);
 }
 
+export function feedBreadcrumbs(
+  entry: CollectionEntry<"feed">,
+  label: string,
+): SeoBreadcrumbItem[] {
+  return siteBreadcrumbs([
+    { label: "Feed", href: "/feed" },
+    { label, href: `/feed/${entry.id}` },
+  ]);
+}
+
 export function tagBreadcrumbs(tag: { label: string; slug: string }): SeoBreadcrumbItem[] {
   return siteBreadcrumbs([
     { label: "Tags", href: "/tags" },

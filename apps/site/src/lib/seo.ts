@@ -6,6 +6,7 @@ import type {
   Person,
   ProfilePage,
   QAPage,
+  SocialMediaPosting,
   WebSite,
   WithContext,
 } from "schema-dts";
@@ -177,6 +178,31 @@ export function qaPageSchema(options: {
           author: { "@id": schemaIds.person },
         },
       },
+    }),
+  ]);
+}
+
+export function socialPostSchema(options: {
+  path: string;
+  text: string;
+  posted: string;
+}) {
+  const url = toAbsoluteUrl(options.path);
+
+  return assembleGraph([
+    personEntity(),
+    webSiteEntity(),
+    buildPiece<SocialMediaPosting>({
+      "@id": `${url}#post`,
+      "@type": "SocialMediaPosting",
+      url,
+      inLanguage: "en",
+      datePublished: options.posted,
+      articleBody: options.text,
+      mainEntityOfPage: url,
+      isPartOf: { "@id": schemaIds.website },
+      author: { "@id": schemaIds.person },
+      publisher: { "@id": schemaIds.person },
     }),
   ]);
 }

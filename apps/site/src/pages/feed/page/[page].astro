@@ -1,0 +1,104 @@
+---
+export const prerender = true;
+
+import { render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import { FEED_PAGE_SIZE, formatFeedDate, getPublishedNotes } from "@/lib/feed";
+import { siteBreadcrumbs } from "@/lib/breadcrumbs";
+import { webPageSchema } from "@/lib/seo";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getPublishedNotes();
+  const pageCount = Math.ceil(entries.length / FEED_PAGE_SIZE);
+
+  // Page 1 is /feed itself; only older pages render here.
+  return Array.from({ length: Math.max(pageCount - 1, 0) }, (_, index) => {
+    const page = index + 2;
+    return {
+      params: { page: String(page) },
+      props: {
+        page,
+        pageCount,
+        entries: entries.slice((page - 1) * FEED_PAGE_SIZE, page * FEED_PAGE_SIZE),
+      },
+    };
+  });
+}
+
+type Props = {
+  page: number;
+  pageCount: number;
+  entries: CollectionEntry<"feed">[];
+};
+
+const { page, pageCount, entries } = Astro.props as Props;
+const path = `/feed/page/${page}`;
+const title = `Feed — page ${page}`;
+const description = `Older feed notes, page ${page} of ${pageCount}.`;
+
+const notes = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const structuredData = webPageSchema({
+  title,
+  description,
+  path,
+  type: "CollectionPage",
+});
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={path}
+  breadcrumbs={siteBreadcrumbs([
+    { label: "Feed", href: "/feed" },
+    { label: `Page ${page}`, href: path },
+  ])}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader title="Feed" subtitle={`Older notes — page ${page} of ${pageCount}.`} />
+
+    <div class="mt-12 flex flex-col">
+      {notes.map(({ entry, Content }) => (
+        <article class="flex flex-col gap-3 border-b border-border py-8 first:pt-0 last:border-0">
+          <div class="content-prose">
+            <Content />
+          </div>
+          <a
+            href={`/feed/${entry.id}`}
+            class="self-start no-underline underline-offset-2 hover:underline hover:decoration-dotted"
+          >
+            <time class="text-foreground-soft" datetime={entry.data.posted.toISOString()}>
+              {formatFeedDate(entry.data.posted)}
+            </time>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-12 flex gap-6">
+      <a
+        href={page === 2 ? "/feed" : `/feed/page/${page - 1}`}
+        class="text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+      >
+        Newer notes
+      </a>
+      {page < pageCount ? (
+        <a
+          href={`/feed/page/${page + 1}`}
+          class="text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+        >
+          Older notes
+        </a>
+      ) : null}
+    </div>
+  </div>
+</Layout>

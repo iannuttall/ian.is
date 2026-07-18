@@ -12,6 +12,7 @@ const PUBLIC_DIR = resolve(process.cwd(), "public");
 const SITEMAPS_DIR = resolve(PUBLIC_DIR, "sitemaps");
 const POSTS_DIR = resolve(process.cwd(), "src/content/posts");
 const AMA_DIR = resolve(process.cwd(), "src/content/ama");
+const FEED_DIR = resolve(process.cwd(), "src/content/feed");
 
 function slugifyTag(tag) {
   return tag
@@ -98,6 +99,19 @@ function amaSlugs() {
   });
 }
 
+function feedSlugs() {
+  return postFiles(FEED_DIR).flatMap((path) => {
+    const source = readFileSync(path, "utf8");
+    const data = frontmatter(source);
+
+    if (/^draft:\s*true\s*$/m.test(data)) {
+      return [];
+    }
+
+    return [relative(FEED_DIR, path).replace(/\.(md|mdx)$/, "")];
+  });
+}
+
 function xmlEscape(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -134,11 +148,13 @@ const pages = [
   "/",
   "/about",
   "/ama",
+  "/feed",
   "/posts",
   "/tags",
   "/tools",
   ...postEntries.map((post) => `/post/${post.slug}`),
   ...amaSlugs().map((slug) => `/ama/${slug}`),
+  ...feedSlugs().map((slug) => `/feed/${slug}`),
   ...tagSlugs.map((tag) => `/tags/${tag}`),
 ].map((path) => new URL(path, SITE).toString());
 

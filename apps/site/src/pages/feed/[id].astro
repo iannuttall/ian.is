@@ -1,0 +1,65 @@
+---
+export const prerender = true;
+
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { formatFeedDate, getPublishedNotes, notePreview } from "@/lib/feed";
+import { feedBreadcrumbs } from "@/lib/breadcrumbs";
+import { socialPostSchema } from "@/lib/seo";
+import { notePlainText } from "@/lib/feed";
+
+export async function getStaticPaths() {
+  const entries = await getPublishedNotes();
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<"feed"> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const path = `/feed/${entry.id}`;
+
+const preview = notePreview(entry.body ?? "", 60);
+const description = notePreview(entry.body ?? "", 160);
+
+const structuredData = socialPostSchema({
+  path,
+  text: notePlainText(entry.body ?? ""),
+  posted: entry.data.posted.toISOString(),
+});
+---
+
+<Layout
+  title={preview}
+  description={description}
+  canonicalPath={path}
+  ogType="article"
+  breadcrumbs={feedBreadcrumbs(entry, notePreview(entry.body ?? "", 40))}
+  structuredData={structuredData}
+>
+  <article class="site-frame py-12 sm:py-16">
+    <h1 class="sr-only">{preview}</h1>
+    <time
+      class="tracking-tighter text-foreground-soft"
+      datetime={entry.data.posted.toISOString()}
+    >
+      {formatFeedDate(entry.data.posted)}
+    </time>
+
+    <div class="content-prose mt-6">
+      <Content />
+    </div>
+
+    <div class="mt-16">
+      <a
+        href="/feed"
+        class="inline-flex text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+      >
+        All notes
+      </a>
+    </div>
+  </article>
+</Layout>

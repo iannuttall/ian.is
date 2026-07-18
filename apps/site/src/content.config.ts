@@ -35,6 +35,16 @@ const ama = defineCollection({
   }),
 });
 
+// Feed notes are short, untitled posts (the personal X-style feed). Authored
+// locally with `pnpm ian feed post` (draft) and `pnpm ian feed publish`.
+const feed = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/feed" }),
+  schema: z.object({
+    posted: z.coerce.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
   schema: z.object({
@@ -48,4 +58,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { ama, pages, posts };
+export const collections = { ama, feed, pages, posts };

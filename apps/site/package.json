@@ -15,6 +15,7 @@
     "build:sitemaps": "node scripts/build-sitemaps.mjs",
     "data:refresh": "node scripts/refresh-github-contributions.mjs",
     "ama": "node scripts/ama.mjs",
+    "feed": "node scripts/feed.mjs",
     "deploy": "node scripts/deploy.mjs",
     "deploy:built": "node scripts/deploy.mjs --built",
     "deploy:dry-run": "node scripts/deploy.mjs --dry-run"

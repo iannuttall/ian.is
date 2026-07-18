@@ -1,6 +1,7 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { getAnsweredQuestions } from "@/lib/ama";
+import { getPublishedNotes, notePreview } from "@/lib/feed";
 import { getPublishedPosts } from "@/lib/posts";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
@@ -58,6 +59,18 @@ export const feeds = {
         description: markdownPreview(entry.body ?? ""),
         pubDate: entry.data.answered,
         link: `/ama/${entry.id}`,
+      })),
+  },
+  feed: {
+    path: "/feed/rss.xml",
+    title: `${siteName} — Feed`,
+    description: "Short notes on SEO, AI, and building things.",
+    load: async () =>
+      (await getPublishedNotes()).map((entry) => ({
+        title: notePreview(entry.body ?? ""),
+        description: markdownPreview(entry.body ?? ""),
+        pubDate: entry.data.posted,
+        link: `/feed/${entry.id}`,
       })),
   },
 } satisfies Record<string, FeedDefinition>;

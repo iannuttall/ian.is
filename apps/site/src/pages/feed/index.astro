@@ -1,0 +1,100 @@
+---
+export const prerender = true;
+
+import { render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import { FEED_PAGE_SIZE, formatFeedDate, getPublishedNotes, notePreview } from "@/lib/feed";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { webPageSchema } from "@/lib/seo";
+import { toAbsoluteUrl } from "@/lib/site";
+
+const description = "Short notes on SEO, AI, and building things. The stuff I used to post to X.";
+
+const entries = await getPublishedNotes();
+const pageEntries = entries.slice(0, FEED_PAGE_SIZE);
+const hasOlder = entries.length > FEED_PAGE_SIZE;
+
+const notes = await Promise.all(
+  pageEntries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const structuredData = webPageSchema({
+  title: "Feed",
+  description,
+  path: "/feed",
+  type: "CollectionPage",
+  mainEntity:
+    entries.length > 0
+      ? {
+          "@type": "ItemList",
+          itemListElement: entries.map((entry, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: notePreview(entry.body ?? ""),
+            url: toAbsoluteUrl(`/feed/${entry.id}`),
+          })),
+        }
+      : undefined,
+});
+---
+
+<Layout
+  title="Feed"
+  description={description}
+  canonicalPath="/feed"
+  breadcrumbs={pageBreadcrumbs("Feed", "/feed")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title="Feed"
+      subtitle="Short notes on SEO, AI, and building things. The stuff I used to post to X."
+    />
+
+    <div class="mt-12">
+      {
+        notes.length === 0 ? (
+          <p class="text-foreground-muted">Nothing posted yet.</p>
+        ) : (
+          <div class="flex flex-col">
+            {notes.map(({ entry, Content }) => (
+              <article class="flex flex-col gap-3 border-b border-border py-8 first:pt-0 last:border-0">
+                <div class="content-prose">
+                  <Content />
+                </div>
+                <a
+                  href={`/feed/${entry.id}`}
+                  class="self-start no-underline underline-offset-2 hover:underline hover:decoration-dotted"
+                >
+                  <time
+                    class="text-foreground-soft"
+                    datetime={entry.data.posted.toISOString()}
+                  >
+                    {formatFeedDate(entry.data.posted)}
+                  </time>
+                </a>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      hasOlder ? (
+        <div class="mt-12">
+          <a
+            href="/feed/page/2"
+            class="text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+          >
+            Older notes
+          </a>
+        </div>
+      ) : null
+    }
+  </div>
+</Layout>

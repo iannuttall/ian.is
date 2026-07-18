@@ -328,6 +328,16 @@ traffic, so this stays inside the no-worker-first rule.
   `--shorten` applied) to the ilo/typefully integration; the note's
   frontmatter records the X post URL for a "view on X" affordance.
 - Desktop GUI managing the feed collection alongside posts and AMA.
+- Remote/mobile publishing: a separate private app at `admin.ian.is`
+  (own Worker, own app dir — never a route on the public site), gated
+  by Cloudflare Access with GitHub as the identity provider. It is the
+  CLI, hosted: its only powers are committing content files (and
+  images) to the repo via the GitHub API and reading/updating the D1
+  AMA inbox through a shared binding. Git stays the single source of
+  truth; publishing from a phone is a commit that triggers the normal
+  build. This deliberately does not violate the no-web-admin rule
+  because the public site gains no admin surface and no server-side
+  content path — the admin app produces commits, nothing else.
 - Uniques/sessions in analytics (needs the rotating-hash design above).
 - Any admin web surface.
 

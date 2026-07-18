@@ -41,6 +41,12 @@ AMA:
   pnpm ian ama hide <id>
   pnpm ian ama seed
 
+Feed:
+  pnpm ian feed post
+  pnpm ian feed publish [id] [--no-push] [--no-commit]
+  pnpm ian feed list
+  pnpm ian feed delete <id>
+
 Site:
   pnpm ian site dev
   pnpm ian site build
@@ -257,6 +263,8 @@ if (!area || area === "help" || area === "--help" || area === "-h") {
   site(rest);
 } else if (area === "ama") {
   pnpm(["-C", "apps/site", "ama", ...rest]);
+} else if (area === "feed") {
+  pnpm(["-C", "apps/site", "feed", ...rest]);
 } else {
   console.error(`Unknown command: ${area}\n`);
   console.error(help());
