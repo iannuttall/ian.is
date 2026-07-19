@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -168,9 +168,40 @@ function newsletter(argv) {
   const templateArgs = withDefaultOption(rest, "--template", getOption(rest, "--template", "default"));
   const renderArgs = withDefaultOption(templateArgs, "--out-dir", getOption(rest, "--out-dir", "apps/newsletter/rendered"));
 
+  if (command === "signups") {
+    const days = getOption(rest, "--days", "7");
+    const limit = getOption(rest, "--limit", "50");
+    if (!/^\d{1,3}$/.test(days) || !/^\d{1,5}$/.test(limit)) {
+      console.error("signups: --days and --limit must be plain numbers");
+      process.exit(2);
+    }
+    // Production signups live in Postgres on the VPS. Server details stay out
+    // of this public repo: the SSH alias and remote paths come from the
+    // machine-local VPS inventory, and the command runs through the same ops
+    // runner the deploy uses. SSH aliases here set an interactive
+    // RemoteCommand, so both it and its TTY must be overridden.
+    const inventoryPath = resolve(
+      process.env.HOME ?? "",
+      "blueprints/vps/inventory/apps/email.json",
+    );
+    if (!existsSync(inventoryPath)) {
+      console.error("signups needs the local VPS inventory; it only runs from a machine that has it.");
+      process.exit(1);
+    }
+    const vpsApp = JSON.parse(readFileSync(inventoryPath, "utf8"));
+    run("ssh", [
+      "-o",
+      "RemoteCommand=none",
+      "-o",
+      "RequestTTY=no",
+      vpsApp.sshAlias,
+      `cd ${vpsApp.remotePath} && docker compose --env-file ${vpsApp.envFile} -f ${vpsApp.composeFile} run --rm -T ops node dist/index.js contact recent --days ${days} --limit ${limit}`,
+    ]);
+    return;
+  }
+
   const aliases = {
     doctor: ["doctor"],
-    signups: ["contact", "recent", ...rest],
     checklist: ["ops", "checklist"],
     migrate: ["db", "migrate"],
     queue: ["ops", "queue", ...rest],
