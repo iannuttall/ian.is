@@ -81,6 +81,9 @@ export async function POST(context: APIContext) {
       return json({ ok: true }, 201);
     }
 
+    console.log(
+      `subscribe upstream failed: ${upstream.status} ${(await upstream.text()).slice(0, 200)}`,
+    );
     return json(
       { error: "Could not subscribe right now. Please try again." },
       502,
