@@ -71,8 +71,6 @@ Notes:
 `;
 }
 
-// Local-only settings: shell environment first, then the gitignored root
-// .env.local. Used for values that must never appear in this public repo.
 function localEnv(name) {
   if (process.env[name]) return process.env[name];
   const envPath = resolve(root, ".env.local");
@@ -187,10 +185,6 @@ function newsletter(argv) {
       console.error("signups: --days and --limit must be plain numbers");
       process.exit(2);
     }
-    // Production signups live in Postgres on the VPS. Every server detail
-    // stays out of this public repo: the SSH target and the remote command
-    // prefix come from local-only environment values. SSH aliases here set an
-    // interactive RemoteCommand, so both it and its TTY must be overridden.
     const sshTarget = localEnv("IAN_NEWSLETTER_SSH");
     const opsPrefix = localEnv("IAN_NEWSLETTER_OPS");
     if (!sshTarget || !opsPrefix) {
