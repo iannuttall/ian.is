@@ -34,6 +34,7 @@ export interface EmailPlatform {
     source?: string
   }): Promise<{ id: string }>
   exportContacts(input?: { limit?: number }): Promise<ContactExport>
+  recentContacts(input?: { days?: number; limit?: number }): Promise<RecentContacts>
   importContacts(input: ContactImport): Promise<{ imported: number; suppressed: number }>
   doctor(): Promise<DoctorReport>
   getProductionOpsChecklist(): Promise<ProductionOpsChecklist>
@@ -213,6 +214,19 @@ export interface ContactExport {
     reason: string
     description?: string
     source: string
+  }>
+}
+
+export interface RecentContacts {
+  since: string
+  days: number
+  signups: number
+  contacts: Array<{
+    email: string
+    name?: string
+    source?: string
+    status: ContactRecord['status']
+    subscribedAt?: string
   }>
 }
 

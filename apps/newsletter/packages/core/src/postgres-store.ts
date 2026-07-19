@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, inArray, or, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, inArray, or, sql } from 'drizzle-orm'
 import type { Database } from './db/index.js'
 import {
   broadcasts,
@@ -175,6 +175,19 @@ export class PostgresEmailStore implements EmailStore {
       .from(contacts)
       .orderBy(asc(contacts.email))
       .limit(input.limit ?? 10_000)
+    return rows.map(mapContact)
+  }
+
+  async listRecentContacts(input: {
+    since: Date
+    limit?: number
+  }): Promise<ContactRecord[]> {
+    const rows = await this.db
+      .select()
+      .from(contacts)
+      .where(gte(contacts.subscribedAt, input.since))
+      .orderBy(desc(contacts.subscribedAt))
+      .limit(input.limit ?? 1000)
     return rows.map(mapContact)
   }
 

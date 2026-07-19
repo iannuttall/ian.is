@@ -260,6 +260,7 @@ export interface EmailStore {
     limit?: number
     status?: ContactStatus
   }): Promise<ContactRecord[]>
+  listRecentContacts(input: { since: Date; limit?: number }): Promise<ContactRecord[]>
   listActiveContacts(): Promise<ContactRecord[]>
   tagContact(input: {
     contactId: string

@@ -205,6 +205,28 @@ describe('cli', () => {
     assert.match(rendered.html, /https:\/\/example.com/)
   })
 
+  it('lists recent signups with a validated window', async () => {
+    const output: string[] = []
+    const platform = new FakePlatform()
+    const code = await runCli(['contact', 'recent', '--days', '14', '--json'], {
+      platform,
+      stdout: (text) => output.push(text),
+    })
+
+    assert.equal(code, 0)
+    assert.deepEqual(platform.recentContactsInput, { days: 14, limit: 1000 })
+    const data = JSON.parse(output.join('')).data
+    assert.equal(data.signups, 1)
+    assert.equal(data.contacts[0].email, 'new@example.com')
+
+    const badCode = await runCli(['contact', 'recent', '--days', '0', '--json'], {
+      platform,
+      stdout: () => {},
+      stderr: () => {},
+    })
+    assert.notEqual(badCode, 0)
+  })
+
   it('seeds gmail aliases for local send tests', async () => {
     const output: string[] = []
     const platform = new FakePlatform()

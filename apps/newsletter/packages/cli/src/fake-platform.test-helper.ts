@@ -10,6 +10,7 @@ import type {
   PurchaseRecord,
   QueueSummary,
   QueueSummaryRequest,
+  RecentContacts,
   SendPlanPreview,
 } from '@email/core'
 import {
@@ -57,6 +58,28 @@ export class FakePlatform implements EmailPlatform {
 
   async exportContacts(): Promise<{ contacts: []; suppressions: [] }> {
     return { contacts: [], suppressions: [] }
+  }
+
+  recentContactsInput: { days?: number; limit?: number } | undefined = undefined
+
+  async recentContacts(input?: {
+    days?: number
+    limit?: number
+  }): Promise<RecentContacts> {
+    this.recentContactsInput = input
+    return {
+      since: '2026-07-12T00:00:00.000Z',
+      days: input?.days ?? 7,
+      signups: 1,
+      contacts: [
+        {
+          email: 'new@example.com',
+          source: 'ian.is',
+          status: 'active',
+          subscribedAt: '2026-07-18T12:00:00.000Z',
+        },
+      ],
+    }
   }
 
   async importContacts(input?: {

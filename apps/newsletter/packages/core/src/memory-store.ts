@@ -140,6 +140,14 @@ export class MemoryEmailStore implements EmailStore {
       .slice(0, input.limit ?? 10_000)
   }
 
+  async listRecentContacts(input: { since: Date; limit?: number }) {
+    const time = (contact: ContactRecord) => contact.subscribedAt?.getTime() ?? -1
+    return Array.from(this.contacts.values())
+      .filter((contact) => time(contact) >= input.since.getTime())
+      .toSorted((a, b) => time(b) - time(a))
+      .slice(0, input.limit ?? 1000)
+  }
+
   async tagContact(input: {
     contactId: string
     tagKey: string

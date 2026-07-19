@@ -7,6 +7,7 @@ import type {
   ProductionOpsChecklist,
   PurchaseRecord,
   QueueSummary,
+  RecentContacts,
   SendPlanPreview,
 } from '@email/core'
 
@@ -21,6 +22,10 @@ export class FakePlatform implements EmailPlatform {
 
   async exportContacts(): Promise<{ contacts: []; suppressions: [] }> {
     return { contacts: [], suppressions: [] }
+  }
+
+  async recentContacts(): Promise<RecentContacts> {
+    return { since: new Date(0).toISOString(), days: 7, signups: 0, contacts: [] }
   }
 
   async importContacts(): Promise<{ imported: number; suppressed: number }> {

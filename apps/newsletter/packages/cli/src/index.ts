@@ -337,6 +337,17 @@ async function dispatch(parsed: ParsedArgs, input: CliRunInput): Promise<unknown
       })
     }
 
+    if (area === 'contact' && action === 'recent') {
+      const days = getNumberFlag(parsed, 'days') ?? 7
+      if (days < 1 || days > 365) {
+        throw new CliError('--days must be between 1 and 365')
+      }
+      return await platform.recentContacts({
+        days,
+        limit: getNumberFlag(parsed, 'limit') ?? 1000,
+      })
+    }
+
     if (area === 'contact' && action === 'export') {
       const result = await platform.exportContacts({
         limit: getNumberFlag(parsed, 'limit') ?? 10_000,

@@ -20,6 +20,7 @@ Usage:
 
 Newsletter:
   pnpm ian newsletter doctor
+  pnpm ian newsletter signups [--days 7] [--limit N]
   pnpm ian newsletter checklist
   pnpm ian newsletter migrate
   pnpm ian newsletter seed-aliases --email you@gmail.com [--count 20]
@@ -169,6 +170,7 @@ function newsletter(argv) {
 
   const aliases = {
     doctor: ["doctor"],
+    signups: ["contact", "recent", ...rest],
     checklist: ["ops", "checklist"],
     migrate: ["db", "migrate"],
     queue: ["ops", "queue", ...rest],

@@ -14,6 +14,7 @@ import type {
   ContactImport,
   EmailPlatform,
   QueueSummaryRequest,
+  RecentContacts,
   RecoverStuckInput,
   SendDueResult,
   SesSimulatorType,
@@ -101,6 +102,27 @@ export class CoreEmailPlatform implements EmailPlatform {
       metadata: { email: contact.email },
     })
     return { id: contact.id }
+  }
+
+  async recentContacts(
+    input: { days?: number; limit?: number } = {},
+  ): Promise<RecentContacts> {
+    const days = input.days ?? 7
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+    const found = await this.deps.store.listRecentContacts({
+      since,
+      limit: input.limit ?? 1000,
+    })
+    const contacts = found.map((contact) => ({
+      email: contact.email,
+      ...(contact.name ? { name: contact.name } : {}),
+      ...(contact.source ? { source: contact.source } : {}),
+      status: contact.status,
+      ...(contact.subscribedAt
+        ? { subscribedAt: contact.subscribedAt.toISOString() }
+        : {}),
+    }))
+    return { since: since.toISOString(), days, signups: contacts.length, contacts }
   }
 
   async exportContacts(input: { limit?: number } = {}): Promise<ContactExport> {

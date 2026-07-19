@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import type { SendPlanPreview } from './broadcast-planning.js'
 import type { EmailPlatform } from './platform.js'
-import type { CanaryState } from './platform-contracts.js'
+import type { CanaryState, RecentContacts } from './platform-contracts.js'
 import type { ProductionOpsChecklist } from './production-ops.js'
 import type { DoctorReport } from './readiness.js'
 import type { QueueSummary } from './store.js'
@@ -69,6 +69,10 @@ class FakePlatform implements EmailPlatform {
 
   async exportContacts(): Promise<{ contacts: []; suppressions: [] }> {
     return { contacts: [], suppressions: [] }
+  }
+
+  async recentContacts(): Promise<RecentContacts> {
+    return { since: new Date(0).toISOString(), days: 7, signups: 0, contacts: [] }
   }
 
   async importContacts(): Promise<{ imported: number; suppressed: number }> {
