@@ -51,6 +51,7 @@ export async function makeIntegrationPlatform(
     platform,
     provider,
     store,
+    db,
     close: () => client.end(),
   }
 }

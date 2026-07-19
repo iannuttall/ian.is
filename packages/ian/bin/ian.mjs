@@ -71,6 +71,18 @@ Notes:
 `;
 }
 
+// Local-only settings: shell environment first, then the gitignored root
+// .env.local. Used for values that must never appear in this public repo.
+function localEnv(name) {
+  if (process.env[name]) return process.env[name];
+  const envPath = resolve(root, ".env.local");
+  if (!existsSync(envPath)) return undefined;
+  const match = readFileSync(envPath, "utf8").match(
+    new RegExp(`^${name}=(.*)$`, "m"),
+  );
+  return match?.[1]?.trim();
+}
+
 function run(command, commandArgs, options = {}) {
   const result = spawnSync(command, commandArgs, {
     cwd: options.cwd ?? root,
@@ -175,27 +187,25 @@ function newsletter(argv) {
       console.error("signups: --days and --limit must be plain numbers");
       process.exit(2);
     }
-    // Production signups live in Postgres on the VPS. Server details stay out
-    // of this public repo: the SSH alias and remote paths come from the
-    // machine-local VPS inventory, and the command runs through the same ops
-    // runner the deploy uses. SSH aliases here set an interactive
-    // RemoteCommand, so both it and its TTY must be overridden.
-    const inventoryPath = resolve(
-      process.env.HOME ?? "",
-      "blueprints/vps/inventory/apps/email.json",
-    );
-    if (!existsSync(inventoryPath)) {
-      console.error("signups needs the local VPS inventory; it only runs from a machine that has it.");
+    // Production signups live in Postgres on the VPS. Every server detail
+    // stays out of this public repo: the SSH target and the remote command
+    // prefix come from local-only environment values. SSH aliases here set an
+    // interactive RemoteCommand, so both it and its TTY must be overridden.
+    const sshTarget = localEnv("IAN_NEWSLETTER_SSH");
+    const opsPrefix = localEnv("IAN_NEWSLETTER_OPS");
+    if (!sshTarget || !opsPrefix) {
+      console.error(
+        "signups needs IAN_NEWSLETTER_SSH and IAN_NEWSLETTER_OPS (shell env or root .env.local).",
+      );
       process.exit(1);
     }
-    const vpsApp = JSON.parse(readFileSync(inventoryPath, "utf8"));
     run("ssh", [
       "-o",
       "RemoteCommand=none",
       "-o",
       "RequestTTY=no",
-      vpsApp.sshAlias,
-      `cd ${vpsApp.remotePath} && docker compose --env-file ${vpsApp.envFile} -f ${vpsApp.composeFile} run --rm -T ops node dist/index.js contact recent --days ${days} --limit ${limit}`,
+      sshTarget,
+      `${opsPrefix} contact recent --days ${days} --limit ${limit}`,
     ]);
     return;
   }

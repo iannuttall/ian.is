@@ -13,6 +13,7 @@ const ALLOWLIST = new Map([
   ['packages/core/src/memory-store.ts', 1000],
   ['packages/core/src/platform.test.ts', 520],
   ['packages/core/src/platform.ts', 1000],
+  ['packages/core/src/postgres-store.integration.test.ts', 400],
   ['packages/core/src/postgres-store.ts', 1000],
   ['packages/core/src/store.ts', 450],
   ['packages/mcp/src/index.ts', 750],

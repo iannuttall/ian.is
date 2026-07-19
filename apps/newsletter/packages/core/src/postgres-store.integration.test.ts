@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
+import { eq } from 'drizzle-orm'
+import * as schema from './db/schema.js'
 import {
   databaseUrl,
   makeIntegrationPlatform,
@@ -43,6 +45,29 @@ describe('PostgresEmailStore integration', { skip: !databaseUrl }, () => {
     } finally {
       await firstRuntime.close()
       await secondRuntime.close()
+    }
+  })
+
+  it('reports recent signups newest first from Postgres', async () => {
+    const { close, platform, db } = await makeIntegrationPlatform()
+    try {
+      await platform.subscribe({ email: 'pg-recent@example.com', source: 'ian.is' })
+      const older = await platform.subscribe({ email: 'pg-older@example.com' })
+      await db
+        .update(schema.contacts)
+        .set({ subscribedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) })
+        .where(eq(schema.contacts.id, older.id))
+
+      const recent = await platform.recentContacts({ days: 7 })
+      assert.equal(recent.signups, 1)
+      assert.equal(recent.contacts[0]?.email, 'pg-recent@example.com')
+
+      const wide = await platform.recentContacts({ days: 60 })
+      assert.equal(wide.signups, 2)
+      assert.equal(wide.contacts[0]?.email, 'pg-recent@example.com')
+      assert.equal(wide.contacts[1]?.email, 'pg-older@example.com')
+    } finally {
+      await close()
     }
   })
 
