@@ -6,6 +6,7 @@ import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/page/PageHeader.astro";
 import PageSection from "@/components/page/PageSection.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { markdownLinkClass } from "@/lib/markdown-links.mjs";
 import { webPageSchema } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
@@ -44,7 +45,7 @@ const structuredData = webPageSchema({
       subtitle="Sponsor Ian's List, my weekly email about building with AI."
     />
 
-    <div class="mt-10 flex max-w-2xl flex-col gap-4 text-foreground-muted">
+    <div class="content-prose mt-10 max-w-2xl">
       <p>
         Ian's List is a short weekly email with practical lessons from
         building with AI every day, plus tools and links worth a click. No
@@ -59,25 +60,30 @@ const structuredData = webPageSchema({
 
     <div class="mt-12">
       <PageSection title="What you can book">
-        <ul class="flex max-w-2xl list-none flex-col gap-6 p-0">
+        <ul class="flex list-none flex-col gap-8 p-0">
           <li>
-            <p class="font-medium text-foreground">Main sponsor</p>
-            <p class="text-foreground-muted">
-              One per issue. Your own section in the body of the email, written
-              in the same plain style as the rest of the issue, with a few
-              sentences about your product and a link.
-            </p>
+            <div class="content-prose max-w-2xl">
+              <p class="font-semibold">Main sponsor</p>
+              <p>
+                One per issue. Your own section in the body of the email,
+                written in the same plain style as the rest of the issue, with
+                a few sentences about your product and a link.
+              </p>
+            </div>
             <div class="mt-4 rounded-lg border border-dashed border-border p-5">
               <IssueSections body={sponsorMockup} />
               <p class="mt-3 text-sm text-foreground-soft">Example</p>
             </div>
           </li>
           <li>
-            <p class="font-medium text-foreground">Classified</p>
-            <p class="text-foreground-muted">
-              A one-line listing with a link in the classifieds section at the
-              end of the issue. Cheap, and easy to book for multiple weeks.
-            </p>
+            <div class="content-prose max-w-2xl">
+              <p class="font-semibold">Classified</p>
+              <p>
+                A one-line listing with a link in the classifieds section at
+                the end of the issue. Cheap, and easy to book for multiple
+                weeks.
+              </p>
+            </div>
             <div class="mt-4 rounded-lg border border-dashed border-border p-5">
               <IssueSections body={classifiedMockup} />
               <p class="mt-3 text-sm text-foreground-soft">Example</p>
@@ -89,24 +95,28 @@ const structuredData = webPageSchema({
 
     <div class="mt-12">
       <PageSection title="Good to know">
-        <ul class="flex max-w-2xl list-none flex-col gap-3 p-0 text-foreground-muted">
-          <li>I only run ads that are genuinely relevant to readers.</li>
-          <li>
-            Sponsor copy stays in the email's plain voice. No all-caps, no
-            hype, and I'm happy to help write it.
-          </li>
-          <li>
-            Every issue is also published on the <a href="/issues" class="text-foreground underline-offset-2 hover:underline hover:decoration-dotted">public issue archive</a>, so placements stay live after send day.
-          </li>
-        </ul>
+        <div class="content-prose max-w-2xl">
+          <ul>
+            <li>I only run ads that are genuinely relevant to readers.</li>
+            <li>
+              Sponsor copy stays in the email's plain voice. No all-caps, no
+              hype, and I'm happy to help write it.
+            </li>
+            <li>
+              Every issue is also published on the <a href="/issues" class={markdownLinkClass}>public issue archive</a>, so placements stay live after send day.
+            </li>
+          </ul>
+        </div>
       </PageSection>
     </div>
 
     <div class="mt-12">
       <PageSection title="Book a slot">
-        <p class="max-w-2xl text-foreground-muted">
-          Email <a href={`mailto:${contactEmail}?subject=Sponsoring Ian's List`} class="text-foreground underline-offset-2 hover:underline hover:decoration-dotted">{contactEmail}</a> with what you're promoting and I'll reply with availability and current pricing.
-        </p>
+        <div class="content-prose max-w-2xl">
+          <p>
+            Email <a href={`mailto:${contactEmail}?subject=Sponsoring Ian's List`} class={markdownLinkClass}>{contactEmail}</a> with what you're promoting and I'll reply with availability and current pricing.
+          </p>
+        </div>
       </PageSection>
     </div>
   </div>
