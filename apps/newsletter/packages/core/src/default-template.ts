@@ -54,6 +54,11 @@ const defaultModularTypes = new Set([
 // edge so body text, headings, link blocks, classifieds, and footer copy line
 // up top-to-bottom.
 const defaultResponsiveCss = `${issueResponsiveCss}
+  /* The Font components emit "* { font-family: Inter... }" rules that Gmail
+     rewrites to beat inline styles; win the war for code with !important. */
+  pre, pre *, code, code * {
+    font-family: Menlo, Consolas, monospace !important;
+  }
   .default-footer .issue-footer-blurb {
     padding-left: 40px !important;
     padding-right: 10px !important;

@@ -7,8 +7,9 @@ import { issueColors, issueSectionPalette } from './issue-palette.js'
 export const issueCodeTheme = {
   base: {
     fontFamily: 'Menlo,Consolas,monospace',
-    fontSize: '13px',
-    lineHeight: '21px',
+    // Body copy is 18/27; code matches it instead of reading like fine print.
+    fontSize: '18px',
+    lineHeight: '27px',
     color: issueColors.ink,
     backgroundColor: issueColors.highlight,
     padding: '16px',

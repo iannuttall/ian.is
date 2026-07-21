@@ -32,7 +32,7 @@ const markdownBase = {
   bold: { fontWeight: 600 },
   codeInline: {
     fontFamily: 'Menlo,Consolas,monospace',
-    fontSize: '14px',
+    fontSize: '16px',
     backgroundColor: issueColors.highlight,
     padding: '2px 4px',
     borderRadius: '4px',
@@ -40,8 +40,8 @@ const markdownBase = {
   codeBlock: {
     display: 'block',
     fontFamily: 'Menlo,Consolas,monospace',
-    fontSize: '13px',
-    lineHeight: '21px',
+    fontSize: '18px',
+    lineHeight: '27px',
     color: issueColors.ink,
     backgroundColor: issueColors.highlight,
     padding: '16px',
