@@ -1,0 +1,70 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import Newsletter from "@/components/Newsletter.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { formatIssueDate, getVisibleIssues } from "@/lib/issues";
+import { webPageSchema } from "@/lib/seo";
+
+const issues = await getVisibleIssues();
+const description =
+  "The Ian's List archive: one short email a week on building with AI, SEO, and small tools.";
+const structuredData = webPageSchema({
+  title: "Issues",
+  description,
+  path: "/issues",
+  type: "CollectionPage",
+});
+---
+
+<Layout
+  title="Issues"
+  description={description}
+  canonicalPath="/issues"
+  breadcrumbs={pageBreadcrumbs("Issues", "/issues")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title="Issues"
+      subtitle="Every issue of Ian's List, one short email a week."
+    />
+
+    <div class="mt-12">
+      {
+        issues.length === 0 ? (
+          <p class="text-foreground-muted">No issues yet. Check back soon.</p>
+        ) : (
+          <ul class="flex list-none flex-col gap-6 p-0">
+            {issues.map((issue) => (
+              <li class="flex flex-col gap-1">
+                <a
+                  href={`/issues/${issue.id}`}
+                  class="font-medium text-foreground underline-offset-2 hover:underline hover:decoration-dotted"
+                >
+                  {issue.data.subject}
+                </a>
+                <div class="flex flex-wrap items-baseline gap-x-3 text-sm text-foreground-soft">
+                  <time datetime={issue.data.pubDate.toISOString()}>
+                    {formatIssueDate(issue.data.pubDate)}
+                  </time>
+                  {issue.data.preheader ? <span>{issue.data.preheader}</span> : null}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="mt-16">
+      <Newsletter
+        heading="Get the next issue"
+        description="One short email a week. No news, no fluff."
+        source="ian.is/issues"
+      />
+    </div>
+  </div>
+</Layout>

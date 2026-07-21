@@ -1,0 +1,77 @@
+---
+export const prerender = true;
+
+import type { CollectionEntry } from "astro:content";
+import CodeCopy from "@/components/CodeCopy.astro";
+import IssueSections from "@/components/issues/IssueSections.astro";
+import Layout from "@/layouts/Layout.astro";
+import Newsletter from "@/components/Newsletter.astro";
+import { issueBreadcrumbs } from "@/lib/breadcrumbs";
+import { formatIssueDate, getVisibleIssues, issueReadingMinutes } from "@/lib/issues";
+import { parseIssueSections } from "@/lib/issues/parser";
+import { blogPostingSchema } from "@/lib/seo";
+
+export async function getStaticPaths() {
+  const issues = await getVisibleIssues();
+  return issues.map((issue) => ({
+    params: { slug: issue.id },
+    props: { issue },
+  }));
+}
+
+type Props = { issue: CollectionEntry<"issues"> };
+const { issue } = Astro.props as Props;
+const path = `/issues/${issue.id}`;
+const readingMinutes = issueReadingMinutes(issue.body ?? "");
+const issueLabel = parseIssueSections(issue.body ?? "").find(
+  (section) => section.type === "header",
+)?.attrs.name;
+const description =
+  issue.data.description ?? issue.data.preheader ?? issue.data.subject;
+
+const structuredData = blogPostingSchema({
+  title: issue.data.subject,
+  description,
+  datePublished: issue.data.pubDate.toISOString(),
+  dateModified: (issue.data.sentAt ?? issue.data.pubDate).toISOString(),
+  path,
+});
+---
+
+<Layout
+  title={issue.data.subject}
+  description={description}
+  canonicalPath={path}
+  ogType="article"
+  breadcrumbs={issueBreadcrumbs(issue)}
+  structuredData={structuredData}
+>
+  <article class="site-frame py-12 sm:py-16">
+    <div class="flex flex-col gap-2">
+      <p class="tracking-tighter text-foreground-soft">
+        {issueLabel ? <span>{issueLabel} - </span> : null}<time datetime={issue.data.pubDate.toISOString()}>{formatIssueDate(issue.data.pubDate)}</time> - {readingMinutes} min read
+      </p>
+      <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+        {issue.data.subject}
+      </h1>
+      {
+        issue.data.draft ? (
+          <p class="text-sm text-foreground-soft">Draft — not sent yet.</p>
+        ) : null
+      }
+    </div>
+
+    <div class="mt-10">
+      <IssueSections body={issue.body ?? ""} />
+    </div>
+    <CodeCopy />
+
+    <div class="mt-16">
+      <Newsletter
+        heading="Get the next issue"
+        description="This went out to the list first. Subscribe for the next one."
+        source={`ian.is/issues/${issue.id}`}
+      />
+    </div>
+  </article>
+</Layout>

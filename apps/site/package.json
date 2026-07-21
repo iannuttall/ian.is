@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:cf": "wrangler dev",
-    "build": "node scripts/build-sitemaps.mjs && astro build && node scripts/build-agent-discovery.mjs",
+    "build": "node scripts/check-issue-parity.mjs && node scripts/build-sitemaps.mjs && astro build && node scripts/build-agent-discovery.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types",

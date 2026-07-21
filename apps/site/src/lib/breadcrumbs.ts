@@ -30,6 +30,15 @@ export function postBreadcrumbs(post: CollectionEntry<"posts">): SeoBreadcrumbIt
   ]);
 }
 
+export function issueBreadcrumbs(issue: CollectionEntry<"issues">): SeoBreadcrumbItem[] {
+  const path = `/issues/${issue.id}`;
+
+  return siteBreadcrumbs([
+    { label: "Issues", href: "/issues" },
+    { label: issue.data.subject, href: path },
+  ]);
+}
+
 export function amaBreadcrumbs(entry: CollectionEntry<"ama">): SeoBreadcrumbItem[] {
   const path = `/ama/${entry.id}`;
 
