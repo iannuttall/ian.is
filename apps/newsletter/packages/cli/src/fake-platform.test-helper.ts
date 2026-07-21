@@ -22,6 +22,7 @@ import {
 
 export class FakePlatform implements EmailPlatform {
   subscribedEmail?: string
+  unsubscribedContact?: { emailOrId: string; broadcastId?: string; source?: string }
   draftSubject?: string
   draftTemplate: string | undefined
   draftPreview: string | undefined
@@ -54,6 +55,15 @@ export class FakePlatform implements EmailPlatform {
   async subscribe(input: { email: string }): Promise<{ id: string }> {
     this.subscribedEmail = input.email
     return { id: 'contact_1' }
+  }
+
+  async unsubscribeContact(input: {
+    emailOrId: string
+    broadcastId?: string
+    source?: string
+  }): Promise<{ unsubscribed: boolean; contactId: string; email: string }> {
+    this.unsubscribedContact = input
+    return { unsubscribed: true, contactId: 'contact_1', email: input.emailOrId }
   }
 
   async exportContacts(): Promise<{ contacts: []; suppressions: [] }> {

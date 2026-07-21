@@ -102,6 +102,7 @@ export interface BroadcastStats {
   failed: number
   bounced: number
   complained: number
+  unsubscribed: number
   skipped: number
   opened: number
   clicked: number

@@ -1,12 +1,12 @@
 import { type CSSProperties, Fragment, createElement as h, type ReactNode } from 'react'
 import { Column, Hr, Img, Link, Markdown, Row, Section, Text } from 'react-email'
+import { issueCodeBlock, splitIssueBody } from './issue-code.js'
 import { withHardLineBreaks } from './issue-markdown.js'
 import {
   issueInlineMarkdownStyles,
   issueLeadMarkdownStyles,
   issueMarkdownStyles,
 } from './issue-markdown-styles.js'
-import { issueCodeBlock, splitIssueBody } from './issue-code.js'
 import { type IssueSection, parseLinkItem } from './issue-parser.js'
 import {
   issueColors,
@@ -25,7 +25,6 @@ const sectionMarkers: Record<string, string> = {
 }
 
 export function issueSpacer(key?: string) {
-  // Non-breaking space keeps clients that collapse empty cells honest.
   return h(
     Section,
     { key },

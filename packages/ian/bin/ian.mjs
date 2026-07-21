@@ -29,6 +29,7 @@ Usage:
 Newsletter:
   pnpm ian newsletter doctor
   pnpm ian newsletter signups [--days 7] [--limit N]
+  pnpm ian newsletter unsubscribe EMAIL [--broadcast-id ID] [--source SOURCE]
   pnpm ian newsletter checklist
   pnpm ian newsletter migrate
   pnpm ian newsletter seed-aliases --email you@gmail.com [--count 20]
@@ -214,6 +215,50 @@ function newsletter(argv) {
       "RequestTTY=no",
       sshTarget,
       `${opsPrefix} contact recent --days ${days} --limit ${limit}`,
+    ]);
+    return;
+  }
+
+  if (command === "unsubscribe") {
+    const email = rest[0];
+    const broadcastId = getOption(rest, "--broadcast-id");
+    const source = getOption(rest, "--source", "manual");
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.error("unsubscribe needs a valid email address");
+      process.exit(2);
+    }
+    if (broadcastId && !/^[0-9a-f-]{36}$/i.test(broadcastId)) {
+      console.error("unsubscribe: --broadcast-id must be a UUID");
+      process.exit(2);
+    }
+    if (!/^[a-z0-9._-]+$/i.test(source)) {
+      console.error("unsubscribe: --source contains invalid characters");
+      process.exit(2);
+    }
+    const sshTarget = localEnv("IAN_NEWSLETTER_SSH");
+    const opsPrefix = localEnv("IAN_NEWSLETTER_OPS");
+    if (!sshTarget || !opsPrefix) {
+      console.error(
+        "unsubscribe needs IAN_NEWSLETTER_SSH and IAN_NEWSLETTER_OPS (shell env or root .env.local).",
+      );
+      process.exit(1);
+    }
+    const cliArgs = [
+      "contact",
+      "unsubscribe",
+      email,
+      "--source",
+      source,
+      ...(broadcastId ? ["--broadcast-id", broadcastId] : []),
+      "--json",
+    ];
+    run("ssh", [
+      "-o",
+      "RemoteCommand=none",
+      "-o",
+      "RequestTTY=no",
+      sshTarget,
+      `${opsPrefix} ${cliArgs.map(shellQuote).join(" ")}`,
     ]);
     return;
   }

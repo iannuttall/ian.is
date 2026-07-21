@@ -40,6 +40,8 @@ services:
     build:
       context: ../..
       dockerfile: apps/newsletter/Dockerfile
+      args:
+        BASE_URL: ${BASE_URL:-https://newsletter.example.com}
       target: runner
     image: ${APP_IMAGE:-email:local}
     restart: unless-stopped

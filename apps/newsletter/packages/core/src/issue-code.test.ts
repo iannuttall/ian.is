@@ -18,9 +18,7 @@ describe('splitIssueBody', () => {
 
   it('keeps an unterminated fence as code', () => {
     const segments = splitIssueBody(['```js', 'const a = 1'].join('\n'))
-    assert.deepEqual(segments, [
-      { kind: 'code', content: 'const a = 1', language: 'js' },
-    ])
+    assert.deepEqual(segments, [{ kind: 'code', content: 'const a = 1', language: 'js' }])
   })
 
   it('returns one markdown segment when there are no fences', () => {

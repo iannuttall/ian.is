@@ -7,6 +7,10 @@ import {
 } from './canary-service.js'
 import type { AppConfig } from './config.js'
 import { requireSecret } from './config.js'
+import {
+  subscribeContact,
+  unsubscribeContact as unsubscribeContactByOperator,
+} from './contact-consent.js'
 import type {
   CanaryState,
   ContactAnalytics,
@@ -79,29 +83,15 @@ export class CoreEmailPlatform implements EmailPlatform {
     name?: string
     source?: string
   }): Promise<{ id: string }> {
-    const activeSuppressions = await this.deps.store.listActiveSuppressionsForEmail(
-      input.email,
-    )
-    const hardSuppressions = activeSuppressions.filter(
-      (suppression) => suppression.reason !== 'unsubscribe',
-    )
-    if (hardSuppressions.length > 0) {
-      throw new Error('Email address is suppressed')
-    }
-    const contact = await this.deps.store.upsertContact(input)
-    if (contact.status === 'unsubscribed' || activeSuppressions.length > 0) {
-      await this.deps.store.reactivateContact({
-        email: contact.email,
-        contactId: contact.id,
-      })
-    }
-    await this.deps.store.recordEvent({
-      type: 'contact.subscribed',
-      contactId: contact.id,
-      source: input.source ?? 'api',
-      metadata: { email: contact.email },
-    })
-    return { id: contact.id }
+    return subscribeContact(this.deps.store, input)
+  }
+
+  async unsubscribeContact(input: {
+    emailOrId: string
+    broadcastId?: string
+    source?: string
+  }): Promise<{ unsubscribed: boolean; contactId: string; email: string }> {
+    return unsubscribeContactByOperator(this.deps.store, input)
   }
 
   async recentContacts(

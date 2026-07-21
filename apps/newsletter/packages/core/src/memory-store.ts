@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import { getEmailDomain, normalizeEmail } from './email-address.js'
 import { getMemoryLinkSummaryInsights } from './memory-store-analytics.js'
 import { matchesMemoryAudience } from './memory-store-audience.js'
+import { eventsForBroadcast } from './memory-store-events.js'
 import {
   assertMoney,
   contactTagKey,
@@ -546,6 +547,7 @@ export class MemoryEmailStore implements EmailStore {
     const messages = Array.from(this.messages.values()).filter(
       (message) => message.broadcastId === id,
     )
+    const events = eventsForBroadcast(this.events, messages, id)
     return {
       broadcastId: id,
       planned: messages.filter((message) => message.status === 'planned').length,
@@ -554,19 +556,18 @@ export class MemoryEmailStore implements EmailStore {
       failed: messages.filter((message) => message.status === 'failed').length,
       bounced: messages.filter((message) => message.status === 'bounced').length,
       complained: messages.filter((message) => message.status === 'complained').length,
+      unsubscribed: new Set(
+        events
+          .filter((event) => event.type === 'contact.unsubscribed')
+          .flatMap((event) => (event.contactId ? [event.contactId] : [])),
+      ).size,
       skipped: messages.filter((message) => message.status === 'skipped').length,
-      opened: this.events.filter(
-        (event) => event.broadcastId === id && event.type === 'engagement.opened',
-      ).length,
-      clicked: this.events.filter(
-        (event) => event.broadcastId === id && event.type === 'engagement.clicked',
-      ).length,
-      openedByBot: this.events.filter(
-        (event) => event.broadcastId === id && event.type === 'engagement.opened_by_bot',
-      ).length,
-      clickedByBot: this.events.filter(
-        (event) => event.broadcastId === id && event.type === 'engagement.clicked_by_bot',
-      ).length,
+      opened: events.filter((event) => event.type === 'engagement.opened').length,
+      clicked: events.filter((event) => event.type === 'engagement.clicked').length,
+      openedByBot: events.filter((event) => event.type === 'engagement.opened_by_bot')
+        .length,
+      clickedByBot: events.filter((event) => event.type === 'engagement.clicked_by_bot')
+        .length,
     }
   }
 
@@ -993,7 +994,6 @@ export class MemoryEmailStore implements EmailStore {
     this.links.set(record.tokenHash, record)
     return record
   }
-
   async findLinkByTokenHash(hash: string): Promise<LinkRecord | undefined> {
     return this.links.get(hash)
   }

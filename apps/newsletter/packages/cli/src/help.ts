@@ -11,6 +11,7 @@ Commands:
 
   Contacts:
   email subscribe <email> [--name NAME] [--source SOURCE] [--json]
+  email contact unsubscribe EMAIL_OR_ID [--broadcast-id ID] [--source SOURCE] [--json]
   email contact recent [--days N] [--limit N] [--json]
       Newest signups first; default window is the last 7 days.
   email contact analytics EMAIL_OR_ID [--limit N] [--json]

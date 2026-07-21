@@ -319,8 +319,10 @@ describe('CoreEmailPlatform', () => {
     const html = provider.sent[0]?.html ?? ''
     const openToken = html.match(/\/t\/open\/([^"]+)/)?.[1]
     const clickToken = html.match(/\/t\/click\/([^"]+)/)?.[1]
+    const unsubscribeToken = html.match(/\/unsubscribe\/([^"<]+)/)?.[1]
     assert.ok(openToken)
     assert.ok(clickToken)
+    assert.ok(unsubscribeToken)
 
     await platform.trackOpen({ token: openToken, userAgent: 'Proofpoint URL Defense' })
     await platform.trackClick({ token: clickToken, userAgent: 'Proofpoint URL Defense' })
@@ -329,7 +331,6 @@ describe('CoreEmailPlatform', () => {
       userAgent:
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15',
     })
-
     const stats = await platform.getBroadcastStats(broadcast.id)
     assert.equal(stats?.opened, 1)
     assert.equal(stats?.clicked, 1)
@@ -394,6 +395,9 @@ describe('CoreEmailPlatform', () => {
       (await platform.getLinkSummaryInsights({ topic: 'ai-agents' }))[0]?.humanClicks,
       2,
     )
+    await platform.unsubscribe({ token: unsubscribeToken })
+    await platform.unsubscribe({ token: unsubscribeToken })
+    assert.equal((await platform.getBroadcastStats(broadcast.id))?.unsubscribed, 1)
   })
 
   it('can disable open pixel tracking while keeping clicks', async () => {

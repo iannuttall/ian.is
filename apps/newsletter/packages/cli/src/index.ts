@@ -337,6 +337,20 @@ async function dispatch(parsed: ParsedArgs, input: CliRunInput): Promise<unknown
       })
     }
 
+    if (area === 'contact' && action === 'unsubscribe') {
+      const emailOrId = parsed.positionals[2] ?? getStringFlag(parsed, 'contact')
+      if (!emailOrId) throw new CliError('Missing contact email or id')
+      return await platform.unsubscribeContact({
+        emailOrId,
+        ...(getStringFlag(parsed, 'broadcast-id')
+          ? { broadcastId: mustString(parsed, 'broadcast-id') }
+          : {}),
+        ...(getStringFlag(parsed, 'source')
+          ? { source: mustString(parsed, 'source') }
+          : {}),
+      })
+    }
+
     if (area === 'contact' && action === 'recent') {
       const days = getNumberFlag(parsed, 'days') ?? 7
       if (days < 1 || days > 365) {

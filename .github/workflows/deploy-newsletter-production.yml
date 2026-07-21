@@ -69,7 +69,7 @@ jobs:
         if: steps.deployed.outputs.skip != 'true'
         run: |
           IMAGE_REF="${APP_NAME}:gha-$(printf '%s' "$GITHUB_SHA" | cut -c1-12)"
-          docker build --platform linux/amd64 -f apps/newsletter/Dockerfile -t "$IMAGE_REF" .
+          docker build --platform linux/amd64 --build-arg BASE_URL="https://${APP_DOMAIN}" -f apps/newsletter/Dockerfile -t "$IMAGE_REF" .
           docker save "$IMAGE_REF" | gzip > email-image.tar.gz
           printf 'IMAGE_REF=%s\n' "$IMAGE_REF" >> "$GITHUB_ENV"
 

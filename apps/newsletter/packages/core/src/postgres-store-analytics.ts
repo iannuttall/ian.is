@@ -53,9 +53,13 @@ export async function getPostgresBroadcastStats(
       count(*) filter (where type = 'engagement.opened')::int as opened,
       count(*) filter (where type = 'engagement.clicked')::int as clicked,
       count(*) filter (where type = 'engagement.opened_by_bot')::int as "openedByBot",
-      count(*) filter (where type = 'engagement.clicked_by_bot')::int as "clickedByBot"
+      count(*) filter (where type = 'engagement.clicked_by_bot')::int as "clickedByBot",
+      count(distinct events.contact_id) filter (
+        where type = 'contact.unsubscribed'
+      )::int as unsubscribed
     from events
-    where broadcast_id = ${id}
+    left join messages on messages.id = events.message_id
+    where events.broadcast_id = ${id} or messages.broadcast_id = ${id}
   `)
   const counts = row as Record<string, number>
   const eventCounts = eventRow as Record<string, number>
@@ -67,6 +71,7 @@ export async function getPostgresBroadcastStats(
     failed: counts.failed ?? 0,
     bounced: counts.bounced ?? 0,
     complained: counts.complained ?? 0,
+    unsubscribed: eventCounts.unsubscribed ?? 0,
     skipped: counts.skipped ?? 0,
     opened: eventCounts.opened ?? 0,
     clicked: eventCounts.clicked ?? 0,

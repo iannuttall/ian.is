@@ -317,7 +317,10 @@ describe('PostgresEmailStore integration', { skip: !databaseUrl }, () => {
         subject: 'Unsubscribe',
         bodyMarkdown: 'Body {{unsubscribeUrl}}',
       })
-      await platform.createBroadcast({ draftId: draft.id, scheduledAt: new Date(0) })
+      const broadcast = await platform.createBroadcast({
+        draftId: draft.id,
+        scheduledAt: new Date(0),
+      })
       await platform.sendDue(new Date('2026-06-20T00:00:00.000Z'), 1)
       const token = provider.sent[0]?.html.match(/\/unsubscribe\/([^"<]+)/)?.[1]
       assert.ok(token)
@@ -325,6 +328,7 @@ describe('PostgresEmailStore integration', { skip: !databaseUrl }, () => {
         token,
         source: 'test',
       })
+      assert.equal((await platform.getBroadcastStats(broadcast.id))?.unsubscribed, 1)
 
       const preview = await platform.previewAudience()
       const sentEmail = provider.sent[0]?.to

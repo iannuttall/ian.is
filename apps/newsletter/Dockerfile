@@ -1,6 +1,8 @@
 FROM node:24-bookworm-slim AS build
 
 WORKDIR /app
+ARG BASE_URL=https://newsletter.example.com
+ENV BASE_URL=$BASE_URL
 
 RUN corepack enable
 

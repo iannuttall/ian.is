@@ -33,6 +33,11 @@ export interface EmailPlatform {
     name?: string
     source?: string
   }): Promise<{ id: string }>
+  unsubscribeContact(input: {
+    emailOrId: string
+    broadcastId?: string
+    source?: string
+  }): Promise<{ unsubscribed: boolean; contactId: string; email: string }>
   exportContacts(input?: { limit?: number }): Promise<ContactExport>
   recentContacts(input?: { days?: number; limit?: number }): Promise<RecentContacts>
   importContacts(input: ContactImport): Promise<{ imported: number; suppressed: number }>

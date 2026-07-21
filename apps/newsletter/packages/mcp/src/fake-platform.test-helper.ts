@@ -12,6 +12,11 @@ import type {
 } from '@email/core'
 
 export class FakePlatform implements EmailPlatform {
+  async unsubscribeContact(input: {
+    emailOrId: string
+  }): Promise<{ unsubscribed: boolean; contactId: string; email: string }> {
+    return { unsubscribed: true, contactId: 'contact_1', email: input.emailOrId }
+  }
   subscribedEmail?: string
   recordedPurchase?: { productKey: string; amountCents: number }
 

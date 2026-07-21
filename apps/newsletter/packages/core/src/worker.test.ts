@@ -48,6 +48,11 @@ describe('send worker', () => {
 })
 
 class FakePlatform implements EmailPlatform {
+  async unsubscribeContact(input: {
+    emailOrId: string
+  }): Promise<{ unsubscribed: boolean; contactId: string; email: string }> {
+    return { unsubscribed: true, contactId: 'contact_1', email: input.emailOrId }
+  }
   calls = 0
   recoveryCalls = 0
   lastLimit: number | undefined

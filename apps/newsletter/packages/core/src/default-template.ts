@@ -168,7 +168,11 @@ function defaultBlock(section: IssueSection) {
       defaultCell(
         'default-content-cell',
         defaultEmailStyles.textWrap,
-        mdBlockWithCode(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
+        mdBlockWithCode(
+          section.body,
+          defaultEmailMarkdownStyles,
+          defaultEmailStyles.content,
+        ),
       ),
     )
   }
