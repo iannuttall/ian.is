@@ -62,21 +62,31 @@ function heroStyle(color: string | undefined) {
             ))}
           </ul>
         ) : section.type === "classifieds" ? (
-          <div>
-            <ul class="m-0 flex list-none flex-col divide-y divide-border p-0">
-              {section.itemsHtml.map((itemHtml) => (
-                <li class="content-prose py-4 first:pt-0" set:html={itemHtml} />
+          <div class="grid gap-6 sm:grid-cols-[1fr_14rem]">
+            <div>
+              {section.itemsHtml.map((itemHtml, index) => (
+                <>
+                  <div class="content-prose" set:html={itemHtml} />
+                  {index < section.itemsHtml.length - 1 ? (
+                    <div
+                      class="my-4 h-[5px] w-full"
+                      style="background-color: light-dark(#F1F1F1, color-mix(in oklab, #F1F1F1 12%, var(--background-raised)))"
+                    />
+                  ) : null}
+                </>
               ))}
-            </ul>
-            {section.attrs.note ? (
-              <p class="issue-tagline mt-2">{section.attrs.note}</p>
-            ) : null}
-            <a
-              href={section.attrs["button-url"] ?? defaultClassifiedsButtonUrl}
-              class="mt-5 inline-block rounded-md bg-foreground px-3.5 py-2 text-sm font-medium text-background no-underline hover:opacity-90"
-            >
-              {section.attrs.button ?? defaultClassifiedsButton}
-            </a>
+            </div>
+            <div class="flex flex-col items-start gap-3">
+              {section.attrs.note ? (
+                <p class="issue-tagline m-0">{section.attrs.note}</p>
+              ) : null}
+              <a
+                href={section.attrs["button-url"] ?? defaultClassifiedsButtonUrl}
+                class="inline-block rounded-[10px] bg-foreground px-4 py-2 text-base font-medium text-background no-underline hover:opacity-90"
+              >
+                {section.attrs.button ?? defaultClassifiedsButton}
+              </a>
+            </div>
           </div>
         ) : section.type === "quote" ? (
           <blockquote class="m-0 border-l-2 border-border-strong pl-5">
