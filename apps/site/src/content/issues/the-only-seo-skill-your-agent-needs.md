@@ -3,6 +3,8 @@ subject: "The only SEO skill your agent needs"
 preheader: "Yes, I'm back, and I've built a lot of things!"
 pubDate: 2026-07-21
 draft: false
+sentAt: 2026-07-21T14:55:49.173Z
+broadcastId: "c63ae916-e75c-4b73-8ed3-e760bddfaa9f"
 ---
 
 ::: header name="Issue 001"
