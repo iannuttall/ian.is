@@ -5,5 +5,8 @@
   "type": "module",
   "bin": {
     "ian": "bin/ian.mjs"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0"
   }
 }
