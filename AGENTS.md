@@ -30,6 +30,11 @@ parallel copies of agent instructions.
 - `packages/ian`: tiny local helper CLI for short human/agent commands.
 - `packages/*`: future shared packages only. Add one when it removes real
   duplication without changing output.
+- `notes/`: Ian's Obsidian vault (gitignored, personal). See "Notes &
+  drafting" below.
+- `skills/`: repo skills (`draft-post`, `weekly-issue`) — the blog and
+  newsletter pipelines. They read and write `notes/`, never invent new
+  folders there.
 
 ## Deployment Boundaries
 
@@ -116,6 +121,9 @@ pnpm ian site check-remote-env
 pnpm ian site secrets-sync --dry-run
 pnpm ian check newsletter-web
 pnpm ian check newsletter
+pnpm ian issue preview <slug>
+pnpm ian issue test <slug>
+pnpm ian issue send <slug> --yes
 pnpm ian build site
 pnpm ian build newsletter-web
 pnpm ian build newsletter
@@ -229,12 +237,35 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
 
 - Posts are Markdown/MDX in `apps/site/src/content/posts`, typed by
   `apps/site/src/content.config.ts` (glob loader). Query via `apps/site/src/lib/posts.ts`.
+- Post `title` values are visible H1s and should read like plain email subjects:
+  sentence case, direct, and unsensational. Do not use title case, colon-separated
+  marketing formulas, or keyword-stuffed headlines. Use optional `seoTitle` for a
+  restrained keyword variation in the browser title without changing the H1.
 - Breadcrumbs are a layout-level convention: pass `breadcrumbs` from
   `apps/site/src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
   `tagBreadcrumbs`) so the visible header trail and JSON-LD `BreadcrumbList`
   stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
   is too long for the header crumb.
-- Newsletter lives off-site at https://list.ian.is (linked, not embedded).
+- Newsletter lives off-site at https://list.ian.is (linked, not embedded), but
+  issues are authored in this repo: `apps/site/src/content/issues` is the source
+  of what gets sent AND the public archive at `/issues`. The filename is the
+  URL slug: slugify the subject (SEO), never an issue number — numbering
+  belongs in the email's `::: header name="Issue NNN"` label only. Body is
+  plain Markdown plus the `::: section` blocks from the newsletter's issue
+  dialect. Flow:
+  write with `draft: true` → `pnpm ian issue preview <slug>` (email HTML) and
+  `/issues/<slug>` in dev (web) → `pnpm ian issue test <slug>` (prod test send
+  to Ian only) → `pnpm ian issue send <slug> --yes` (publishes the archive
+  page, waits for the deploy marker, then creates the broadcast and starts the
+  sender worker; writes `sentAt`/`broadcastId` back). Never create a broadcast
+  any other way; `broadcastId` in frontmatter is the double-send guard.
+- The issue-block parser intentionally exists in two verbatim copies:
+  `apps/newsletter/packages/core/src/issue-parser.ts` (canonical, email) and
+  `apps/site/src/lib/issues/parser.ts` (web archive). The site build runs
+  `scripts/check-issue-parity.mjs` and fails on any drift — when changing the
+  dialect, update the canonical file and copy it over verbatim. Extracting a
+  shared root package requires updating the VPS deploy workflow sync list and
+  Dockerfile first; do not do it casually.
 - GitHub homepage activity is static generated data:
   `pnpm data:refresh` writes `apps/site/src/generated/github-contributions.json` from
   GitHub GraphQL. Prefer committed snapshots for finite public widgets; do not
@@ -245,6 +276,34 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
 - Extract shared site/newsletter design into root `packages/*` only when the
   shared package preserves exact output and removes real duplication. Do not
   make broad component rewrites while moving runtimes around.
+
+## Notes & drafting
+
+`notes/` is Ian's Obsidian vault. It is gitignored and personal — nothing in
+it is ever committed. It has exactly four top-level buckets; do not add more:
+
+- `notes/ideas/` — pre-writing: idea lists, the ledger, system docs.
+  `notes/ideas/briefs/` holds numbered post briefs (hook + beats +
+  evidence, not prose).
+- `notes/drafts/` — real post drafts (frontmatter + prose). Every draft —
+  human or AI-written — lives here, NOT in the Astro app.
+- `notes/newsletter/` — weekly issue working files: `feedback.jsonl`
+  (append-only taste log) and one folder per issue.
+- `notes/Clippings/` — Obsidian web clipper saves; leave the name alone.
+
+Drafting rules:
+
+- `apps/site/src/content/posts/` contains published posts only. A draft
+  moves there when Ian says publish (set `draft: false`, run
+  `pnpm ian check site`, commit, push). Never park work-in-progress posts
+  in the app, even with `draft: true`.
+- The `draft-post` skill writes to `notes/drafts/`; the `weekly-issue`
+  skill works in `notes/newsletter/`.
+- The bucket rules bind agents, not Ian. He captures by dumping files at
+  the vault root — that is expected use, not mess. When asked to "tidy
+  notes", sweep loose root files into the right bucket (default:
+  `notes/ideas/`), fix any references, and never delete or merge content
+  without his OK.
 
 ## App Rules
 
