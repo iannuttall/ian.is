@@ -1,4 +1,5 @@
 ---
+import ExternalLink from "@/components/icons/ExternalLink.astro";
 import GithubLogo from "@/components/icons/GithubLogo.astro";
 import LinkedinLogo from "@/components/icons/LinkedinLogo.astro";
 import XLogo from "@/components/icons/XLogo.astro";
@@ -16,6 +17,7 @@ const mainItems = [
 
 const projectItems = [
   { label: "AMA", href: "/ama" },
+  { label: "SEO Skill", href: "https://seoskill.dev" },
   { label: "Keep", href: "https://keep.md" },
   { label: "ilo", href: "https://ilo.so" },
   { label: "MCP Boilerplate", href: "https://mcpboilerplate.com" },
@@ -77,10 +79,13 @@ const socialLinkClass =
         {projectItems.map((item) => (
           <a
             {...externalLinkAttrs(item.href)}
-            class:list={[navLinkClass, inactiveLinkClass]}
+            class:list={[navLinkClass, inactiveLinkClass, "inline-flex items-baseline gap-1.5"]}
             x-on:click="$store.menu.close()"
           >
             {item.label}
+            {!item.href.startsWith("/") ? (
+              <ExternalLink class="size-4 shrink-0 translate-y-0.5" aria-hidden="true" />
+            ) : null}
           </a>
         ))}
       </div>
