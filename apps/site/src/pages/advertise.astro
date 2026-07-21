@@ -1,0 +1,113 @@
+---
+export const prerender = true;
+
+import IssueSections from "@/components/issues/IssueSections.astro";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import PageSection from "@/components/page/PageSection.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { webPageSchema } from "@/lib/seo";
+import { siteUrl } from "@/lib/site";
+
+const contactEmail = `sponsor@${new URL(siteUrl).hostname.replace(/^www\./, "")}`;
+
+// Rendered with the same components the real issues use, so the mockups
+// stay pixel-accurate to what sponsors actually get.
+const sponsorMockup = `::: sponsor
+[Acme Crawler](https://example.com) finds the pages your sitemap forgot. It runs locally, reads your Search Console data, and tells you which fixes matter first. Ian's List readers get 20% off with the code IAN.
+:::`;
+
+const classifiedMockup = `::: classifieds button="Book this slot ↗︎" button-url="mailto:${contactEmail}?subject=Classified on Ian's List"
+[Acme Crawler](https://example.com) finds the pages your sitemap forgot.
+---
+[Shipfast Analytics](https://example.com) shows which AI agents visit your site.
+:::`;
+const description =
+  "Sponsor Ian's List, a weekly email for people building with AI, SEO, and small products.";
+const structuredData = webPageSchema({
+  title: "Advertise",
+  description,
+  path: "/advertise",
+});
+---
+
+<Layout
+  title="Advertise"
+  description={description}
+  canonicalPath="/advertise"
+  breadcrumbs={pageBreadcrumbs("Advertise", "/advertise")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title="Advertise"
+      subtitle="Sponsor Ian's List, my weekly email about building with AI."
+    />
+
+    <div class="mt-10 flex max-w-2xl flex-col gap-4 text-foreground-muted">
+      <p>
+        Ian's List is a short weekly email with practical lessons from
+        building with AI every day, plus tools and links worth a click. No
+        news, no fluff, under five minutes.
+      </p>
+      <p>
+        The readers are founders, developers, and SEO and marketing people
+        who use AI as part of how they work. If your product helps them
+        build, rank, or ship faster, this is a good place to be seen.
+      </p>
+    </div>
+
+    <div class="mt-12">
+      <PageSection title="What you can book">
+        <ul class="flex max-w-2xl list-none flex-col gap-6 p-0">
+          <li>
+            <p class="font-medium text-foreground">Main sponsor</p>
+            <p class="text-foreground-muted">
+              One per issue. Your own section in the body of the email, written
+              in the same plain style as the rest of the issue, with a few
+              sentences about your product and a link.
+            </p>
+            <div class="mt-4 rounded-lg border border-dashed border-border p-5">
+              <IssueSections body={sponsorMockup} />
+              <p class="mt-3 text-sm text-foreground-soft">Mockup, rendered with the real issue components.</p>
+            </div>
+          </li>
+          <li>
+            <p class="font-medium text-foreground">Classified</p>
+            <p class="text-foreground-muted">
+              A one-line listing with a link in the classifieds section at the
+              end of the issue. Cheap, and easy to book for multiple weeks.
+            </p>
+            <div class="mt-4 rounded-lg border border-dashed border-border p-5">
+              <IssueSections body={classifiedMockup} />
+              <p class="mt-3 text-sm text-foreground-soft">Mockup, rendered with the real issue components.</p>
+            </div>
+          </li>
+        </ul>
+      </PageSection>
+    </div>
+
+    <div class="mt-12">
+      <PageSection title="Good to know">
+        <ul class="flex max-w-2xl list-none flex-col gap-3 p-0 text-foreground-muted">
+          <li>I only run ads that are genuinely relevant to readers.</li>
+          <li>
+            Sponsor copy stays in the email's plain voice. No all-caps, no
+            hype, and I'm happy to help write it.
+          </li>
+          <li>
+            Every issue is also published on the <a href="/issues" class="text-foreground underline-offset-2 hover:underline hover:decoration-dotted">public issue archive</a>, so placements stay live after send day.
+          </li>
+        </ul>
+      </PageSection>
+    </div>
+
+    <div class="mt-12">
+      <PageSection title="Book a slot">
+        <p class="max-w-2xl text-foreground-muted">
+          Email <a href={`mailto:${contactEmail}?subject=Sponsoring Ian's List`} class="text-foreground underline-offset-2 hover:underline hover:decoration-dotted">{contactEmail}</a> with what you're promoting and I'll reply with availability and current pricing.
+        </p>
+      </PageSection>
+    </div>
+  </div>
+</Layout>
