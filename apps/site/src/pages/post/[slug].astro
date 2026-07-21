@@ -3,6 +3,7 @@ export const prerender = true;
 
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
+import CodeCopy from "@/components/CodeCopy.astro";
 import TagLink from "@/components/primitives/TagLink.astro";
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
@@ -22,6 +23,7 @@ type Props = { post: CollectionEntry<"posts"> };
 const { post } = Astro.props as Props;
 const { Content } = await render(post);
 const path = `/post/${post.id}`;
+const pageTitle = post.data.seoTitle ?? post.data.title;
 
 const structuredData = blogPostingSchema({
   title: post.data.title,
@@ -33,7 +35,7 @@ const structuredData = blogPostingSchema({
 ---
 
 <Layout
-  title={post.data.title}
+  title={pageTitle}
   description={post.data.description}
   ogTitle={post.data.ogTitle}
   ogDescription={post.data.ogDescription}
@@ -62,6 +64,7 @@ const structuredData = blogPostingSchema({
     <div class="content-prose mt-10">
       <Content />
     </div>
+    <CodeCopy />
 
     <div class="mt-16">
       <Newsletter

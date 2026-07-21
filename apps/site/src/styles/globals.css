@@ -270,11 +270,20 @@
     font-size: 1.125rem;
   }
 
+  /* Body copy matches the about page (PageText): the one text treatment
+     for every long-form surface — posts, issues, pages. */
   .content-prose p,
   .content-prose li {
-    font-size: inherit;
-    line-height: 1.75;
-    color: var(--foreground-muted);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+
+  .content-prose mark {
+    background: light-dark(#fdf2b4, #5c4d1a);
+    color: inherit;
+    padding: 0 0.125rem;
   }
 
   .content-prose ul,
@@ -344,6 +353,46 @@
 
   .content-prose pre span {
     color: var(--foreground) !important;
+  }
+
+  /* Fenced code blocks get wrapped by rehypeCodeCopy (lib/markdown-code.mjs). */
+  .code-frame {
+    position: relative;
+  }
+
+  /* Centered on the first code line (pre: 1rem padding + 1.5rem line height),
+     which is also the vertical center when the block is a single line. */
+  .code-copy {
+    position: absolute;
+    top: 0.875rem;
+    right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.375rem;
+    color: var(--foreground-soft);
+    background: transparent;
+    cursor: pointer;
+    transition: color 120ms ease, background 120ms ease;
+  }
+
+  .code-copy:hover {
+    color: var(--foreground);
+    background: var(--background);
+  }
+
+  .code-copy .code-copy-check {
+    display: none;
+  }
+
+  .code-copy.copied .code-copy-icon {
+    display: none;
+  }
+
+  .code-copy.copied .code-copy-check {
+    display: block;
   }
 
   .docs-prose > :first-child {

@@ -1,0 +1,51 @@
+---
+// Icons + click handling for the copy buttons that rehypeCodeCopy injects
+// into fenced code blocks. Include once on any page that renders markdown
+// code. Icons come from the site icon components (rendered into a template
+// here, cloned into each button) so code blocks use the same inventory as
+// the rest of the UI.
+import CheckIcon from "@/components/ui/check-icon.astro";
+import CopyIcon from "@/components/ui/copy-icon.astro";
+---
+
+<template data-code-copy-icons>
+  <CopyIcon class="code-copy-icon size-4" aria-hidden="true" />
+  <CheckIcon class="code-copy-check size-4" aria-hidden="true" />
+</template>
+
+<script is:inline data-astro-rerun>
+  (() => {
+    const template = document.querySelector("[data-code-copy-icons]");
+    if (template) {
+      for (const button of document.querySelectorAll("[data-code-copy]")) {
+        if (button.childElementCount === 0) {
+          button.append(template.content.cloneNode(true));
+        }
+      }
+    }
+
+    if (window.__codeCopyBound) return;
+    window.__codeCopyBound = true;
+    document.addEventListener("click", async (event) => {
+      const button = event.target?.closest?.("[data-code-copy]");
+      if (!button) return;
+
+      const pre = button.closest(".code-frame")?.querySelector("pre");
+      const text = pre?.innerText ?? "";
+      if (!text) return;
+
+      try {
+        await navigator.clipboard.writeText(text.replace(/\n$/, ""));
+      } catch {
+        return;
+      }
+
+      button.classList.add("copied");
+      button.setAttribute("aria-label", "Copied");
+      window.setTimeout(() => {
+        button.classList.remove("copied");
+        button.setAttribute("aria-label", "Copy code");
+      }, 2000);
+    });
+  })();
+</script>
