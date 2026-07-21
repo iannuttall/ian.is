@@ -15,7 +15,12 @@ import {
 } from 'react-email'
 import { issueFooter } from './issue-footer.js'
 import { type IssueSection, parseIssueSections } from './issue-parser.js'
-import { headingMarker, issueSpacer, mdBlock, squareHeading } from './issue-sections.js'
+import {
+  headingMarker,
+  issueSpacer,
+  mdBlockWithCode,
+  squareHeading,
+} from './issue-sections.js'
 import { issueResponsiveCss } from './issue-styles.js'
 import { renderIssueSection } from './issue-template.js'
 import {
@@ -77,6 +82,18 @@ const defaultResponsiveCss = `${issueResponsiveCss}
   }
 `
 
+// Same reading-time rule as the site (issueReadingMinutes in apps/site):
+// ::: fence lines excluded, 220 words per minute, minimum one minute.
+function readingMinutes(markdown: string): number {
+  const words = markdown
+    .split(/\r?\n/)
+    .filter((line) => !/^:::/.test(line.trim()))
+    .join(' ')
+    .split(/\s+/)
+    .filter(Boolean).length
+  return Math.max(1, Math.ceil(words / 220))
+}
+
 export function DefaultEmail(draft: DraftInput) {
   const parsed = parseIssueSections(draft.bodyMarkdown)
   const header = parsed.find((section) => section.type === 'header')
@@ -112,7 +129,7 @@ export function DefaultEmail(draft: DraftInput) {
         h(
           Section,
           { style: defaultEmailStyles.shell },
-          defaultHeader(header),
+          defaultHeader(header, readingMinutes(draft.bodyMarkdown)),
           h(Section, { style: defaultEmailStyles.contentArea }, ...blocks),
           defaultFooterBand(footer),
         ),
@@ -146,7 +163,7 @@ function defaultBlock(section: IssueSection) {
       defaultCell(
         'default-content-cell',
         defaultEmailStyles.textWrap,
-        mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
+        mdBlockWithCode(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
       ),
     )
   }
@@ -178,7 +195,7 @@ function defaultBlock(section: IssueSection) {
   return defaultCell(
     'default-content-cell',
     defaultEmailStyles.textWrap,
-    mdBlock(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
+    mdBlockWithCode(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
   )
 }
 
@@ -186,7 +203,7 @@ function defaultFooterBand(footer: IssueSection | undefined) {
   return issueFooter(footer, undefined, barebonesColors.bg3, 'default-footer')
 }
 
-function defaultHeader(header: IssueSection | undefined) {
+function defaultHeader(header: IssueSection | undefined, minutes?: number) {
   return h(
     Section,
     { style: defaultEmailStyles.header },
@@ -196,14 +213,21 @@ function defaultHeader(header: IssueSection | undefined) {
       h(
         Column,
         { className: 'default-header-cell', style: defaultEmailStyles.headerInset },
-        headerRow(header),
+        headerRow(header, minutes),
       ),
     ),
   )
 }
 
-function headerRow(header: IssueSection | undefined) {
-  const label = header?.attrs.name ?? "Ian's List"
+function headerRow(header: IssueSection | undefined, minutes?: number) {
+  // ::: header name="Issue 001" renders "Issue 001 - 3 min read" top-right.
+  // Opt out with read-time="off".
+  const name = header?.attrs.name
+  const withTime =
+    name && minutes && header?.attrs['read-time'] !== 'off'
+      ? `${name} - ${minutes} min read`
+      : name
+  const label = withTime ?? "Ian's List"
   return h(
     Row,
     null,

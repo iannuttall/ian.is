@@ -122,17 +122,17 @@ function footerLinks(attrs: Record<string, string>) {
     ...extras,
     h(
       Text,
-      { style: groupEnd },
-      h(
-        Link,
-        { href: '{{unsubscribeUrl}}', style: issueStyles.footerLink },
-        'Unsubscribe',
-      ),
+      { className: 'issue-address', style: issueStyles.footerSmall },
+      antiLinkedAddress(),
     ),
     h(
       Text,
-      { className: 'issue-address', style: issueStyles.footerSmall },
-      antiLinkedAddress(),
+      { style: issueStyles.footerSmall },
+      h(
+        Link,
+        { href: '{{unsubscribeUrl}}', style: issueStyles.footerMutedLink },
+        'Unsubscribe',
+      ),
     ),
   )
 }

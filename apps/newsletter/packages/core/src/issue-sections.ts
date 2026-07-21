@@ -6,6 +6,7 @@ import {
   issueLeadMarkdownStyles,
   issueMarkdownStyles,
 } from './issue-markdown-styles.js'
+import { issueCodeBlock, splitIssueBody } from './issue-code.js'
 import { type IssueSection, parseLinkItem } from './issue-parser.js'
 import {
   issueColors,
@@ -56,6 +57,32 @@ export function mdBlock(
 
 export function headingMarker(section: IssueSection): string {
   return section.attrs.marker ?? sectionMarkers[section.type] ?? '▲'
+}
+
+// mdBlock plus fenced-code awareness: markdown renders through the Markdown
+// component, ``` fences through the themed <CodeBlock>.
+export function mdBlockWithCode(
+  markdown: string,
+  customStyles: Record<string, CSSProperties> = issueMarkdownStyles,
+  containerStyle?: CSSProperties,
+) {
+  const segments = splitIssueBody(markdown)
+  if (!segments.some((segment) => segment.kind === 'code')) {
+    return mdBlock(markdown, customStyles, containerStyle)
+  }
+  return h(
+    Fragment,
+    null,
+    ...segments.map((segment, index) =>
+      segment.kind === 'code'
+        ? issueCodeBlock(segment.content, segment.language, `code-${index}`)
+        : h(
+            Fragment,
+            { key: `md-${index}` },
+            mdBlock(segment.content, customStyles, containerStyle),
+          ),
+    ),
+  )
 }
 
 export function squareHeading(title: string, marker = '▲') {
@@ -128,7 +155,7 @@ export function textSection(section: IssueSection, withHeading = true) {
         h(
           Column,
           { className: 'issue-cell', style: issueStyles.fullCell },
-          mdBlock(section.body, styles),
+          mdBlockWithCode(section.body, styles),
         ),
       ),
     ),
@@ -177,7 +204,7 @@ export function boxSection(section: IssueSection, withHeading = true) {
       ? squareHeading(section.attrs.title, headingMarker(section))
       : null
   const background = colors.tint
-  const content = mdBlock(section.body)
+  const content = mdBlockWithCode(section.body)
   let body: ReactNode
   if (section.attrs.image) {
     const image = h(

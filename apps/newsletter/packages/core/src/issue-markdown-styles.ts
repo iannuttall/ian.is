@@ -37,6 +37,21 @@ const markdownBase = {
     padding: '2px 4px',
     borderRadius: '4px',
   },
+  codeBlock: {
+    display: 'block',
+    fontFamily: 'Menlo,Consolas,monospace',
+    fontSize: '13px',
+    lineHeight: '21px',
+    color: issueColors.ink,
+    backgroundColor: issueColors.highlight,
+    padding: '16px',
+    borderRadius: '4px',
+    margin: '0 0 15px',
+    // Email clients have no horizontal scroll; wrap long commands instead of
+    // blowing out the 640px frame.
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+  },
   hr: {
     border: 'none',
     borderBottom: `2px solid ${issueColors.line}`,

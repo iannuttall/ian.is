@@ -32,3 +32,6 @@ notes/
 # logs / os
 *.log
 .DS_Store
+
+# generated email render output
+apps/newsletter/rendered/
