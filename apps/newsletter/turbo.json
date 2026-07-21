@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["BASE_URL"],
   "globalPassThroughEnv": ["EMAIL_PREVIEW_PORT"],
   "tasks": {
     "build": {
