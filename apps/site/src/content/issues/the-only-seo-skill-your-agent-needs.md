@@ -2,7 +2,7 @@
 subject: "The only SEO skill your agent needs"
 preheader: "Yes, I'm back, and I've built a lot of things!"
 pubDate: 2026-07-21
-draft: true
+draft: false
 ---
 
 ::: header name="Issue 001"
