@@ -13,7 +13,11 @@ export async function runTemplateCommand(
   if (area !== 'template' || action !== 'render') return undefined
 
   const draft = await draftInput(parsed)
-  const rendered = await renderDraftEmail(draft)
+  const status = getStringFlag(parsed, 'status')
+  if (status && status !== 'new' && status !== 'warm' && status !== 'cold') {
+    throw new Error('Invalid --status; expected new, warm, or cold')
+  }
+  const rendered = await renderDraftEmail(draft, status ? { status } : {})
   const outDir = getStringFlag(parsed, 'out-dir')
   if (outDir) {
     await writeRenderedEmail(outDir, rendered)

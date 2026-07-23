@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import { getEmailDomain, normalizeEmail } from './email-address.js'
 import { getMemoryLinkSummaryInsights } from './memory-store-analytics.js'
 import { matchesMemoryAudience } from './memory-store-audience.js'
+import { getMemoryEngagement } from './memory-store-engagement.js'
 import { eventsForBroadcast } from './memory-store-events.js'
 import {
   assertMoney,
@@ -59,7 +60,6 @@ import type {
   ContactStatus,
   DeliveryPolicyInput,
   DraftInput,
-  EngagementSummary,
   MessageStatus,
   PlannedRecipient,
   SuppressionReason,
@@ -734,6 +734,7 @@ export class MemoryEmailStore implements EmailStore {
         sendRank: recipient.sendRank,
         rankReason: recipient.rankReason,
         engagementScore: recipient.engagementScore,
+        metadata: { recipientStatus: recipient.status },
         scheduledAt: recipient.scheduledAt,
         provider: 'ses',
         retryCount: 0,
@@ -899,43 +900,8 @@ export class MemoryEmailStore implements EmailStore {
     return event
   }
 
-  async getEngagement(contactIds: string[]): Promise<Map<string, EngagementSummary>> {
-    const wanted = new Set(contactIds)
-    const engagement = new Map<string, EngagementSummary>()
-    for (const id of wanted) {
-      const contact = await this.getContact(id)
-      engagement.set(id, {
-        contactId: id,
-        totalOpens: 0,
-        totalClicks: 0,
-        ...(contact?.subscribedAt ? { lastSubscribedAt: contact.subscribedAt } : {}),
-      })
-    }
-
-    for (const event of this.events) {
-      if (!event.contactId || !wanted.has(event.contactId)) continue
-      const current = engagement.get(event.contactId)
-      if (!current) continue
-      if (event.type === 'engagement.opened') {
-        current.totalOpens += 1
-        if (
-          !current.lastOpenedAt ||
-          current.lastOpenedAt.getTime() < event.occurredAt.getTime()
-        ) {
-          current.lastOpenedAt = event.occurredAt
-        }
-      }
-      if (event.type === 'engagement.clicked') {
-        current.totalClicks += 1
-        if (
-          !current.lastClickedAt ||
-          current.lastClickedAt.getTime() < event.occurredAt.getTime()
-        ) {
-          current.lastClickedAt = event.occurredAt
-        }
-      }
-    }
-    return engagement
+  async getEngagement(contactIds: string[]) {
+    return getMemoryEngagement(this.contacts.values(), this.events, contactIds)
   }
 
   async recordClickRollup(input: ClickRollupInput): Promise<void> {

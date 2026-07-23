@@ -179,21 +179,25 @@ Markdown is the authoring format. The default template is the normal Ian's List
 React Email shell.
 
 Emails must stay composable and deterministic: write campaign bodies in
-Markdown, then use shared directive blocks for layout. Do not create custom
-React email components for one campaign. If a new visual pattern is needed,
-add it as a reusable section in `packages/core` and cover it with render tests.
-For multi-item blocks like `links` and `classifieds`, separate items with a
-standalone `---` line. Do not use Markdown bullets for those items. Classifieds
-button attrs are `button` and `button-url`.
+Markdown, then use shared component-style blocks such as `<Links>` and `<Box>`
+for layout. These blocks are parsed as data; do not execute arbitrary MDX or
+create custom React email components for one campaign. If a new visual pattern
+is needed, add it as a reusable section in `packages/core` and cover it with
+render tests. For multi-item blocks like `<Links>` and `<Classifieds>`, start
+each item with a normal Markdown heading. Classifieds button attrs are `button`
+and `button-url`. The legacy `:::` dialect stays supported for published issues
+but must not be used for new drafts.
 Section headings use inline text markers, not separate square/icon columns:
 `▲` default, `✦` sponsor, `＋` links, `◆` classifieds. Override per section
 with `marker="..."` if a campaign needs a different symbol.
 
 Available templates:
 
-- `default`: Ian's List shell. Body text renders at 18px; it accepts section blocks
-  (`links`, `sponsor`, `box`, `classifieds`, `quote`, `poll`) for mixed campaigns.
-  Use `::: header name="Issue 001"` to override the top-right label.
+- `default`: Ian's List shell. Body text renders at 18px; it accepts component
+  blocks (`<Links>`, `<Sponsor>`, `<Box>`, `<Classifieds>`, `<Quote>`, `<Poll>`)
+  for mixed campaigns. Use `<Header name="Issue 001" />` to override the
+  top-right label. `<Conditional if="status:cold">` is the only recipient
+  condition; it is hidden from the public archive.
 
 Before real sends, render the email locally:
 

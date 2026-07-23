@@ -13,13 +13,13 @@ export async function getVisibleIssues(): Promise<CollectionEntry<"issues">[]> {
 }
 
 /**
- * Whole-issue reading time in minutes. Directive fence lines (::: ...) are
+ * Whole-issue reading time in minutes. Component and legacy fence lines are
  * chrome, not prose; everything else — including code — counts as words.
  */
 export function issueReadingMinutes(body: string): number {
   const words = body
     .split(/\r?\n/)
-    .filter((line) => !/^:::/.test(line.trim()))
+    .filter((line) => !/^(:::|<\/?[A-Z][A-Za-z0-9]*\b)/.test(line.trim()))
     .join(" ")
     .split(/\s+/)
     .filter(Boolean).length;

@@ -219,36 +219,57 @@ Use `--json` for scripts and agents.
 ## Templates
 
 Markdown is the authoring format. The default template is the normal Ian's List
-React Email shell. It also accepts section blocks like `links`, `sponsor`, `box`,
-`classifieds`, `quote`, and `poll`.
+React Email shell. Reusable layout uses small component-style blocks such as
+`<Links>`, `<Sponsor>`, `<Box>`, `<Classifieds>`, `<Quote>`, and `<Poll>`.
+These are parsed as data, not executed as arbitrary MDX.
 
-Use `::: header name="Issue 001"` to override the small top-right label.
+Use `<Header name="Issue 001" />` to override the small top-right label.
 
-Campaigns should be plain Markdown plus those shared section blocks. Avoid
-one-off React email files for individual sends. Add new reusable section
-components in `packages/core` when the design needs a new pattern.
+Campaigns should be plain Markdown plus those shared components. Avoid one-off
+React email files for individual sends. Add a reusable component in
+`packages/core` when the design needs a new pattern. The old `:::` syntax stays
+readable for published issues, but new issues should use components.
 
-Multi-item email blocks use `---` between items, not Markdown bullets:
+Multi-item blocks use normal Markdown headings, so there are no special item
+separators to remember:
 
 ```md
-::: links title="Worth a Click"
-[Passport Index](https://example.com)
+<Links title="Worth a Click">
+## [Passport Index](https://example.com)
 Explore the power of passports
 
 Ranks each passport by a mobility score.
----
-[Paku](https://example.com)
+
+## [Paku](https://example.com)
 Air quality monitor
 
 Configure alerts for nearby sensors.
-:::
+</Links>
 
-::: classifieds title="Classifieds" button="Book yours ↗︎" button-url="https://ian.is/advertise"
+<Classifieds title="Classifieds" button="Book yours ↗︎" button-url="https://ian.is/advertise">
+## MicroSponsor
 [MicroSponsor](https://example.com) is a tiny classified placement for builders.
----
+
+## Toolmaker Jobs
 [Toolmaker Jobs](https://example.com) lists small teams hiring practical software people.
-:::
+</Classifieds>
 ```
+
+Recipient-only content uses one explicit condition:
+
+```md
+<Conditional if="status:cold">
+<Box title="Still reading?" color="yellow">
+I haven't seen a click from this address. Click any link in this issue if you
+want to keep receiving it.
+</Box>
+</Conditional>
+```
+
+`status:cold` means no recorded human click after nine previous sends. The
+status is snapshotted when the broadcast is planned. Conditional content is
+omitted from the public issue archive. Local previews and test sends default to
+the cold variant; pass `--status warm` to verify the normal version.
 
 Section headings use text markers, so email clients cannot squash icon cells on
 mobile. Defaults are `▲` for normal text sections, `✦` for sponsor, `＋` for

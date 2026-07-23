@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { parseIssueSections, parseLinkItem } from './issue-parser.js'
+import {
+  parseIssueSections,
+  parseLinkItem,
+  resolveIssueConditionals,
+} from './issue-parser.js'
 
 describe('parseIssueSections', () => {
   it('parses directive blocks with attributes and prose between them', () => {
@@ -57,6 +61,81 @@ describe('parseIssueSections', () => {
       ['::: classifieds', 'First entry.', '---', 'Second entry.', ':::'].join('\n'),
     )
     assert.deepEqual(sections[0]?.items, ['First entry.', 'Second entry.'])
+  })
+
+  it('parses component-style blocks and heading-separated items', () => {
+    const sections = parseIssueSections(
+      [
+        '<Header name="Issue 002" />',
+        '',
+        '<Links title="Worth a Click">',
+        '## [First](https://example.com/first)',
+        'First tagline',
+        '',
+        'First description.',
+        '',
+        '## [Second](https://example.com/second)',
+        'Second tagline',
+        '',
+        'Second description.',
+        '</Links>',
+      ].join('\n'),
+    )
+
+    assert.deepEqual(
+      sections.map((section) => section.type),
+      ['header', 'links'],
+    )
+    assert.equal(sections[0]?.attrs.name, 'Issue 002')
+    assert.equal(sections[1]?.items.length, 2)
+    assert.equal(parseLinkItem(sections[1]?.items[1] ?? '').title, 'Second')
+  })
+})
+
+describe('resolveIssueConditionals', () => {
+  const source = [
+    'Always visible.',
+    '',
+    '<Conditional if="status:cold">',
+    'Cold only.',
+    '',
+    '<Box title="Still reading?">',
+    'Click any link.',
+    '</Box>',
+    '</Conditional>',
+  ].join('\n')
+
+  it('includes matching blocks and unwraps nested issue components', () => {
+    const resolved = resolveIssueConditionals(source, { status: 'cold' })
+    assert.match(resolved, /Cold only/)
+    assert.doesNotMatch(resolved, /Conditional/)
+    assert.deepEqual(
+      parseIssueSections(resolved).map((section) => section.type),
+      ['text', 'box'],
+    )
+  })
+
+  it('removes blocks for non-matching recipients and the web archive', () => {
+    assert.equal(
+      resolveIssueConditionals(source, { status: 'warm' }).trim(),
+      'Always visible.',
+    )
+    assert.equal(resolveIssueConditionals(source).trim(), 'Always visible.')
+  })
+
+  it('rejects malformed or unsupported conditions', () => {
+    assert.throws(
+      () =>
+        resolveIssueConditionals(['<Conditional>', 'Bad', '</Conditional>'].join('\n')),
+      /Conditional requires/,
+    )
+    assert.throws(
+      () =>
+        resolveIssueConditionals(
+          ['<Conditional if="clicks:0">', 'Bad', '</Conditional>'].join('\n'),
+        ),
+      /Unsupported issue condition/,
+    )
   })
 })
 

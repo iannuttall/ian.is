@@ -4,6 +4,7 @@ import { rehypeTailwindMarkdownLinks } from "@/lib/markdown-links.mjs";
 import {
   parseIssueSections,
   parseLinkItem,
+  resolveIssueConditionals,
   type IssueLinkItem,
   type IssueSection,
 } from "./parser";
@@ -96,7 +97,9 @@ async function markdownToHtml(markdown: string): Promise<string> {
 export async function renderIssueSections(
   markdown: string,
 ): Promise<IssueSectionView[]> {
-  const sections = parseIssueSections(markdown).filter(
+  // Recipient-only sections never appear in the public archive.
+  const resolved = resolveIssueConditionals(markdown);
+  const sections = parseIssueSections(resolved).filter(
     (section) => !skippedTypes.has(section.type),
   );
 

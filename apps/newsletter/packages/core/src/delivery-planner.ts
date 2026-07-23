@@ -1,5 +1,10 @@
 import { getEmailDomain, normalizeEmail } from './email-address.js'
-import type { DeliveryPolicyInput, EngagementSummary, PlannedRecipient } from './types.js'
+import type {
+  DeliveryPolicyInput,
+  EngagementSummary,
+  PlannedRecipient,
+  RecipientStatus,
+} from './types.js'
 
 export interface RecipientCandidate {
   contactId: string
@@ -26,8 +31,14 @@ type ScoredRecipient = RecipientCandidate & {
   domain: string
   engagementScore: number
   rankReason: string
+  status: RecipientStatus
   lastWarmSignalAt?: Date
 }
+
+// A zero-click subscriber gets one full run of nine issues before being
+// considered cold. Opens do not affect this status because open tracking is
+// routinely blocked or proxied by email clients.
+export const coldAfterSends = 9
 
 export function planRecipients(input: PlanRecipientsInput): PlannedRecipient[] {
   const now = input.now ?? new Date()
@@ -49,6 +60,7 @@ export function planRecipients(input: PlanRecipientsInput): PlannedRecipient[] {
     engagementScore: recipient.engagementScore,
     sendRank: index + 1,
     rankReason: recipient.rankReason,
+    status: recipient.status,
     scheduledAt: new Date(startAt.getTime() + index * intervalMs),
   }))
 }
@@ -77,6 +89,7 @@ export function calculateIntervalMs(input: {
 function scoreRecipient(recipient: RecipientCandidate, now: Date): ScoredRecipient {
   const engagement = recipient.engagement
   const totalClicks = engagement?.totalClicks ?? 0
+  const totalSends = engagement?.totalSends ?? 0
   const totalOpens = engagement?.totalOpens ?? 0
   const clickScore = Math.min(totalClicks, 20) * 100
   const openScore = Math.min(totalOpens, 50) * 10
@@ -94,11 +107,18 @@ function scoreRecipient(recipient: RecipientCandidate, now: Date): ScoredRecipie
     domain: getEmailDomain(normalizedEmail),
     engagementScore,
     rankReason: getRankReason(totalClicks, totalOpens, recencyScore),
+    status: recipientStatus(totalClicks, totalSends),
   }
   if (lastWarmSignalAt) {
     scored.lastWarmSignalAt = lastWarmSignalAt
   }
   return scored
+}
+
+function recipientStatus(totalClicks: number, totalSends: number): RecipientStatus {
+  if (totalClicks > 0) return 'warm'
+  if (totalSends >= coldAfterSends) return 'cold'
+  return 'new'
 }
 
 function compareWarmth(a: ScoredRecipient, b: ScoredRecipient): number {

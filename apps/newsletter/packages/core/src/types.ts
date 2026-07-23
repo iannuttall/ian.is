@@ -46,6 +46,7 @@ export type EventType =
   | 'engagement.clicked_by_bot'
 
 export type DeliveryStrategy = 'steady' | 'duration' | 'warm_first'
+export type RecipientStatus = 'new' | 'warm' | 'cold'
 
 export type ProviderId = 'ses' | 'test' | string
 
@@ -84,6 +85,7 @@ export interface DeliveryPolicyInput {
 
 export interface EngagementSummary {
   contactId: string
+  totalSends: number
   totalOpens: number
   totalClicks: number
   lastOpenedAt?: Date
@@ -98,6 +100,7 @@ export interface PlannedRecipient {
   engagementScore: number
   sendRank: number
   rankReason: string
+  status: RecipientStatus
   scheduledAt: Date
 }
 

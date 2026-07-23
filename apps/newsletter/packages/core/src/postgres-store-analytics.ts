@@ -247,6 +247,7 @@ export async function getPostgresEngagement(
   for (const contact of contactRows) {
     engagement.set(contact.id, {
       contactId: contact.id,
+      totalSends: 0,
       totalOpens: 0,
       totalClicks: 0,
       ...(contact.subscribedAt ? { lastSubscribedAt: contact.subscribedAt } : {}),
@@ -256,6 +257,7 @@ export async function getPostgresEngagement(
   const rows = await db
     .select({
       contactId: events.contactId,
+      totalSends: sql<number>`count(distinct ${events.messageId}) filter (where ${events.type} = 'message.sent')::int`,
       totalOpens: sql<number>`count(*) filter (where ${events.type} = 'engagement.opened')::int`,
       totalClicks: sql<number>`count(*) filter (where ${events.type} = 'engagement.clicked')::int`,
       lastOpenedAt: sql<Date | null>`max(${events.occurredAt}) filter (where ${events.type} = 'engagement.opened')`,
@@ -265,7 +267,7 @@ export async function getPostgresEngagement(
     .where(
       and(
         inArray(events.contactId, contactIds),
-        inArray(events.type, ['engagement.opened', 'engagement.clicked']),
+        inArray(events.type, ['message.sent', 'engagement.opened', 'engagement.clicked']),
       ),
     )
     .groupBy(events.contactId)
@@ -274,6 +276,7 @@ export async function getPostgresEngagement(
     if (!row.contactId) continue
     const current = engagement.get(row.contactId)
     if (!current) continue
+    current.totalSends = row.totalSends
     current.totalOpens = row.totalOpens
     current.totalClicks = row.totalClicks
     const lastOpenedAt = dateValue(row.lastOpenedAt)

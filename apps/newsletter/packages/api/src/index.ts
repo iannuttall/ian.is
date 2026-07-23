@@ -128,6 +128,7 @@ const testSchema = z.object({
   confirm: z.literal(true),
   draftId: z.string().min(1),
   to: z.string().email(),
+  status: z.enum(['new', 'warm', 'cold']).optional(),
 })
 
 const sesSimulatorSchema = z.object({
@@ -400,7 +401,14 @@ export function createApp(input: ApiInput = {}) {
 
   app.post('/api/tests', async (c) => {
     const body = testSchema.parse(await c.req.json())
-    return c.json(await platform.sendTest(body), 202)
+    return c.json(
+      await platform.sendTest({
+        draftId: body.draftId,
+        to: body.to,
+        ...(body.status ? { status: body.status } : {}),
+      }),
+      202,
+    )
   })
 
   app.post('/api/tests/ses-simulator', async (c) => {

@@ -27,6 +27,7 @@ import type {
 import { buildProductionOpsChecklist } from './production-ops.js'
 import type { EmailProvider } from './providers.js'
 import type { DoctorReport } from './readiness.js'
+import { emptyEngagement, recipientStatusFromMessage } from './recipient-engagement.js'
 import { renderDraftEmail } from './render.js'
 import { ProviderAcceptedPersistenceError } from './send-errors.js'
 import { createProviderSendThrottle } from './send-rate.js'
@@ -65,7 +66,7 @@ import {
   tokenHash,
   verifyTrackingToken,
 } from './tracking.js'
-import type { DeliveryPolicyInput, DraftInput, EngagementSummary } from './types.js'
+import type { DeliveryPolicyInput, DraftInput, RecipientStatus } from './types.js'
 
 export type * from './platform-contracts.js'
 
@@ -561,11 +562,18 @@ export class CoreEmailPlatform implements EmailPlatform {
     return { cancelled: true, skipped }
   }
 
-  async sendTest(input: { draftId: string; to: string }): Promise<{
+  async sendTest(input: {
+    draftId: string
+    to: string
+    status?: RecipientStatus
+  }): Promise<{
     providerMessageId: string
   }> {
     const draft = await this.requireDraft(input.draftId)
-    const rendered = await renderDraftEmail(draft)
+    const rendered = await renderDraftEmail(
+      draft,
+      input.status ? { status: input.status } : {},
+    )
     const fromName = draft.fromName ?? this.deps.config.email.fromName
     const result = await this.deps.provider.send({
       to: input.to,
@@ -819,7 +827,11 @@ export class CoreEmailPlatform implements EmailPlatform {
     const broadcast = await this.deps.store.getBroadcast(message.broadcastId)
     if (!broadcast) throw new Error(`Broadcast not found: ${message.broadcastId}`)
     const draft = await this.requireDraft(broadcast.draftId)
-    const rendered = await renderDraftEmail(draft)
+    const recipientStatus = recipientStatusFromMessage(message)
+    const rendered = await renderDraftEmail(
+      draft,
+      recipientStatus ? { status: recipientStatus } : {},
+    )
     const trackingSecret = requireSecret(
       this.deps.config.trackingSecret,
       'TRACKING_SECRET',
@@ -950,15 +962,6 @@ export class CoreEmailPlatform implements EmailPlatform {
     return emailOrId.includes('@')
       ? this.deps.store.findContactByEmail(emailOrId)
       : this.deps.store.getContact(emailOrId)
-  }
-}
-
-function emptyEngagement(contact: ContactRecord): EngagementSummary {
-  return {
-    contactId: contact.id,
-    totalOpens: 0,
-    totalClicks: 0,
-    ...(contact.subscribedAt ? { lastSubscribedAt: contact.subscribedAt } : {}),
   }
 }
 

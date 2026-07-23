@@ -88,6 +88,33 @@ describe('renderDraft', () => {
     assert.match(rendered.html, /{{unsubscribeUrl}}/)
   })
 
+  it('renders component blocks and recipient conditions without leaking tags', async () => {
+    const draft = {
+      subject: 'Conditional issue',
+      bodyMarkdown: [
+        '<Header name="Issue 002" />',
+        '',
+        'Visible to everyone.',
+        '',
+        '<Conditional if="status:cold">',
+        '<Box title="Still reading?" color="yellow">',
+        'Click any link to stay on the list.',
+        '</Box>',
+        '</Conditional>',
+      ].join('\n'),
+    }
+
+    const cold = await renderDraftEmail(draft, { status: 'cold' })
+    const warm = await renderDraftEmail(draft, { status: 'warm' })
+
+    assert.match(cold.html, /Still reading\?/)
+    assert.match(cold.text, /Click any link/)
+    assert.doesNotMatch(cold.html, /<Conditional/)
+    assert.doesNotMatch(cold.html, /<Box/)
+    assert.doesNotMatch(warm.html, /Still reading\?/)
+    assert.doesNotMatch(warm.text, /Click any link/)
+  })
+
   it('lists available templates', () => {
     assert.deepEqual(
       listEmailTemplates().map((template) => template.key),

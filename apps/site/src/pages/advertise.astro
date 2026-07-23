@@ -14,15 +14,17 @@ const contactEmail = `sponsor@${new URL(siteUrl).hostname.replace(/^www\./, "")}
 
 // Rendered with the same components the real issues use, so the mockups
 // stay pixel-accurate to what sponsors actually get.
-const sponsorMockup = `::: sponsor
+const sponsorMockup = `<Sponsor>
 [Acme Crawler](https://example.com) finds the pages your sitemap forgot. It runs locally, reads your Search Console data, and tells you which fixes matter first. Ian's List readers get 20% off with the code IAN.
-:::`;
+</Sponsor>`;
 
-const classifiedMockup = `::: classifieds button="Book this slot ↗︎" button-url="mailto:${contactEmail}?subject=Classified on Ian's List"
+const classifiedMockup = `<Classifieds button="Book this slot ↗︎" button-url="mailto:${contactEmail}?subject=Classified on Ian's List">
+## Acme Crawler
 [Acme Crawler](https://example.com) finds the pages your sitemap forgot.
----
+
+## Shipfast Analytics
 [Shipfast Analytics](https://example.com) shows which AI agents visit your site.
-:::`;
+</Classifieds>`;
 const description =
   "Sponsor Ian's List, a weekly email for people building with AI, SEO, and small products.";
 const structuredData = webPageSchema({

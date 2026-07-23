@@ -26,6 +26,7 @@ describe('delivery planner', () => {
           email: 'opener@example.com',
           engagement: {
             contactId: 'opener',
+            totalSends: 9,
             totalClicks: 0,
             totalOpens: 12,
             lastOpenedAt: new Date('2026-06-19T00:00:00.000Z'),
@@ -36,6 +37,7 @@ describe('delivery planner', () => {
           email: 'clicker@example.com',
           engagement: {
             contactId: 'clicker',
+            totalSends: 9,
             totalClicks: 2,
             totalOpens: 4,
             lastClickedAt: new Date('2026-06-10T00:00:00.000Z'),
@@ -50,6 +52,9 @@ describe('delivery planner', () => {
     )
     assert.equal(plan[0]?.rankReason, 'prior_click')
     assert.equal(plan[1]?.rankReason, 'prior_open')
+    assert.equal(plan[0]?.status, 'warm')
+    assert.equal(plan[1]?.status, 'cold')
+    assert.equal(plan[2]?.status, 'new')
   })
 
   it('uses the default 1000 per hour cadence', () => {

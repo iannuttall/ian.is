@@ -25,7 +25,12 @@ import type {
   PurchaseRecord,
   RollupRebuildResult,
 } from './subscriber-intelligence.js'
-import type { DeliveryPolicyInput, DraftInput, EngagementSummary } from './types.js'
+import type {
+  DeliveryPolicyInput,
+  DraftInput,
+  EngagementSummary,
+  RecipientStatus,
+} from './types.js'
 
 export interface EmailPlatform {
   subscribe(input: {
@@ -148,7 +153,11 @@ export interface EmailPlatform {
   pauseBroadcast(id: string): Promise<{ paused: boolean }>
   resumeBroadcast(id: string): Promise<{ resumed: boolean }>
   cancelBroadcast(id: string): Promise<{ cancelled: boolean; skipped: number }>
-  sendTest(input: { draftId: string; to: string }): Promise<{ providerMessageId: string }>
+  sendTest(input: {
+    draftId: string
+    to: string
+    status?: RecipientStatus
+  }): Promise<{ providerMessageId: string }>
   sendSesSimulator(input: {
     draftId: string
     type: SesSimulatorType

@@ -1,5 +1,6 @@
 import { marked } from 'marked'
 import sanitizeHtml from 'sanitize-html'
+import { type IssueConditionContext, resolveIssueConditionals } from './issue-parser.js'
 import {
   emailTemplateDefinitions,
   isKnownEmailTemplate,
@@ -30,26 +31,34 @@ const allowedTags = [
   'img',
 ]
 
-export function renderDraft(input: DraftInput): RenderedEmail {
-  const contentHtml = renderMarkdownContent(input.bodyMarkdown)
-  return renderDefaultEmail(input, contentHtml)
+export function renderDraft(
+  input: DraftInput,
+  context: IssueConditionContext = {},
+): RenderedEmail {
+  const resolved = resolveDraft(input, context)
+  const contentHtml = renderMarkdownContent(resolved.bodyMarkdown)
+  return renderDefaultEmail(resolved, contentHtml)
 }
 
-export async function renderDraftEmail(input: DraftInput): Promise<RenderedEmail> {
+export async function renderDraftEmail(
+  input: DraftInput,
+  context: IssueConditionContext = {},
+): Promise<RenderedEmail> {
   if (!isKnownEmailTemplate(input.template)) {
     const known = emailTemplateDefinitions.map((definition) => definition.key).join(', ')
     throw new Error(
       `Unknown email template "${input.template}". Known templates: ${known}`,
     )
   }
-  const contentHtml = renderMarkdownContent(input.bodyMarkdown)
-  if (isReactEmailTemplate(input.template)) {
+  const resolved = resolveDraft(input, context)
+  const contentHtml = renderMarkdownContent(resolved.bodyMarkdown)
+  if (isReactEmailTemplate(resolved.template)) {
     return await renderReactEmailTemplate({
-      draft: input,
-      fallbackText: markdownToText(input.bodyMarkdown),
+      draft: resolved,
+      fallbackText: markdownToText(resolved.bodyMarkdown),
     })
   }
-  return renderDefaultEmail(input, contentHtml)
+  return renderDefaultEmail(resolved, contentHtml)
 }
 
 export function listEmailTemplates(): Array<{
@@ -111,6 +120,13 @@ export function markdownToText(markdown: string): string {
     .replace(/[*_~>]/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim()
+}
+
+function resolveDraft(input: DraftInput, context: IssueConditionContext): DraftInput {
+  return {
+    ...input,
+    bodyMarkdown: resolveIssueConditionals(input.bodyMarkdown, context),
+  }
 }
 
 function wrapEmailHtml(contentHtml: string, preview?: string): string {

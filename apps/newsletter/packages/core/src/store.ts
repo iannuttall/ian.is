@@ -189,6 +189,7 @@ export interface MessageRecord {
   attemptedAt?: Date
   failedAt?: Date
   error?: Record<string, unknown>
+  metadata: Record<string, unknown>
 }
 
 export interface EventRecord {

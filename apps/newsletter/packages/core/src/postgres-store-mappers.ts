@@ -165,6 +165,7 @@ export function mapMessage(row: MessageRow): MessageRecord {
     provider: row.provider,
     retryCount: row.retryCount,
     maxAttempts: row.maxAttempts,
+    metadata: row.metadata,
     ...(row.providerMessageId ? { providerMessageId: row.providerMessageId } : {}),
     ...(row.attemptedAt ? { attemptedAt: row.attemptedAt } : {}),
     ...(row.failedAt ? { failedAt: row.failedAt } : {}),

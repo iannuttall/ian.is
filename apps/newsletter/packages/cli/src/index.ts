@@ -8,6 +8,7 @@ import {
   type DraftInput,
   type EmailPlatform,
   loadConfig,
+  type RecipientStatus,
   runMigrations,
   runSendWorker,
   runSendWorkerOnce,
@@ -290,9 +291,18 @@ async function dispatch(parsed: ParsedArgs, input: CliRunInput): Promise<unknown
       }
       const draftId = getStringFlag(parsed, 'draft-id')
       const to = getStringFlag(parsed, 'to')
+      const status = getStringFlag(parsed, 'status')
       if (!draftId) throw new CliError('Missing --draft-id')
       if (!to) throw new CliError('Missing --to')
-      return await platform.sendTest({ draftId, to })
+      if (status && status !== 'new' && status !== 'warm' && status !== 'cold') {
+        throw new CliError('Invalid --status; expected new, warm, or cold')
+      }
+      const recipientStatus = status as RecipientStatus | undefined
+      return await platform.sendTest({
+        draftId,
+        to,
+        ...(recipientStatus ? { status: recipientStatus } : {}),
+      })
     }
 
     if (area === 'provider' && action === 'ses-simulator') {

@@ -88,11 +88,11 @@ const defaultResponsiveCss = `${issueResponsiveCss}
 `
 
 // Same reading-time rule as the site (issueReadingMinutes in apps/site):
-// ::: fence lines excluded, 220 words per minute, minimum one minute.
+// Component and legacy fence lines excluded, 220 words per minute, minimum one minute.
 function readingMinutes(markdown: string): number {
   const words = markdown
     .split(/\r?\n/)
-    .filter((line) => !/^:::/.test(line.trim()))
+    .filter((line) => !/^(:::|<\/?[A-Z][A-Za-z0-9]*\b)/.test(line.trim()))
     .join(' ')
     .split(/\s+/)
     .filter(Boolean).length
@@ -229,7 +229,7 @@ function defaultHeader(header: IssueSection | undefined, minutes?: number) {
 }
 
 function headerRow(header: IssueSection | undefined, minutes?: number) {
-  // ::: header name="Issue 001" renders "Issue 001 - 3 min read" top-right.
+  // <Header name="Issue 001" /> renders "Issue 001 - 3 min read" top-right.
   // Opt out with read-time="off".
   const name = header?.attrs.name
   const withTime =

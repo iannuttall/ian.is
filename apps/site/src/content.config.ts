@@ -47,7 +47,7 @@ const feed = defineCollection({
 });
 
 // Newsletter issues are the source of what list.ian.is sends. Body is plain
-// Markdown plus the shared `::: section` blocks (see src/lib/issues/parser.ts).
+// Markdown plus shared component-style blocks (see src/lib/issues/parser.ts).
 // `pnpm ian issue send <slug>` publishes the archive page and creates the
 // broadcast, then writes sentAt/broadcastId back here.
 const issues = defineCollection({

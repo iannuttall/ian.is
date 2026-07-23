@@ -44,8 +44,9 @@ Newsletter:
   pnpm ian newsletter cli -- <raw email cli args>
 
 Issues (apps/site/src/content/issues -> list.ian.is):
-  pnpm ian issue preview [slug]            render the email HTML locally
-  pnpm ian issue test [slug] [--to email]  prod draft + test send to you only
+  pnpm ian issue preview [slug] [--status cold]  render the email HTML locally
+  pnpm ian issue test [slug] [--to email] [--status cold]
+                                               prod draft + test send to you only
   pnpm ian issue send [slug] --yes         publish archive page, then broadcast
   (omit the slug to pick from a list)
 
@@ -82,6 +83,7 @@ Targets:
 
 Notes:
   Newsletter commands load apps/newsletter/.env.local when it exists.
+  Issue test sends require --to or IAN_TEST_EMAIL in root .env.local.
   The wrapper builds @email/cli automatically if dist/index.js is missing.
 `;
 }
@@ -289,7 +291,6 @@ function newsletter(argv) {
 
 const issuesDir = resolve(root, "apps/site/src/content/issues");
 const deployStatusUrl = "https://ian.is/.well-known/deploy.json";
-const defaultTestEmail = "ianpaulnuttall@gmail.com";
 
 function fail(message) {
   console.error(message);
@@ -488,14 +489,15 @@ async function issue(argv) {
   if (!parsed.frontmatter.subject) fail(`${slug} has no subject in frontmatter.`);
 
   if (command === "preview") {
+    const status = getOption(rest, "--status", "cold");
     const dir = mkdtempSync(join(tmpdir(), "ian-issue-"));
     const bodyFile = join(dir, `${slug}.md`);
     writeFileSync(bodyFile, parsed.body);
     // Mirrors issueReadingMinutes in apps/site/src/lib/issues.ts (220 wpm,
-    // ::: fence lines excluded).
+    // issue component and legacy fence lines excluded).
     const words = parsed.body
       .split(/\r?\n/)
-      .filter((line) => !/^:::/.test(line.trim()))
+      .filter((line) => !/^(:::|<\/?[A-Z][A-Za-z0-9]*\b)/.test(line.trim()))
       .join(" ")
       .split(/\s+/)
       .filter(Boolean).length;
@@ -508,6 +510,8 @@ async function issue(argv) {
       parsed.frontmatter.subject,
       "--body-file",
       bodyFile,
+      "--status",
+      status,
       "--out-dir",
       "apps/newsletter/rendered",
       "--json",
@@ -517,11 +521,14 @@ async function issue(argv) {
 
   if (command === "test") {
     const ssh = sshEnv();
-    const to = getOption(rest, "--to", defaultTestEmail);
+    const to = getOption(rest, "--to") ?? localEnv("IAN_TEST_EMAIL");
+    if (!to) fail("issue test needs --to or IAN_TEST_EMAIL in root .env.local.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) fail("issue test needs a valid email address.");
+    const status = getOption(rest, "--status", "cold");
     const draftId = remoteDraftCreate(ssh, parsed, slug);
     const output = sshCapture(
       ssh.target,
-      `${ssh.ops} broadcast test --yes --draft-id ${shellQuote(draftId)} --to ${shellQuote(to)} --json`,
+      `${ssh.ops} broadcast test --yes --draft-id ${shellQuote(draftId)} --to ${shellQuote(to)} --status ${shellQuote(status)} --json`,
     );
     console.log(output.trim());
     console.log(`Test sent to ${to}.`);

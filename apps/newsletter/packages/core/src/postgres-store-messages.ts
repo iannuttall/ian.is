@@ -39,6 +39,7 @@ export async function createPostgresMessages(
               sendRank: recipient.sendRank,
               rankReason: recipient.rankReason,
               engagementScore: recipient.engagementScore,
+              metadata: { recipientStatus: recipient.status },
               scheduledAt: recipient.scheduledAt,
               provider: 'ses',
               retryCount: 0,

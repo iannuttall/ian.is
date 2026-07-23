@@ -20,6 +20,7 @@ describe('EmailStore message claiming', () => {
         engagementScore: 0,
         sendRank: 0,
         rankReason: 'default',
+        status: 'new',
         scheduledAt: new Date(0),
       },
     ])
@@ -49,6 +50,7 @@ describe('EmailStore message claiming', () => {
         engagementScore: 0,
         sendRank: 0,
         rankReason: 'default',
+        status: 'new',
         scheduledAt: new Date(0),
       },
     ])
@@ -84,6 +86,7 @@ describe('EmailStore message claiming', () => {
         engagementScore: 0,
         sendRank: 0,
         rankReason: 'default',
+        status: 'new',
         scheduledAt: new Date(0),
       },
     ])
@@ -154,6 +157,7 @@ function plannedRecipient(
     engagementScore: 0,
     sendRank,
     rankReason: 'default' as const,
+    status: 'new' as const,
     scheduledAt,
   }
 }

@@ -12,6 +12,7 @@ export function plannedRecipient(
     engagementScore: 0,
     sendRank,
     rankReason: 'default',
+    status: 'new',
     scheduledAt,
   }
 }

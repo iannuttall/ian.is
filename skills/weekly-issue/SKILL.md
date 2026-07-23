@@ -182,12 +182,12 @@ feedback log.
 2. Write the issue into the Astro collection as
    `apps/site/src/content/issues/<slug>.md` — the slug is a slugified
    subject (it's the archive URL, so SEO matters), never an issue number;
-   numbering lives only in the `::: header name="Issue NNN"` label — with
+   numbering lives only in the `<Header name="Issue NNN" />` label — with
    frontmatter
    (`subject`, `preheader`, `pubDate`, `draft: true`) and the newsletter's
-   section blocks in the body (`links`, `box`, etc. — see
-   `apps/newsletter/README.md` template rules; `---` between multi-item
-   blocks, never bullets). Leave a clearly marked `[IAN WRITES THIS]`
+   component blocks in the body (`<Links>`, `<Box>`, etc. — see
+   `apps/newsletter/README.md` template rules; use Markdown headings for
+   multi-item blocks). Leave a clearly marked `[IAN WRITES THIS]`
    placeholder for the main thing, with the supporting material below it as
    comments. Include the sponsor slot placeholder.
 3. Render and check both surfaces:

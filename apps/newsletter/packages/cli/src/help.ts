@@ -33,7 +33,7 @@ Commands:
 
   Templates:
   email template list [--json]
-  email template render --subject SUBJECT (--body TEXT | --body-file PATH) [--template default] [--preview TEXT] [--out-dir PATH] [--json]
+  email template render --subject SUBJECT (--body TEXT | --body-file PATH) [--template default] [--preview TEXT] [--status new|warm|cold] [--out-dir PATH] [--json]
 
   Drafts and broadcasts:
   email draft create --subject SUBJECT (--body TEXT | --body-file PATH) [--template NAME] [--preview TEXT] [--metadata-file PATH] [--json]
@@ -50,7 +50,7 @@ Commands:
   email broadcast pause ID [--json]
   email broadcast resume ID [--json]
   email broadcast cancel ID [--json]
-  email broadcast test --yes --draft-id ID --to EMAIL [--json]
+  email broadcast test --yes --draft-id ID --to EMAIL [--status new|warm|cold] [--json]
 
   Analytics:
   email analytics links [--broadcast-id ID] [--topic TOPIC] [--tag TAG] [--sponsor NAME] [--limit N] [--json]

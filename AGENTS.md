@@ -250,8 +250,8 @@ Use raw `pnpm --filter ...` only when debugging package-level tooling.
   issues are authored in this repo: `apps/site/src/content/issues` is the source
   of what gets sent AND the public archive at `/issues`. The filename is the
   URL slug: slugify the subject (SEO), never an issue number — numbering
-  belongs in the email's `::: header name="Issue NNN"` label only. Body is
-  plain Markdown plus the `::: section` blocks from the newsletter's issue
+  belongs in the email's `<Header name="Issue NNN" />` label only. Body is
+  plain Markdown plus component-style blocks from the newsletter's issue
   dialect. Flow:
   write with `draft: true` → `pnpm ian issue preview <slug>` (email HTML) and
   `/issues/<slug>` in dev (web) → `pnpm ian issue test <slug>` (prod test send
