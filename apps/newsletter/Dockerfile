@@ -25,9 +25,19 @@ RUN printf '%s\n' \
   '  sharp: true' \
   '  workerd: true' \
   '' \
+  'minimumReleaseAgeExclude:' \
+  '  - "@hono/node-server@2.0.5"' \
+  '  - fast-uri@3.1.4' \
+  '  - sharp@0.35.0' \
+  '  - fast-xml-parser@5.10.1' \
+  '  - next@16.2.11' \
+  '' \
   'overrides:' \
+  '  "@hono/node-server@<2.0.5": ^2.0.5' \
   '  esbuild: 0.28.1' \
+  '  "next@>=16.0.0 <16.2.11": ^16.2.11' \
   '  postcss: 8.5.10' \
+  '  "sharp@<0.35.0": ^0.35.0' \
   '  yaml: 2.8.3' \
   > pnpm-workspace.yaml
 RUN pnpm install --frozen-lockfile --filter email --filter '@email/*'
