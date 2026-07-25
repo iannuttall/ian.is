@@ -2,7 +2,6 @@
 export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
-import PortmanMark from "@/components/portman/PortmanMark.astro";
 import PortmanDemo from "@/components/portman/PortmanDemo.astro";
 import PortmanActions from "@/components/portman/PortmanActions.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
@@ -40,7 +39,7 @@ const features = [
   },
   {
     title: "It catches wedged servers",
-    body: "A dev server holding its port but no longer answering looks identical to a healthy one everywhere else. portman probes each port and flags it: alive, but not responding.",
+    body: "A dev server holding its port but no longer answering looks identical to a healthy one everywhere else. Portman probes each port and flags it: alive, but not responding.",
   },
   {
     title: "It shows you the page",
@@ -48,7 +47,7 @@ const features = [
   },
   {
     title: "It groups port conflicts",
-    body: "When two things fight over 3000, they get their own heading with both contenders side by side — so you can see which to keep before you kill anything.",
+    body: "When two things fight over 3000, they get their own heading with both contenders side by side, so you can see which to keep before you kill anything.",
   },
   {
     title: "It knows about your dead ones",
@@ -63,7 +62,7 @@ const features = [
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "portman",
+  name: "Portman",
   applicationCategory: "DeveloperApplication",
   operatingSystem: `macOS ${minimumMacOS}+`,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -76,11 +75,11 @@ const structuredData = {
 ---
 
 <Layout
-  title="portman — see every port on your Mac"
-  description="A free macOS menu bar app that shows every listening port, which project owns it, and whether it's actually alive. Open source."
-  ogTitle="portman"
+  title="Portman: find and kill zombie dev servers"
+  description="A free macOS menu bar app that shows every listening port, which project owns it, and whether it's actually still alive. Kill the ones you forgot. Open source."
+  ogTitle="Portman"
   canonicalPath="/portman"
-  breadcrumbs={pageBreadcrumbs("portman", "/portman")}
+  breadcrumbs={pageBreadcrumbs("Portman", "/portman")}
   structuredData={structuredData}
 >
   <!-- Hero: same shape as the homepage — one column, heading, standfirst, then
@@ -89,18 +88,12 @@ const structuredData = {
     <div class="site-frame">
       <div class="flex flex-col gap-8 pt-16 sm:pt-24">
         <div class="flex max-w-2xl flex-col gap-4">
-          <div class="flex items-center gap-3">
-            <!-- The monogram on its own, inheriting the text colour so it flips
-                 to white in dark mode. No tile behind it. -->
-            <PortmanMark class="size-8 text-foreground xl:size-9" />
-            <h1 class="text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
-              portman
-            </h1>
-          </div>
+          <h1 class="text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
+            Find and kill ports still running dev servers on your Mac with Portman
+          </h1>
 
           <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
-            Every port on your Mac, and what's actually using it. A menu bar app that names your
-            dev servers by project and framework, and kills them in one click.
+            A menu bar app that names every dev server on your Mac, and kills the ones you forgot.
           </p>
         </div>
 
@@ -113,10 +106,10 @@ const structuredData = {
           architecture={architecture}
           stars={stars}
         />
-      </div>
 
-      <div class="pt-14 pb-16 sm:pt-16 sm:pb-24">
-        <PortmanDemo />
+        <!-- Last child with no bottom padding, so the section's border-b closes
+             the card — the treatment the newsletter gets on the homepage. -->
+        <PortmanDemo repo={repo} />
       </div>
     </div>
   </section>
