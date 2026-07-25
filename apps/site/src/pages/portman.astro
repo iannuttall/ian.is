@@ -1,0 +1,208 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import PortmanMark from "@/components/portman/PortmanMark.astro";
+import PortmanDemo from "@/components/portman/PortmanDemo.astro";
+import PortmanActions from "@/components/portman/PortmanActions.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+
+const repo = "iannuttall/portman";
+const version = "v0.2.0";
+const size = "8 MB";
+const minimumMacOS = "15";
+const downloadUrl = `https://github.com/${repo}/releases/latest`;
+
+/**
+ * Star count is fetched at build time so the page stays static. A failure here
+ * must never break the build — the button just renders without a count.
+ */
+let stars: number | null = null;
+
+try {
+  const response = await fetch(`https://api.github.com/repos/${repo}`, {
+    headers: { Accept: "application/vnd.github+json" },
+  });
+
+  if (response.ok) {
+    const data = (await response.json()) as { stargazers_count?: number };
+    stars = typeof data.stargazers_count === "number" ? data.stargazers_count : null;
+  }
+} catch {
+  stars = null;
+}
+
+const features = [
+  {
+    title: "It knows what your servers are",
+    body: "Not node (pid 10791). Astro · ian.is, with the project path, the git branch and the page title of whatever it's serving. Frameworks are read from package.json, lockfiles and Vite's dep cache.",
+  },
+  {
+    title: "It catches wedged servers",
+    body: "A dev server holding its port but no longer answering looks identical to a healthy one everywhere else. portman probes each port and flags it: alive, but not responding.",
+  },
+  {
+    title: "It shows you the page",
+    body: "Expand a row for a live thumbnail of localhost, so you can tell which of your six Astro servers is the one you actually wanted.",
+  },
+  {
+    title: "It groups port conflicts",
+    body: "When two things fight over 3000, they get their own heading with both contenders side by side — so you can see which to keep before you kill anything.",
+  },
+  {
+    title: "It knows about your dead ones",
+    body: "Servers whose project folder is gone, and the ones left behind by agent worktrees, fold into collapsed sections with a single Kill all.",
+  },
+  {
+    title: "It can share a port",
+    body: "One click opens a Cloudflare tunnel and copies a public URL, with the Host header rewritten so your dev server actually accepts the request.",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "portman",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: `macOS ${minimumMacOS}+`,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  license: "https://opensource.org/licenses/MIT",
+  url: "https://ian.is/portman",
+  downloadUrl,
+  softwareVersion: version.replace(/^v/, ""),
+  author: { "@type": "Person", name: "Ian Nuttall", url: "https://ian.is" },
+};
+---
+
+<Layout
+  title="portman — see every port on your Mac"
+  description="A free macOS menu bar app that shows every listening port, which project owns it, and whether it's actually alive. Open source."
+  ogTitle="portman"
+  canonicalPath="/portman"
+  breadcrumbs={pageBreadcrumbs("portman", "/portman")}
+  structuredData={structuredData}
+>
+  <!-- Hero: same shape as the homepage — one column, heading, standfirst, then
+       the thing itself underneath. -->
+  <section class="flex flex-col border-b border-border bg-background pt-4 text-foreground">
+    <div class="site-frame">
+      <div class="flex flex-col gap-8 pt-16 sm:pt-24">
+        <div class="flex max-w-2xl flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <!-- The monogram on its own, inheriting the text colour so it flips
+                 to white in dark mode. No tile behind it. -->
+            <PortmanMark class="size-8 text-foreground xl:size-9" />
+            <h1 class="text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
+              portman
+            </h1>
+          </div>
+
+          <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
+            Every port on your Mac, and what's actually using it. A menu bar app that names your
+            dev servers by project and framework, and kills them in one click.
+          </p>
+        </div>
+
+        <PortmanActions
+          repo={repo}
+          downloadUrl={downloadUrl}
+          version={version}
+          size={size}
+          minimumMacOS={minimumMacOS}
+          stars={stars}
+        />
+      </div>
+
+      <div class="pt-14 pb-16 sm:pt-16 sm:pb-24">
+        <PortmanDemo />
+      </div>
+    </div>
+  </section>
+
+  <!-- What it does -->
+  <section class="site-frame py-16 sm:py-24">
+    <h2 class="max-w-2xl text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+      Built for people running a lot of dev servers at once.
+    </h2>
+
+    <div class="mt-12 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+      {features.map((feature) => (
+        <div class="flex flex-col gap-2">
+          <h3 class="text-lg font-medium text-foreground">{feature.title}</h3>
+          <p class="text-pretty text-foreground-muted">{feature.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Trust: this asks for a lot of access, so say what it does and doesn't do -->
+  <section class="border-t border-border bg-background-subtle">
+    <div class="site-frame py-16 sm:py-24">
+      <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+        <div class="flex flex-col gap-3">
+          <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px]">
+            It reads your processes. Here's exactly what that means.
+          </h2>
+          <p class="text-foreground-muted">
+            A port manager needs real access to your machine, and you should be suspicious of
+            anything that asks for it. So all of this is checkable.
+          </p>
+        </div>
+
+        <dl class="flex flex-col gap-6">
+          <div class="flex flex-col gap-1">
+            <dt class="font-medium text-foreground">Nothing leaves your Mac</dt>
+            <dd class="text-foreground-muted">
+              No analytics, no telemetry, no accounts. The only network requests are to your own
+              localhost ports, and to Cloudflare if you explicitly share one.
+            </dd>
+          </div>
+          <div class="flex flex-col gap-1">
+            <dt class="font-medium text-foreground">Signed and notarised by Apple</dt>
+            <dd class="text-foreground-muted">
+              So macOS can verify it hasn't been tampered with since I built it.
+            </dd>
+          </div>
+          <div class="flex flex-col gap-1">
+            <dt class="font-medium text-foreground">Open source, MIT licensed</dt>
+            <dd class="text-foreground-muted">
+              Every line is on
+              <a
+                href={`https://github.com/${repo}`}
+                class="underline decoration-border-strong underline-offset-2 hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
+              >GitHub</a>, including the build scripts. Build it yourself if you'd rather.
+            </dd>
+          </div>
+          <div class="flex flex-col gap-1">
+            <dt class="font-medium text-foreground">Verify what you downloaded</dt>
+            <dd class="text-foreground-muted">
+              Every release publishes a SHA-256 checksum. Compare it against the file you got:
+            </dd>
+            <code class="mt-2 block overflow-x-auto rounded-lg border border-border bg-background-raised px-3 py-2 font-mono text-[13px] text-foreground">
+              shasum -a 256 ~/Downloads/portman-{version.replace(/^v/, "")}.dmg
+            </code>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="site-frame py-16 sm:py-24">
+    <div class="flex flex-col items-start gap-6">
+      <h2 class="max-w-xl text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+        Free, open source, and it stays out of your way.
+      </h2>
+      <PortmanActions
+        repo={repo}
+        downloadUrl={downloadUrl}
+        version={version}
+        size={size}
+        minimumMacOS={minimumMacOS}
+        stars={stars}
+      />
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,180 @@
+---
+/**
+ * An interactive replica of portman's panel.
+ *
+ * Not a screenshot: the rows behave the way the real app does. Hovering reveals
+ * Kill and Open, and killing a server slides the row out, drops the count, and
+ * lets it come back a few seconds later the way a restarted dev server does.
+ */
+---
+
+<div
+  class="relative w-full max-w-[460px] select-none"
+  x-data="portmanDemo"
+  x-init="init()"
+>
+  <div
+    class="overflow-hidden rounded-2xl border border-border bg-background-raised shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-8px_rgba(0,0,0,0.12)]"
+  >
+    <!-- Search bar, matching the app's header -->
+    <div class="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
+      <svg class="size-3.5 shrink-0 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+      </svg>
+      <span class="text-[13px] text-foreground-soft">Search ports, projects, frameworks…</span>
+    </div>
+
+    <ul class="divide-y divide-border-subtle" role="list">
+      <template x-for="row in rows" :key="row.id">
+        <li
+          class="group relative flex items-center gap-3 px-4 py-3 transition-all duration-300"
+          :class="row.killing ? 'translate-x-6 opacity-0' : 'translate-x-0 opacity-100'"
+          @mouseenter="hovered = row.id"
+          @mouseleave="hovered = null"
+        >
+          <span
+            class="size-2 shrink-0 rounded-full transition-colors"
+            :class="row.hung ? 'bg-amber-500' : 'bg-emerald-500'"
+          ></span>
+
+          <div class="min-w-0 flex-1">
+            <div class="flex items-baseline gap-2">
+              <span class="truncate text-[15px] font-medium text-foreground" x-text="row.name"></span>
+              <span class="font-mono text-[13px] text-emerald-600 dark:text-emerald-400" x-text="':' + row.port"></span>
+              <template x-if="row.conflict">
+                <span class="rounded bg-amber-500/15 px-1.5 py-px text-[10px] font-medium text-amber-700 dark:text-amber-400">
+                  conflict
+                </span>
+              </template>
+            </div>
+
+            <div class="mt-0.5 flex items-center gap-1.5 text-[12px] text-foreground-soft">
+              <svg class="size-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="4" cy="4" r="1.75" stroke="currentColor" stroke-width="1.2"></circle>
+                <circle cx="4" cy="12" r="1.75" stroke="currentColor" stroke-width="1.2"></circle>
+                <circle cx="12" cy="4" r="1.75" stroke="currentColor" stroke-width="1.2"></circle>
+                <path d="M4 5.75v4.5M5.75 4h4.5M12 5.75c0 2.5-2 3-4 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+              </svg>
+              <span class="truncate" x-text="row.meta"></span>
+            </div>
+          </div>
+
+          <!-- Absolutely positioned: laid out in the flow these would reserve
+               width even while hidden, squeezing the meta line into an ellipsis. -->
+          <div
+            class="absolute right-3 z-10 flex items-center gap-1 rounded-lg bg-background-raised pl-6 transition-opacity duration-150"
+            :class="hovered === row.id ? 'opacity-100' : 'pointer-events-none opacity-0'"
+          >
+            <button
+              type="button"
+              class="rounded-md bg-red-500/10 px-2.5 py-1 text-[12px] font-medium text-red-600 transition-colors hover:bg-red-500 hover:text-white dark:text-red-400 dark:hover:text-white"
+              @click="kill(row)"
+            >
+              Kill
+            </button>
+            <button
+              type="button"
+              class="rounded-md bg-foreground/[0.06] px-2.5 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-foreground/10"
+              @click="open(row)"
+            >
+              Open
+            </button>
+          </div>
+        </li>
+      </template>
+    </ul>
+
+    <div class="flex items-center justify-between border-t border-border-subtle px-4 py-2.5">
+      <span class="text-[12px] text-foreground-soft">
+        <span x-text="rows.filter(r => !r.killing).length"></span> servers listening
+      </span>
+      <span
+        class="text-[12px] text-foreground-soft transition-opacity duration-300"
+        :class="note ? 'opacity-100' : 'opacity-0'"
+        x-text="note || ' '"
+      ></span>
+    </div>
+  </div>
+
+  <p class="mt-3 text-center text-[13px] text-foreground-soft">
+    Hover a row, then hit Kill. It comes back, the way a dev server does.
+  </p>
+</div>
+
+<script>
+  import type { Alpine } from "alpinejs";
+
+  type DemoRow = {
+    id: number;
+    name: string;
+    port: number;
+    meta: string;
+    conflict?: boolean;
+    hung?: boolean;
+    killing: boolean;
+  };
+
+  const SEED: Omit<DemoRow, "killing">[] = [
+    { id: 1, name: "ian.is", port: 4321, meta: "main · Astro 5.2 · 4h 12m" },
+    { id: 2, name: "seoskill", port: 3000, meta: "feat/reports •3 · Next.js · 1d 2h" },
+    { id: 3, name: "keep", port: 5173, meta: "main · Vite · 22m" },
+    { id: 4, name: "ianis/db", port: 5432, meta: "Docker · postgres:16 · 4d 22h" },
+  ];
+
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: Alpine }).Alpine;
+
+    alpine.data("portmanDemo", () => ({
+      rows: [] as DemoRow[],
+      hovered: null as number | null,
+      note: "",
+      timers: [] as number[],
+
+      init() {
+        this.rows = SEED.map((row) => ({ ...row, killing: false }));
+        // Anything scheduled has to be cancellable, or a row can come back
+        // after the component is gone.
+        addEventListener("beforeunload", () => this.timers.forEach(clearTimeout));
+      },
+
+      kill(row: DemoRow) {
+        if (row.killing) return;
+
+        row.killing = true;
+        this.hovered = null;
+        this.note = `Killed :${row.port}`;
+
+        // Drops out of the list once the slide finishes, then comes back — the
+        // real app suppresses a killed port for a few seconds so it can't
+        // flicker back before the next scan confirms it.
+        this.timers.push(
+          window.setTimeout(() => {
+            this.rows = this.rows.filter((r) => r.id !== row.id);
+          }, 320),
+        );
+
+        this.timers.push(
+          window.setTimeout(() => {
+            const index = SEED.findIndex((r) => r.id === row.id);
+            const restored: DemoRow = { ...SEED[index], killing: true };
+            this.rows.splice(Math.min(index, this.rows.length), 0, restored);
+            this.note = `:${row.port} restarted`;
+
+            requestAnimationFrame(() => {
+              const found = this.rows.find((r) => r.id === row.id);
+              if (found) found.killing = false;
+            });
+
+            this.timers.push(window.setTimeout(() => (this.note = ""), 2200));
+          }, 2600),
+        );
+      },
+
+      open(row: DemoRow) {
+        this.note = `Opened localhost:${row.port}`;
+        this.timers.push(window.setTimeout(() => (this.note = ""), 1800));
+      },
+    }));
+  });
+</script>
