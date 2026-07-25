@@ -5,12 +5,13 @@ type Props = {
   version: string;
   size: string;
   minimumMacOS: string;
+  architecture: string;
   stars: number | null;
 };
 
 import { getButtonClasses } from "@/components/ui/button";
 
-const { repo, downloadUrl, version, size, minimumMacOS, stars } = Astro.props;
+const { repo, downloadUrl, version, size, minimumMacOS, architecture, stars } = Astro.props;
 
 const starsLabel =
   stars === null ? "Open source" : `${stars.toLocaleString("en-US")} stars · MIT licensed`;
@@ -68,7 +69,7 @@ const starsLabel =
   <!-- The quiet line under the buttons, one detail per side -->
   <div class="flex flex-wrap items-center gap-x-6 gap-y-1 text-[13px] text-foreground-soft">
     <span>
-      {version} · {size} · macOS {minimumMacOS}+
+      {version} · {size} · macOS {minimumMacOS}+ · {architecture}
     </span>
     <a
       href={`https://github.com/${repo}#verify-the-download`}
