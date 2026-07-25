@@ -9,9 +9,9 @@ import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 
 const repo = "iannuttall/portman";
 const version = "v0.2.0";
-const size = "3.3 MB";
+const size = "4.1 MB";
 const minimumMacOS = "15";
-const architecture = "Apple Silicon";
+const architecture = "Apple Silicon & Intel";
 const downloadUrl = `https://github.com/${repo}/releases/latest`;
 
 /**
@@ -65,7 +65,7 @@ const structuredData = {
   "@type": "SoftwareApplication",
   name: "portman",
   applicationCategory: "DeveloperApplication",
-  operatingSystem: `macOS ${minimumMacOS}+ (${architecture})`,
+  operatingSystem: `macOS ${minimumMacOS}+`,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   license: "https://opensource.org/licenses/MIT",
   url: "https://ian.is/portman",
