@@ -177,6 +177,18 @@ function pendingQuestions() {
   );
 }
 
+function localDraftPath(row) {
+  if (!row.slug) return undefined;
+  return join(CONTENT_DIR, `${assertSafeSlug(row.slug)}.md`);
+}
+
+function questionsMissingLocally(rows = pendingQuestions()) {
+  return rows.filter((row) => {
+    const path = localDraftPath(row);
+    return !path || !existsSync(path);
+  });
+}
+
 function list() {
   const rows = flags.has("--all")
     ? d1(
@@ -205,22 +217,70 @@ function list() {
 }
 
 function check() {
-  const rows = pendingQuestions();
+  const rows = questionsMissingLocally();
   if (rows.length === 0) {
-    console.log("No pending AMA questions.");
+    console.log("No new AMA questions to pull.");
     return;
   }
 
   const count = rows.length;
   const noun = count === 1 ? "question" : "questions";
   const newest = truncate(oneLine(rows.at(-1)?.question ?? ""), 120);
-  const message = `You have ${count} pending AMA ${noun}. Newest: ${newest}`;
+  const message = `You have ${count} new AMA ${noun} to pull. Newest: ${newest}`;
   console.log(message);
   reportAttention(
     "AMA inbox",
     message,
-    "pnpm ian ama answer --remote",
+    "pnpm ian ama pull --remote",
   );
+}
+
+function pull() {
+  const rows = pendingQuestions();
+  if (rows.length === 0) {
+    console.log("No pending AMA questions.");
+    return;
+  }
+
+  mkdirSync(CONTENT_DIR, { recursive: true });
+  let created = 0;
+  let alreadyLocal = 0;
+
+  for (const row of rows) {
+    const existingPath = localDraftPath(row);
+    if (existingPath && existsSync(existingPath)) {
+      alreadyLocal += 1;
+      continue;
+    }
+
+    const slug = row.slug
+      ? assertSafeSlug(row.slug)
+      : slugify(row.question);
+    const target = join(CONTENT_DIR, `${slug}.md`);
+
+    if (row.slug !== slug) {
+      d1(
+        `UPDATE ama_questions SET slug = ${sqlQuote(slug)} WHERE id = ${sqlQuote(row.id)}`,
+      );
+    }
+
+    writeFileSync(
+      target,
+      `${frontmatter(row, isoDate(), { draft: true })}\n\n`,
+      "utf8",
+    );
+    created += 1;
+  }
+
+  if (created === 0) {
+    console.log(`All ${alreadyLocal} pending AMA questions are already local.`);
+    return;
+  }
+
+  console.log(`Pulled ${created} AMA draft${created === 1 ? "" : "s"} into src/content/ama.`);
+  if (alreadyLocal > 0) {
+    console.log(`${alreadyLocal} already local.`);
+  }
 }
 
 /** Match a full id or a unique prefix, git-style. */
@@ -239,18 +299,28 @@ function findByIdPrefix(rows, id) {
   return matches[0];
 }
 
+function findByIdOrSlug(rows, reference) {
+  const slugMatches = rows.filter((row) => row.slug === reference);
+  if (slugMatches.length === 1) return slugMatches[0];
+  if (slugMatches.length > 1) {
+    console.error(`Ambiguous slug ${reference}`);
+    process.exit(1);
+  }
+  return findByIdPrefix(rows, reference);
+}
+
 function show(id) {
   const rows = d1("SELECT * FROM ama_questions");
   console.log(JSON.stringify(findByIdPrefix(rows, id), null, 2));
 }
 
-function hide(id) {
-  const rows = d1("SELECT id FROM ama_questions");
-  const row = findByIdPrefix(rows, id);
+function hide(reference) {
+  const rows = d1("SELECT id, slug FROM ama_questions");
+  const row = findByIdOrSlug(rows, reference);
   d1(
     `UPDATE ama_questions SET status = 'hidden' WHERE id = ${sqlQuote(row.id)}`,
   );
-  console.log(`Hidden ${row.id}`);
+  console.log(`Hidden ${row.slug ?? row.id}.`);
 }
 
 function seed() {
@@ -440,20 +510,22 @@ function help() {
 Usage:
   pnpm ian ama list [--all] [--remote]
   pnpm ian ama check [--remote]
+  pnpm ian ama pull [--remote]
   pnpm ian ama show <id> [--remote]
   pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug] [--yes] [--remote]
   pnpm ian ama publish [slug|id] [--remote]
-  pnpm ian ama hide <id> [--remote]
+  pnpm ian ama hide <id|slug> [--remote]
   pnpm ian ama seed
 
 Questions live in the ${DB_NAME} D1 database (local state by default; pass
 --remote for production). Answers are markdown files in src/content/ama and
 publish through a normal git push.
 
-answer creates the draft file (draft: true, hidden from builds) and opens it
-in VS Code; publish clears the draft flag once the answer is written. Set
-IAN_OPEN_CMD to open drafts in a different app. --file skips the draft stage
-and publishes the given markdown body immediately.`);
+pull creates local draft files for every pending question without overwriting
+existing files. answer opens one draft in VS Code; publish clears the draft
+flag once the answer is written. hide removes a question from the inbox but
+keeps its database record. Set IAN_OPEN_CMD to open drafts in a different app.
+--file skips the draft stage and publishes the given markdown body immediately.`);
 }
 
 try {
@@ -463,6 +535,8 @@ try {
     list();
   } else if (command === "check") {
     check();
+  } else if (command === "pull") {
+    pull();
   } else if (command === "show") {
     show(positional[0] ?? "");
   } else if (command === "hide") {

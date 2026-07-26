@@ -51,12 +51,13 @@ Issues (apps/site/src/content/issues -> list.ian.is):
   (omit the slug to pick from a list)
 
 AMA:
-  pnpm ian ama list [--all]
+  pnpm ian ama list [--all] [--remote]
   pnpm ian ama check [--remote]
-  pnpm ian ama show <id>
-  pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug]
-  pnpm ian ama publish [slug|id]
-  pnpm ian ama hide <id>
+  pnpm ian ama pull [--remote]
+  pnpm ian ama show <id> [--remote]
+  pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug] [--remote]
+  pnpm ian ama publish [slug|id] [--remote]
+  pnpm ian ama hide <id|slug> [--remote]
   pnpm ian ama seed
 
 Feed:
