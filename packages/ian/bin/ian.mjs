@@ -52,6 +52,7 @@ Issues (apps/site/src/content/issues -> list.ian.is):
 
 AMA:
   pnpm ian ama list [--all]
+  pnpm ian ama check [--remote]
   pnpm ian ama show <id>
   pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug]
   pnpm ian ama publish [slug|id]

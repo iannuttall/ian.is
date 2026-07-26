@@ -5,7 +5,13 @@
 // an app; `publish` clears the draft flag and marks the D1 row, then a
 // normal git push publishes it through the regular site build.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  writeFileSync,
+} from "node:fs";
 import { join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import * as p from "@clack/prompts";
@@ -13,6 +19,7 @@ import * as p from "@clack/prompts";
 const SITE_DIR = resolve(import.meta.dirname, "..");
 const CONTENT_DIR = resolve(SITE_DIR, "src/content/ama");
 const DB_NAME = "ian-db";
+const SCHEDULER_EVENT_FILE = "SCHEDULER_EVENT_FILE";
 
 const argv = process.argv.slice(2);
 const command = argv[0];
@@ -88,6 +95,26 @@ function isoDate(value) {
 
 function truncate(value, length) {
   return value.length > length ? `${value.slice(0, length - 1)}…` : value;
+}
+
+function oneLine(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function reportAttention(title, message, nextStep) {
+  const path = process.env[SCHEDULER_EVENT_FILE];
+  if (!path) return;
+
+  const temporaryPath = `${path}.${process.pid}.tmp`;
+  writeFileSync(
+    temporaryPath,
+    `${JSON.stringify(
+      { kind: "attention", title, message, nextStep },
+      null,
+      2,
+    )}\n`,
+  );
+  renameSync(temporaryPath, path);
 }
 
 function slugify(question) {
@@ -175,6 +202,25 @@ function list() {
     console.log(`  asked: ${row.created_at}${slugNote}`);
     console.log();
   }
+}
+
+function check() {
+  const rows = pendingQuestions();
+  if (rows.length === 0) {
+    console.log("No pending AMA questions.");
+    return;
+  }
+
+  const count = rows.length;
+  const noun = count === 1 ? "question" : "questions";
+  const newest = truncate(oneLine(rows.at(-1)?.question ?? ""), 120);
+  const message = `You have ${count} pending AMA ${noun}. Newest: ${newest}`;
+  console.log(message);
+  reportAttention(
+    "AMA inbox",
+    message,
+    "pnpm ian ama answer --remote",
+  );
 }
 
 /** Match a full id or a unique prefix, git-style. */
@@ -393,6 +439,7 @@ function help() {
 
 Usage:
   pnpm ian ama list [--all] [--remote]
+  pnpm ian ama check [--remote]
   pnpm ian ama show <id> [--remote]
   pnpm ian ama answer [id] [--file answer.md] [--slug custom-slug] [--yes] [--remote]
   pnpm ian ama publish [slug|id] [--remote]
@@ -414,6 +461,8 @@ try {
     help();
   } else if (command === "list") {
     list();
+  } else if (command === "check") {
+    check();
   } else if (command === "show") {
     show(positional[0] ?? "");
   } else if (command === "hide") {
