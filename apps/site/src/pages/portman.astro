@@ -89,57 +89,52 @@ const structuredData = {
 
   <PortmanFeatures />
 
-  <section class="bg-background-subtle">
-    <div class="site-frame py-16 sm:py-24">
-      <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
-        <div class="flex flex-col gap-3">
-          <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px]">
-            It reads your processes. Here's exactly what that means.
-          </h2>
-          <p class="text-foreground-muted">
-            A port manager needs real access to your machine, and you should be suspicious of
-            anything that asks for it. So all of this is checkable.
-          </p>
-        </div>
-
-        <dl class="flex flex-col gap-6">
-          <div class="flex flex-col gap-1">
-            <dt class="font-medium text-foreground">Nothing leaves your Mac</dt>
-            <dd class="text-foreground-muted">
-              No analytics, no telemetry, no accounts. The only network requests are to your own
-              localhost ports, and to Cloudflare if you explicitly share one.
-            </dd>
-          </div>
-          <div class="flex flex-col gap-1">
-            <dt class="font-medium text-foreground">Signed and notarised by Apple</dt>
-            <dd class="text-foreground-muted">
-              So macOS can verify it hasn't been tampered with since I built it.
-            </dd>
-          </div>
-          <div class="flex flex-col gap-1">
-            <dt class="font-medium text-foreground">Open source, MIT licensed</dt>
-            <dd class="text-foreground-muted">
-              Every line is on
-              <a
-                href={`https://github.com/${repo}`}
-                class="underline decoration-border-strong underline-offset-2 hover:text-foreground"
-                target="_blank"
-                rel="noopener noreferrer"
-              >GitHub</a>, including the build scripts. Build it yourself if you'd rather.
-            </dd>
-          </div>
-          <div class="flex flex-col gap-1">
-            <dt class="font-medium text-foreground">Verify what you downloaded</dt>
-            <dd class="text-foreground-muted">
-              Every release publishes a SHA-256 checksum. Compare it against the file you got:
-            </dd>
-            <code class="mt-2 block overflow-x-auto rounded-lg border border-border bg-background-raised px-3 py-2 font-mono text-[13px] text-foreground">
-              shasum -a 256 ~/Downloads/portman-{version.replace(/^v/, "")}.dmg
-            </code>
-          </div>
-        </dl>
-      </div>
+  <section class="site-frame py-16 sm:py-24">
+    <div class="flex max-w-2xl flex-col gap-3">
+      <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+        It reads your processes. Here's exactly what that means.
+      </h2>
+      <p class="text-pretty text-foreground-muted">
+        A port manager needs real access to your machine, and you should be suspicious of
+        anything that asks for it. So all of this is checkable.
+      </p>
     </div>
+
+    <dl class="mt-10 grid gap-x-12 gap-y-8 sm:mt-12 sm:grid-cols-2">
+      <div class="flex flex-col gap-1">
+        <dt class="font-medium text-foreground">Nothing leaves your Mac</dt>
+        <dd class="text-pretty text-foreground-muted">
+          No analytics, no telemetry, no accounts. The only network requests are to your own
+          localhost ports, and to Cloudflare if you explicitly share one.
+        </dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-medium text-foreground">Signed and notarised by Apple</dt>
+        <dd class="text-pretty text-foreground-muted">
+          So macOS can verify it hasn't been tampered with since I built it.
+        </dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-medium text-foreground">Open source, MIT licensed</dt>
+        <dd class="text-pretty text-foreground-muted">
+          Every line is on <a
+            href={`https://github.com/${repo}`}
+            class="underline decoration-border-strong underline-offset-2 hover:text-foreground"
+            target="_blank"
+            rel="noopener noreferrer">GitHub</a>, including the build scripts. Build it yourself
+          if you'd rather.
+        </dd>
+      </div>
+      <div class="flex flex-col gap-1">
+        <dt class="font-medium text-foreground">Verify what you downloaded</dt>
+        <dd class="text-pretty text-foreground-muted">
+          Every release publishes a SHA-256 checksum. Compare it against the file you got.
+        </dd>
+        <code class="mt-2 block overflow-x-auto rounded-lg border border-border bg-background-raised px-3 py-2 font-mono text-[13px] whitespace-nowrap text-foreground">
+          shasum -a 256 portman-{version.replace(/^v/, "")}.dmg
+        </code>
+      </div>
+    </dl>
   </section>
 
   <section class="site-frame py-16 sm:py-24">
