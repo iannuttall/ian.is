@@ -7,6 +7,14 @@ type Cached = {
   at: number;
 };
 
+type GithubStarsStore = {
+  counts: Record<string, number | null>;
+  requested: Record<string, true>;
+  label: (repo: string) => string;
+  load: (repo: string, initial: number | null) => void;
+  refresh: (repo: string) => Promise<void>;
+};
+
 function read(repo: string): Cached | null {
   try {
     const raw = window.localStorage.getItem(`gh-stars:${repo}`);
@@ -34,14 +42,14 @@ export function registerGithubStars(Alpine: AlpineRuntime) {
     counts: {} as Record<string, number | null>,
     requested: {} as Record<string, true>,
 
-    label(repo: string) {
+    label(this: GithubStarsStore, repo: string) {
       const count = this.counts[repo];
       if (typeof count !== "number") return "Open source";
 
       return `${count.toLocaleString("en-US")} ${count === 1 ? "star" : "stars"} · Open source`;
     },
 
-    load(repo: string, initial: number | null) {
+    load(this: GithubStarsStore, repo: string, initial: number | null) {
       // The buttons appear more than once per page. Every instance calls this,
       // and only the first gets past here, so one repo means one request.
       if (this.requested[repo]) return;
@@ -55,7 +63,7 @@ export function registerGithubStars(Alpine: AlpineRuntime) {
       void this.refresh(repo);
     },
 
-    async refresh(repo: string) {
+    async refresh(this: GithubStarsStore, repo: string) {
       try {
         const response = await fetch(`https://api.github.com/repos/${repo}`, {
           headers: { Accept: "application/vnd.github+json" },
