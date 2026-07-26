@@ -1,0 +1,40 @@
+---
+/**
+ * The grid a set of FeatureCards sits in, with an optional section heading.
+ *
+ * Two columns by default because three narrow cards squeeze their
+ * illustrations; pass columns={3} when the visuals are simple enough to hold up
+ * small. Cards go in the slot so a page decides its own order and content.
+ */
+
+import { cn } from "@/lib/utils";
+
+type Props = {
+  heading?: string;
+  /** Sits under the heading, for the sentence that sets the cards up. */
+  standfirst?: string;
+  columns?: 2 | 3;
+  class?: string;
+};
+
+const { heading, standfirst, columns = 3, class: className } = Astro.props;
+
+const columnClass = columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3";
+---
+
+<section class={cn("site-frame py-16 sm:py-24", className)}>
+  {
+    heading ? (
+      <div class="flex max-w-2xl flex-col gap-3">
+        <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+          {heading}
+        </h2>
+        {standfirst ? <p class="text-pretty text-foreground-muted">{standfirst}</p> : null}
+      </div>
+    ) : null
+  }
+
+  <div class={cn("grid gap-4", columnClass, heading ? "mt-10 sm:mt-12" : "")}>
+    <slot />
+  </div>
+</section>

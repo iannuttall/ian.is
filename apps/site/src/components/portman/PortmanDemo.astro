@@ -21,13 +21,9 @@ const { repo } = Astro.props;
   x-data={`portmanDemo(${JSON.stringify({ repo })})`}
   x-init="init()"
 >
-  <!-- Top-rounded with no bottom edge, so the hero section's border-b closes the
-       card. Same treatment the newsletter gets on the homepage; a fully rounded
-       card floating above the divider is the thing this is deliberately not. -->
   <div
     class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
   >
-    <!-- Search bar, matching the app's header -->
     <div class="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
       <svg class="size-3.5 shrink-0 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"></circle>
@@ -36,10 +32,6 @@ const { repo } = Astro.props;
       <span class="text-[13px] text-foreground-soft">Search ports, projects, frameworks…</span>
     </div>
 
-    <!-- The list reserves four rows whatever it's currently holding. Killing a
-         row collapses it and everything below slides up, so without a floor the
-         card would shorten — and the card's bottom edge is the section divider,
-         so the whole page below would jump. -->
     <ul
       class="min-h-[var(--demo-list-h)] divide-y divide-border-subtle [--demo-list-h:283px] [--demo-row-h:72px]"
       role="list"
@@ -67,16 +59,11 @@ const { repo } = Astro.props;
               </template>
             </div>
 
-            <!-- No branch icon: the app's second line is deliberately one piece
-                 of text with nothing that can shove anything else sideways as
-                 figures refresh, so it doesn't have one either. -->
             <div class="mt-0.5 text-[12px] text-foreground-soft">
               <span class="truncate" x-text="row.meta"></span>
             </div>
           </div>
 
-          <!-- Absolutely positioned: laid out in the flow these would reserve
-               width even while hidden, squeezing the meta line into an ellipsis. -->
           <div
             class="absolute right-3 z-10 flex items-center gap-1 rounded-lg bg-background-raised pl-6 transition-opacity duration-150"
             :class="hovered === row.id ? 'opacity-100' : 'pointer-events-none opacity-0'"

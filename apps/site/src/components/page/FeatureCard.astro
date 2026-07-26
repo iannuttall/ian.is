@@ -1,0 +1,78 @@
+---
+/**
+ * A feature card: an illustration above, a title and a line of copy below.
+ *
+ * The illustration is a slot rather than an image prop on purpose — these are
+ * built out of the same tokens as the rest of the site, so they stay sharp,
+ * theme correctly, and cost nothing to load. Pass markup, not a PNG.
+ *
+ * Generic by design: any landing page can use it. Anything product-specific
+ * belongs in the slot, never in here.
+ */
+
+import { cn } from "@/lib/utils";
+
+type Props = {
+  title: string;
+  description: string;
+  /** Position in the grid, so the entrance can stagger. */
+  index?: number;
+  class?: string;
+};
+
+const { title, description, index = 0, class: className } = Astro.props;
+
+// Capped: past a handful of cards a longer delay reads as the page being slow
+// rather than as a sequence.
+const delay = Math.min(index, 5) * 70;
+---
+
+<div
+  class={cn(
+    "feature-card group flex flex-col overflow-hidden rounded-2xl bg-foreground/[0.04]",
+    className,
+  )}
+  style={`--feature-delay:${delay}ms`}
+>
+  <div
+    class="relative flex h-[13rem] shrink-0 items-center justify-center overflow-hidden px-6"
+    aria-hidden="true"
+  >
+    <slot />
+  </div>
+
+  <div class="flex flex-col gap-1 p-5 pt-0">
+    <h3 class="text-lg font-medium -tracking-[0.2px] text-foreground">{title}</h3>
+    <p class="text-pretty text-[15px]/relaxed text-foreground-muted">{description}</p>
+  </div>
+</div>
+
+<style>
+  /* Blur on the way in, so the card resolves rather than just sliding. Runs
+     once on load; there's no scroll observer to keep alive. */
+  .feature-card {
+    animation: feature-card-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--feature-delay, 0ms);
+  }
+
+  @keyframes feature-card-in {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  /* No entrance at all for anyone who's asked for less movement — and no
+     lingering opacity:0, which is how these things end up invisible. */
+  @media (prefers-reduced-motion: reduce) {
+    .feature-card {
+      animation: none;
+    }
+  }
+</style>

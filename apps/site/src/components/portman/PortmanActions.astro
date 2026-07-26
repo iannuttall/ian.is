@@ -19,7 +19,6 @@ const starsLabel =
 
 <div class="flex flex-col gap-3">
   <div class="flex flex-wrap items-center gap-3">
-    <!-- Download -->
     <a
       href={downloadUrl}
       class:list={[getButtonClasses("default", "lg"), "group/download no-underline"]}
@@ -32,9 +31,6 @@ const starsLabel =
       Download for macOS
     </a>
 
-    <!-- Star on GitHub. Stars are emitted by the starEmitter Alpine component
-         for as long as it's hovered — randomised size, drift and rise, so a
-         second hover never looks like a replay of the first. -->
     <div
       class="relative flex flex-col items-start"
       x-data="starEmitter"
@@ -66,7 +62,6 @@ const starsLabel =
     </div>
   </div>
 
-  <!-- The quiet line under the buttons, one detail per side -->
   <div class="flex flex-wrap items-center gap-x-6 gap-y-1 text-[13px] text-foreground-soft">
     <span>
       {version} · {size} · macOS {minimumMacOS}+ · {architecture}
