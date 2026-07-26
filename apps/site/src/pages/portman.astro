@@ -15,7 +15,6 @@ const repo = "iannuttall/portman";
 const version = "v0.2.0";
 const size = "4.2 MB";
 const minimumMacOS = "15";
-const architecture = "Apple Silicon & Intel";
 const downloadUrl = `https://github.com/${repo}/releases/latest`;
 
 /**
@@ -82,7 +81,6 @@ const structuredData = {
           version={version}
           size={size}
           minimumMacOS={minimumMacOS}
-          architecture={architecture}
           stars={stars}
         />
 
@@ -134,7 +132,11 @@ const structuredData = {
       <div class="flex flex-col gap-1">
         <dt class="font-medium text-foreground">Verify what you downloaded</dt>
         <dd class="text-pretty text-foreground-muted">
-          Every release publishes a SHA-256 checksum. Compare it against the file you got.
+          Run this against the file you downloaded. The expected value is in the <a
+            href={`https://github.com/${repo}/releases/latest`}
+            class="underline decoration-border-strong underline-offset-2 hover:text-foreground"
+            target="_blank"
+            rel="noopener noreferrer">release notes</a> for that version.
         </dd>
         <CodeBlock
           class="mt-2"
@@ -158,7 +160,6 @@ const structuredData = {
         version={version}
         size={size}
         minimumMacOS={minimumMacOS}
-        architecture={architecture}
         stars={stars}
       />
     </div>
