@@ -13,7 +13,9 @@ import { getButtonClasses } from "@/components/ui/button";
 const { repo, downloadUrl, version, size, minimumMacOS, stars } = Astro.props;
 
 const starsLabel =
-  stars === null ? "Open source" : `${stars.toLocaleString("en-US")} stars · Open source`;
+  stars === null
+    ? "Open source"
+    : `${stars.toLocaleString("en-US")} ${stars === 1 ? "star" : "stars"} · Open source`;
 ---
 
 <div class="flex flex-col gap-5">
@@ -35,7 +37,10 @@ const starsLabel =
       </span>
     </div>
 
-    <div class="group flex flex-col gap-2">
+    <div
+      class="group flex flex-col gap-2"
+      x-data={`githubStars(${JSON.stringify({ repo, initial: stars })})`}
+    >
       <div
         class="relative flex flex-col items-start"
         x-data="starEmitter"
@@ -69,7 +74,7 @@ const starsLabel =
         <svg class="size-3.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="m8 1.6 1.9 4.1 4.5.6-3.3 3.1.8 4.4L8 11.7l-3.9 2.1.8-4.4L1.6 6.3l4.5-.6L8 1.6Z"></path>
         </svg>
-        {starsLabel}
+        <span x-text="label">{starsLabel}</span>
       </span>
     </div>
   </div>

@@ -25,14 +25,19 @@ let stars: number | null = null;
 
 try {
   const response = await fetch(`https://api.github.com/repos/${repo}`, {
-    headers: { Accept: "application/vnd.github+json" },
+    headers: {
+      Accept: "application/vnd.github+json",
+      "User-Agent": "ian.is",
+    },
   });
 
+  console.error("[stars] status", response.status, response.headers.get("x-ratelimit-remaining"));
   if (response.ok) {
     const data = (await response.json()) as { stargazers_count?: number };
     stars = typeof data.stargazers_count === "number" ? data.stargazers_count : null;
   }
-} catch {
+} catch (e) {
+  console.error("[stars] threw", e);
   stars = null;
 }
 
