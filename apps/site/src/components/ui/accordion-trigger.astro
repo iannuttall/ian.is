@@ -13,7 +13,11 @@ const {
 <h3 class="flex">
     <button
       data-accordion-trigger
+      type="button"
       aria-expanded="false"
+      x-on:click="toggle(value)"
+      x-on:keydown="roveFocus($event)"
+      x-bind:aria-expanded="isOpen(value) ? 'true' : 'false'"
       class={cn(
         'flex flex-1 items-center justify-between rounded-md border border-transparent py-4 text-sm font-medium outline-none',
         'transition-all',

@@ -1,29 +1,15 @@
 ---
-/**
- * A feature card: an illustration above, a title and a line of copy below.
- *
- * The illustration is a slot rather than an image prop on purpose — these are
- * built out of the same tokens as the rest of the site, so they stay sharp,
- * theme correctly, and cost nothing to load. Pass markup, not a PNG.
- *
- * Generic by design: any landing page can use it. Anything product-specific
- * belongs in the slot, never in here.
- */
-
 import { cn } from "@/lib/utils";
 
 type Props = {
   title: string;
   description: string;
-  /** Position in the grid, so the entrance can stagger. */
   index?: number;
   class?: string;
 };
 
 const { title, description, index = 0, class: className } = Astro.props;
 
-// Capped: past a handful of cards a longer delay reads as the page being slow
-// rather than as a sequence.
 const delay = Math.min(index, 5) * 70;
 ---
 

@@ -1,17 +1,8 @@
 ---
-/**
- * The grid a set of FeatureCards sits in, with an optional section heading.
- *
- * Two columns by default because three narrow cards squeeze their
- * illustrations; pass columns={3} when the visuals are simple enough to hold up
- * small. Cards go in the slot so a page decides its own order and content.
- */
-
 import { cn } from "@/lib/utils";
 
 type Props = {
   heading?: string;
-  /** Sits under the heading, for the sentence that sets the cards up. */
   standfirst?: string;
   columns?: 2 | 3;
   class?: string;

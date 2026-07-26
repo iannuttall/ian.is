@@ -1,0 +1,53 @@
+---
+import FaqSection from "@/components/page/FaqSection.astro";
+
+const items = [
+  {
+    question: "Why is port 3000 already in use?",
+    answer:
+      "Almost always a dev server you started earlier and never stopped. Closing the terminal tab doesn't always take the process with it, and anything started by an editor task or a background agent outlives the window you launched it from. Run <code>lsof -i :3000</code> and you'll see what's holding it.",
+  },
+  {
+    question: "How do I kill whatever is on port 8080?",
+    answer:
+      "Same two commands, different number. <code>lsof -i :8080</code> to find the process id, then <code>kill &lt;pid&gt;</code>. Port 8080 is usually a Java or Spring app, a proxy, or a container publishing a port, so check what it is before you stop it.",
+  },
+  {
+    question: "What does EADDRINUSE mean?",
+    answer:
+      "Node's way of saying the port you asked for is taken. The address is already bound by another process, so your server can't start. Free the port or start on a different one.",
+  },
+  {
+    question: "Why does lsof show nothing but the port is still busy?",
+    answer:
+      "Usually because the process belongs to another user or to root, and <code>lsof</code> only shows you your own by default. Try <code>sudo lsof -i :3000</code>. The other case is a process that has died but left the socket in TIME_WAIT, which clears on its own after a minute or so.",
+  },
+  {
+    question: "What's the difference between kill and kill -9?",
+    answer:
+      "<code>kill</code> sends SIGTERM, which asks the process to shut down and lets it clean up first. <code>kill -9</code> sends SIGKILL, which the process can't catch or ignore, so it dies immediately without flushing anything or removing its own files. Start with <code>kill</code> and only escalate if it doesn't respond.",
+  },
+  {
+    question: "Do I need sudo to kill a port?",
+    answer:
+      "Not for your own processes, which covers nearly every dev server. You need <code>sudo</code> for anything owned by root or another user, and <code>kill</code> returns an <code>EPERM</code> error rather than silently failing. Portman shows that error instead of pretending the kill worked.",
+  },
+  {
+    question: "How do I free a port a Docker container is holding?",
+    answer:
+      "Killing the process won't help, because the port belongs to the Docker daemon rather than the container. Stop the container instead: <code>docker stop &lt;name&gt;</code>. Portman resolves forwarded ports back to the container and compose service, and offers Stop container rather than a kill that would take Docker Desktop down with it.",
+  },
+  {
+    question: "Does this work on Linux and Windows?",
+    answer:
+      "The commands do, with small differences. Linux has <code>lsof</code> and also <code>fuser -k 3000/tcp</code>, which finds and kills in one step. Windows uses <code>netstat -ano | findstr :3000</code> then <code>taskkill /PID &lt;pid&gt; /F</code>. Portman itself is macOS only.",
+  },
+  {
+    question: "Can I kill several ports at once?",
+    answer:
+      "From the terminal, <code>lsof -ti:3000,3001,5173 | xargs kill</code> handles a list. In Portman, search or use a <code>/regex/</code> and the footer offers to kill everything matching, which is the same idea without having to know the port numbers first.",
+  },
+];
+---
+
+<FaqSection heading="Common questions about killing ports" items={items} idPrefix="portman-faq" />

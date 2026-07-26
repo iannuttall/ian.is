@@ -1,0 +1,45 @@
+---
+import CodeBlock from "@/components/page/CodeBlock.astro";
+---
+
+<section class="site-frame py-16 sm:py-24">
+  <div class="flex max-w-2xl flex-col gap-3">
+    <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+      Killing a port from the terminal
+    </h2>
+    <p class="text-pretty text-foreground-muted">
+      Two commands, no app required. Find what's holding the port, then stop it by process id.
+    </p>
+  </div>
+
+  <div class="mt-8 grid max-w-3xl gap-6 sm:mt-10 sm:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <span class="text-[13px] font-medium text-foreground">1. See what's on the port</span>
+      <CodeBlock code="lsof -i :3000" label="Copy the lsof command" />
+      <p class="text-[13px]/relaxed text-foreground-soft">
+        The <code
+          class="rounded bg-foreground/[0.06] px-1 py-0.5 font-mono text-[12px]">PID</code
+        > column is the process id you want.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <span class="text-[13px] font-medium text-foreground">2. Stop it</span>
+      <CodeBlock code="kill 10791" label="Copy the kill command" />
+      <p class="text-[13px]/relaxed text-foreground-soft">
+        Add <code
+          class="rounded bg-foreground/[0.06] px-1 py-0.5 font-mono text-[12px]">-9</code
+        > only if it ignores you. That skips cleanup.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-8 flex max-w-3xl flex-col gap-2 sm:mt-10">
+    <span class="text-[13px] font-medium text-foreground">Or both at once</span>
+    <CodeBlock code="lsof -ti:3000 | xargs kill" label="Copy the one-line command" />
+    <p class="max-w-2xl text-[13px]/relaxed text-foreground-soft">
+      Fine when you already know 3000 is yours. It kills everything on that port without telling
+      you what any of it was, which is the part Portman exists to fix.
+    </p>
+  </div>
+</section>

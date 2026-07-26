@@ -1,25 +1,15 @@
 ---
-/**
- * Portman's feature grid.
- *
- * Every illustration is markup, not an image: built from the same tokens as the
- * rest of the site so it stays sharp at any density, flips with the theme, and
- * adds nothing to the page weight. Each one shows a real piece of the app rather
- * than decoration.
- */
-
 import FeatureGrid from "@/components/page/FeatureGrid.astro";
 import FeatureCard from "@/components/page/FeatureCard.astro";
 ---
 
 <FeatureGrid
-  heading="Built for people running a lot of dev servers at once."
-  standfirst="Listing ports is the easy part. These are the bits that aren't."
+  heading="What Portman shows you that lsof doesn't"
   columns={2}
 >
   <FeatureCard
     index={0}
-    title="It knows what your servers are"
+    title="Named, not node (pid 10791)"
     description="Not node (pid 10791). The project, the framework and its version, read from package.json, lockfiles and Vite's dep cache."
   >
     <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-3.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
@@ -34,7 +24,7 @@ import FeatureCard from "@/components/page/FeatureCard.astro";
 
   <FeatureCard
     index={1}
-    title="It catches wedged servers"
+    title="Wedged servers get flagged"
     description="A server holding its port but no longer answering looks healthy everywhere else. Portman probes each one and says so."
   >
     <div class="flex w-full max-w-[17rem] flex-col gap-2">
@@ -56,7 +46,7 @@ import FeatureCard from "@/components/page/FeatureCard.astro";
 
   <FeatureCard
     index={2}
-    title="It groups port conflicts"
+    title="Conflicts grouped by port"
     description="When two things fight over 3000 they get their own heading, with both contenders listed so you can see which to keep."
   >
     <div class="w-full max-w-[17rem]">
@@ -82,7 +72,7 @@ import FeatureCard from "@/components/page/FeatureCard.astro";
 
   <FeatureCard
     index={3}
-    title="It shows you the page"
+    title="A live preview of the page"
     description="Expand a row for a live thumbnail of localhost, so you can tell which of your six Astro servers is the one you wanted."
   >
     <div class="w-full max-w-[15rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
@@ -103,7 +93,7 @@ import FeatureCard from "@/components/page/FeatureCard.astro";
 
   <FeatureCard
     index={4}
-    title="It knows about your dead ones"
+    title="Orphans folded away"
     description="Servers whose project folder is gone, and the ones agent worktrees left behind, fold away with a single Kill all."
   >
     <div class="flex w-full max-w-[17rem] flex-col gap-2">
@@ -129,7 +119,7 @@ import FeatureCard from "@/components/page/FeatureCard.astro";
 
   <FeatureCard
     index={5}
-    title="It can share a port"
+    title="Share a port publicly"
     description="One click opens a Cloudflare tunnel and copies a public URL, with the Host header rewritten so your dev server accepts it."
   >
     <div class="flex w-full max-w-[17rem] flex-col items-center gap-3">

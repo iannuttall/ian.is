@@ -5,6 +5,10 @@ import Layout from "@/layouts/Layout.astro";
 import PortmanDemo from "@/components/portman/PortmanDemo.astro";
 import PortmanActions from "@/components/portman/PortmanActions.astro";
 import PortmanFeatures from "@/components/portman/PortmanFeatures.astro";
+import PortmanTerminal from "@/components/portman/PortmanTerminal.astro";
+import PortmanFaq from "@/components/portman/PortmanFaq.astro";
+import CodeBlock from "@/components/page/CodeBlock.astro";
+import CodeCopy from "@/components/CodeCopy.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 
 const repo = "iannuttall/portman";
@@ -52,7 +56,7 @@ const structuredData = {
 ---
 
 <Layout
-  title="Portman: find and kill zombie dev servers"
+  title="Find and kill a port process on Mac with Portman"
   description="A free macOS menu bar app that shows every listening port, which project owns it, and whether it's actually still alive. Kill the ones you forgot. Open source."
   ogTitle="Portman"
   canonicalPath="/portman"
@@ -89,10 +93,12 @@ const structuredData = {
 
   <PortmanFeatures />
 
+  <PortmanTerminal />
+
   <section class="site-frame py-16 sm:py-24">
     <div class="flex max-w-2xl flex-col gap-3">
       <h2 class="text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
-        It reads your processes. Here's exactly what that means.
+        What Portman can read, and what it sends
       </h2>
       <p class="text-pretty text-foreground-muted">
         A port manager needs real access to your machine, and you should be suspicious of
@@ -130,12 +136,16 @@ const structuredData = {
         <dd class="text-pretty text-foreground-muted">
           Every release publishes a SHA-256 checksum. Compare it against the file you got.
         </dd>
-        <code class="mt-2 block overflow-x-auto rounded-lg border border-border bg-background-raised px-3 py-2 font-mono text-[13px] whitespace-nowrap text-foreground">
-          shasum -a 256 portman-{version.replace(/^v/, "")}.dmg
-        </code>
+        <CodeBlock
+          class="mt-2"
+          code={`shasum -a 256 portman-${version.replace(/^v/, "")}.dmg`}
+          label="Copy the checksum command"
+        />
       </div>
     </dl>
   </section>
+
+  <PortmanFaq />
 
   <section class="site-frame py-16 sm:py-24">
     <div class="flex flex-col items-start gap-6">
@@ -153,4 +163,6 @@ const structuredData = {
       />
     </div>
   </section>
+
+  <CodeCopy />
 </Layout>

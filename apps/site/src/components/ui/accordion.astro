@@ -13,6 +13,7 @@ const {
 <div
     data-accordion
     data-accordion-type={type}
+    x-data={`accordion({ type: ${JSON.stringify(type)} })`}
     class={cn('w-full', className)}
   >
     <slot />

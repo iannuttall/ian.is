@@ -1,0 +1,60 @@
+---
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+type Props = {
+  heading?: string;
+  items: FaqItem[];
+  idPrefix?: string;
+};
+
+const { heading = "Common questions", items, idPrefix = "faq" } = Astro.props;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer.replace(/<[^>]+>/g, ""),
+    },
+  })),
+};
+---
+
+<section class="site-frame py-16 sm:py-24">
+  <h2 class="max-w-2xl text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
+    {heading}
+  </h2>
+
+  <Accordion class="mt-8 max-w-3xl border-t border-border sm:mt-10">
+    {
+      items.map((item, index) => (
+        <AccordionItem value={`${idPrefix}-${index + 1}`} class="border-border">
+          <AccordionTrigger class="gap-4 text-left text-[15px] text-foreground">
+            {item.question}
+          </AccordionTrigger>
+          <AccordionContent>
+            <div
+              class="max-w-2xl text-[15px]/relaxed text-foreground-muted [&_a]:underline [&_a]:decoration-border-strong [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-foreground/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px]"
+              set:html={item.answer}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      ))
+    }
+  </Accordion>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />

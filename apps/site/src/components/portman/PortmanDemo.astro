@@ -1,15 +1,5 @@
 ---
-/**
- * An interactive replica of Portman's panel.
- *
- * Not a screenshot: the rows behave the way the real app does. Hovering reveals
- * Kill and Open, killing a row collapses it so the ones below slide up, and it
- * comes back at the bottom of the stack after an unpredictable pause — the way a
- * dev server you restarted rejoins the list.
- */
-
 type Props = {
-  /** owner/name — Open sends people here. */
   repo: string;
 };
 
@@ -115,18 +105,14 @@ const { repo } = Astro.props;
 
   const SEED: Omit<DemoRow, "killing">[] = [
     { id: 1, name: "ian.is", port: 4321, meta: "main · Astro 5.2 · 4h 12m" },
-    // Thin space after the dirty marker, matching the app: set solid, the
-    // heavier U+2022 collides with the digit.
     { id: 2, name: "seoskill", port: 3000, meta: "feat/reports • 3 · Next.js · 1d 2h" },
     { id: 3, name: "keep", port: 5173, meta: "main · Vite · 22m" },
     { id: 4, name: "ianis/db", port: 5432, meta: "Docker · postgres:16 · 4d 22h" },
   ];
 
-  /** How long a killed server stays down. Varied so repeated kills never feel scripted. */
   const DOWN_MIN_MS = 2000;
   const DOWN_MAX_MS = 7000;
 
-  /** Matches the row's transition duration — remove only once it has collapsed. */
   const COLLAPSE_MS = 300;
 
   document.addEventListener("alpine:init", () => {
@@ -140,8 +126,6 @@ const { repo } = Astro.props;
 
       init() {
         this.rows = SEED.map((row) => ({ ...row, killing: false }));
-        // Anything scheduled has to be cancellable, or a row can come back
-        // after the component is gone.
         addEventListener("beforeunload", () => this.timers.forEach(clearTimeout));
       },
 
@@ -152,22 +136,16 @@ const { repo } = Astro.props;
         this.hovered = null;
         this.note = `Killed :${row.port}`;
 
-        // Collapses to nothing, so every row beneath slides up to close the gap.
-        // The list itself reserves four rows' height, so the card — and the
-        // divider its bottom edge forms — never moves.
         this.timers.push(
           window.setTimeout(() => {
             this.rows = this.rows.filter((r) => r.id !== row.id);
           }, COLLAPSE_MS),
         );
 
-        // Comes back at the bottom of the stack, after an unpredictable pause.
         const downtime = DOWN_MIN_MS + Math.random() * (DOWN_MAX_MS - DOWN_MIN_MS);
 
         this.timers.push(
           window.setTimeout(() => {
-            // Appended collapsed, then expanded on the next frame so it grows
-            // into place instead of appearing fully formed.
             this.rows.push({ ...row, killing: true });
             this.note = `:${row.port} restarted`;
 
@@ -182,7 +160,6 @@ const { repo } = Astro.props;
       },
 
       open(row: DemoRow) {
-        // The demo has no localhost to open, so Open sends people to the source.
         window.open(`https://github.com/${options.repo}`, "_blank", "noopener,noreferrer");
         this.note = `Opened :${row.port}`;
         this.timers.push(window.setTimeout(() => (this.note = ""), 1800));

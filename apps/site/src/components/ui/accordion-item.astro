@@ -21,6 +21,8 @@ const {
 ---
 <div
     data-accordion-item={value}
+    x-data={`{ value: ${JSON.stringify(value)} }`}
+    x-bind:data-state="isOpen(value) ? 'open' : 'closed'"
     data-state="closed"
     class={cn(accordionItemVariants[variant], className)}
     {...props}
