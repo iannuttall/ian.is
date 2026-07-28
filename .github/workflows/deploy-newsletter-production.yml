@@ -23,7 +23,7 @@ env:
   APP_DOMAIN: list.ian.is
   APP_PORT: "3000"
   WEB_PORT: "3002"
-  DEPLOY_APP_DIR: /opt/apps/email
+  DEPLOY_APP_DIR: /opt/apps/ian
   DEPLOY_CADDY_ROOT: /opt/caddy
 
 jobs:
