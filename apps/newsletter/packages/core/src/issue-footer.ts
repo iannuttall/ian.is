@@ -1,14 +1,12 @@
-import { Fragment, createElement as h, type ReactNode } from 'react'
+import { Fragment, createElement as h } from 'react'
 import { Column, Link, Row, Section, Text } from 'react-email'
-import { fullBleed, issueSiteUrl } from './issue-chrome.js'
+import { fullBleed } from './issue-chrome.js'
 import { issueInlineMarkdownStyles } from './issue-markdown-styles.js'
 import type { IssueSection } from './issue-parser.js'
 import { issueSpacer, mdBlock } from './issue-sections.js'
 import { issueColors, issueLayout, issueStyles } from './issue-styles.js'
 
-const defaultBlurb = `**Ian's List** is a weekly email about what I learned actually using AI to run my business. Thanks for reading all the way to the end.
-
-If someone forwarded this to you, you can [subscribe here](${issueSiteUrl}).`
+const defaultBlurb = `**Ian's List** is a monthly email about what I learned actually using AI to run my business.`
 
 const defaultShareText = "Really enjoying Ian's List. Check out this issue:"
 
@@ -49,7 +47,7 @@ export function issueFooter(
             style: issueStyles.narrowRightCell,
             width: issueLayout.narrowCol,
           },
-          footerLinks(attrs),
+          footerLinks(),
         ),
       ),
     ),
@@ -62,7 +60,7 @@ function shareBlock(url: string, shareText: string) {
   const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${url}`)}`
   const mail = `mailto:?subject=${encodeURIComponent('Newsletter recommendation')}&body=${encodeURIComponent(`${shareText} ${url}`)}`
   return h(
-    Section,
+    Fragment,
     null,
     h(
       Row,
@@ -98,28 +96,10 @@ function blurb(footer: IssueSection | undefined) {
   })
 }
 
-function footerLinks(attrs: Record<string, string>) {
-  // Default is on; pass advertise-url="" to hide it.
-  const advertiseUrl = attrs['advertise-url'] ?? `${issueSiteUrl}/advertise`
-  const groupEnd = issueStyles.footerText
-  const extras: ReactNode[] = []
-  if (advertiseUrl) {
-    extras.push(
-      h(
-        Text,
-        { key: 'advertise', style: groupEnd },
-        h(
-          Link,
-          { href: advertiseUrl, style: issueStyles.footerLink },
-          "Advertise on Ian's List",
-        ),
-      ),
-    )
-  }
+function footerLinks() {
   return h(
-    Fragment,
+    Section,
     null,
-    ...extras,
     h(
       Text,
       { className: 'issue-address', style: issueStyles.footerSmall },

@@ -16,7 +16,7 @@ export function ctaSection(section: IssueSection) {
       null,
       h(
         Column,
-        { className: 'issue-cell', style: issueStyles.fullCell },
+        { className: 'issue-cell', style: issueStyles.ctaCell },
         h(Button, { href, style: issueStyles.button }, label),
       ),
     ),

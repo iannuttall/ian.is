@@ -172,6 +172,10 @@ export const issueStyles = {
     padding: '15px 20px 5px',
     verticalAlign: 'top',
   },
+  ctaCell: {
+    padding: '15px 20px 24px',
+    verticalAlign: 'top',
+  },
   linkTitle: issueText({ fontWeight: 600, marginBottom: '5px' }),
   linkTitleAnchor: {
     color: issueColors.ink,

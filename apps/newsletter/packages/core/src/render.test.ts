@@ -81,7 +81,12 @@ describe('renderDraft', () => {
     assert.match(rendered.html, /Worth a Click/)
     assert.match(rendered.html, /◆/)
     assert.match(rendered.html, /Classifieds/)
-    assert.match(rendered.html, /Advertise on Ian(&#x27;|')s List[\s\S]*Unsubscribe/)
+    assert.match(
+      rendered.html,
+      /Ian(&#x27;|&#39;|')s List[\s\S]*monthly email[\s\S]*Unsubscribe/,
+    )
+    assert.doesNotMatch(rendered.html, /Advertise on Ian(&#x27;|&#39;|')s List/)
+    assert.doesNotMatch(rendered.html, /someone forwarded this/)
     assert.doesNotMatch(rendered.html, /Browse older issues/)
     assert.match(rendered.html, /Book yours ↗︎/)
     assert.match(rendered.html, /\[if mso\]/)

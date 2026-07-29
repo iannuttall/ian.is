@@ -95,7 +95,7 @@ export const itemStyles = {
     lineHeight: '21px',
   },
   contentsLink: {
-    color: barebonesColors.brand,
+    color: barebonesColors.fg,
     fontWeight: 600,
     textDecoration: 'underline',
     textDecorationStyle: 'dotted',
@@ -132,7 +132,7 @@ export const itemStyles = {
     lineHeight: '24px',
   },
   titleLink: {
-    color: barebonesColors.brand,
+    color: barebonesColors.fg,
     textDecoration: 'underline',
     textDecorationStyle: 'dotted',
     textUnderlineOffset: '3px',
