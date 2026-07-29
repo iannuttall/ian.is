@@ -1,4 +1,4 @@
-import { type ComponentProps, Fragment, createElement as h, type ReactNode } from 'react'
+import { type ComponentProps, createElement as h } from 'react'
 import {
   Body,
   Column,
@@ -13,19 +13,12 @@ import {
   Section,
   Text,
 } from 'react-email'
+import { defaultBlocks } from './default-template-blocks.js'
 import { issueFooter } from './issue-footer.js'
 import { type IssueSection, parseIssueSections } from './issue-parser.js'
-import {
-  headingMarker,
-  issueSpacer,
-  mdBlockWithCode,
-  squareHeading,
-} from './issue-sections.js'
 import { issueResponsiveCss } from './issue-styles.js'
-import { renderIssueSection } from './issue-template.js'
 import {
   barebonesColors,
-  defaultEmailMarkdownStyles,
   defaultEmailStyles,
   fontFallback,
   interFonts,
@@ -35,17 +28,6 @@ import type { DraftInput } from './types.js'
 type TrackedLinkProps = ComponentProps<typeof Link> & {
   'data-track'?: 'false'
 }
-
-// Issue building blocks that can be dropped into the default shell. Chrome types
-// (hero/header/footer) stay owned by each template's own shell.
-const defaultModularTypes = new Set([
-  'links',
-  'sponsor',
-  'box',
-  'classifieds',
-  'quote',
-  'poll',
-])
 
 // Default text sits 40px from the shell edge on desktop. React Email puts
 // Section padding on a generated inner <td>, so responsive gutter classes must
@@ -106,11 +88,7 @@ export function DefaultEmail(draft: DraftInput) {
   const sections = parsed.filter(
     (section) => !['hero', 'header', 'footer'].includes(section.type),
   )
-  const blocks: ReactNode[] = []
-  sections.forEach((section, index) => {
-    if (index > 0) blocks.push(issueSpacer(`default-spacer-${index}`))
-    blocks.push(h(Fragment, { key: index }, defaultBlock(section)))
-  })
+  const blocks = defaultBlocks(sections, draft.name, header?.attrs.dividers !== 'off')
 
   return h(
     Html,
@@ -140,71 +118,6 @@ export function DefaultEmail(draft: DraftInput) {
         ),
       ),
     ),
-  )
-}
-
-// Colored surfaces sit their box edge on the 40px text gutter; sections
-// without a surface use the 20px wrapper so their copy (with its own 20px
-// cells) lands on that same gutter.
-const defaultColoredTypes = new Set(['sponsor', 'box', 'poll'])
-
-const defaultSectionTitles: Record<string, string> = {
-  sponsor: 'Sponsor',
-  links: 'Links',
-  classifieds: 'Classifieds',
-  poll: 'Poll',
-}
-
-function defaultBlock(section: IssueSection) {
-  if (section.type === 'text' && section.attrs.title) {
-    return h(
-      Fragment,
-      null,
-      defaultCell(
-        'default-content-cell',
-        defaultEmailStyles.textWrap,
-        squareHeading(section.attrs.title, headingMarker(section)),
-      ),
-      defaultCell(
-        'default-content-cell',
-        defaultEmailStyles.textWrap,
-        mdBlockWithCode(
-          section.body,
-          defaultEmailMarkdownStyles,
-          defaultEmailStyles.content,
-        ),
-      ),
-    )
-  }
-
-  if (defaultModularTypes.has(section.type)) {
-    // The heading renders on the default text grid so every square sits
-    // exactly on the 40px gutter, regardless of the body wrapper below.
-    const title = section.attrs.title ?? defaultSectionTitles[section.type]
-    const heading = title
-      ? defaultCell(
-          'default-content-cell',
-          defaultEmailStyles.textWrap,
-          squareHeading(title, headingMarker(section)),
-        )
-      : null
-    const body = defaultColoredTypes.has(section.type)
-      ? defaultCell(
-          'default-surface-cell',
-          defaultEmailStyles.coloredWrap,
-          renderIssueSection(section, false),
-        )
-      : defaultCell(
-          'default-module-cell',
-          defaultEmailStyles.modularWrap,
-          renderIssueSection(section, false),
-        )
-    return h(Fragment, null, heading, body)
-  }
-  return defaultCell(
-    'default-content-cell',
-    defaultEmailStyles.textWrap,
-    mdBlockWithCode(section.body, defaultEmailMarkdownStyles, defaultEmailStyles.content),
   )
 }
 
@@ -267,14 +180,6 @@ function headerRow(header: IssueSection | undefined, minutes?: number) {
       h(Text, { style: defaultEmailStyles.company }, label),
     ),
   )
-}
-
-function defaultCell(
-  className: string,
-  style: ComponentProps<typeof Column>['style'],
-  ...children: ReactNode[]
-) {
-  return h(Section, null, h(Row, null, h(Column, { className, style }, ...children)))
 }
 
 function fontFaces() {

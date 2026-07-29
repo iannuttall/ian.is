@@ -1,5 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { type DraftInput, listEmailTemplates, renderDraftEmail } from '@email/core'
+import {
+  type DraftInput,
+  listEmailTemplates,
+  loadConfig,
+  previewSwipeInviteDraft,
+  renderDraftEmail,
+} from '@email/core'
 import { getStringFlag, type ParsedArgs } from './args.js'
 
 export async function runTemplateCommand(
@@ -17,7 +23,10 @@ export async function runTemplateCommand(
   if (status && status !== 'new' && status !== 'warm' && status !== 'cold') {
     throw new Error('Invalid --status; expected new, warm, or cold')
   }
-  const rendered = await renderDraftEmail(draft, status ? { status } : {})
+  const rendered = await renderDraftEmail(
+    previewSwipeInviteDraft(draft, loadConfig()),
+    status ? { status } : {},
+  )
   const outDir = getStringFlag(parsed, 'out-dir')
   if (outDir) {
     await writeRenderedEmail(outDir, rendered)
@@ -49,6 +58,14 @@ async function draftInput(parsed: ParsedArgs): Promise<DraftInput> {
   return {
     subject,
     bodyMarkdown,
+    ...(getStringFlag(parsed, 'metadata-file')
+      ? {
+          metadata: JSON.parse(
+            await readFile(mustString(parsed, 'metadata-file'), 'utf8'),
+          ) as Record<string, unknown>,
+        }
+      : {}),
+    ...(getStringFlag(parsed, 'name') ? { name: mustString(parsed, 'name') } : {}),
     ...(getStringFlag(parsed, 'preview')
       ? { preview: mustString(parsed, 'preview') }
       : {}),

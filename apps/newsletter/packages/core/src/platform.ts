@@ -56,6 +56,7 @@ import {
   type PurchaseRecord,
   type RollupRebuildResult,
 } from './subscriber-intelligence.js'
+import { personalizeSwipeInviteDraft, previewSwipeInviteDraft } from './swipe-invite.js'
 import { rewriteTrackedLinks } from './tracked-links.js'
 import {
   classifyTrackingRequest,
@@ -571,7 +572,7 @@ export class CoreEmailPlatform implements EmailPlatform {
   }> {
     const draft = await this.requireDraft(input.draftId)
     const rendered = await renderDraftEmail(
-      draft,
+      previewSwipeInviteDraft(draft, this.deps.config),
       input.status ? { status: input.status } : {},
     )
     const fromName = draft.fromName ?? this.deps.config.email.fromName
@@ -826,10 +827,15 @@ export class CoreEmailPlatform implements EmailPlatform {
   private async sendMessage(message: MessageRecord): Promise<void> {
     const broadcast = await this.deps.store.getBroadcast(message.broadcastId)
     if (!broadcast) throw new Error(`Broadcast not found: ${message.broadcastId}`)
-    const draft = await this.requireDraft(broadcast.draftId)
+    const storedDraft = await this.requireDraft(broadcast.draftId)
+    const personalized = personalizeSwipeInviteDraft({
+      config: this.deps.config,
+      draft: storedDraft,
+      message,
+    })
     const recipientStatus = recipientStatusFromMessage(message)
     const rendered = await renderDraftEmail(
-      draft,
+      personalized.draft,
       recipientStatus ? { status: recipientStatus } : {},
     )
     const trackingSecret = requireSecret(
@@ -857,22 +863,23 @@ export class CoreEmailPlatform implements EmailPlatform {
       html: htmlWithUnsubscribe,
       message,
       secret: trackingSecret,
-      draftMetadata: draft.metadata ?? {},
+      draftMetadata: storedDraft.metadata ?? {},
       store: this.deps.store,
       baseUrl: this.deps.config.baseUrl,
+      excludedUrlPrefixes: personalized.excludedTrackingPrefixes,
     })
     const html = this.deps.config.tracking.trackOpens
       ? injectOpenPixel(htmlWithClicks, openToken, this.deps.config)
       : htmlWithClicks
-    const fromName = draft.fromName ?? this.deps.config.email.fromName
+    const fromName = storedDraft.fromName ?? this.deps.config.email.fromName
     const result = await this.deps.provider.send({
       to: message.toEmail,
-      fromEmail: this.defaultFromEmail(draft.fromEmail),
+      fromEmail: this.defaultFromEmail(storedDraft.fromEmail),
       subject: rendered.subject,
       html,
       text: rendered.text,
       ...(fromName ? { fromName } : {}),
-      ...(draft.replyTo ? { replyTo: draft.replyTo } : {}),
+      ...(storedDraft.replyTo ? { replyTo: storedDraft.replyTo } : {}),
       headers: [
         {
           name: 'List-Unsubscribe',

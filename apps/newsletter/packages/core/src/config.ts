@@ -18,6 +18,8 @@ const envSchema = z.object({
   API_TOKEN: z.string().optional(),
   UNSUBSCRIBE_SECRET: z.string().optional(),
   TRACKING_SECRET: z.string().optional(),
+  SWIPE_INVITE_SECRET: z.string().optional(),
+  SWIPE_INVITE_BASE_URL: z.string().url().optional(),
   EMAIL_PROVIDER: z.enum(['ses', 'test']).optional(),
   EMAIL_FROM_EMAIL: z.string().email().optional(),
   EMAIL_FROM_NAME: z.string().optional(),
@@ -46,6 +48,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
       API_TOKEN: parsed.API_TOKEN,
       UNSUBSCRIBE_SECRET: parsed.UNSUBSCRIBE_SECRET,
       TRACKING_SECRET: parsed.TRACKING_SECRET,
+      SWIPE_INVITE_SECRET: parsed.SWIPE_INVITE_SECRET,
       AWS_SNS_WEBHOOK_SECRET: parsed.AWS_SNS_WEBHOOK_SECRET,
     })
   }
@@ -62,6 +65,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
     apiToken: parsed.API_TOKEN ?? devSecret,
     unsubscribeSecret: parsed.UNSUBSCRIBE_SECRET ?? devSecret,
     trackingSecret: parsed.TRACKING_SECRET ?? devSecret,
+    swipeInvite: {
+      secret: parsed.SWIPE_INVITE_SECRET ?? devSecret,
+      baseUrl: parsed.SWIPE_INVITE_BASE_URL ?? 'https://swipe.md',
+    },
     tracking: {
       trackOpens: parsed.EMAIL_TRACK_OPENS ?? true,
     },

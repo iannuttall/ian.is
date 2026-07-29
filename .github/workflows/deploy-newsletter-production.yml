@@ -19,7 +19,7 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-  APP_NAME: email
+  APP_NAME: ian
   APP_DOMAIN: list.ian.is
   APP_PORT: "3000"
   WEB_PORT: "3002"

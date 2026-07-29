@@ -16,6 +16,10 @@ describe('loadConfig', () => {
       () => loadConfig({ API_TOKEN: 'replace-me' }),
       /API_TOKEN must not use a placeholder secret/,
     )
+    assert.throws(
+      () => loadConfig({ SWIPE_INVITE_SECRET: 'changeme' }),
+      /SWIPE_INVITE_SECRET must not use a placeholder secret/,
+    )
     assert.doesNotThrow(() => loadConfig({ NODE_ENV: 'test', API_TOKEN: 'replace-me' }))
   })
 })
