@@ -154,6 +154,11 @@ jobs:
             else
               printf '\nAPP_IMAGE=%s\n' '${IMAGE_REF}' >> .env.production
             fi
+            if grep -q '^APP_NAME=' .env.production; then
+              sed -i 's|^APP_NAME=.*|APP_NAME=${APP_NAME}|' .env.production
+            else
+              printf '\nAPP_NAME=%s\n' '${APP_NAME}' >> .env.production
+            fi
             docker compose --env-file .env.production -f apps/newsletter/docker-compose.prod.yml run --rm ops
             docker compose --env-file .env.production -f apps/newsletter/docker-compose.prod.yml up -d postgres app web
             if command -v vps-docker-cleanup >/dev/null 2>&1; then
