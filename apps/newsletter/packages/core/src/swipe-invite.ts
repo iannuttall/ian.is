@@ -2,7 +2,7 @@ import crypto from 'node:crypto'
 import type { AppConfig } from './config.js'
 import { requireSecret } from './config.js'
 import { isEmailLike, normalizeEmail } from './email-address.js'
-import type { DraftRecord, MessageRecord } from './store.js'
+import type { DraftRecord, EmailStore, MessageRecord } from './store.js'
 import type { DraftInput } from './types.js'
 
 export const swipeInviteUrlPlaceholder = '{{confirmationUrl}}'
@@ -54,6 +54,18 @@ export function personalizeSwipeInviteDraft(input: {
   draft: DraftRecord
   message: MessageRecord
 }): { draft: DraftInput; excludedTrackingPrefixes: string[] } {
+  return personalizeSwipeInviteDraftForEmail({
+    config: input.config,
+    draft: input.draft,
+    email: input.message.toEmail,
+  })
+}
+
+export function personalizeSwipeInviteDraftForEmail(input: {
+  config: AppConfig
+  draft: DraftRecord
+  email: string
+}): { draft: DraftInput; excludedTrackingPrefixes: string[] } {
   const hasPlaceholder = input.draft.bodyMarkdown.includes(swipeInviteUrlPlaceholder)
   const settings = swipeInviteSettings(input.draft)
   if (!hasPlaceholder && !settings) {
@@ -70,7 +82,7 @@ export function personalizeSwipeInviteDraft(input: {
 
   const token = createSwipeInviteToken(
     {
-      email: input.message.toEmail,
+      email: input.email,
       batchKey: settings.batchKey,
       expiresAt: settings.expiresAt,
     },
@@ -100,6 +112,32 @@ export function previewSwipeInviteDraft(
       `${config.swipeInvite.baseUrl.replace(/\/$/, '')}/confirm?token=test-link`,
     ),
   }
+}
+
+export async function prepareSwipeInviteTestDraft(input: {
+  config: AppConfig
+  store: Pick<EmailStore, 'findContactByEmail' | 'isSuppressed'>
+  draft: DraftRecord
+  email: string
+  live: boolean
+}): Promise<DraftInput> {
+  if (!input.live) return previewSwipeInviteDraft(input.draft, input.config)
+
+  const contact = await input.store.findContactByEmail(input.email)
+  if (contact?.status !== 'active') {
+    throw new Error('Live Swipe invitation tests require an active contact')
+  }
+  if (await input.store.isSuppressed(input.email)) {
+    throw new Error('Live Swipe invitation test recipient is suppressed')
+  }
+  if (!input.draft.bodyMarkdown.includes(swipeInviteUrlPlaceholder)) {
+    throw new Error('Draft has no Swipe invitation placeholder')
+  }
+  return personalizeSwipeInviteDraftForEmail({
+    config: input.config,
+    draft: input.draft,
+    email: input.email,
+  }).draft
 }
 
 export function createSwipeInviteToken(

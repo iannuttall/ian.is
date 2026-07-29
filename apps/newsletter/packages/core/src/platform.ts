@@ -56,7 +56,8 @@ import {
   type PurchaseRecord,
   type RollupRebuildResult,
 } from './subscriber-intelligence.js'
-import { personalizeSwipeInviteDraft, previewSwipeInviteDraft } from './swipe-invite.js'
+import { personalizeSwipeInviteDraft } from './swipe-invite.js'
+import { sendTestEmail } from './test-send.js'
 import { rewriteTrackedLinks } from './tracked-links.js'
 import {
   classifyTrackingRequest,
@@ -567,25 +568,21 @@ export class CoreEmailPlatform implements EmailPlatform {
     draftId: string
     to: string
     status?: RecipientStatus
+    liveSwipeInvite?: boolean
   }): Promise<{
     providerMessageId: string
   }> {
     const draft = await this.requireDraft(input.draftId)
-    const rendered = await renderDraftEmail(
-      previewSwipeInviteDraft(draft, this.deps.config),
-      input.status ? { status: input.status } : {},
-    )
-    const fromName = draft.fromName ?? this.deps.config.email.fromName
-    const result = await this.deps.provider.send({
+    return sendTestEmail({
+      config: this.deps.config,
+      store: this.deps.store,
+      provider: this.deps.provider,
+      draft,
       to: input.to,
       fromEmail: this.defaultFromEmail(draft.fromEmail),
-      subject: `[TEST] ${rendered.subject}`,
-      html: rendered.html.replaceAll('{{unsubscribeUrl}}', '#'),
-      text: rendered.text,
-      ...(fromName ? { fromName } : {}),
-      ...(draft.replyTo ? { replyTo: draft.replyTo } : {}),
+      ...(input.status ? { status: input.status } : {}),
+      ...(input.liveSwipeInvite ? { liveSwipeInvite: true } : {}),
     })
-    return { providerMessageId: result.providerMessageId }
   }
 
   async sendSesSimulator(input: {

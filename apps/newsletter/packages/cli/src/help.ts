@@ -50,7 +50,7 @@ Commands:
   email broadcast pause ID [--json]
   email broadcast resume ID [--json]
   email broadcast cancel ID [--json]
-  email broadcast test --yes --draft-id ID --to EMAIL [--status new|warm|cold] [--json]
+  email broadcast test --yes --draft-id ID --to EMAIL [--status new|warm|cold] [--live-swipe-invite] [--json]
 
   Analytics:
   email analytics links [--broadcast-id ID] [--topic TOPIC] [--tag TAG] [--sponsor NAME] [--limit N] [--json]

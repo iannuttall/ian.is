@@ -51,4 +51,55 @@ describe('Swipe invitations', () => {
       false,
     )
   })
+
+  it('sends a live invitation test only to an active contact', async () => {
+    const store = new MemoryEmailStore()
+    const provider = new TestEmailProvider()
+    const platform = new CoreEmailPlatform({
+      store,
+      provider,
+      config: loadConfig({
+        NODE_ENV: 'test',
+        BASE_URL: 'https://list.ian.is',
+        EMAIL_FROM_EMAIL: 'ian@example.com',
+        SWIPE_INVITE_BASE_URL: 'https://swipe.md',
+        SWIPE_INVITE_SECRET: 'shared-swipe-invite-secret',
+      }),
+    })
+
+    await platform.subscribe({ email: 'reader@example.com' })
+    const draft = await platform.createDraft({
+      subject: 'Move to Swipe',
+      bodyMarkdown: '[Subscribe to Swipe]({{confirmationUrl}})',
+      metadata: {
+        confirmation: {
+          purpose: 'swipe_invite',
+          batchKey: 'ians-list-to-swipe-test',
+          expiresAt: '2099-08-31T23:59:59.000Z',
+        },
+      },
+    })
+
+    await platform.sendTest({
+      draftId: draft.id,
+      to: 'reader@example.com',
+      liveSwipeInvite: true,
+    })
+
+    const sent = provider.sent[0]
+    assert.ok(sent)
+    assert.equal(sent.to, 'reader@example.com')
+    assert.equal(sent.subject, '[TEST] Move to Swipe')
+    assert.match(sent.html, /https:\/\/swipe\.md\/confirm\?token=v1\./)
+    assert.doesNotMatch(sent.html, /token=test-link/)
+
+    await assert.rejects(
+      platform.sendTest({
+        draftId: draft.id,
+        to: 'not-subscribed@example.com',
+        liveSwipeInvite: true,
+      }),
+      /active contact/,
+    )
+  })
 })

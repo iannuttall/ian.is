@@ -157,6 +157,7 @@ export interface EmailPlatform {
     draftId: string
     to: string
     status?: RecipientStatus
+    liveSwipeInvite?: boolean
   }): Promise<{ providerMessageId: string }>
   sendSesSimulator(input: {
     draftId: string

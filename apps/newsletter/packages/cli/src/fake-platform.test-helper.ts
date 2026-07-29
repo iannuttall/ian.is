@@ -51,6 +51,14 @@ export class FakePlatform implements EmailPlatform {
       }
     | undefined = undefined
   queueSummaryRequest: QueueSummaryRequest | undefined = undefined
+  sentTestInput:
+    | {
+        draftId: string
+        to: string
+        status?: 'new' | 'warm' | 'cold'
+        liveSwipeInvite?: boolean
+      }
+    | undefined = undefined
 
   async subscribe(input: { email: string }): Promise<{ id: string }> {
     this.subscribedEmail = input.email
@@ -297,7 +305,13 @@ export class FakePlatform implements EmailPlatform {
     return { cancelled: true, skipped: 1 }
   }
 
-  async sendTest(): Promise<{ providerMessageId: string }> {
+  async sendTest(input: {
+    draftId: string
+    to: string
+    status?: 'new' | 'warm' | 'cold'
+    liveSwipeInvite?: boolean
+  }): Promise<{ providerMessageId: string }> {
+    this.sentTestInput = input
     return { providerMessageId: 'test_1' }
   }
 

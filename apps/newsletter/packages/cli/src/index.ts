@@ -302,6 +302,7 @@ async function dispatch(parsed: ParsedArgs, input: CliRunInput): Promise<unknown
         draftId,
         to,
         ...(recipientStatus ? { status: recipientStatus } : {}),
+        ...(getBooleanFlag(parsed, 'live-swipe-invite') ? { liveSwipeInvite: true } : {}),
       })
     }
 

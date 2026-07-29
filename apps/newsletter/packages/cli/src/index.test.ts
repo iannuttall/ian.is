@@ -66,6 +66,33 @@ describe('cli', () => {
     })
   })
 
+  it('passes the guarded live Swipe invitation flag', async () => {
+    const platform = new FakePlatform()
+    const code = await runCli(
+      [
+        'broadcast',
+        'test',
+        '--yes',
+        '--draft-id',
+        'draft_1',
+        '--to',
+        'ian@example.com',
+        '--status',
+        'warm',
+        '--live-swipe-invite',
+        '--json',
+      ],
+      { platform, stdout: () => {} },
+    )
+    assert.equal(code, 0)
+    assert.deepEqual(platform.sentTestInput, {
+      draftId: 'draft_1',
+      to: 'ian@example.com',
+      status: 'warm',
+      liveSwipeInvite: true,
+    })
+  })
+
   it('prints production ops checklist and guards stuck recovery', async () => {
     const output: string[] = []
     const platform = new FakePlatform()
