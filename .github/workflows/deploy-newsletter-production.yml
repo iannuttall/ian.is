@@ -164,6 +164,9 @@ jobs:
               docker builder prune -a -f --keep-storage 4GB || true
             fi
             install -d -m 755 '${DEPLOY_CADDY_ROOT}/sites'
+            if [ '${APP_NAME}' = 'ian' ] && [ -f '${DEPLOY_CADDY_ROOT}/sites/email.caddy' ]; then
+              mv '${DEPLOY_CADDY_ROOT}/sites/email.caddy' '${DEPLOY_CADDY_ROOT}/sites/email.caddy.legacy'
+            fi
             sed \
               -e 's|{\$APP_HOSTS}|${APP_DOMAIN}|g' \
               -e 's|{\$APP_HOSTS_LIST}|${APP_DOMAIN}|g' \
