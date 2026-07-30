@@ -43,6 +43,10 @@ Newsletter:
   pnpm ian newsletter email-preview
   pnpm ian newsletter cli -- <raw email cli args>
 
+Email-only campaigns:
+  pnpm ian campaign preview <slug> [--status cold]
+  pnpm ian campaign test <slug> --to email [--status cold] [--live-invite]
+
 Issues (apps/site/src/content/issues -> list.ian.is):
   pnpm ian issue preview [slug] [--status cold]  render the email HTML locally
   pnpm ian issue test [slug] [--to email] [--status cold]
@@ -292,6 +296,7 @@ function newsletter(argv) {
 // ---------- issues: the Astro collection is the source of sent emails ----------
 
 const issuesDir = resolve(root, "apps/site/src/content/issues");
+const campaignsDir = resolve(root, "apps/newsletter/campaigns");
 const deployStatusUrl = "https://ian.is/.well-known/deploy.json";
 
 function fail(message) {
@@ -326,6 +331,113 @@ function issuePath(slug) {
   const path = resolve(issuesDir, `${slug}.md`);
   if (!existsSync(path)) fail(`No issue at apps/site/src/content/issues/${slug}.md`);
   return path;
+}
+
+function campaignPath(slug) {
+  const path = resolve(campaignsDir, `${slug}.md`);
+  if (!existsSync(path)) {
+    fail(`No campaign at apps/newsletter/campaigns/${slug}.md`);
+  }
+  return path;
+}
+
+async function campaign(argv) {
+  const [command, slug, ...rest] = argv;
+  if (!command || command === "help") {
+    console.log(help());
+    return;
+  }
+  if (command !== "preview" && command !== "test") {
+    fail(`Unknown campaign command: ${command}`);
+  }
+  if (!slug || slug.startsWith("-")) {
+    fail("campaign preview needs a campaign slug.");
+  }
+
+  const parsed = parseIssueFile(campaignPath(slug));
+  if (!parsed.frontmatter.subject) {
+    fail(`${slug} has no subject in frontmatter.`);
+  }
+  const issueName = parsed.frontmatter.name;
+  if (!issueName) {
+    fail(`${slug} has no name in frontmatter for its Swipe issue links.`);
+  }
+
+  const confirmation = campaignConfirmationMetadata(parsed.frontmatter);
+  if (command === "test") {
+    const to = getOption(rest, "--to") ?? localEnv("IAN_TEST_EMAIL");
+    if (!to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+      fail("campaign test needs --to or IAN_TEST_EMAIL.");
+    }
+    const ssh = sshEnv();
+    const liveInvite = rest.includes("--live-invite");
+    const testIssue = liveInvite
+      ? parsed
+      : {
+          ...parsed,
+          body: parsed.body.replaceAll(
+            "{{confirmationUrl}}",
+            "https://swipe.md/confirm?token=test-link",
+          ),
+        };
+    const draftId = remoteDraftCreate(
+      ssh,
+      testIssue,
+      issueName,
+      confirmation ? { confirmation } : undefined,
+    );
+    const output = sshCapture(
+      ssh.target,
+      `${ssh.ops} broadcast test --yes --draft-id ${shellQuote(draftId)} --to ${shellQuote(to)} --status ${shellQuote(getOption(rest, "--status", "cold"))}${liveInvite ? " --live-swipe-invite" : ""} --json`,
+    );
+    console.log(output.trim());
+    console.log(`Campaign test sent to ${to}.`);
+    return;
+  }
+
+  const dir = mkdtempSync(join(tmpdir(), "ian-campaign-"));
+  const bodyFile = join(dir, `${slug}.md`);
+  const metadataFile = join(dir, `${slug}.json`);
+  writeFileSync(bodyFile, parsed.body);
+  writeFileSync(metadataFile, JSON.stringify({ confirmation }));
+  emailCli([
+    "template",
+    "render",
+    "--subject",
+    parsed.frontmatter.subject,
+    "--name",
+    issueName,
+    ...(parsed.frontmatter.preheader
+      ? ["--preview", parsed.frontmatter.preheader]
+      : []),
+    "--body-file",
+    bodyFile,
+    "--metadata-file",
+    metadataFile,
+    "--status",
+    getOption(rest, "--status", "cold"),
+    "--out-dir",
+    `apps/newsletter/rendered/${slug}`,
+    "--json",
+  ]);
+}
+
+function campaignConfirmationMetadata(frontmatter) {
+  const batchKey = frontmatter.confirmationBatchKey;
+  const expiresAt = frontmatter.confirmationExpiresAt;
+  if (!batchKey && !expiresAt) return undefined;
+  if (!batchKey || !expiresAt) {
+    fail(
+      "Campaign confirmation requires confirmationBatchKey and confirmationExpiresAt.",
+    );
+  }
+  if (!/^[a-z0-9][a-z0-9_-]{2,79}$/i.test(batchKey)) {
+    fail("Campaign confirmationBatchKey is invalid.");
+  }
+  if (Number.isNaN(Date.parse(expiresAt))) {
+    fail("Campaign confirmationExpiresAt must be an ISO date.");
+  }
+  return { purpose: "swipe_invite", batchKey, expiresAt };
 }
 
 async function pickIssueSlug() {
@@ -432,18 +544,25 @@ function parseJsonOutput(output, label) {
   return parsed;
 }
 
-function remoteDraftCreate(ssh, issue, slug) {
+function remoteDraftCreate(ssh, issue, slug, metadata) {
+  const ops = metadata
+    ? ssh.ops.replace(
+        " && ",
+        ` && printf %s ${shellQuote(Buffer.from(JSON.stringify(metadata)).toString("base64"))} | base64 -d | `,
+      )
+    : ssh.ops;
   const args = [
     "draft create",
     `--subject ${shellQuote(issue.frontmatter.subject)}`,
     `--name ${shellQuote(slug)}`,
     issue.frontmatter.preheader ? `--preview ${shellQuote(issue.frontmatter.preheader)}` : "",
     `--body ${shellQuote(issue.body.trim())}`,
+    metadata ? "--metadata-file /dev/stdin" : "",
     "--json",
   ]
     .filter(Boolean)
     .join(" ");
-  const output = sshCapture(ssh.target, `${ssh.ops} ${args}`);
+  const output = sshCapture(ssh.target, `${ops} ${args}`);
   const parsed = parseJsonOutput(output, "draft create");
   const draftId = parsed.id ?? parsed.draft?.id ?? parsed.data?.id;
   if (!draftId) fail(`draft create returned no id:\n${output}`);
@@ -681,6 +800,8 @@ if (!area || area === "help" || area === "--help" || area === "-h") {
   targetCommand(area, rest[0]);
 } else if (area === "newsletter" || area === "email") {
   newsletter(rest);
+} else if (area === "campaign" || area === "campaigns") {
+  await campaign(rest);
 } else if (area === "issue" || area === "issues") {
   await issue(rest);
 } else if (area === "site") {
