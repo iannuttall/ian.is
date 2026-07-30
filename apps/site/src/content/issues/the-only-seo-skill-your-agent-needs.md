@@ -1,5 +1,5 @@
 ---
-subject: The only SEO skill your agent needs
+subject: "The only SEO skill your agent needs"
 preheader: "Yes, I'm back, and I've built a lot of things!"
 pubDate: 2026-07-21
 draft: false
@@ -15,6 +15,7 @@ This is issue 001 of the new format. Every week I'll share what I learned using 
 If you don't want to receive these, no hard feelings, here's a [quick unsubscribe link]({{unsubscribeUrl}}) you can use.
 
 <Text title="I built a free, local, SEO tool for agents">
+
 TLDR; [Click here to try SEO Skill](https://seoskill.dev).
 
 I disappeared from social media back in March because I could feel myself spending more time consuming vs creating.
