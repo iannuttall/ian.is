@@ -16,6 +16,12 @@ export interface IssueConditionContext {
   status?: string
 }
 
+export {
+  type IssueItem,
+  parseIssueItem,
+  parseIssueItems,
+} from './issue-item-parser.js'
+
 export const issueSectionTypes = [
   'hero',
   'header',
@@ -25,8 +31,12 @@ export const issueSectionTypes = [
   'sponsor',
   'box',
   'classifieds',
+  'cta',
   'quote',
   'poll',
+  'item',
+  'reach-out',
+  'disclosure',
   'footer',
 ] as const
 
