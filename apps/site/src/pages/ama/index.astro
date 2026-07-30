@@ -1,7 +1,6 @@
 ---
 export const prerender = true;
 
-import AmaAsk from "@/components/ama/AmaAsk.astro";
 import AmaQuestionList from "@/components/ama/AmaQuestionList.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/page/PageHeader.astro";
@@ -47,11 +46,7 @@ const structuredData = webPageSchema({
       subtitle="Questions about SEO, AI, or building things on the internet. I answer the good ones here."
     />
 
-    <div class="mt-12">
-      <AmaAsk />
-    </div>
-
-    <div class="mt-16 flex flex-col gap-4">
+    <div class="mt-12 flex flex-col gap-4">
       <h2 class="text-pretty text-lg leading-[1.6] font-medium tracking-normal text-foreground-soft">
         Answered
       </h2>

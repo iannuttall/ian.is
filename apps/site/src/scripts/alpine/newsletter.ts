@@ -64,7 +64,7 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
     visible: true,
     initialHeading: config.heading ?? "Subscribe to Ian's List",
     initialDescription:
-      config.description ?? "What I learned this week actually using AI to run my business.",
+      config.description ?? "What I learned this month actually using AI to run my business.",
     initialSubject: "I built a new thing",
     successHeading: "Check your email",
     successDescription:

@@ -3,7 +3,6 @@ export const prerender = true;
 
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
-import AmaAsk from "@/components/ama/AmaAsk.astro";
 import Layout from "@/layouts/Layout.astro";
 import { formatAmaDate, getAnsweredQuestions } from "@/lib/ama";
 import { amaBreadcrumbs } from "@/lib/breadcrumbs";
@@ -62,14 +61,11 @@ const structuredData = qaPageSchema({
       <Content />
     </div>
 
-    <div class="mt-16 flex flex-col gap-4">
-      <a
-        href="/ama"
-        class="inline-flex self-start text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
-      >
-        All answered questions
-      </a>
-      <AmaAsk heading="Ask your own" description="Got a follow-up or something new? Ask away." />
-    </div>
+    <a
+      href="/ama"
+      class="mt-16 inline-flex self-start text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+    >
+      All answered questions
+    </a>
   </article>
 </Layout>
