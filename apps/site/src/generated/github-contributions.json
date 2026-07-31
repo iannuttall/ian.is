@@ -1,19 +1,13 @@
 {
   "username": "iannuttall",
   "range": {
-    "start": "2025-07-30",
-    "end": "2026-07-30"
+    "start": "2025-07-31",
+    "end": "2026-07-31"
   },
-  "totalContributions": 5481,
+  "totalContributions": 5507,
   "weeks": [
     {
       "contributionDays": [
-        {
-          "date": "2025-07-30",
-          "contributionCount": 1,
-          "contributionLevel": "FIRST_QUARTILE",
-          "weekday": 3
-        },
         {
           "date": "2025-07-31",
           "contributionCount": 0,
@@ -2374,7 +2368,7 @@
         },
         {
           "date": "2026-07-25",
-          "contributionCount": 40,
+          "contributionCount": 42,
           "contributionLevel": "FIRST_QUARTILE",
           "weekday": 6
         }
@@ -2384,7 +2378,7 @@
       "contributionDays": [
         {
           "date": "2026-07-26",
-          "contributionCount": 41,
+          "contributionCount": 42,
           "contributionLevel": "FIRST_QUARTILE",
           "weekday": 0
         },
@@ -2408,20 +2402,20 @@
         },
         {
           "date": "2026-07-30",
-          "contributionCount": 0,
-          "contributionLevel": "NONE",
+          "contributionCount": 22,
+          "contributionLevel": "FIRST_QUARTILE",
           "weekday": 4
+        },
+        {
+          "date": "2026-07-31",
+          "contributionCount": 2,
+          "contributionLevel": "FIRST_QUARTILE",
+          "weekday": 5
         }
       ]
     }
   ],
   "days": [
-    {
-      "date": "2025-07-30",
-      "contributionCount": 1,
-      "contributionLevel": "FIRST_QUARTILE",
-      "weekday": 3
-    },
     {
       "date": "2025-07-31",
       "contributionCount": 0,
@@ -4578,13 +4572,13 @@
     },
     {
       "date": "2026-07-25",
-      "contributionCount": 40,
+      "contributionCount": 42,
       "contributionLevel": "FIRST_QUARTILE",
       "weekday": 6
     },
     {
       "date": "2026-07-26",
-      "contributionCount": 41,
+      "contributionCount": 42,
       "contributionLevel": "FIRST_QUARTILE",
       "weekday": 0
     },
@@ -4608,9 +4602,15 @@
     },
     {
       "date": "2026-07-30",
-      "contributionCount": 0,
-      "contributionLevel": "NONE",
+      "contributionCount": 22,
+      "contributionLevel": "FIRST_QUARTILE",
       "weekday": 4
+    },
+    {
+      "date": "2026-07-31",
+      "contributionCount": 2,
+      "contributionLevel": "FIRST_QUARTILE",
+      "weekday": 5
     }
   ]
 }
