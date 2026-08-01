@@ -1,19 +1,13 @@
 {
   "username": "iannuttall",
   "range": {
-    "start": "2025-07-31",
-    "end": "2026-07-31"
+    "start": "2025-08-01",
+    "end": "2026-08-01"
   },
-  "totalContributions": 5507,
+  "totalContributions": 5522,
   "weeks": [
     {
       "contributionDays": [
-        {
-          "date": "2025-07-31",
-          "contributionCount": 0,
-          "contributionLevel": "NONE",
-          "weekday": 4
-        },
         {
           "date": "2025-08-01",
           "contributionCount": 0,
@@ -2408,20 +2402,20 @@
         },
         {
           "date": "2026-07-31",
-          "contributionCount": 2,
+          "contributionCount": 14,
           "contributionLevel": "FIRST_QUARTILE",
           "weekday": 5
+        },
+        {
+          "date": "2026-08-01",
+          "contributionCount": 3,
+          "contributionLevel": "FIRST_QUARTILE",
+          "weekday": 6
         }
       ]
     }
   ],
   "days": [
-    {
-      "date": "2025-07-31",
-      "contributionCount": 0,
-      "contributionLevel": "NONE",
-      "weekday": 4
-    },
     {
       "date": "2025-08-01",
       "contributionCount": 0,
@@ -4608,9 +4602,15 @@
     },
     {
       "date": "2026-07-31",
-      "contributionCount": 2,
+      "contributionCount": 14,
       "contributionLevel": "FIRST_QUARTILE",
       "weekday": 5
+    },
+    {
+      "date": "2026-08-01",
+      "contributionCount": 3,
+      "contributionLevel": "FIRST_QUARTILE",
+      "weekday": 6
     }
   ]
 }
