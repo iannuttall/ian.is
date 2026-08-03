@@ -1,0 +1,132 @@
+---
+/**
+ * Clockwork demo: the task list. Run now actually runs. The row shows a
+ * spinner, then the fresh exit code and duration land in its history line.
+ */
+---
+
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data="clockworkDemo"
+>
+  <div class="flex items-center justify-between border-b border-border-subtle px-4 py-3">
+    <span class="flex items-center gap-2 text-[13px] font-medium text-foreground">
+      <svg class="size-3.5 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M8 4.5V8l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+      </svg>
+      Scheduled commands
+    </span>
+    <span class="text-[11px] text-foreground-soft">runs via launchd · app can quit</span>
+  </div>
+
+  <ul class="min-h-[16rem] divide-y divide-border-subtle" role="list">
+    <template x-for="task in tasks" :key="task.name">
+      <li class="px-4 py-3">
+        <div class="flex items-center gap-3">
+          <span
+            class="size-2 shrink-0 rounded-full transition-colors"
+            :class="task.state === 'running' ? 'animate-pulse bg-amber-500' : task.attention ? 'bg-amber-500' : 'bg-emerald-500'"
+          ></span>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-baseline gap-2">
+              <span class="truncate text-[15px] font-medium text-foreground" x-text="task.name"></span>
+              <span class="hidden truncate font-mono text-[11px] text-foreground-soft sm:inline" x-text="task.command"></span>
+            </div>
+            <div class="mt-0.5 flex items-center gap-2 text-[12px] text-foreground-soft">
+              <span x-text="task.schedule"></span>
+              <span aria-hidden="true">·</span>
+              <span
+                x-text="task.state === 'running' ? 'running…' : task.lastRun"
+                :class="task.state === 'running' && 'text-amber-600 dark:text-amber-400'"
+              ></span>
+              <span
+                x-show="task.attention && task.state !== 'running'"
+                class="rounded bg-amber-500/15 px-1.5 py-px text-[10px] font-medium text-amber-700 dark:text-amber-400"
+              >needs a decision</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="shrink-0 rounded-md bg-foreground/[0.055] px-2.5 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-foreground/10 disabled:opacity-50"
+            :disabled="task.state === 'running'"
+            @click="run(task)"
+          >
+            Run now
+          </button>
+        </div>
+      </li>
+    </template>
+  </ul>
+
+  <div class="flex items-center justify-between border-t border-border-subtle px-4 py-2.5">
+    <span class="text-[12px] text-foreground-soft" x-text="footer"></span>
+    <span class="font-mono text-[11px] text-foreground-soft">history: last 50 runs</span>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    type DemoTask = {
+      name: string;
+      command: string;
+      schedule: string;
+      lastRun: string;
+      attention?: boolean;
+      state: "idle" | "running";
+      duration: number;
+    };
+
+    alpine.data("clockworkDemo", () => ({
+      footer: "All tasks accounted for",
+      tasks: [
+        {
+          name: "Update Codex",
+          command: "npm i -g @openai/codex",
+          schedule: "Every 6 hours",
+          lastRun: "Succeeded · 12s · 2 hours ago",
+          state: "idle",
+          duration: 2400,
+        },
+        {
+          name: "AMA inbox",
+          command: "pnpm ian ama sync",
+          schedule: "Mon, Wed, Fri at 09:00",
+          lastRun: "Needs attention · 36 questions waiting",
+          attention: true,
+          state: "idle",
+          duration: 1600,
+        },
+        {
+          name: "Refresh site data",
+          command: "pnpm data:refresh",
+          schedule: "Every day at 06:30",
+          lastRun: "Succeeded · 8s · this morning",
+          state: "idle",
+          duration: 2000,
+        },
+      ] as DemoTask[],
+      timers: [] as number[],
+
+      run(task: DemoTask) {
+        if (task.state === "running") return;
+        task.state = "running";
+        this.footer = `${task.name} started by hand`;
+
+        this.timers.push(
+          window.setTimeout(() => {
+            task.state = "idle";
+            const seconds = Math.round(task.duration / 1000 + Math.random());
+            task.lastRun = task.attention
+              ? `Needs attention · ${seconds}s · just now`
+              : `Succeeded · ${seconds}s · just now`;
+            this.footer = `${task.name} finished · stdout saved to history`;
+            this.timers.push(window.setTimeout(() => (this.footer = "All tasks accounted for"), 2600));
+          }, task.duration),
+        );
+      },
+    }));
+  });
+</script>

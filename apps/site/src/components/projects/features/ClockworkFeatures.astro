@@ -1,0 +1,128 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+---
+
+<FeatureGrid heading="What Clockwork adds on top of launchd and cron" columns={2}>
+  <FeatureCard
+    index={0}
+    title="Plain controls, no crontab"
+    description="Run a task on an interval, every day, or on selected weekdays without writing a crontab entry."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex gap-1 rounded-lg bg-foreground/[0.05] p-1 text-center text-[11px]">
+        <span class="flex-1 rounded-md px-2 py-1 text-foreground-muted">Every…</span>
+        <span class="flex-1 rounded-md px-2 py-1 text-foreground-muted">Daily</span>
+        <span class="flex-1 rounded-md bg-background-raised px-2 py-1 font-medium text-foreground shadow-sm">Weekly</span>
+      </div>
+      <div class="mt-3 flex justify-between">
+        {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+          <span
+            class:list={[
+              "flex size-6 items-center justify-center rounded-full text-[11px]",
+              index > 0 && index < 6 ? "bg-[var(--project-accent)]/15 font-medium text-[var(--project-accent)]" : "text-foreground-soft",
+            ]}
+          >{day}</span>
+        ))}
+      </div>
+      <div class="mt-3 text-center font-mono text-[11px] text-foreground-soft">at 09:00</div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Tasks outlive the app"
+    description="Clockwork registers native launchd jobs. The menu bar app is the editor and viewer, not a required background runner."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 opacity-55 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-foreground/25"></span>
+        <span class="text-[13px] text-foreground">Clockwork.app</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">quit</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-emerald-500"></span>
+        <span class="font-mono text-[12px] text-foreground">launchd</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">still scheduled</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Read what the command returned"
+    description="Inspect the exit code, stdout, and stderr from the latest 50 runs instead of wondering whether the task fired."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 border-b border-border-subtle px-3 py-2">
+        <span class="size-2 rounded-full bg-emerald-500"></span>
+        <span class="text-[12px] font-medium text-foreground">Update Codex</span>
+        <span class="ml-auto font-mono text-[10px] text-foreground-soft">Succeeded · 12s</span>
+      </div>
+      <div class="space-y-1 p-3 font-mono text-[10px]/4 text-foreground-soft">
+        <div>changed 1 package in 11s</div>
+        <div>codex-cli 0.21.0 → 0.22.1</div>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Separate attention from failure"
+    description="A successful command can raise an orange attention event when its result needs a decision rather than a retry."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-amber-500/20">
+        <span class="size-2 shrink-0 rounded-full bg-amber-500"></span>
+        <span class="text-[13px] text-foreground">AMA inbox</span>
+        <span class="ml-auto rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 dark:text-amber-400">36 waiting</span>
+      </div>
+      <span class="px-1 font-mono text-[10px] text-foreground-soft">exit 0 · worked, but wants a decision</span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={4}
+    title="App and CLI share the same tasks"
+    description="Add, update, pause, run, inspect, and delete tasks from either surface. Changes appear in both immediately."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-[#131418] p-4 font-mono text-zinc-200 shadow-sm ring-1 ring-white/10">
+      <div class="text-[11px]"><span class="opacity-45">$</span> clockwork list --json</div>
+      <div class="mt-2 space-y-0.5 text-[10px]/4 opacity-70">
+        <div>{"[{ \"task\": { \"name\": \"Update Codex\" },"}</div>
+        <div>{"   \"lastRun\": { \"exitCode\": 0 } }]"}</div>
+      </div>
+      <span class="mt-3 block h-3 w-1.5 animate-pulse bg-zinc-300"></span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={5}
+    title="Logs stay local"
+    description="Task definitions, run history, stdout, and stderr remain under Application Support on your Mac."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 border-b border-border-subtle px-3 py-2">
+        <svg class="size-3.5 shrink-0 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M1.5 4.5c0-.6.4-1 1-1h3l1.5 1.5h6c.6 0 1 .4 1 1v6c0 .6-.4 1-1 1h-10.5c-.6 0-1-.4-1-1v-7.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+        </svg>
+        <span class="truncate text-[12px] font-medium text-foreground">Application Support/Clockwork</span>
+      </div>
+      <div class="flex flex-col gap-1.5 p-3 font-mono text-[11px]">
+        <div class="flex items-center justify-between">
+          <span class="text-foreground">tasks.json</span>
+          <span class="text-[10px] text-foreground-soft">3 tasks</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-foreground">runs/ama-inbox/</span>
+          <span class="text-[10px] text-foreground-soft">last 50 kept</span>
+        </div>
+        <div class="pl-3 text-foreground-muted">stdout.log</div>
+        <div class="flex items-center justify-between">
+          <span class="pl-3 text-foreground-muted">stderr.log</span>
+          <span class="text-[10px] text-foreground-soft">never uploaded</span>
+        </div>
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>

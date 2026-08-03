@@ -1,0 +1,143 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+import cupActive from "@/assets/projects/caffeine-active.png";
+import cupInactive from "@/assets/projects/caffeine-inactive.png";
+---
+
+<div style={`--cup-active:url(${JSON.stringify(cupActive.src)});--cup-inactive:url(${JSON.stringify(cupInactive.src)})`}>
+<FeatureGrid heading="How Caffeine stops your Mac sleeping during agent work" columns={2}>
+  <FeatureCard
+    index={0}
+    title="One click still does the job"
+    description="Click the cup to keep the Mac awake. Click it again and macOS can return to its normal sleep settings."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex h-8 items-center justify-end gap-3 border-b border-border-subtle px-3 text-foreground">
+        <span class="flex h-6 items-center rounded bg-foreground/[0.06] px-1">
+          <span class="caffeine-feature-cup is-active"></span>
+        </span>
+        <span class="text-[11px] text-foreground-muted">Mon 9:41</span>
+      </div>
+      <div class="px-3 py-2.5 text-[11px] text-foreground-soft">Manual session · no time limit</div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Agent Watch follows the turn"
+    description="Optional Claude Code and Codex hooks start a session with the work and release it when the agent finishes or needs input."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-[#0a84ff]"></span>
+        <span class="text-[13px] text-foreground">Claude Code · turn running</span>
+        <span class="ml-auto font-mono text-[10px] text-foreground-soft">awake</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-foreground/20"></span>
+        <span class="text-[13px] text-foreground">Turn finished · waiting for you</span>
+        <span class="ml-auto font-mono text-[10px] text-foreground-soft">released</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Protect the battery and display"
+    description="Set timers, battery limits, display behaviour, and a best-effort closed-lid mode without rewriting system settings."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center justify-between text-[11px] text-foreground-soft">
+        <span>Pause below 30%</span>
+        <span class="font-mono">74% now</span>
+      </div>
+      <div class="relative mt-3 h-3 overflow-hidden rounded-full bg-foreground/[0.07]">
+        <div class="h-full w-[74%] rounded-full bg-emerald-500/80"></div>
+        <div class="absolute inset-y-0 left-[30%] w-px bg-foreground/40"></div>
+      </div>
+      <div class="mt-3 flex items-center justify-between text-[11px]">
+        <span class="text-foreground">Keep display awake</span>
+        <span class="flex h-4 w-7 items-center rounded-full bg-emerald-500/80 px-0.5">
+          <span class="ml-auto size-3 rounded-full bg-white shadow-sm"></span>
+        </span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Control the same state from a CLI"
+    description="Turn Caffeine on, start a timed session, switch it off, or read status as JSON from scripts and agents."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-[#131418] p-4 font-mono text-zinc-200 shadow-sm ring-1 ring-white/10">
+      <div class="text-[11px]"><span class="opacity-45">$</span> caffeine for 2h</div>
+      <div class="mt-2 text-[11px] opacity-70">Turns off in 1h 59m.</div>
+      <div class="mt-3 text-[11px]"><span class="opacity-45">$</span> caffeine status --json</div>
+      <span class="mt-3 block h-3 w-1.5 animate-pulse bg-zinc-300"></span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={4}
+    title="See what else is blocking sleep"
+    description="The panel lists other processes holding power assertions, so you can tell who is really keeping the Mac up before blaming Caffeine."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-1.5">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="text-[12px] text-foreground">Music</span>
+        <span class="ml-auto font-mono text-[10px] text-foreground-soft">audio playing</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="text-[12px] text-foreground">Screen Sharing</span>
+        <span class="ml-auto font-mono text-[10px] text-foreground-soft">prevents sleep</span>
+      </div>
+      <span class="px-1 text-[11px] text-foreground-soft">+2 more in Power settings</span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={5}
+    title="No work data is uploaded"
+    description="Prompts, process details, and hook payloads never leave the machine. Session markers are plain local files you can read yourself."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 border-b border-border-subtle px-3 py-2">
+        <svg class="size-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 1.5 3 3.5v4c0 3 2.1 5.6 5 6.5 2.9-.9 5-3.5 5-6.5v-4L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+          <path d="m6 7.8 1.5 1.5L10.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="text-[12px] font-medium text-foreground">What Caffeine sends</span>
+      </div>
+      <div class="flex flex-col gap-1.5 p-3">
+        {[
+          ["Your prompts", "never sent"],
+          ["Process details", "never sent"],
+          ["Hook payloads", "never sent"],
+          ["Session markers", "local file"],
+        ].map(([item, status]) => (
+          <div class="flex items-center justify-between text-[12px]">
+            <span class="text-foreground">{item}</span>
+            <span class="font-mono text-[10px] text-foreground-soft">{status}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>
+</div>
+
+<style>
+  .caffeine-feature-cup {
+    display: block;
+    width: 22px;
+    height: 20px;
+    background-color: currentColor;
+    mask: var(--cup-inactive) center / contain no-repeat;
+    -webkit-mask: var(--cup-inactive) center / contain no-repeat;
+  }
+  .caffeine-feature-cup.is-active {
+    mask-image: var(--cup-active);
+    -webkit-mask-image: var(--cup-active);
+  }
+</style>

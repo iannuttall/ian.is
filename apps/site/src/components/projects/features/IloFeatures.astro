@@ -1,0 +1,76 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+---
+
+<FeatureGrid heading="What ilo finds in your X post history" columns={2}>
+  <FeatureCard
+    index={0}
+    title="Find what moved the account"
+    description="Compare reach, replies, reposts, and other public signals across the account history you care about."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-baseline justify-between">
+        <span class="text-[13px] font-medium text-foreground">Top post</span>
+        <span class="rounded bg-[var(--project-accent)]/12 px-1.5 py-0.5 text-[11px] font-medium text-[var(--project-accent)]">4.8× reach</span>
+      </div>
+      <div class="mt-3 space-y-1.5">
+        <div class="h-1.5 w-full rounded-full bg-foreground/[0.09]"></div>
+        <div class="h-1.5 w-3/4 rounded-full bg-foreground/[0.09]"></div>
+      </div>
+      <div class="mt-3 flex gap-3 font-mono text-[10px] text-foreground-soft">
+        <span>142 reposts</span>
+        <span>96 replies</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Pull out repeatable patterns"
+    description="Study topics, hooks, length, format, media, links, timing, and structure across strong and weak posts."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-[var(--project-accent)]/25">
+        <span class="text-[13px] text-foreground">Build notes</span>
+        <span class="ml-auto font-mono text-[11px] text-foreground-soft">7 of 9 win</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="text-[13px] text-foreground">Bare links</span>
+        <span class="ml-auto font-mono text-[11px] text-foreground-soft">0.4× median</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Study any public handle"
+    description="Build a performance profile for your own account, a client, a competitor, or someone worth learning from."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-1.5">
+      {[
+        ["@iannuttall", "yours"],
+        ["@a_client", "client"],
+        ["@competitor", "watching"],
+      ].map(([handle, label]) => (
+        <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+          <span class="font-mono text-[12px] text-foreground">{handle}</span>
+          <span class="ml-auto text-[10px] text-foreground-soft">{label}</span>
+        </div>
+      ))}
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Put the report inside your agent"
+    description="MCP, CLI, and API return the same structured findings so the model can use them while planning content."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-[#131418] p-4 font-mono text-zinc-200 shadow-sm ring-1 ring-white/10">
+      <div class="text-[10px] opacity-45">mcp · account_report</div>
+      <div class="mt-3 text-[12px]">✓ 3 next steps, evidence attached</div>
+      <div class="mt-1 text-[10px] opacity-60">patterns: hooks, timing, format</div>
+      <span class="mt-4 block h-3 w-1.5 animate-pulse bg-zinc-300"></span>
+    </div>
+  </FeatureCard>
+</FeatureGrid>

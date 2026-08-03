@@ -1,0 +1,101 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+import SwipeMark from "@/components/icons/SwipeMark.astro";
+
+// Visuals ride on Swipe's own look: inverted panels and the pink, indigo,
+// and cyan from the bolt. The brand fonts are already loaded by the demo on
+// this page, so the mini headlines can use the real heading face.
+---
+
+<FeatureGrid heading="What you get in a Swipe issue" columns={2}>
+  <FeatureCard
+    index={0}
+    title="Useful finds every week"
+    description="Each issue filters the flood down to skills, prompts, tools, and workflows that are worth opening."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-[#0f1115] text-white shadow-sm ring-1 ring-white/10">
+      <div class="flex items-center justify-between border-b border-white/10 px-3 py-2">
+        <span class="swipe-heading text-[13px] font-semibold">This week</span>
+        <span class="text-[10px] text-white/55">6 min read</span>
+      </div>
+      <div class="flex flex-col gap-2 p-3">
+        {[
+          ["A skill that reviews PRs", "#fd30f8"],
+          ["Prompt: brutal editor", "#4548e9"],
+          ["CLI for browser agents", "#43d8f7"],
+        ].map(([find, color]) => (
+          <div class="flex items-center gap-2 text-[12px] text-white/90">
+            <span class="size-1.5 shrink-0 rounded-full" style={`background:${color}`}></span>
+            <span class="truncate">{find}</span>
+          </div>
+        ))}
+        <span class="text-[10px] text-white/55">+ 4 more finds</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Enough detail to try it"
+    description="A link comes with the reason it matters and a practical idea for where it fits in real work."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-[#0f1115] p-4 text-white shadow-sm ring-1 ring-white/10">
+      <div class="swipe-heading text-[14px] font-semibold">Turn research into a brief</div>
+      <div class="mt-2.5 space-y-1.5 text-[11px] text-white/80">
+        <div class="flex gap-2">
+          <span class="font-mono font-semibold text-[#fd30f8]">why</span>
+          <span>replaces an hour of tab-hopping</span>
+        </div>
+        <div class="flex gap-2">
+          <span class="font-mono font-semibold text-[#43d8f7]">try</span>
+          <span>point it at your open questions doc</span>
+        </div>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="A catalog you can search"
+    description="Browse the growing tool collection by what it does instead of digging through an old inbox."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-[#0f1115] p-3 text-white shadow-sm ring-1 ring-white/10">
+      <div class="flex items-center gap-2 rounded-none bg-white/5 px-3 py-2 [box-shadow:inset_0_-2px_0_rgb(255_255_255/0.25)]">
+        <svg class="size-3 shrink-0 text-white/55" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"></circle>
+          <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+        <span class="text-[12px]">browser automation</span>
+        <span class="ml-auto text-[10px] text-white/55">12 tools</span>
+      </div>
+      <div class="mt-2.5 flex flex-wrap gap-1.5">
+        <span class="rounded-full bg-[#fd30f8]/15 px-2 py-0.5 text-[10px] text-[#fc7adc]">skills</span>
+        <span class="rounded-full bg-[#4548e9]/20 px-2 py-0.5 text-[10px] text-[#8b8dff]">prompts</span>
+        <span class="rounded-full bg-[#43d8f7]/15 px-2 py-0.5 text-[10px] text-[#42f8fd]">tools</span>
+        <span class="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/70">workflows</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Every issue stays public"
+    description="The archive keeps past finds available on the web with the same examples and links sent by email."
+  >
+    <div class="relative h-32 w-full max-w-[17rem]">
+      <div class="absolute inset-x-5 top-0 h-20 rounded-xl bg-[#0f1115] opacity-40 ring-1 ring-white/10"></div>
+      <div class="absolute inset-x-2 top-3 h-20 rounded-xl bg-[#0f1115] opacity-70 shadow-sm ring-1 ring-white/10"></div>
+      <div class="absolute inset-x-0 top-6 rounded-xl bg-[#0f1115] p-4 text-white shadow-sm ring-1 ring-white/10">
+        <div class="flex items-center gap-2">
+          <SwipeMark class="h-3.5 w-auto text-[#4548e9]" />
+          <span class="swipe-heading text-[13px] font-semibold">The agent toolbox</span>
+        </div>
+        <div class="mt-1.5 flex items-center justify-between text-[10px] text-white/55">
+          <span>Published 29 Jul</span>
+          <span>no account needed</span>
+        </div>
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>

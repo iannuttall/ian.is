@@ -1,0 +1,140 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+---
+
+<FeatureGrid heading="What an SEO audit should show before you change the site" columns={2}>
+  <FeatureCard
+    index={0}
+    title="Start with a real crawl"
+    description="Check metadata, links, canonicals, indexability, structured data, performance, mobile, and security from the site itself."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center justify-between border-b border-border-subtle px-3 py-2">
+        <span class="text-[12px] font-medium text-foreground">Technical crawl</span>
+        <span class="font-mono text-[10px] text-foreground-soft">428 URLs</span>
+      </div>
+      <div class="flex flex-col gap-2 p-3">
+        <div class="flex items-center gap-2 text-[12px] text-foreground">
+          <span class="size-2 shrink-0 rounded-full bg-emerald-500"></span>
+          Canonicals
+          <span class="ml-auto text-[11px] text-foreground-soft">clean</span>
+        </div>
+        <div class="flex items-center gap-2 text-[12px] text-foreground">
+          <span class="size-2 shrink-0 rounded-full bg-amber-500"></span>
+          Indexability
+          <span class="ml-auto rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 dark:text-amber-400">14 excluded</span>
+        </div>
+        <div class="flex items-center gap-2 text-[12px] text-foreground">
+          <span class="size-2 shrink-0 rounded-full bg-emerald-500"></span>
+          Structured data
+          <span class="ml-auto text-[11px] text-foreground-soft">valid</span>
+        </div>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Use the search data you own"
+    description="Connect Search Console and Google Analytics so priorities come from queries, landing pages, and traffic rather than guesses."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="truncate text-[13px] text-foreground">seo skill for agents</span>
+        <span class="ml-auto shrink-0 font-mono text-[11px] text-foreground-soft">pos 6</span>
+        <span class="shrink-0 rounded bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">quick win</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="truncate text-[13px] text-foreground">local seo audit cli</span>
+        <span class="ml-auto shrink-0 font-mono text-[11px] text-foreground-soft">pos 9</span>
+        <span class="shrink-0 rounded bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">quick win</span>
+      </div>
+      <span class="px-1 text-[11px] text-foreground-soft">18 queries sitting at positions 4 to 10</span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Give agents structured evidence"
+    description="The CLI, MCP server, JSON output, and packaged skill all use the same report engine and stable finding IDs."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-[#131418] p-4 font-mono text-zinc-200 shadow-sm ring-1 ring-white/10">
+      <div class="text-[10px] opacity-45">finding.json</div>
+      <div class="mt-3 space-y-0.5 text-[11px]/5">
+        <div><span class="opacity-55">"id":</span> "indexing.excluded"</div>
+        <div><span class="opacity-55">"urls":</span> 14</div>
+        <div><span class="opacity-55">"evidence":</span> ["crawl", "gsc"]</div>
+      </div>
+      <div class="mt-3 flex gap-1.5 text-[10px]">
+        <span class="rounded bg-white/10 px-1.5 py-0.5">MCP</span>
+        <span class="rounded bg-white/10 px-1.5 py-0.5">CLI</span>
+        <span class="rounded bg-white/10 px-1.5 py-0.5">skill</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Check whether the fix worked"
+    description="Save crawl results, compare matched Search Console windows, and keep the verification step beside every recommendation."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center justify-between text-[11px] text-foreground-soft">
+        <span>Valid indexed pages</span>
+        <span class="font-mono">28-day windows</span>
+      </div>
+      <div class="mt-4 flex items-end gap-6">
+        <div class="flex flex-col items-center gap-1.5">
+          <div class="h-10 w-9 rounded-t-md bg-foreground/[0.12]"></div>
+          <span class="text-[10px] text-foreground-soft">before</span>
+        </div>
+        <div class="flex flex-col items-center gap-1.5">
+          <div class="h-16 w-9 rounded-t-md bg-[var(--project-accent)]"></div>
+          <span class="text-[10px] text-foreground-soft">after</span>
+        </div>
+        <span class="mb-5 ml-auto rounded bg-emerald-500/15 px-1.5 py-0.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">+14</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={4}
+    title="Reports stay inspectable"
+    description="Observed data, derived findings, and recommendations remain separate so you can see how each conclusion was reached."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-1.5">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="font-mono text-[10px] text-foreground-soft">1</span>
+        <span class="text-[12px] text-foreground">Observed: 14 URLs excluded</span>
+      </div>
+      <div class="ml-4 flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="font-mono text-[10px] text-foreground-soft">2</span>
+        <span class="text-[12px] text-foreground">Finding: sitemap vs index gap</span>
+      </div>
+      <div class="ml-8 flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2 shadow-sm ring-1 ring-[var(--project-accent)]/25">
+        <span class="font-mono text-[10px] text-foreground-soft">3</span>
+        <span class="text-[12px] text-foreground">Fix: request indexing, add links</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={5}
+    title="No invented all-clears"
+    description="Partial, capped, or missing data is labelled. A source that could not be checked is never reported as a zero."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-emerald-500"></span>
+        <span class="text-[13px] text-foreground">Search Console</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">complete</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-foreground/25"></span>
+        <span class="text-[13px] text-foreground">Analytics</span>
+        <span class="ml-auto rounded bg-foreground/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-foreground-muted">not connected</span>
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>

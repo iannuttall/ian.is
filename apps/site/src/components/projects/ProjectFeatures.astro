@@ -1,0 +1,31 @@
+---
+import type { ProjectPage } from "@/lib/projects";
+import CaffeineFeatures from "./features/CaffeineFeatures.astro";
+import ClockworkFeatures from "./features/ClockworkFeatures.astro";
+import IloFeatures from "./features/IloFeatures.astro";
+import NatterFeatures from "./features/NatterFeatures.astro";
+import SeoSkillFeatures from "./features/SeoSkillFeatures.astro";
+import SwipeFeatures from "./features/SwipeFeatures.astro";
+
+type Props = { project: ProjectPage };
+const { project } = Astro.props;
+
+// Each project hand-crafts its feature visuals, Portman-style. The copy lives
+// beside the visual because they're designed together.
+const features = {
+  "seo-skill": SeoSkillFeatures,
+  swipe: SwipeFeatures,
+  ilo: IloFeatures,
+  caffeine: CaffeineFeatures,
+  natter: NatterFeatures,
+  clockwork: ClockworkFeatures,
+} as const;
+
+const Features = features[project.slug as keyof typeof features];
+---
+
+{Features ? (
+  <div style={`--project-accent:${project.accent}`}>
+    <Features />
+  </div>
+) : null}

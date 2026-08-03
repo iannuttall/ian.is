@@ -1,0 +1,194 @@
+---
+/**
+ * Swipe demo: the actual swipe.md hero, working signup included. The form
+ * posts to the same-origin proxy so the service token stays server-side.
+ *
+ * Brand fidelity notes: the hero card is the inverted #0f1115 panel in both
+ * themes, exactly like swipe.md. The three brand fonts load ONLY on this
+ * page (self-hosted, immutable-cached under /fonts/swipe/) so no other page
+ * pays for them. The logo is the real swipeLogo Alpine component copied
+ * verbatim from the swipe repo, dithered reveal and hover effect included.
+ */
+---
+
+<link rel="preload" href="/fonts/swipe/bricolage-600.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/swipe/instrument-400.woff2" as="font" type="font/woff2" crossorigin />
+
+<div class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10">
+  <div class="flex items-center gap-1.5 border-b border-border-subtle px-4 py-3" aria-hidden="true">
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="ml-2 font-mono text-[10px] text-foreground-soft">swipe.md</span>
+  </div>
+
+  <div
+    class="swipe-hero w-full bg-[#0f1115] px-6 py-8 text-white sm:px-10 sm:py-10"
+      x-data="{ email: '', state: 'idle', async submit() { if (!this.email || this.state === 'sending') return; this.state = 'sending'; try { const response = await fetch('/api/swipe-subscribe', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: this.email, source: 'ian.is/swipe' }) }); this.state = response.ok ? 'done' : 'error'; } catch { this.state = 'error'; } } }"
+    >
+      <span
+        x-data="swipeLogo"
+        class="mb-6 block aspect-[675.611/501.047] w-12 sm:w-14 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+        aria-hidden="true"
+      ></span>
+
+      <h2 class="swipe-heading mb-4 text-pretty text-[2rem] font-semibold leading-[1.02] tracking-tighter sm:text-[2.65rem]">
+        Swipe the best AI skills, prompts, and workflows.
+      </h2>
+      <p class="swipe-body mb-6 max-w-lg text-[1.1875rem] leading-normal sm:text-xl">
+        <em class="swipe-rainbow swipe-mono font-semibold italic">The</em>{" "}newsletter to learn AI by stealing the cool ideas, skills, and tools you didn't know you needed.
+      </p>
+
+      <div x-show="state === 'done'" x-cloak class="flex items-center gap-4 border-l-4 border-[#ff4fa3] bg-white/[0.06] px-4 py-3 sm:px-5 sm:py-4" role="status" aria-live="polite">
+        <span class="grid size-10 shrink-0 place-items-center bg-[linear-gradient(135deg,#ff4fa3_0%,#d92fd0_100%)] text-xl font-bold text-white" aria-hidden="true">✓</span>
+        <span class="swipe-body">
+          <strong class="block text-lg font-bold text-white sm:text-xl">One more step.</strong>
+          <span class="mt-0.5 block text-sm text-white/70 sm:text-base">Check your inbox to confirm your subscription.</span>
+        </span>
+      </div>
+
+      <form x-show="state !== 'done'" @submit.prevent="submit()" class="space-y-2">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+          <input
+            x-model="email"
+            type="email"
+            required
+            placeholder="sam@openai.com"
+            aria-label="Email address"
+            class="swipe-body h-12 w-full min-w-0 rounded-none border-0 bg-white/5 px-3 py-2 text-base font-medium text-white outline-none transition-shadow [box-shadow:inset_0_-2px_0_rgb(255_255_255/0.25)] placeholder:text-white/45 focus:[box-shadow:inset_0_-2px_0_#ff4fa3]"
+          />
+          <button
+            type="submit"
+            class="swipe-subscribe swipe-heading h-12 shrink-0 cursor-pointer rounded-none px-6 text-base font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="state === 'sending'"
+            x-text="state === 'sending' ? 'Sending...' : 'Subscribe'"
+          >Subscribe</button>
+        </div>
+        <p x-show="state === 'error'" x-cloak class="swipe-body text-sm text-white/70" role="alert">
+          Could not subscribe here. Try <a href="https://swipe.md" target="_blank" rel="noreferrer" class="underline decoration-dotted underline-offset-4">swipe.md</a>.
+        </p>
+      </form>
+
+      <p class="swipe-mono mt-5 text-sm text-white/65">
+        <a
+          href="https://swipe.md/issues"
+          target="_blank"
+          rel="noreferrer"
+          class="text-inherit underline decoration-dotted underline-offset-4 transition-colors hover:text-white"
+        >View latest issue</a>
+      </p>
+  </div>
+</div>
+
+<script>
+  // Registered here rather than in the global alpine setup so the logo code
+  // only ships on pages that render this demo.
+  import { registerSwipeLogo } from "@/scripts/alpine/swipe-logo";
+  import type { AlpineRuntime } from "@/scripts/alpine/types";
+
+  document.addEventListener("alpine:init", () => {
+    registerSwipeLogo((window as unknown as { Alpine: AlpineRuntime }).Alpine);
+  });
+</script>
+
+<style is:global>
+  /* Swipe's brand faces, self-hosted and loaded only on this page. */
+  @font-face {
+    font-family: "Bricolage Grotesque";
+    src: url("/fonts/swipe/bricolage-600.woff2") format("woff2");
+    font-weight: 600;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Instrument Sans";
+    src: url("/fonts/swipe/instrument-400.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Instrument Sans";
+    src: url("/fonts/swipe/instrument-500.woff2") format("woff2");
+    font-weight: 500;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    src: url("/fonts/swipe/plex-mono-400.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    src: url("/fonts/swipe/plex-mono-600.woff2") format("woff2");
+    font-weight: 600;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Instrument Sans Fallback";
+    src: local("Arial");
+    ascent-override: 98.63%;
+    descent-override: 25.42%;
+    line-gap-override: 0%;
+    size-adjust: 98.35%;
+  }
+  @font-face {
+    font-family: "Bricolage Fallback";
+    src: local("Arial");
+    ascent-override: 92.21%;
+    descent-override: 26.77%;
+    line-gap-override: 0%;
+    size-adjust: 100.86%;
+  }
+</style>
+
+<style>
+  .swipe-heading,
+  :global(.swipe-heading) {
+    font-family: "Bricolage Grotesque", "Bricolage Fallback", ui-sans-serif, system-ui, sans-serif;
+  }
+  .swipe-body {
+    font-family: "Instrument Sans", "Instrument Sans Fallback", ui-sans-serif, system-ui, sans-serif;
+  }
+  .swipe-mono {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .swipe-rainbow {
+    background-image: linear-gradient(
+      to right,
+      #f08c8c, #f0a868, #e8c85a, #6dbf7b, #6aaed6, #9b8ec4, #c77dbb, #f08c8c
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200% 100%;
+    animation: swipe-rainbow-shift 3s linear infinite;
+  }
+  @keyframes swipe-rainbow-shift {
+    from { background-position: 0% center; }
+    to { background-position: 200% center; }
+  }
+
+  .swipe-subscribe {
+    background-color: #ff4fa3;
+    background-image: linear-gradient(135deg, #ff8cc5 0%, #ff4fa3 48%, #d92778 100%);
+    background-position: 25% 30%;
+    background-size: 180% 180%;
+  }
+  .swipe-subscribe:hover {
+    background-image: linear-gradient(135deg, #ffb0d7 0%, #ff70b4 46%, #c92d77 100%);
+    animation: swipe-pink-drift 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes swipe-pink-drift {
+    from { background-position: 25% 30%; }
+    to { background-position: 75% 70%; }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .swipe-rainbow,
+    .swipe-subscribe:hover {
+      animation: none;
+    }
+  }
+</style>

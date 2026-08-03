@@ -44,6 +44,9 @@ pnpm ian site secrets-sync --dry-run
 - `LIST_API_TOKEN` is required in `wrangler.jsonc` and `env-manifest.json`.
   Keep it in `.dev.vars` locally, sync it with `pnpm ian site secrets-sync`,
   and verify Cloudflare with `pnpm ian site check-remote-env`.
+- The `/swipe` project page posts to `src/pages/api/swipe-subscribe.ts`, which
+  forwards server-side to Swipe's own same-origin signup route. Do not expose
+  Swipe's newsletter service token to this site.
 
 ## Content And Routes
 

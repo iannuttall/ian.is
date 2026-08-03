@@ -53,7 +53,9 @@ function frontmatterTags(data) {
   const inline = data.match(/^tags:\s*\[(.*)]\s*$/m);
 
   if (inline) {
-    return [...inline[1].matchAll(/["']([^"']+)["']/g)].map((match) => match[1]);
+    return [...inline[1].matchAll(/["']([^"']+)["']/g)].map(
+      (match) => match[1],
+    );
   }
 
   const block = data.match(/^tags:\s*\r?\n((?:\s+-\s+.+\r?\n?)+)/m);
@@ -163,9 +165,16 @@ const pages = [
   "/about",
   "/advertise",
   "/ama",
+  "/caffeine",
+  "/clockwork",
   "/feed",
+  "/ilo",
   "/issues",
+  "/natter",
+  "/portman",
   "/posts",
+  "/seo-skill",
+  "/swipe",
   "/tags",
   "/tools",
   ...postEntries.map((post) => `/post/${post.slug}`),
@@ -179,6 +188,10 @@ rmSync(SITEMAPS_DIR, { recursive: true, force: true });
 mkdirSync(SITEMAPS_DIR, { recursive: true });
 
 writeFileSync(resolve(SITEMAPS_DIR, "pages.xml"), urlSet(pages), "utf8");
-writeFileSync(resolve(PUBLIC_DIR, "sitemap.xml"), sitemapIndex(["/sitemaps/pages.xml"]), "utf8");
+writeFileSync(
+  resolve(PUBLIC_DIR, "sitemap.xml"),
+  sitemapIndex(["/sitemaps/pages.xml"]),
+  "utf8",
+);
 
 console.log(`Wrote ${pages.length} URLs to public/sitemap.xml`);

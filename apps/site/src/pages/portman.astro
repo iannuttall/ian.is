@@ -10,36 +10,20 @@ import PortmanFaq from "@/components/portman/PortmanFaq.astro";
 import CodeBlock from "@/components/page/CodeBlock.astro";
 import CodeCopy from "@/components/CodeCopy.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { fetchLatestRelease, fetchStars } from "@/lib/github-release";
 
 const repo = "iannuttall/portman";
-const version = "v0.2.0";
-const size = "4.2 MB";
 const minimumMacOS = "15";
 const downloadUrl = `https://github.com/${repo}/releases/latest`;
 
 /**
- * Star count is fetched at build time so the page stays static. A failure here
- * must never break the build — the button just renders without a count.
+ * Release and star data are fetched at build time so the page stays static.
+ * A failure must never break the build — the last known release is the
+ * fallback and the star button just renders without a count.
  */
-let stars: number | null = null;
-
-try {
-  const response = await fetch(`https://api.github.com/repos/${repo}`, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "ian.is",
-    },
-  });
-
-  console.error("[stars] status", response.status, response.headers.get("x-ratelimit-remaining"));
-  if (response.ok) {
-    const data = (await response.json()) as { stargazers_count?: number };
-    stars = typeof data.stargazers_count === "number" ? data.stargazers_count : null;
-  }
-} catch (e) {
-  console.error("[stars] threw", e);
-  stars = null;
-}
+const [stars, release] = await Promise.all([fetchStars(repo), fetchLatestRelease(repo)]);
+const version = release?.version ?? "v0.3.2";
+const size = release?.sizeLabel ?? "4.5 MB";
 
 // The features themselves live in PortmanFeatures, because each one carries an
 // illustration as well as its copy.

@@ -1,0 +1,271 @@
+---
+/**
+ * Caffeine demo: a little Mac desktop. A terminal runs an agent turn while
+ * the real menu bar cup holds the wake session. The blue dot goes out when
+ * the turn ends and macOS is allowed to sleep, then the other tab takes over.
+ *
+ * The cup icons are the actual template images shipped in the app, rendered
+ * through a CSS mask so they follow the current text colour in both themes.
+ */
+import cupActive from "@/assets/projects/caffeine-active.png";
+import cupInactive from "@/assets/projects/caffeine-inactive.png";
+---
+
+<div
+  class="caffeine-desktop overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] shadow-xs dark:border-white/10"
+  x-data="caffeineDemo"
+  x-init="init()"
+  style={`--cup-active:url(${JSON.stringify(cupActive.src)});--cup-inactive:url(${JSON.stringify(cupInactive.src)})`}
+>
+  <!-- Menu bar -->
+  <div class="flex h-8 items-center gap-4 border-b border-black/[0.05] bg-background-raised/80 px-4 text-foreground backdrop-blur dark:border-white/[0.07]">
+    <svg class="size-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M11.18 8.53c.01-1.4 1.17-2.07 1.22-2.1-.66-.97-1.7-1.1-2.06-1.11-.88-.09-1.71.51-2.16.51-.44 0-1.13-.5-1.86-.49-.96.01-1.84.55-2.33 1.4-.99 1.72-.25 4.27.71 5.66.47.68 1.03 1.45 1.77 1.42.71-.03.98-.46 1.84-.46s1.1.46 1.86.44c.77-.01 1.25-.69 1.72-1.38.54-.79.77-1.55.78-1.59-.02-.01-1.5-.58-1.51-2.3ZM9.77 4.4c.39-.47.65-1.13.58-1.79-.56.02-1.24.37-1.64.84-.36.42-.67 1.09-.59 1.73.63.05 1.26-.32 1.65-.78Z"></path>
+    </svg>
+    <span class="text-[12px] font-semibold">Terminal</span>
+    <span class="hidden gap-3 text-[12px] text-foreground-muted sm:flex" aria-hidden="true">
+      <span>File</span><span>Edit</span><span>View</span><span>Window</span>
+    </span>
+
+    <div class="ml-auto flex items-center gap-3">
+      <button
+        type="button"
+        class="relative flex h-6 items-center rounded px-1 transition-colors hover:bg-foreground/[0.06]"
+        @click="toggle()"
+        aria-label="Toggle the Caffeine session"
+      >
+        <span class="caffeine-cup" :class="working && 'is-active'"></span>
+        <span
+          class="absolute bottom-0.5 right-0.5 size-[7px] rounded-full bg-[#0a84ff] transition-opacity duration-500"
+          :class="working ? 'opacity-100' : 'opacity-0'"
+        ></span>
+      </button>
+      <span class="flex items-center gap-1.5 text-[11px] text-foreground-muted">
+        74%
+        <svg class="h-3 w-6" viewBox="0 0 26 12" aria-hidden="true">
+          <rect x="0.5" y="0.5" width="21" height="11" rx="3" fill="none" stroke="currentColor" stroke-opacity="0.4"></rect>
+          <rect x="23" y="3.5" width="2.5" height="5" rx="1" fill="currentColor" fill-opacity="0.4"></rect>
+          <rect x="2" y="2" width="14" height="8" rx="1.5" fill="currentColor"></rect>
+        </svg>
+      </span>
+      <span class="text-[11px] text-foreground-muted">Mon 9:41</span>
+    </div>
+  </div>
+
+  <!-- Desktop -->
+  <div class="relative px-4 pt-6 sm:px-10 sm:pt-9">
+    <div
+      class="pointer-events-none absolute inset-0 transition-opacity duration-700"
+      :class="working ? 'opacity-0' : 'opacity-100'"
+      style="background: color-mix(in oklab, black 26%, transparent)"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="pointer-events-none absolute right-3 top-2 z-10 flex w-[19rem] max-w-[80%] items-center gap-2.5 rounded-xl bg-background-raised/95 p-3 shadow-lg ring-1 ring-black/[0.06] backdrop-blur transition-all duration-500 dark:ring-white/10"
+      :class="working ? 'translate-x-3 opacity-0' : 'translate-x-0 opacity-100'"
+      aria-hidden="true"
+    >
+      <span class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-foreground/[0.05]">
+        <span class="caffeine-cup"></span>
+      </span>
+      <span class="min-w-0">
+        <span class="block text-[11px] font-semibold text-foreground">Caffeine</span>
+        <span class="block text-[11px] text-foreground-muted">Session released. macOS can sleep.</span>
+      </span>
+    </div>
+
+    <!-- Terminal window -->
+    <div class="overflow-hidden rounded-t-xl bg-background-raised shadow-lg ring-1 ring-black/[0.07] dark:ring-white/10">
+      <div class="flex items-center gap-1.5 border-b border-border-subtle px-3.5 py-2.5">
+        <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
+        <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
+        <span class="size-2.5 rounded-full bg-[#28c840]"></span>
+        <span class="ml-3 truncate font-mono text-[11px] text-foreground-soft" x-text="tabs[active].title"></span>
+      </div>
+
+      <div class="flex border-b border-border-subtle bg-foreground/[0.03] text-[11px]">
+        <template x-for="(tab, index) in tabs" :key="tab.name">
+          <button
+            type="button"
+            class="flex items-center gap-2 border-r border-border-subtle px-4 py-2 transition-colors"
+            :class="active === index ? 'bg-background-raised font-medium text-foreground' : 'text-foreground-soft hover:text-foreground-muted'"
+            @click="focusTab(index)"
+          >
+            <span
+              class="size-1.5 rounded-full transition-colors"
+              :class="active === index && working ? 'bg-[#0a84ff]' : 'bg-foreground/20'"
+            ></span>
+            <span x-text="tab.name"></span>
+          </button>
+        </template>
+      </div>
+
+      <div class="min-h-[15.5rem] p-4 font-mono text-[12px]/6 sm:p-5">
+        <div class="text-foreground">
+          <span class="text-foreground-soft" x-text="tabs[active].prompt"></span>
+          <span x-text="typed"></span><span class="caffeine-caret" :class="working && phase === 'typing' ? 'opacity-100' : 'opacity-0'">▍</span>
+        </div>
+        <div class="mt-3 space-y-1.5 text-foreground-muted">
+          <template x-for="(line, index) in tabs[active].lines" :key="index">
+            <div
+              class="transition-opacity duration-300"
+              :class="index < shown ? 'opacity-100' : 'opacity-0'"
+              x-text="line"
+            ></div>
+          </template>
+        </div>
+        <div class="mt-3">
+          <span x-show="working && phase === 'running'" class="flex items-center gap-2 text-foreground-soft">
+            <span class="inline-block animate-spin" style="animation-duration: 1.2s">◐</span>
+            <span>working… <span class="opacity-60">caffeine holds the wake session</span></span>
+          </span>
+          <span x-show="!working" x-cloak class="text-emerald-600 dark:text-emerald-400">
+            ✓ turn complete · waiting for you
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .caffeine-desktop {
+    background:
+      radial-gradient(120% 90% at 15% 0%, color-mix(in oklab, #0a84ff 14%, transparent), transparent 60%),
+      radial-gradient(120% 100% at 90% 20%, color-mix(in oklab, #b465f8 12%, transparent), transparent 55%),
+      var(--color-background);
+  }
+
+  .caffeine-cup {
+    display: block;
+    width: 22px;
+    height: 20px;
+    background-color: currentColor;
+    mask: var(--cup-inactive) center / contain no-repeat;
+    -webkit-mask: var(--cup-inactive) center / contain no-repeat;
+  }
+  .caffeine-cup.is-active {
+    mask-image: var(--cup-active);
+    -webkit-mask-image: var(--cup-active);
+  }
+
+  .caffeine-caret {
+    animation: caffeine-caret-blink 1s steps(2) infinite;
+  }
+  @keyframes caffeine-caret-blink {
+    50% { opacity: 0; }
+  }
+</style>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    type DemoTab = {
+      name: string;
+      title: string;
+      prompt: string;
+      request: string;
+      lines: string[];
+    };
+
+    const TABS: DemoTab[] = [
+      {
+        name: "codex",
+        title: "codex · zsh · 80×24",
+        prompt: "> ",
+        request: "fix the flaky port scan test",
+        lines: [
+          "• Reading tests/scan.test.ts",
+          "• Editing src/scan.ts",
+          "• Running pnpm test",
+          "✓ 24 tests passed",
+        ],
+      },
+      {
+        name: "claude",
+        title: "claude · zsh · 80×24",
+        prompt: "> ",
+        request: "add a --json flag to status",
+        lines: [
+          "• Reading src/cli.ts",
+          "• Editing src/cli.ts",
+          "• Running pnpm build",
+          "✓ Build clean",
+        ],
+      },
+    ];
+
+    const TYPE_MS = 45;
+    const LINE_MS = 900;
+    const IDLE_MS = 3200;
+
+    alpine.data("caffeineDemo", () => ({
+      tabs: TABS,
+      active: 0,
+      typed: "",
+      shown: 0,
+      working: true,
+      phase: "typing" as "typing" | "running" | "idle",
+      timers: [] as number[],
+
+      init() {
+        addEventListener("beforeunload", () => this.timers.forEach(clearTimeout));
+        this.startTurn(0);
+      },
+
+      later(fn: () => void, ms: number) {
+        this.timers.push(window.setTimeout(fn, ms));
+      },
+
+      clear() {
+        this.timers.forEach(clearTimeout);
+        this.timers = [];
+      },
+
+      startTurn(index: number) {
+        this.clear();
+        this.active = index;
+        this.typed = "";
+        this.shown = 0;
+        this.working = true;
+        this.phase = "typing";
+
+        const tab = TABS[index];
+        tab.request.split("").forEach((char, charIndex) => {
+          this.later(() => (this.typed += char), 300 + charIndex * TYPE_MS);
+        });
+
+        const runStart = 300 + tab.request.length * TYPE_MS + 400;
+        this.later(() => (this.phase = "running"), runStart);
+        tab.lines.forEach((_, lineIndex) => {
+          this.later(() => (this.shown = lineIndex + 1), runStart + (lineIndex + 1) * LINE_MS);
+        });
+
+        const turnEnd = runStart + (tab.lines.length + 1) * LINE_MS;
+        this.later(() => {
+          this.working = false;
+          this.phase = "idle";
+        }, turnEnd);
+
+        this.later(() => this.startTurn((index + 1) % TABS.length), turnEnd + IDLE_MS);
+      },
+
+      focusTab(index: number) {
+        this.startTurn(index);
+      },
+
+      toggle() {
+        if (this.working) {
+          this.clear();
+          this.working = false;
+          this.phase = "idle";
+          this.later(() => this.startTurn((this.active + 1) % TABS.length), IDLE_MS);
+        } else {
+          this.startTurn(this.active);
+        }
+      },
+    }));
+  });
+</script>

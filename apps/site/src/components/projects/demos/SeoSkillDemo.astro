@@ -1,0 +1,122 @@
+---
+/**
+ * SEO Skill demo: the CLI run on the left, the ranked findings it produces on
+ * the right. Re-running replays the report lines so the tool feels live.
+ */
+---
+
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data="seoSkillDemo"
+>
+  <div class="flex items-center gap-1.5 border-b border-border-subtle px-4 py-3" aria-hidden="true">
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="ml-2 font-mono text-[10px] text-foreground-soft">seo · zsh</span>
+  </div>
+
+  <div class="grid gap-5 p-5 sm:p-8 md:grid-cols-[0.95fr_1.05fr]">
+    <div class="flex min-h-64 flex-col rounded-xl bg-[#131418] p-5 font-mono text-[12px]/6 text-zinc-200 ring-1 ring-white/10">
+      <div><span class="opacity-45">$</span> seo report --url ian.is</div>
+      <div class="mt-4 space-y-1.5">
+        <template x-for="(line, index) in lines" :key="index">
+          <div
+            class="transition-opacity duration-300"
+            :class="index < shown ? 'opacity-80' : 'opacity-0'"
+            x-text="line"
+          ></div>
+        </template>
+        <div class="flex items-center gap-2" :class="done ? 'opacity-80' : 'opacity-40'">
+          <span x-show="!done">· comparing crawl evidence…</span>
+          <span x-show="done" x-cloak>✓ Report saved · 12 findings ranked</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        @click="run()"
+        class="mt-auto w-fit rounded-md border border-white/20 px-3 py-1.5 text-left text-[11px] transition-colors hover:bg-white/10"
+        x-text="done ? 'Run the report again' : 'Running…'"
+      >
+        Run the report again
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div class="flex items-baseline justify-between">
+        <span class="text-xs font-medium text-foreground-muted">Highest-priority work</span>
+        <span
+          class="text-[11px] text-foreground-soft transition-opacity duration-300"
+          :class="done ? 'opacity-100' : 'opacity-0'"
+        >evidence attached</span>
+      </div>
+
+      <div
+        class="rounded-xl border border-border bg-background p-4 transition-all duration-500"
+        :class="done ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-30'"
+      >
+        <span class="flex gap-3">
+          <span class="mt-1 size-2 shrink-0 rounded-full bg-amber-500"></span>
+          <span>
+            <strong class="block text-sm font-medium">14 useful pages are not indexed</strong>
+            <span class="mt-1 block text-xs text-foreground-soft">Crawlable, in the sitemap, excluded by Search Console</span>
+          </span>
+          <span class="ml-auto self-start rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 dark:text-amber-400">fix first</span>
+        </span>
+      </div>
+
+      <div
+        class="rounded-xl border border-border bg-background p-4 transition-all delay-100 duration-500"
+        :class="done ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-30'"
+      >
+        <span class="flex gap-3">
+          <span class="mt-1 size-2 shrink-0 rounded-full bg-emerald-500"></span>
+          <span>
+            <strong class="block text-sm font-medium">18 quick-win queries</strong>
+            <span class="mt-1 block text-xs text-foreground-soft">Positions 4 to 10 with weak titles on the landing pages</span>
+          </span>
+          <span class="ml-auto self-start rounded bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">GSC</span>
+        </span>
+      </div>
+
+      <div
+        class="rounded-xl border border-border bg-background p-4 transition-all delay-200 duration-500"
+        :class="done ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-30'"
+      >
+        <span class="flex gap-3">
+          <span class="mt-1 size-2 shrink-0 rounded-full bg-foreground/25"></span>
+          <span>
+            <strong class="block text-sm font-medium">6 redirect chains</strong>
+            <span class="mt-1 block text-xs text-foreground-soft">Old post URLs hop twice before the canonical page</span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    alpine.data("seoSkillDemo", () => ({
+      lines: ["✓ Crawled 428 URLs", "✓ Matched Search Console", "✓ Pulled 90 days of Analytics"],
+      shown: 3,
+      done: true,
+      timers: [] as number[],
+
+      run() {
+        if (!this.done) return;
+        this.timers.forEach(clearTimeout);
+        this.timers = [];
+        this.shown = 0;
+        this.done = false;
+
+        this.lines.forEach((_, index) => {
+          this.timers.push(window.setTimeout(() => (this.shown = index + 1), 350 + index * 420));
+        });
+        this.timers.push(window.setTimeout(() => (this.done = true), 350 + this.lines.length * 420 + 500));
+      },
+    }));
+  });
+</script>

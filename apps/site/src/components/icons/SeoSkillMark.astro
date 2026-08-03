@@ -1,0 +1,18 @@
+---
+/**
+ * The SEO Skill "S" mark (two interlocking hooks), flattened to a single
+ * colour so it can sit in buttons and inherit the text colour. The gradient
+ * original lives in the seo repo at assets/brand/s.svg.
+ */
+type Props = { class?: string };
+const { class: className } = Astro.props;
+---
+
+<svg class={className} viewBox="60 50 800 720" fill="currentColor" aria-hidden="true">
+  <path
+    d="M350.963 300 L569.873 300 L569.873 301.646 L607.572 301.646 A223.005 222.797 0 0 1 830.577 524.443 A223.005 223.562 0 0 1 607.572 748.005 L432.5 748.005 C419.146 748.005 402.821 730.609 402.821 716.5 L402.821 525.14 L350.963 525.14 Z"
+  ></path>
+  <path
+    d="M351.663 78.757 L540 78.757 C554.614 78.757 570.373 95.892 570.373 110.5 L570.373 301.599 L351.663 301.599 L351.663 524.54 A222.919 222.919 0 0 1 128.744 301.621 A222.919 222.864 0 0 1 351.663 78.757 Z"
+  ></path>
+</svg>

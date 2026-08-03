@@ -1,0 +1,38 @@
+---
+import type { ProjectPage } from "@/lib/projects";
+import CaffeineDemo from "./demos/CaffeineDemo.astro";
+import ClockworkDemo from "./demos/ClockworkDemo.astro";
+import IloDemo from "./demos/IloDemo.astro";
+import NatterDemo from "./demos/NatterDemo.astro";
+import SeoSkillDemo from "./demos/SeoSkillDemo.astro";
+import SwipeDemo from "./demos/SwipeDemo.astro";
+
+type Props = { project: ProjectPage };
+const { project } = Astro.props;
+
+const demos = {
+  "seo-skill": SeoSkillDemo,
+  swipe: SwipeDemo,
+  ilo: IloDemo,
+  caffeine: CaffeineDemo,
+  natter: NatterDemo,
+  clockwork: ClockworkDemo,
+} as const;
+
+const Demo = demos[project.slug as keyof typeof demos];
+---
+
+<div class="relative w-full select-none" style={`--project-accent:${project.accent}`}>
+  <div class="mb-3 flex items-center gap-2 text-[13px] text-foreground-soft">
+    <span class="size-1.5 rounded-full bg-[var(--project-accent)]"></span>
+    {project.demoLabel}
+  </div>
+
+  {Demo ? <Demo /> : null}
+</div>
+
+<style is:global>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
