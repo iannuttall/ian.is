@@ -85,7 +85,7 @@ That value is read by:
 
 - `newsletterSignup`, to hide future newsletter cards.
 - `newsletterShell`, to keep the homepage layout balanced when the card is
-  hidden.
+hidden.
 
 If this grows, move newsletter state to an `Alpine.store("newsletter", ...)`
 object so every component reads the same source.
@@ -96,4 +96,4 @@ object so every component reads the same source.
 - Add a documented URL-state helper for filters.
 - Decide whether Alpine should own all static-page interactivity.
 - Keep Alpine for tiny enhancements and use islands only when the UI becomes a
-  real app surface.
+real app surface.
