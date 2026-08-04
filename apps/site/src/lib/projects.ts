@@ -20,7 +20,6 @@ export type ProjectPage = {
   description: string;
   metaTitle: string;
   metaDescription: string;
-  demoLabel: string;
   detailHeading: string;
   details: Array<{ title: string; description: string }>;
   closing: string;
@@ -47,7 +46,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "SEO Skill for AI agents and local SEO audits",
     metaDescription:
       "A local SEO CLI, MCP server, and agent skill for technical audits, Search Console analysis, competitor research, and evidence-backed fixes.",
-    demoLabel: "A report that shows its work",
     detailHeading: "Local-first SEO work without another dashboard",
     details: [
       {
@@ -110,7 +108,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "Swipe: useful AI skills, prompts, tools, and workflows",
     metaDescription:
       "A curated weekly collection of AI skills, prompts, tools, and workflows, with a searchable catalog and public issue archive.",
-    demoLabel: "Good ideas, stripped of the noise",
     detailHeading: "Curation for people who would rather build than scroll",
     details: [
       {
@@ -172,7 +169,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "ilo: X performance reports for AI agents",
     metaDescription:
       "Agent-first X performance reports across posts, topics, hooks, formats, timing, and audience response through MCP, CLI, and API.",
-    demoLabel: "Account history turned into a useful brief",
     detailHeading: "Performance context without another publishing tool",
     details: [
       {
@@ -234,7 +230,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "Caffeine for Mac with Claude Code and Codex Agent Watch",
     metaDescription:
       "A native macOS menu bar app with one-click wake sessions, timers, battery controls, a CLI, and Agent Watch for Claude Code and Codex.",
-    demoLabel: "Awake for the work, released when it stops",
     detailHeading: "Native power control that stays on your Mac",
     details: [
       {
@@ -300,7 +295,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "Natter: local macOS dictation for code and technical work",
     metaDescription:
       "A native local dictation app for macOS that handles code, commands, file paths, technical terms, and optional on-device writing cleanup.",
-    demoLabel: "Speech that understands the awkward technical bits",
     detailHeading: "Your voice and transcript stay on the machine",
     details: [
       {
@@ -361,7 +355,6 @@ export const projectPages: ProjectPage[] = [
     metaTitle: "Clockwork: schedule recurring commands on macOS",
     metaDescription:
       "A native macOS menu bar app for recurring commands with launchd schedules, run history, stdout and stderr, attention events, and a JSON CLI.",
-    demoLabel: "A scheduler you can read at a glance",
     detailHeading: "A readable front end for the scheduler already in macOS",
     details: [
       {
