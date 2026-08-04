@@ -95,9 +95,11 @@ const structuredData = {
       <h2 class="max-w-2xl text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
         {project.closing}
       </h2>
-      <ProjectActions {...actionProps}>
-        {Mark ? <Mark slot="icon" class="size-4" /> : null}
-      </ProjectActions>
+      <div class="contents" data-agent-markdown="exclude">
+        <ProjectActions {...actionProps}>
+          {Mark ? <Mark slot="icon" class="size-4" /> : null}
+        </ProjectActions>
+      </div>
     </div>
   </section>
 </Layout>

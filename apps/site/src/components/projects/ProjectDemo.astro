@@ -22,7 +22,11 @@ const demos = {
 const Demo = demos[project.slug as keyof typeof demos];
 ---
 
-<div class="relative w-full select-none" style={`--project-accent:${project.accent}`}>
+<div
+  class="relative w-full select-none"
+  style={`--project-accent:${project.accent}`}
+  data-agent-markdown="exclude"
+>
   <div class="mb-3 flex items-center gap-2 text-[13px] text-foreground-soft">
     <span class="size-1.5 rounded-full bg-[var(--project-accent)]"></span>
     {project.demoLabel}

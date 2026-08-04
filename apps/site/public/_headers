@@ -4,7 +4,7 @@
   Vary: Accept
   Strict-Transport-Security: max-age=31536000
   Link: <https://ian.is/sitemap.xml>; rel="sitemap"; type="application/xml"
-  Link: <https://ian.is/llms.txt>; rel="llms-txt"; type="text/markdown"
+  Link: <https://ian.is/llms.txt>; rel="describedby llms-txt"; type="text/markdown"
   Link: <https://ian.is/.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
 
 /_astro/*

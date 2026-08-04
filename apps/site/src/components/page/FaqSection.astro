@@ -1,10 +1,5 @@
 ---
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { ChevronDownIcon } from "@/components/ui/icon";
 
 type FaqItem = {
   question: string;
@@ -38,23 +33,24 @@ const faqSchema = {
     {heading}
   </h2>
 
-  <Accordion class="mt-8 max-w-3xl border-t border-border sm:mt-10">
+  <div class="mt-8 max-w-3xl border-t border-border sm:mt-10">
     {
       items.map((item, index) => (
-        <AccordionItem value={`${idPrefix}-${index + 1}`} class="border-border">
-          <AccordionTrigger class="gap-4 text-left text-[15px] text-foreground">
-            {item.question}
-          </AccordionTrigger>
-          <AccordionContent>
+        <details id={`${idPrefix}-${index + 1}`} class="group border-b border-border">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-md border border-transparent py-4 text-left text-[15px] font-medium text-foreground outline-none transition-all focus-visible:border-ring focus-visible:ring-ring/20 focus-visible:ring-[3px] [&::-webkit-details-marker]:hidden">
+            <h3>{item.question}</h3>
+            <ChevronDownIcon class="size-3.5 shrink-0 text-foreground transition-transform duration-200 group-open:rotate-180" />
+          </summary>
+          <div class="pb-4">
             <div
               class="max-w-2xl text-[15px]/relaxed text-foreground-muted [&_a]:underline [&_a]:decoration-border-strong [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-foreground/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px]"
               set:html={item.answer}
             />
-          </AccordionContent>
-        </AccordionItem>
+          </div>
+        </details>
       ))
     }
-  </Accordion>
+  </div>
 </section>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />

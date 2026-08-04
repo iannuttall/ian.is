@@ -9,11 +9,11 @@ import CodeBlock from "@/components/page/CodeBlock.astro";
     </h2>
     <p class="text-pretty text-foreground-muted">
       Two commands, no app required. Find what's holding the port, then stop it by process id.
-      Change the port below and the commands update.
+      <span data-agent-markdown="exclude">Change the port below and the commands update.</span>
     </p>
   </div>
 
-  <div class="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
+  <div class="mt-8 flex flex-wrap items-center gap-3 sm:mt-10" data-agent-markdown="exclude">
     <label class="text-[13px] font-medium text-foreground" for="port-input">Port</label>
     <input
       id="port-input"
@@ -40,8 +40,8 @@ import CodeBlock from "@/components/page/CodeBlock.astro";
         label="Copy the lsof command"
       />
       <p class="text-[13px]/relaxed text-foreground-soft">
-        The <code class="rounded bg-foreground/[0.06] px-1 py-0.5 font-mono text-[12px]">PID</code>
-        column is the process id you want.
+        The <code class="rounded bg-foreground/[0.06] px-1 py-0.5 font-mono text-[12px]">PID</code>{" "}column
+        is the process id you want.
       </p>
     </div>
 

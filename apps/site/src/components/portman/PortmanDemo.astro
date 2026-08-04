@@ -10,6 +10,7 @@ const { repo } = Astro.props;
   class="relative w-full select-none"
   x-data={`portmanDemo(${JSON.stringify({ repo })})`}
   x-init="init()"
+  data-agent-markdown="exclude"
 >
   <div
     class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"

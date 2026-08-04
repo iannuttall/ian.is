@@ -51,9 +51,9 @@ const starsLabel =
         }
         {primaryLabel}
       </a>
-      <span class="text-[13px] text-foreground-soft opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100">
+      <p class="text-[13px] text-foreground-soft opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100">
         {primaryDetail}
-      </span>
+      </p>
     </div>
 
     <div class="group flex flex-col gap-2" x-data={`githubStars(${JSON.stringify({ repo, initial: stars })})`}>

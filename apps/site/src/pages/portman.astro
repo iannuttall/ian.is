@@ -143,14 +143,16 @@ const structuredData = {
       <h2 class="max-w-xl text-pretty text-2xl font-medium -tracking-[0.4px] xl:text-3xl">
         Free, open source, and it stays out of your way.
       </h2>
-      <PortmanActions
-        repo={repo}
-        downloadUrl={downloadUrl}
-        version={version}
-        size={size}
-        minimumMacOS={minimumMacOS}
-        stars={stars}
-      />
+      <div class="contents" data-agent-markdown="exclude">
+        <PortmanActions
+          repo={repo}
+          downloadUrl={downloadUrl}
+          version={version}
+          size={size}
+          minimumMacOS={minimumMacOS}
+          stars={stars}
+        />
+      </div>
     </div>
   </section>
 
