@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
+import ContributionsSection from "@/components/page/ContributionsSection.astro";
 import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
 import { getPublishedPosts } from "@/lib/posts";
@@ -43,6 +44,10 @@ const posts = (await getPublishedPosts()).slice(0, 5);
   <div class="space-y-24 py-24">
     <section class="site-frame">
       <ProjectsSection />
+    </section>
+
+    <section class="site-frame" data-agent-markdown="exclude">
+      <ContributionsSection />
     </section>
 
     {posts.length > 0 ? (
