@@ -17,6 +17,7 @@ export type FeedDefinition = {
   path: string;
   title: string;
   description: string;
+  discover: boolean;
   load: () => Promise<FeedItem[]>;
 };
 
@@ -41,6 +42,7 @@ export const feeds = {
     path: "/rss.xml",
     title: siteName,
     description: siteDescription,
+    discover: true,
     load: async () =>
       (await getPublishedPosts()).map((post) => ({
         title: post.data.title,
@@ -53,6 +55,7 @@ export const feeds = {
     path: "/ama/rss.xml",
     title: `${siteName} — AMA`,
     description: "Questions people ask me, answered.",
+    discover: true,
     load: async () =>
       (await getAnsweredQuestions()).map((entry) => ({
         title: entry.data.question,
@@ -65,6 +68,7 @@ export const feeds = {
     path: "/feed/rss.xml",
     title: `${siteName} — Feed`,
     description: "Short notes on SEO, AI, and building things.",
+    discover: false,
     load: async () =>
       (await getPublishedNotes()).map((entry) => ({
         title: notePreview(entry.body ?? ""),
@@ -75,10 +79,9 @@ export const feeds = {
   },
 } satisfies Record<string, FeedDefinition>;
 
-export const feedLinks = Object.values(feeds).map(({ path, title }) => ({
-  path,
-  title,
-}));
+export const feedLinks = Object.values(feeds)
+  .filter(({ discover }) => discover)
+  .map(({ path, title }) => ({ path, title }));
 
 export async function renderFeed(feed: FeedDefinition, context: APIContext) {
   return rss({

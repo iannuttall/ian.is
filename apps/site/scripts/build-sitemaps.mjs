@@ -12,7 +12,6 @@ const PUBLIC_DIR = resolve(process.cwd(), "public");
 const SITEMAPS_DIR = resolve(PUBLIC_DIR, "sitemaps");
 const POSTS_DIR = resolve(process.cwd(), "src/content/posts");
 const AMA_DIR = resolve(process.cwd(), "src/content/ama");
-const FEED_DIR = resolve(process.cwd(), "src/content/feed");
 const ISSUES_DIR = resolve(process.cwd(), "src/content/issues");
 
 function slugifyTag(tag) {
@@ -102,19 +101,6 @@ function amaSlugs() {
   });
 }
 
-function feedSlugs() {
-  return postFiles(FEED_DIR).flatMap((path) => {
-    const source = readFileSync(path, "utf8");
-    const data = frontmatter(source);
-
-    if (/^draft:\s*true\s*$/m.test(data)) {
-      return [];
-    }
-
-    return [relative(FEED_DIR, path).replace(/\.(md|mdx)$/, "")];
-  });
-}
-
 function issueSlugs() {
   return postFiles(ISSUES_DIR).flatMap((path) => {
     const source = readFileSync(path, "utf8");
@@ -167,7 +153,6 @@ const pages = [
   "/ama",
   "/caffeine",
   "/clockwork",
-  "/feed",
   "/ilo",
   "/issues",
   "/mailroom",
@@ -181,7 +166,6 @@ const pages = [
   "/unclaimed",
   ...postEntries.map((post) => `/post/${post.slug}`),
   ...amaSlugs().map((slug) => `/ama/${slug}`),
-  ...feedSlugs().map((slug) => `/feed/${slug}`),
   ...issueSlugs().map((slug) => `/issues/${slug}`),
   ...tagSlugs.map((tag) => `/tags/${tag}`),
 ].map((path) => new URL(path, SITE).toString());
