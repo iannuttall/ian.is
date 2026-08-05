@@ -1,0 +1,117 @@
+---
+/**
+ * Illustrative CLI run. Domain availability changes constantly, so the demo
+ * labels itself as sample output instead of publishing a stale live claim.
+ */
+---
+
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data="unclaimedDemo"
+>
+  <div class="flex items-center gap-1.5 border-b border-border-subtle px-4 py-3" aria-hidden="true">
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="ml-2 font-mono text-[10px] text-foreground-soft">unclaimed · zsh</span>
+  </div>
+
+  <div class="grid gap-5 p-5 sm:p-8 md:grid-cols-[0.95fr_1.05fr]">
+    <div class="flex min-h-64 flex-col rounded-xl bg-[#131418] p-5 font-mono text-[12px]/6 text-zinc-200 ring-1 ring-white/10">
+      <div><span class="opacity-45">$</span> unclaimed check lumen --tlds dev,tools,so</div>
+      <div class="mt-4 space-y-1.5">
+        <template x-for="(line, index) in lines" :key="line">
+          <div
+            class="transition-opacity duration-300"
+            :class="index < shown ? 'opacity-80' : 'opacity-0'"
+            x-text="line"
+          ></div>
+        </template>
+        <div class="transition-opacity duration-300" :class="done ? 'opacity-80' : 'opacity-35'">
+          <span x-show="!done">· waiting for registry response…</span>
+          <span x-show="done" x-cloak>✓ Saved 3 results to the local catalogue</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        @click="run()"
+        class="mt-auto w-fit rounded-md border border-white/20 px-3 py-1.5 text-left text-[11px] transition-colors hover:bg-white/10"
+        x-text="done ? 'Replay the check' : 'Checking…'"
+      >
+        Replay the check
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div class="flex items-baseline justify-between">
+        <span class="text-xs font-medium text-foreground-muted">Illustrative result</span>
+        <span class="font-mono text-[10px] text-foreground-soft">RDAP → WHOIS</span>
+      </div>
+
+      <div
+        class="flex items-center gap-3 rounded-xl border border-border bg-background p-4 transition-all duration-500"
+        :class="shown > 0 ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-25'"
+      >
+        <span class="size-2.5 shrink-0 rounded-full bg-emerald-500"></span>
+        <span>
+          <strong class="block font-mono text-sm font-medium">lumen.tools</strong>
+          <span class="mt-0.5 block text-[11px] text-foreground-soft">RDAP, confirmed with WHOIS</span>
+        </span>
+        <span class="ml-auto rounded bg-emerald-500/15 px-2 py-1 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">available</span>
+      </div>
+
+      <div
+        class="flex items-center gap-3 rounded-xl border border-border bg-background p-4 transition-all delay-100 duration-500"
+        :class="shown > 1 ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-25'"
+      >
+        <span class="size-2.5 shrink-0 rounded-full bg-foreground/30"></span>
+        <span>
+          <strong class="block font-mono text-sm font-medium">lumen.dev</strong>
+          <span class="mt-0.5 block text-[11px] text-foreground-soft">Registry record found</span>
+        </span>
+        <span class="ml-auto rounded bg-foreground/[0.08] px-2 py-1 text-[10px] font-medium text-foreground-muted">registered</span>
+      </div>
+
+      <div
+        class="flex items-center gap-3 rounded-xl border border-border bg-background p-4 transition-all delay-200 duration-500"
+        :class="shown > 2 ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-25'"
+      >
+        <span class="size-2.5 shrink-0 rounded-full bg-amber-500"></span>
+        <span>
+          <strong class="block font-mono text-sm font-medium">lumen.so</strong>
+          <span class="mt-0.5 block text-[11px] text-foreground-soft">Registry timed out</span>
+        </span>
+        <span class="ml-auto rounded bg-amber-500/15 px-2 py-1 text-[10px] font-medium text-amber-700 dark:text-amber-400">unknown</span>
+      </div>
+
+      <p class="px-1 text-[11px]/5 text-foreground-soft">
+        Availability changes. Unclaimed keeps uncertain answers separate and tells you to confirm before buying.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    alpine.data("unclaimedDemo", () => ({
+      lines: ["✓ lumen.tools  available", "✓ lumen.dev    registered", "? lumen.so     unknown"],
+      shown: 3,
+      done: true,
+      timers: [] as number[],
+
+      run() {
+        if (!this.done) return;
+        this.timers.forEach(clearTimeout);
+        this.timers = [];
+        this.shown = 0;
+        this.done = false;
+        this.lines.forEach((_, index) => {
+          this.timers.push(window.setTimeout(() => (this.shown = index + 1), 300 + index * 430));
+        });
+        this.timers.push(window.setTimeout(() => (this.done = true), 300 + this.lines.length * 430 + 350));
+      },
+    }));
+  });
+</script>

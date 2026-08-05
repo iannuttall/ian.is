@@ -1,0 +1,92 @@
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data="{ approved: false }"
+>
+  <div class="flex items-center gap-1.5 border-b border-border-subtle px-4 py-3" aria-hidden="true">
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="size-2 rounded-full bg-foreground/15"></span>
+    <span class="ml-2 font-mono text-[10px] text-foreground-soft">mailroom · project inbox</span>
+    <span class="ml-auto size-2 rounded-full bg-emerald-500"></span>
+  </div>
+
+  <div class="grid min-h-[25rem] md:grid-cols-[0.85fr_1.15fr]">
+    <div class="border-b border-border-subtle p-3 md:border-r md:border-b-0">
+      <div class="flex items-center justify-between px-2 py-2">
+        <span class="text-xs font-medium text-foreground-muted">Unread</span>
+        <span class="rounded bg-foreground/[0.06] px-1.5 py-0.5 text-[10px] text-foreground-soft">3</span>
+      </div>
+
+      <div class="rounded-xl bg-[var(--project-accent)]/10 p-3 ring-1 ring-[var(--project-accent)]/20">
+        <div class="flex items-center gap-2">
+          <span class="size-2 rounded-full bg-[var(--project-accent)]"></span>
+          <strong class="text-sm font-medium text-foreground">Maya Chen</strong>
+          <span class="ml-auto text-[10px] text-foreground-soft">9:42</span>
+        </div>
+        <p class="mt-1 truncate text-xs text-foreground-muted">Sponsor slot for next Tuesday</p>
+      </div>
+
+      <div class="mt-1 rounded-xl p-3">
+        <div class="flex items-center gap-2">
+          <span class="size-2 rounded-full bg-foreground/20"></span>
+          <strong class="text-sm font-medium text-foreground">Build alerts</strong>
+          <span class="ml-auto text-[10px] text-foreground-soft">8:18</span>
+        </div>
+        <p class="mt-1 truncate text-xs text-foreground-soft">Deploy recovered after retry</p>
+      </div>
+
+      <div class="mt-1 rounded-xl p-3">
+        <div class="flex items-center gap-2">
+          <span class="size-2 rounded-full bg-foreground/20"></span>
+          <strong class="text-sm font-medium text-foreground">Ravi Patel</strong>
+          <span class="ml-auto text-[10px] text-foreground-soft">Yesterday</span>
+        </div>
+        <p class="mt-1 truncate text-xs text-foreground-soft">Re: API access for the migration</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col p-5 sm:p-6">
+      <div>
+        <div class="flex items-center gap-2 text-[11px] text-foreground-soft">
+          <span>hello@project.dev</span>
+          <span>·</span>
+          <span>thread_42</span>
+        </div>
+        <h2 class="mt-2 text-lg font-medium text-foreground">Sponsor slot for next Tuesday</h2>
+        <p class="mt-3 text-[13px]/6 text-foreground-muted">
+          Could we take the Tuesday slot? The standard package works for us. Please send the final link and deadline.
+        </p>
+      </div>
+
+      <div class="mt-5 rounded-xl border border-border bg-background p-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-foreground">Agent draft</span>
+          <span
+            class="rounded px-2 py-1 text-[10px] font-medium"
+            :class="approved ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400' : 'bg-amber-500/15 text-amber-700 dark:text-amber-400'"
+            x-text="approved ? 'approved' : 'needs approval'"
+          >needs approval</span>
+        </div>
+        <p class="mt-3 text-[12px]/5 text-foreground-muted">
+          Tuesday is available. I have held the standard slot until Friday at 17:00. Here is the artwork deadline and final link.
+        </p>
+        <div class="mt-4 flex items-center gap-2 border-t border-border-subtle pt-3">
+          <button
+            type="button"
+            @click="approved = !approved"
+            class="rounded-md bg-[var(--project-accent)] px-3 py-1.5 text-[11px] font-medium text-white transition-opacity hover:opacity-90"
+            x-text="approved ? 'Revoke approval' : 'Approve draft'"
+          >Approve draft</button>
+          <span class="text-[10px] text-foreground-soft" x-text="approved ? 'Ready for the separate send step' : 'Nothing can be sent yet'"></span>
+        </div>
+      </div>
+
+      <div class="mt-auto flex items-center gap-2 pt-4 font-mono text-[10px] text-foreground-soft">
+        <span class="rounded bg-foreground/[0.06] px-1.5 py-0.5">messages.get</span>
+        <span>→</span>
+        <span class="rounded bg-foreground/[0.06] px-1.5 py-0.5">drafts.create</span>
+        <span>→ approval</span>
+      </div>
+    </div>
+  </div>
+</div>

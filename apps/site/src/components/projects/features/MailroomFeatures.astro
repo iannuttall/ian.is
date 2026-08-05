@@ -1,0 +1,103 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+---
+
+<FeatureGrid heading="What Mailroom puts between an agent and your inbox" columns={2}>
+  <FeatureCard
+    index={0}
+    title="One private home for several domains"
+    description="Exact routes feed a central Worker. Signed ingress relays cover domains that must remain in another Cloudflare account."
+  >
+    <div class="flex w-full max-w-[17rem] items-center justify-center gap-2 text-[10px]">
+      <div class="space-y-2">
+        <span class="block rounded bg-background-raised px-2 py-1.5 text-foreground shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">hello@one.dev</span>
+        <span class="block rounded bg-background-raised px-2 py-1.5 text-foreground shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">support@two.app</span>
+      </div>
+      <span class="text-foreground-soft">→</span>
+      <div class="rounded-xl bg-[var(--project-accent)]/12 px-4 py-5 text-center text-[var(--project-accent)] ring-1 ring-[var(--project-accent)]/20">
+        <strong class="block text-[12px] font-medium">Mailroom</strong>
+        <span class="mt-1 block opacity-70">central Worker</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Keep the original beside the useful view"
+    description="R2 stores raw MIME and attachments. D1 stores bounded messages, threads, routes, drafts, approvals, and delivery history."
+  >
+    <div class="grid w-full max-w-[17rem] grid-cols-2 gap-3 text-center">
+      <div class="rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="font-mono text-[11px] text-foreground-soft">R2</span>
+        <strong class="mt-2 block text-sm font-medium text-foreground">Original email</strong>
+        <span class="mt-1 block text-[10px] text-foreground-soft">MIME · files</span>
+      </div>
+      <div class="rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="font-mono text-[11px] text-foreground-soft">D1</span>
+        <strong class="mt-2 block text-sm font-medium text-foreground">Mailbox state</strong>
+        <span class="mt-1 block text-[10px] text-foreground-soft">threads · drafts</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Three MCP tools cover every operation"
+    description="Agents list compact operation names, inspect one schema and its safety notes, then run only the operation they chose."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-1.5 font-mono text-[10px]">
+      <div class="rounded-lg bg-background-raised px-3 py-2 text-foreground shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]"><span class="text-[var(--project-accent)]">1</span> mailroom_list_operations</div>
+      <div class="ml-4 rounded-lg bg-background-raised px-3 py-2 text-foreground shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]"><span class="text-[var(--project-accent)]">2</span> mailroom_describe_operation</div>
+      <div class="ml-8 rounded-lg bg-background-raised px-3 py-2 text-foreground shadow-sm ring-1 ring-[var(--project-accent)]/20"><span class="text-[var(--project-accent)]">3</span> mailroom_run_operation</div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="A draft cannot quietly send itself"
+    description="Creation, approval, and delivery are separate audited operations. Retries use idempotency keys so one action cannot become two emails."
+  >
+    <div class="flex w-full max-w-[17rem] items-center justify-between gap-1 text-center text-[10px]">
+      <div class="rounded-lg bg-background-raised px-2.5 py-3 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]"><span class="block text-foreground">draft</span><span class="text-foreground-soft">created</span></div>
+      <span class="text-foreground-soft">→</span>
+      <div class="rounded-lg bg-amber-500/12 px-2.5 py-3 ring-1 ring-amber-500/20"><span class="block text-amber-700 dark:text-amber-400">human</span><span class="text-foreground-soft">approval</span></div>
+      <span class="text-foreground-soft">→</span>
+      <div class="rounded-lg bg-emerald-500/12 px-2.5 py-3 ring-1 ring-emerald-500/20"><span class="block text-emerald-700 dark:text-emerald-400">send</span><span class="text-foreground-soft">recorded</span></div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={4}
+    title="Email content is input, not authority"
+    description="Prompts and attachments stay untrusted. Automation ships off, and quoted prices and links are checked against structured offer data."
+  >
+    <div class="w-full max-w-[17rem] rounded-xl bg-background-raised p-4 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 text-[12px] text-foreground">
+        <span class="flex size-6 items-center justify-center rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">!</span>
+        <span>Instruction found in message</span>
+      </div>
+      <div class="mt-3 flex items-center justify-between border-t border-border-subtle pt-3 text-[10px]">
+        <span class="text-foreground-soft">authority</span>
+        <span class="rounded bg-foreground/[0.07] px-2 py-1 text-foreground-muted">untrusted input</span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={5}
+    title="Keep Gmail as the human inbox"
+    description="Optional forwarding sends stored inbound mail to Gmail. A user-owned Apps Script returns manual Sent messages to the correct thread."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col items-center gap-2 text-[10px]">
+      <div class="flex w-full items-center justify-between rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="text-foreground">Mailroom inbox</span>
+        <span class="text-foreground-soft">forward → Gmail</span>
+      </div>
+      <div class="flex w-full items-center justify-between rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-[var(--project-accent)]/20">
+        <span class="text-foreground">Gmail Sent</span>
+        <span class="text-[var(--project-accent)]">sync → thread</span>
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>

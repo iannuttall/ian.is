@@ -398,6 +398,127 @@ export const projectPages: ProjectPage[] = [
       },
     ],
   },
+  {
+    slug: "unclaimed",
+    name: "Unclaimed",
+    repo: "iannuttall/unclaimed",
+    websiteUrl: "https://www.npmjs.com/package/unclaimed",
+    primaryAction: {
+      label: "Open on npm",
+      href: "https://www.npmjs.com/package/unclaimed",
+      kind: "website",
+    },
+    platform: "Node 24+",
+    license: "MIT",
+    accent: "#10b981",
+    title: "Find a single-word domain before someone else does",
+    description:
+      "Check one word across any set of TLDs, save the answers locally, and keep large searches moving without starting over.",
+    metaTitle: "Unclaimed: single-word domain availability from the terminal",
+    metaDescription:
+      "A local Node.js CLI for checking single-word domains through RDAP and WHOIS, browsing saved results, comparing prices, and running resumable searches.",
+    detailHeading: "Registry checks and a local catalogue, without a hosted service",
+    details: [
+      {
+        title: "Unknown stays unknown",
+        description:
+          "A timeout, rate limit, or response Unclaimed cannot classify is never turned into an available domain.",
+      },
+      {
+        title: "The database stays local",
+        description:
+          "Words, results, prices, and check history live in SQLite on your machine. There is no account or hosted API.",
+      },
+      {
+        title: "Registrar access is optional",
+        description:
+          "Normal checks use registry RDAP and WHOIS. Add registrar credentials only when bulk checks or exact prices are useful.",
+      },
+      {
+        title: "Humans and agents get separate paths",
+        description:
+          "The bare command opens an interactive browser. Explicit commands stay headless for agents, scripts, pipes, and CI.",
+      },
+    ],
+    closing: "Check the word, keep the evidence, and confirm it before you buy.",
+    faqs: [
+      {
+        question: "How does Unclaimed check a domain?",
+        answer:
+          "It asks RDAP first when the registry supports it, then falls back to WHOIS. An available RDAP response is checked against WHOIS before Unclaimed trusts it.",
+      },
+      {
+        question: "Can I search TLDs that are not built in?",
+        answer:
+          "Yes. Pass any delegated suffix with <code>--tlds</code> or load a list with <code>--tlds-file</code>. Registry overrides can be saved in the local config for unusual TLDs.",
+      },
+      {
+        question: "Where are results stored?",
+        answer:
+          "The default SQLite database is under your local data directory. Use <code>unclaimed config</code> to see the exact path or <code>--db</code> to choose another one.",
+      },
+    ],
+  },
+  {
+    slug: "mailroom",
+    name: "Mailroom",
+    repo: "iannuttall/mailroom",
+    primaryAction: {
+      label: "Read the setup guide",
+      href: "https://github.com/iannuttall/mailroom/blob/main/docs/deploy.md",
+      kind: "website",
+    },
+    platform: "Node 22+ and Cloudflare",
+    license: "Apache 2.0",
+    accent: "#ef5b4c",
+    title: "Give project email one private home your agent can use",
+    description:
+      "Mailroom receives email through Cloudflare and exposes bounded tools for reading, searching, drafting, and replying with approval before send.",
+    metaTitle: "Mailroom: private Cloudflare email for AI agents",
+    metaDescription:
+      "A self-hosted Cloudflare email service with a CLI, TypeScript API, and three-tool MCP server for safe agent-assisted reading, drafting, and replies.",
+    detailHeading: "Email infrastructure that keeps storage, search, and sending explicit",
+    details: [
+      {
+        title: "You own the Cloudflare account",
+        description:
+          "The Worker, D1 database, R2 bucket, routes, and sending configuration deploy into infrastructure you control.",
+      },
+      {
+        title: "Original email stays inspectable",
+        description:
+          "R2 keeps raw MIME and attachments while D1 stores bounded parsed messages, threads, drafts, and delivery history.",
+      },
+      {
+        title: "Agents discover before they read",
+        description:
+          "Three MCP tools list operations, describe one schema, and run it. Full bodies and attachments remain opt-in.",
+      },
+      {
+        title: "Drafting and sending are separate",
+        description:
+          "A draft cannot silently become an outbound message. Approval, permissions, audit records, and idempotency guard the send path.",
+      },
+    ],
+    closing: "Let the agent help with the inbox without handing it an unlimited send button.",
+    faqs: [
+      {
+        question: "Does Mailroom include a web inbox?",
+        answer:
+          "No. The first release uses a CLI, TypeScript API, private HTTP API, and MCP server. Gmail can remain the human inbox through optional forwarding and Sent-mail sync.",
+      },
+      {
+        question: "Can an agent send email by itself?",
+        answer:
+          "Not by default. Creating, approving, and sending a draft are separate operations. Automation ships disabled and cannot silently send mail.",
+      },
+      {
+        question: "What Cloudflare services does it need?",
+        answer:
+          "The central installation uses Workers, Email Routing and Email Service, D1, R2, Queues, Workers AI, and AI Search. Email Sending to arbitrary recipients currently needs Workers Paid.",
+      },
+    ],
+  },
 ];
 
 export const projectPageBySlug = new Map(
@@ -440,6 +561,18 @@ const extraProjectFaqs: Record<string, ProjectFaq[]> = {
     { question: "Can I run a scheduled command immediately?", answer: "Yes. Run Now starts the same saved task on demand, and the result appears in its normal run history." },
     { question: "Can I see stdout and stderr?", answer: "Yes. Clockwork stores the exit code, stdout, stderr, and duration for the latest 50 runs of each task." },
     { question: "Does Clockwork require administrator access?", answer: "No. Tasks run in your user launchd session. Clockwork does not install a privileged helper or require Full Disk Access." },
+  ],
+  unclaimed: [
+    { question: "How do I install Unclaimed?", answer: "Install the npm package globally with <code>npm i -g unclaimed</code>, or run a focused check without installing it using <code>npx unclaimed check orbit --tlds io,ai,dev</code>." },
+    { question: "Can I stop and resume a large domain search?", answer: "Yes. <code>sweep</code> saves each result to SQLite and skips confident existing rows when it runs again. <code>refresh</code> deliberately rechecks older answers." },
+    { question: "Does available mean I can definitely register the domain?", answer: "No. It is a strong registry signal, but registrars can reserve a name, apply premium pricing, or receive another registration first. Confirm the domain at a registrar before buying." },
+    { question: "Can an AI agent use Unclaimed?", answer: "Yes. The repository includes an installable agent skill, and explicit CLI commands stay headless. Install the skill with <code>npx skills add iannuttall/unclaimed</code>." },
+  ],
+  mailroom: [
+    { question: "Is Mailroom a hosted email provider?", answer: "No. It is self-hosted software for Cloudflare. The mailbox state, raw email, routes, and sending configuration remain in the Cloudflare account you choose." },
+    { question: "How does Mailroom keep email content bounded for agents?", answer: "Search and discovery return compact metadata first. Complete bodies, threads, raw MIME, attachment metadata, and prompt content require explicit operation inputs." },
+    { question: "Can Mailroom receive email for several domains?", answer: "Yes. One central Worker can serve domains in the same Cloudflare account. Small signed ingress Workers relay domains that must stay in other accounts." },
+    { question: "Can I keep using Gmail?", answer: "Yes. Mailroom can forward stored inbound messages to a verified Gmail address, and its optional Apps Script can return manual Gmail Sent messages to the correct Mailroom thread." },
   ],
 };
 

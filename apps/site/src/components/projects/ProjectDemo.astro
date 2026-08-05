@@ -3,9 +3,11 @@ import type { ProjectPage } from "@/lib/projects";
 import CaffeineDemo from "./demos/CaffeineDemo.astro";
 import ClockworkDemo from "./demos/ClockworkDemo.astro";
 import IloDemo from "./demos/IloDemo.astro";
+import MailroomDemo from "./demos/MailroomDemo.astro";
 import NatterDemo from "./demos/NatterDemo.astro";
 import SeoSkillDemo from "./demos/SeoSkillDemo.astro";
 import SwipeDemo from "./demos/SwipeDemo.astro";
+import UnclaimedDemo from "./demos/UnclaimedDemo.astro";
 
 type Props = { project: ProjectPage };
 const { project } = Astro.props;
@@ -17,6 +19,8 @@ const demos = {
   caffeine: CaffeineDemo,
   natter: NatterDemo,
   clockwork: ClockworkDemo,
+  unclaimed: UnclaimedDemo,
+  mailroom: MailroomDemo,
 } as const;
 
 const Demo = demos[project.slug as keyof typeof demos];

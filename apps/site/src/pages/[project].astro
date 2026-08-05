@@ -3,8 +3,10 @@ export const prerender = true;
 
 import Layout from "@/layouts/Layout.astro";
 import IloMark from "@/components/icons/IloMark.astro";
+import MailroomMark from "@/components/icons/MailroomMark.astro";
 import SeoSkillMark from "@/components/icons/SeoSkillMark.astro";
 import SwipeMark from "@/components/icons/SwipeMark.astro";
+import UnclaimedMark from "@/components/icons/UnclaimedMark.astro";
 import FaqSection from "@/components/page/FaqSection.astro";
 import ProjectActions from "@/components/projects/ProjectActions.astro";
 import ProjectDemo from "@/components/projects/ProjectDemo.astro";
@@ -20,7 +22,13 @@ export function getStaticPaths() {
 
 const { project } = Astro.props;
 const canonicalPath = `/${project.slug}`;
-const marks = { "seo-skill": SeoSkillMark, swipe: SwipeMark, ilo: IloMark } as const;
+const marks = {
+  "seo-skill": SeoSkillMark,
+  swipe: SwipeMark,
+  ilo: IloMark,
+  unclaimed: UnclaimedMark,
+  mailroom: MailroomMark,
+} as const;
 const Mark = marks[project.slug as keyof typeof marks];
 
 const isDownload = project.primaryAction.kind === "download";

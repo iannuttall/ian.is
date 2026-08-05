@@ -3,9 +3,11 @@ import type { ProjectPage } from "@/lib/projects";
 import CaffeineFeatures from "./features/CaffeineFeatures.astro";
 import ClockworkFeatures from "./features/ClockworkFeatures.astro";
 import IloFeatures from "./features/IloFeatures.astro";
+import MailroomFeatures from "./features/MailroomFeatures.astro";
 import NatterFeatures from "./features/NatterFeatures.astro";
 import SeoSkillFeatures from "./features/SeoSkillFeatures.astro";
 import SwipeFeatures from "./features/SwipeFeatures.astro";
+import UnclaimedFeatures from "./features/UnclaimedFeatures.astro";
 
 type Props = { project: ProjectPage };
 const { project } = Astro.props;
@@ -19,6 +21,8 @@ const features = {
   caffeine: CaffeineFeatures,
   natter: NatterFeatures,
   clockwork: ClockworkFeatures,
+  unclaimed: UnclaimedFeatures,
+  mailroom: MailroomFeatures,
 } as const;
 
 const Features = features[project.slug as keyof typeof features];
