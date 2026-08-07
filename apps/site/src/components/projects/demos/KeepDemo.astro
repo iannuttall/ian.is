@@ -1,0 +1,119 @@
+---
+import KeepMark from "@/components/icons/KeepMark.astro";
+
+const turns = [
+  {
+    question: "Why does the site use static Inter instead of the variable font?",
+    answer: "The font note says the variable cut collides adjacent letters. Static 400, 500, and 600 keep the spacing clean.",
+  },
+  {
+    question: "Where should this project page link from?",
+    answer: "The homepage Projects list and the project menu both use internal routes. Keep should point to /keep there.",
+  },
+  {
+    question: "What is left before this can ship?",
+    answer: "Run the site check, build the static page, and inspect desktop and mobile in light and dark mode.",
+  },
+] as const;
+---
+
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data={`keepDemo(${JSON.stringify(turns)})`}
+>
+  <div class="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
+    <KeepMark class="size-4 text-[var(--project-accent)]" />
+    <span class="text-[12px] font-medium text-foreground">Keep</span>
+    <span class="rounded bg-emerald-500/12 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">MCP live</span>
+    <span class="ml-auto font-mono text-[10px] text-foreground-soft">project · ian.is</span>
+  </div>
+
+  <div class="grid min-h-[24rem] md:grid-cols-[1.05fr_0.95fr]">
+    <div class="flex flex-col gap-5 border-b border-border-subtle p-5 sm:p-7 md:border-b-0 md:border-r">
+      <div class="rounded-xl border border-border bg-background p-4">
+        <div class="flex items-center justify-between gap-3 text-[11px] text-foreground-soft">
+          <span class="font-mono">SessionStart</span>
+          <span class="text-emerald-700 dark:text-emerald-400">3 project notes found</span>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-1.5">
+          {[
+            "Keep page brief",
+            "Site conventions",
+            "Open launch work",
+          ].map((note) => (
+            <span class="rounded-md bg-foreground/[0.055] px-2 py-1 text-[10px] text-foreground-muted">{note}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex flex-1 flex-col rounded-xl bg-[#131418] p-4 font-mono text-zinc-200 ring-1 ring-white/10">
+        <div class="text-[10px] opacity-45">agent session</div>
+        <p class="mt-4 text-[12px]/5" x-text="current().question">{turns[0].question}</p>
+        <div class="mt-4 flex items-center gap-2 text-[10px] text-orange-300">
+          <span>search_context</span>
+          <span class="opacity-45">+</span>
+          <span>get_note</span>
+        </div>
+        <p class="mt-3 text-[11px]/5 text-zinc-300" x-text="current().answer">{turns[0].answer}</p>
+        <div class="mt-auto pt-6">
+          <button
+            type="button"
+            class="w-fit rounded-md border border-white/20 px-3 py-1.5 text-left text-[11px] transition-colors hover:bg-white/10"
+            @click="next()"
+          >
+            Ask another question
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col p-5 sm:p-7">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <strong class="block text-sm font-medium text-foreground">Keep page handoff</strong>
+          <span class="text-[11px] text-foreground-soft">open · project note</span>
+        </div>
+        <span class="font-mono text-[10px] text-foreground-soft">v14</span>
+      </div>
+
+      <div class="mt-5 space-y-2 font-mono text-[11px]/5 text-foreground-muted">
+        <p><span class="text-emerald-600 dark:text-emerald-400">[x]</span> Review the new Keep positioning.</p>
+        <p><span class="text-emerald-600 dark:text-emerald-400">[x]</span> Add the project page and internal link.</p>
+        <p><span class="text-amber-600 dark:text-amber-400">[/]</span> Run the site checks and inspect both themes.</p>
+      </div>
+
+      <div class="mt-auto border-t border-border-subtle pt-4">
+        <span class="text-[11px] text-foreground-soft">Recent revisions</span>
+        <div class="mt-3 space-y-3">
+          <div class="flex items-center gap-2 text-[11px]">
+            <span class="flex size-6 items-center justify-center rounded-full bg-foreground text-[9px] text-background">CX</span>
+            <span class="text-foreground">Codex wrote the session handoff</span>
+            <span class="ml-auto text-foreground-soft">now</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px]">
+            <span class="flex size-6 items-center justify-center rounded-full bg-foreground/[0.08] text-[9px] text-foreground">I</span>
+            <span class="text-foreground">Ian recorded the page brief</span>
+            <span class="ml-auto text-foreground-soft">2 days ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    alpine.data("keepDemo", (turns: Array<{ question: string; answer: string }>) => ({
+      index: 0,
+      turns,
+      current() {
+        return this.turns[this.index];
+      },
+      next() {
+        this.index = (this.index + 1) % this.turns.length;
+      },
+    }));
+  });
+</script>

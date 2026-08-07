@@ -155,6 +155,7 @@ const pages = [
   "/clockwork",
   "/ilo",
   "/issues",
+  "/keep",
   "/mailroom",
   "/natter",
   "/portman",

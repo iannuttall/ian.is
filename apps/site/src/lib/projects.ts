@@ -6,13 +6,14 @@ export type ProjectFaq = {
 export type ProjectPage = {
   slug: string;
   name: string;
-  repo: string;
+  repo?: string;
   websiteUrl?: string;
   primaryAction: {
     label: string;
     href: string;
     kind: "download" | "website";
   };
+  primaryDetail?: string;
   platform: string;
   license: string;
   accent: string;
@@ -27,6 +28,67 @@ export type ProjectPage = {
 };
 
 export const projectPages: ProjectPage[] = [
+  {
+    slug: "keep",
+    name: "Keep",
+    websiteUrl: "https://keep.md",
+    primaryAction: {
+      label: "Open Keep",
+      href: "https://keep.md",
+      kind: "website",
+    },
+    primaryDetail: "Web, MCP and CLI",
+    platform: "Web, MCP and CLI",
+    license: "Starter and Pro",
+    accent: "#f97316",
+    title: "Stop re-explaining your project to every AI agent",
+    description:
+      "Keep puts decisions, handoffs, plans, context, and saved source material in one shared library that local and cloud agents can search.",
+    metaTitle: "Keep: shared memory for Claude Code, Codex and AI agents",
+    metaDescription:
+      "Keep gives Claude Code, Codex and other AI agents shared project notes, session handoffs, source material, semantic search, MCP access and a CLI.",
+    detailHeading: "Shared context that survives the end of a session",
+    details: [
+      {
+        title: "Memory follows the project",
+        description:
+          "Session hooks load the latest project notes when work starts, even when you switch agent, machine, or repository.",
+      },
+      {
+        title: "Every change has a history",
+        description:
+          "Notes keep named revisions from people and agents, so you can inspect a change, compare versions, or restore an earlier one.",
+      },
+      {
+        title: "Saved sources stay attached",
+        description:
+          "Articles, videos, threads, feeds, repositories, and uploads arrive as searchable markdown that an agent can cite in its answer.",
+      },
+      {
+        title: "Your library can leave with you",
+        description:
+          "A full markdown export turns the library into ordinary files you can keep, search, and move wherever you want.",
+      },
+    ],
+    closing: "Give every agent the context the last one left behind.",
+    faqs: [
+      {
+        question: "What does Keep remember?",
+        answer:
+          "Keep stores project notes, decisions, plans, todos, and session handoffs beside the articles, videos, threads, feeds, repositories, and files you save.",
+      },
+      {
+        question: "Which AI agents work with Keep?",
+        answer:
+          "Keep connects to Claude Code, Codex, Cursor, OpenCode, Pi, and other MCP clients. The CLI gives terminals and scripts access to the same library.",
+      },
+      {
+        question: "Can I export everything?",
+        answer:
+          "Yes. Keep exports the whole library as plain markdown files, including the source material and notes you created around it.",
+      },
+    ],
+  },
   {
     slug: "seo-skill",
     name: "SEO Skill",
@@ -526,6 +588,12 @@ export const projectPageBySlug = new Map(
 );
 
 const extraProjectFaqs: Record<string, ProjectFaq[]> = {
+  keep: [
+    { question: "How do session handoffs work?", answer: "Claude Code, Codex, and Pi can load current project notes at the start of a session and save a handoff when the session ends. The handoff records what changed, what remains open, and what the next agent needs." },
+    { question: "Do I need MCP to use Keep?", answer: "No. MCP works well inside compatible AI clients, while the Keep CLI covers terminals, scripts, and agents that prefer commands. Both use the same account and library." },
+    { question: "Can Keep search by meaning?", answer: "Yes. Semantic search can find relevant notes and saved material even when your question does not repeat the exact words in the source." },
+    { question: "Is there a free plan?", answer: "Yes. Starter includes unlimited saved links, RSS and YouTube feeds, feed search, and a one-time allowance for trying Notes. Pro adds unlimited Notes, handoffs, semantic search, and AI processing." },
+  ],
   "seo-skill": [
     { question: "What is a technical SEO audit?", answer: "A technical SEO audit checks whether search engines can crawl, understand, index, and serve the useful pages on a site. SEO Skill combines those checks with search data so the report can rank what matters." },
     { question: "Can an AI agent run the SEO audit?", answer: "Yes. The packaged skill, MCP server, CLI, and JSON output expose the same report engine. An agent gets stable finding IDs and the evidence behind each recommendation." },
