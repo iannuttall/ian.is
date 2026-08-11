@@ -5,6 +5,7 @@ import { registerMenu } from "./alpine/menu";
 import { registerNewsletter } from "./alpine/newsletter";
 import { registerPortCommands } from "./alpine/port-commands";
 import { registerStars } from "./alpine/stars";
+import { registerSubscriberCount } from "./alpine/subscriber-count";
 import type { AlpineRuntime } from "./alpine/types";
 
 export default function setup(Alpine: AlpineRuntime) {
@@ -15,4 +16,5 @@ export default function setup(Alpine: AlpineRuntime) {
   registerNewsletter(Alpine);
   registerPortCommands(Alpine);
   registerStars(Alpine);
+  registerSubscriberCount(Alpine);
 }

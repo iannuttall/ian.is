@@ -759,24 +759,35 @@ function site(argv) {
 }
 
 function targetCommand(action, target) {
+  const newsletterPackageTask = (task, packageName) => [
+    "--dir",
+    "apps/newsletter",
+    "exec",
+    "turbo",
+    "--root-turbo-json",
+    "turbo.json",
+    "run",
+    task,
+    `--filter=${packageName}`,
+  ];
   const commands = {
     check: {
       site: ["--dir", "apps/site", "astro", "check"],
       newsletter: ["newsletter:typecheck"],
-      "newsletter-api": ["--filter", "@email/api", "typecheck"],
-      "newsletter-cli": ["--filter", "@email/cli", "typecheck"],
-      "newsletter-core": ["--filter", "@email/core", "typecheck"],
-      "newsletter-mcp": ["--filter", "@email/mcp", "typecheck"],
-      "newsletter-web": ["--filter", "@email/web", "typecheck"],
+      "newsletter-api": newsletterPackageTask("typecheck", "@email/api"),
+      "newsletter-cli": newsletterPackageTask("typecheck", "@email/cli"),
+      "newsletter-core": newsletterPackageTask("typecheck", "@email/core"),
+      "newsletter-mcp": newsletterPackageTask("typecheck", "@email/mcp"),
+      "newsletter-web": newsletterPackageTask("typecheck", "@email/web"),
     },
     build: {
       site: ["build"],
       newsletter: ["newsletter:build"],
-      "newsletter-api": ["--filter", "@email/api", "build"],
-      "newsletter-cli": ["--filter", "@email/cli", "build"],
-      "newsletter-core": ["--filter", "@email/core", "build"],
-      "newsletter-mcp": ["--filter", "@email/mcp", "build"],
-      "newsletter-web": ["--filter", "@email/web", "build"],
+      "newsletter-api": newsletterPackageTask("build", "@email/api"),
+      "newsletter-cli": newsletterPackageTask("build", "@email/cli"),
+      "newsletter-core": newsletterPackageTask("build", "@email/core"),
+      "newsletter-mcp": newsletterPackageTask("build", "@email/mcp"),
+      "newsletter-web": newsletterPackageTask("build", "@email/web"),
     },
   };
 
