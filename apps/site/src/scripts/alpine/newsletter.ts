@@ -1,7 +1,5 @@
-import { newsletterSubscribedKey } from "@/lib/newsletter";
 import { playErrorSound } from "./audio";
 import { burstConfetti } from "./confetti";
-import { getStoredBoolean, setStoredBoolean } from "./storage";
 import type { AlpineRuntime } from "./types";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -17,7 +15,6 @@ type NewsletterState = {
   status: Status;
   message: string;
   issueDate: string;
-  visible: boolean;
   initialHeading: string;
   initialDescription: string;
   initialSubject: string;
@@ -31,14 +28,6 @@ type NewsletterState = {
   submit: () => Promise<void>;
 };
 
-function hasSubscribed() {
-  return getStoredBoolean(newsletterSubscribedKey);
-}
-
-function setSubscribed(value: boolean) {
-  setStoredBoolean(newsletterSubscribedKey, value);
-}
-
 function issueDate() {
   return new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -48,20 +37,11 @@ function issueDate() {
 }
 
 export function registerNewsletter(Alpine: AlpineRuntime) {
-  Alpine.data("newsletterShell", () => ({
-    subscribed: false,
-
-    init() {
-      this.subscribed = hasSubscribed();
-    },
-  }));
-
   Alpine.data("newsletterSignup", (config: NewsletterConfig = {}): NewsletterState => ({
     email: "",
     status: "idle",
     message: "",
     issueDate: "",
-    visible: true,
     initialHeading: config.heading ?? "Subscribe to Ian's List",
     initialDescription:
       config.description ?? "What I learned this month actually using AI to run my business.",
@@ -83,7 +63,6 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
     },
 
     init() {
-      this.visible = !hasSubscribed();
       this.issueDate = issueDate();
     },
 
@@ -112,17 +91,14 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
               ? "You're already subscribed."
               : "Check your inbox to confirm your subscription.";
           this.email = "";
-          setSubscribed(data.status === "active");
           burstConfetti();
           return;
         }
 
-        setSubscribed(false);
         this.status = "error";
         this.message = data.error ?? "Something went wrong. Please try again.";
         playErrorSound();
       } catch {
-        setSubscribed(false);
         this.status = "error";
         this.message = "Network error. Please try again.";
         playErrorSound();

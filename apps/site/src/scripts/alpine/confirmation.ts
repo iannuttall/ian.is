@@ -1,5 +1,3 @@
-import { newsletterSubscribedKey } from "@/lib/newsletter";
-import { setStoredBoolean } from "./storage";
 import type { AlpineRuntime } from "./types";
 
 type ConfirmationComponent = {
@@ -88,7 +86,6 @@ export function registerConfirmation(Alpine: AlpineRuntime) {
         this.status = "success";
         this.message =
           "You're confirmed. I've sent you a welcome email with a few quick inbox tips.";
-        setStoredBoolean(newsletterSubscribedKey, true);
       } catch {
         this.failed();
       }

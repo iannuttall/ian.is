@@ -41,6 +41,7 @@ describe('double opt-in', () => {
     assert.equal(signup.status, 'pending')
     assert.equal(signup.confirmationSent, true)
     assert.equal(provider.sent.length, 1)
+    assert.doesNotMatch(provider.sent[0]?.html ?? '', />off</)
     assert.deepEqual(await store.listActiveContacts(), [])
 
     const request = await store.confirmations.findRequest({
@@ -66,6 +67,11 @@ describe('double opt-in', () => {
     assert.equal(provider.sent.length, 2)
     const welcome = provider.sent[1]
     assert.equal(welcome?.subject, welcomeEmailContent.subject)
+    assert.equal(welcomeEmailContent.subject, 'you just made the list')
+    assert.equal(
+      welcomeEmailContent.preview,
+      'now lets make sure you actually get the emails...',
+    )
     assert.equal(welcome?.fromName, 'Ian Nuttall')
     assert.equal(welcome?.replyTo, 'email@ian.is')
     assert.match(welcome?.html ?? '', /Help the next email land in the right place/)
@@ -73,6 +79,7 @@ describe('double opt-in', () => {
     assert.match(welcome?.html ?? '', /email@ian\.is/)
     assert.match(welcome?.html ?? '', /https:\/\/list\.ian\.is\/unsubscribe\//)
     assert.match(welcome?.html ?? '', /email-logo-light\.png/)
+    assert.doesNotMatch(welcome?.html ?? '', /▲/)
     assert.ok(
       welcome?.headers?.some(
         (header) =>
