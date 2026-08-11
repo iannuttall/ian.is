@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import { eq } from 'drizzle-orm'
+import { createConfirmationToken } from './confirmation-token.js'
 import * as schema from './db/schema.js'
 import {
   databaseUrl,
@@ -9,6 +10,32 @@ import {
 import { plannedRecipient } from './postgres-store.test-helper.js'
 
 describe('PostgresEmailStore integration', { skip: !databaseUrl }, () => {
+  it('keeps pending contacts out of Postgres audiences until confirmation', async () => {
+    const { close, platform, provider, store } = await makeIntegrationPlatform({
+      doubleOptIn: true,
+    })
+    try {
+      const signup = await platform.subscribe({ email: 'pending@example.com' })
+      assert.equal(signup.status, 'pending')
+      assert.equal((await platform.previewAudience()).total, 0)
+
+      const request = await store.confirmations.findRequest({
+        contactId: signup.id,
+        purpose: 'double_opt_in',
+      })
+      assert.ok(request)
+      const result = await platform.confirmSubscription({
+        token: createConfirmationToken(request, 'integration-confirmation-secret'),
+      })
+      assert.equal(result.status, 'confirmed')
+      assert.equal((await platform.previewAudience()).total, 1)
+      assert.equal(provider.sent.length, 2)
+      assert.equal(provider.sent[1]?.subject, "You're on Ian's List")
+    } finally {
+      await close()
+    }
+  })
+
   it('claims due messages once across concurrent senders', async () => {
     const firstRuntime = await makeIntegrationPlatform()
     const secondRuntime = await makeIntegrationPlatform({

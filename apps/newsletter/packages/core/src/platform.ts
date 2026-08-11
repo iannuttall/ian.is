@@ -7,10 +7,8 @@ import {
 } from './canary-service.js'
 import type { AppConfig } from './config.js'
 import { requireSecret } from './config.js'
-import {
-  subscribeContact,
-  unsubscribeContact as unsubscribeContactByOperator,
-} from './contact-consent.js'
+import { confirmSubscription, subscribeWithConfirmation } from './confirmation-service.js'
+import { unsubscribeContact as unsubscribeContactByOperator } from './contact-consent.js'
 import type {
   CanaryState,
   ContactAnalytics,
@@ -81,12 +79,14 @@ export class CoreEmailPlatform implements EmailPlatform {
     },
   ) {}
 
-  async subscribe(input: {
-    email: string
-    name?: string
-    source?: string
-  }): Promise<{ id: string }> {
-    return subscribeContact(this.deps.store, input)
+  async subscribe(input: { email: string; name?: string; source?: string }) {
+    return subscribeWithConfirmation(this.deps, input)
+  }
+
+  async confirmSubscription(
+    input: Parameters<typeof confirmSubscription>[1] & { now?: Date },
+  ) {
+    return confirmSubscription(this.deps, input)
   }
 
   async unsubscribeContact(input: {
@@ -177,6 +177,7 @@ export class CoreEmailPlatform implements EmailPlatform {
       apiAuthConfigured: Boolean(this.deps.config.apiToken),
       trackingConfigured: Boolean(this.deps.config.trackingSecret),
       unsubscribeConfigured: Boolean(this.deps.config.unsubscribeSecret),
+      confirmationConfigured: Boolean(this.deps.config.confirmation.secret),
       snsWebhookConfigured: Boolean(this.deps.config.aws.snsWebhookSecret),
       snsTopicAllowlistConfigured,
     }
@@ -191,6 +192,7 @@ export class CoreEmailPlatform implements EmailPlatform {
         report.apiAuthConfigured,
         report.trackingConfigured,
         report.unsubscribeConfigured,
+        !this.deps.config.confirmation.doubleOptIn || report.confirmationConfigured,
         sesReady,
       ].every(Boolean),
     }

@@ -78,7 +78,18 @@ export async function POST(context: APIContext) {
     });
 
     if (upstream.ok) {
-      return json({ ok: true }, 201);
+      const result = (await upstream.json().catch(() => ({}))) as {
+        status?: "active" | "pending";
+        confirmationSent?: boolean;
+      };
+      return json(
+        {
+          ok: true,
+          status: result.status ?? "active",
+          confirmationSent: result.confirmationSent ?? false,
+        },
+        201,
+      );
     }
 
     console.log(

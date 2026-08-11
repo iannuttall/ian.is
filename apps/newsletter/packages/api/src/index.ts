@@ -23,17 +23,13 @@ import {
   sendPlanSchema,
 } from './audience-input.js'
 import { isAuthorized, safeEqual } from './auth.js'
+import { registerConfirmationRoutes } from './confirmation-routes.js'
 import { transparentGif } from './responses.js'
+import { registerSubscriberRoutes } from './subscriber-routes.js'
 import { registerTemplateRoutes } from './template-routes.js'
 import { unsubscribePage } from './unsubscribe-page.js'
 
 export const version = '0.1.0'
-
-const subscribeSchema = z.object({
-  email: z.string().email(),
-  name: z.string().optional(),
-  source: z.string().optional(),
-})
 
 const contactImportSchema = z.object({
   contacts: z.array(
@@ -234,22 +230,8 @@ export function createApp(input: ApiInput = {}) {
     await next()
   })
 
-  app.post('/api/subscribe', async (c) => {
-    const body = subscribeSchema.parse(await c.req.json())
-    return c.json(
-      await platform.subscribe({
-        email: body.email,
-        ...(body.name ? { name: body.name } : {}),
-        ...(body.source ? { source: body.source } : {}),
-      }),
-      201,
-    )
-  })
-
-  app.get('/api/subscribers/count', async (c) => {
-    const audience = await platform.previewAudience({ limit: 1 })
-    return c.json({ count: audience.total })
-  })
+  registerSubscriberRoutes(app, platform)
+  registerConfirmationRoutes(app, platform)
 
   app.get('/api/doctor', async (c) => c.json(await platform.doctor()))
 

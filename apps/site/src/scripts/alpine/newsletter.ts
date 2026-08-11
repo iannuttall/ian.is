@@ -101,14 +101,18 @@ export function registerNewsletter(Alpine: AlpineRuntime) {
         });
         const data = (await res.json().catch(() => ({}))) as {
           ok?: boolean;
+          status?: "active" | "pending";
           error?: string;
         };
 
         if (res.ok && data.ok === true) {
           this.status = "success";
-          this.message = "You're in. Check your inbox.";
+          this.message =
+            data.status === "active"
+              ? "You're already subscribed."
+              : "Check your inbox to confirm your subscription.";
           this.email = "";
-          setSubscribed(true);
+          setSubscribed(data.status === "active");
           burstConfetti();
           return;
         }

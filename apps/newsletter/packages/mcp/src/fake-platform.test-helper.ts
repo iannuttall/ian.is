@@ -25,6 +25,15 @@ export class FakePlatform implements EmailPlatform {
     return { id: 'contact_1' }
   }
 
+  async confirmSubscription() {
+    return {
+      confirmed: true,
+      alreadyConfirmed: false,
+      status: 'confirmed' as const,
+      purpose: 'double_opt_in' as const,
+    }
+  }
+
   async exportContacts(): Promise<{ contacts: []; suppressions: [] }> {
     return { contacts: [], suppressions: [] }
   }
@@ -252,6 +261,7 @@ function doctorReport() {
     apiAuthConfigured: true,
     trackingConfigured: true,
     unsubscribeConfigured: true,
+    confirmationConfigured: true,
     snsWebhookConfigured: true,
     snsTopicAllowlistConfigured: true,
     ready: true,

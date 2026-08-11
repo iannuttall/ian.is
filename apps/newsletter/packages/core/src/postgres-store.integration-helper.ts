@@ -16,7 +16,7 @@ let migrated = false
 let migrationPromise: Promise<void> | undefined
 
 export async function makeIntegrationPlatform(
-  input: { provider?: TestEmailProvider; reset?: boolean } = {},
+  input: { provider?: TestEmailProvider; reset?: boolean; doubleOptIn?: boolean } = {},
 ) {
   assert.ok(databaseUrl)
   await ensureMigrations()
@@ -44,6 +44,9 @@ export async function makeIntegrationPlatform(
       EMAIL_PROVIDER: 'test',
       EMAIL_FROM_EMAIL: 'from@example.com',
       BASE_URL: 'http://localhost:3000',
+      EMAIL_DOUBLE_OPT_IN: input.doubleOptIn ? 'true' : 'false',
+      CONFIRMATION_SECRET: 'integration-confirmation-secret',
+      UNSUBSCRIBE_SECRET: 'integration-unsubscribe-secret',
     }),
   })
 

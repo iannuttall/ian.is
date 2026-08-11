@@ -16,9 +16,19 @@ export function doctorReport(): DoctorReport {
     apiAuthConfigured: true,
     trackingConfigured: true,
     unsubscribeConfigured: true,
+    confirmationConfigured: true,
     snsWebhookConfigured: true,
     snsTopicAllowlistConfigured: true,
     ready: true,
+  }
+}
+
+export function confirmationResult() {
+  return {
+    confirmed: true,
+    alreadyConfirmed: false,
+    status: 'confirmed' as const,
+    purpose: 'double_opt_in' as const,
   }
 }
 

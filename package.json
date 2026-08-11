@@ -28,6 +28,7 @@
     "newsletter:web:dev": "pnpm --filter @email/web dev"
   },
   "devDependencies": {
-    "turbo": "^2.5.5"
+    "turbo": "^2.5.5",
+    "typescript": "^5.9.3"
   }
 }

@@ -26,6 +26,10 @@
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
   },
+  "vars": {
+    "LIST_API_URL": "https://list.ian.is",
+    "TURNSTILE_TEST_MODE": "false"
+  },
   "d1_databases": [
     {
       // Shared site database: each feature gets its own namespaced tables
@@ -38,7 +42,9 @@
   ],
   "secrets": {
     "required": [
-      "LIST_API_TOKEN"
+      "LIST_API_TOKEN",
+      "TURNSTILE_SECRET_KEY",
+      "TURNSTILE_SITE_KEY"
     ]
   },
   "observability": {

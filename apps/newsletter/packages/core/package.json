@@ -9,13 +9,17 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./welcome-content": {
+      "types": "./dist/welcome-content.d.ts",
+      "import": "./dist/welcome-content.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "build": "rm -rf dist && tsc -p tsconfig.json && node ../../scripts/copy-core-email-content.mjs",
     "clean": "rm -rf dist",
     "lint": "tsc -p tsconfig.json --noEmit",
     "test": "node --test \"dist/**/*.test.js\"",

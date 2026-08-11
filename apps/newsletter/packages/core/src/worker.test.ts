@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import type { SendPlanPreview } from './broadcast-planning.js'
-import type { EmailPlatform } from './platform.js'
 import type { CanaryState, RecentContacts } from './platform-contracts.js'
 import type { ProductionOpsChecklist } from './production-ops.js'
 import type { DoctorReport } from './readiness.js'
@@ -47,7 +46,7 @@ describe('send worker', () => {
   })
 })
 
-class FakePlatform implements EmailPlatform {
+class FakePlatform {
   async unsubscribeContact(input: {
     emailOrId: string
   }): Promise<{ unsubscribed: boolean; contactId: string; email: string }> {
@@ -287,6 +286,7 @@ function doctorReport() {
     apiAuthConfigured: true,
     trackingConfigured: true,
     unsubscribeConfigured: true,
+    confirmationConfigured: true,
     snsWebhookConfigured: true,
     snsTopicAllowlistConfigured: true,
     ready: true,

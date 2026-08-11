@@ -12,5 +12,8 @@ declare namespace Cloudflare {
     AMA_IP_SALT?: string;
     LIST_API_TOKEN: string;
     LIST_API_URL?: string;
+    TURNSTILE_SECRET_KEY: string;
+    TURNSTILE_SITE_KEY: string;
+    TURNSTILE_TEST_MODE?: string;
   }
 }
