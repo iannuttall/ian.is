@@ -122,6 +122,15 @@ const sectionClass = [
             </svg>
           </button>
         </div>
+        <p
+          x-data="subscriberCount"
+          x-bind:style="visible ? 'opacity: 1' : 'opacity: 0'"
+          x-bind:aria-hidden="visible ? 'false' : 'true'"
+          class="mt-2 min-h-4 whitespace-nowrap pr-2 text-right text-xs text-foreground-soft transition-opacity duration-200"
+          style="opacity: 0"
+        >
+          <span x-text="displayCount">0</span>+ subscribers
+        </p>
         <p id="newsletter-status" class="sr-only" aria-live="polite" x-text="message"></p>
       </form>
     </div>

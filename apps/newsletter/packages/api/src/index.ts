@@ -246,6 +246,11 @@ export function createApp(input: ApiInput = {}) {
     )
   })
 
+  app.get('/api/subscribers/count', async (c) => {
+    const audience = await platform.previewAudience({ limit: 1 })
+    return c.json({ count: audience.total })
+  })
+
   app.get('/api/doctor', async (c) => c.json(await platform.doctor()))
 
   app.get('/api/ops/checklist', async (c) =>
