@@ -144,12 +144,12 @@ function defaultHeader(header: IssueSection | undefined, minutes?: number) {
 function headerRow(header: IssueSection | undefined, minutes?: number) {
   // <Header name="Issue 001" /> renders "Issue 001 - 3 min read" top-right.
   // Opt out with read-time="off".
-  const name = header?.attrs.name
+  const name = header?.attrs.name === 'off' ? undefined : header?.attrs.name
   const withTime =
     name && minutes && header?.attrs['read-time'] !== 'off'
       ? `${name} - ${minutes} min read`
       : name
-  const label = withTime ?? "Ian's List"
+  const label = header?.attrs.name === 'off' ? undefined : (withTime ?? "Ian's List")
   return h(
     Row,
     null,
@@ -157,7 +157,7 @@ function headerRow(header: IssueSection | undefined, minutes?: number) {
       Column,
       {
         style: { ...defaultEmailStyles.headerCell, textAlign: 'left' as const },
-        width: '50%',
+        width: label ? '50%' : '100%',
       },
       h(
         Link,
@@ -174,11 +174,13 @@ function headerRow(header: IssueSection | undefined, minutes?: number) {
         }),
       ),
     ),
-    h(
-      Column,
-      { align: 'right', style: defaultEmailStyles.headerCell, width: '50%' },
-      h(Text, { style: defaultEmailStyles.company }, label),
-    ),
+    label
+      ? h(
+          Column,
+          { align: 'right', style: defaultEmailStyles.headerCell, width: '50%' },
+          h(Text, { style: defaultEmailStyles.company }, label),
+        )
+      : null,
   )
 }
 

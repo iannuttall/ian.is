@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { getButtonClasses } from "@/components/ui/button";
 
 export const prerender = true;
 ---
@@ -24,9 +25,9 @@ export const prerender = true;
     <div class="mt-6" x-data="subscriptionConfirmation">
       <p x-text="message">Checking this confirmation link...</p>
       <div x-ref="turnstile" class="mt-6 flex justify-center"></div>
-      <p x-show="status === 'success'" class="mt-6">
-        <a href="/" class="underline">Go back to Ian.is</a>
-      </p>
+      <div x-cloak x-show="status === 'success'" class="mt-8">
+        <a href="/" class:list={[getButtonClasses("default", "lg"), "no-underline"]}>Go home</a>
+      </div>
     </div>
   </section>
 </Layout>

@@ -30,7 +30,7 @@ describe('PostgresEmailStore integration', { skip: !databaseUrl }, () => {
       assert.equal(result.status, 'confirmed')
       assert.equal((await platform.previewAudience()).total, 1)
       assert.equal(provider.sent.length, 2)
-      assert.equal(provider.sent[1]?.subject, "You're on Ian's List")
+      assert.equal(provider.sent[1]?.subject, 'you just made the list')
     } finally {
       await close()
     }
