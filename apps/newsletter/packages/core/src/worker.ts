@@ -1,6 +1,8 @@
 import { setTimeout } from 'node:timers/promises'
 import type { EmailPlatform } from './platform.js'
 
+type SendWorkerPlatform = Pick<EmailPlatform, 'recoverStuckMessages' | 'sendDue'>
+
 export interface SendWorkerResult {
   iterations: number
   sent: number
@@ -8,7 +10,7 @@ export interface SendWorkerResult {
 }
 
 export interface SendWorkerInput {
-  platform: EmailPlatform
+  platform: SendWorkerPlatform
   batchSize?: number
   intervalMs?: number
   recoverStuck?: boolean
@@ -19,7 +21,7 @@ export interface SendWorkerInput {
 }
 
 export async function runSendWorkerOnce(input: {
-  platform: EmailPlatform
+  platform: SendWorkerPlatform
   batchSize?: number
   now?: Date
   recoverStuck?: boolean

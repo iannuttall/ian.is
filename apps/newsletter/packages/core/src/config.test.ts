@@ -20,6 +20,17 @@ describe('loadConfig', () => {
       () => loadConfig({ SWIPE_INVITE_SECRET: 'changeme' }),
       /SWIPE_INVITE_SECRET must not use a placeholder secret/,
     )
+    assert.throws(
+      () => loadConfig({ CONFIRMATION_SECRET: 'change-me' }),
+      /CONFIRMATION_SECRET must not use a placeholder secret/,
+    )
     assert.doesNotThrow(() => loadConfig({ NODE_ENV: 'test', API_TOKEN: 'replace-me' }))
+  })
+
+  it('enables double opt-in outside tests with a 72-hour confirmation window', () => {
+    const config = loadConfig({})
+    assert.equal(config.confirmation.doubleOptIn, true)
+    assert.equal(config.confirmation.ttlHours, 72)
+    assert.equal(config.confirmation.baseUrl, 'https://ian.is')
   })
 })

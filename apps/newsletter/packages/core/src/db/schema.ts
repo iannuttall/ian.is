@@ -16,6 +16,7 @@ import {
 } from 'drizzle-orm/pg-core'
 
 export const contactStatusEnum = pgEnum('contact_status', [
+  'pending',
   'active',
   'unsubscribed',
   'suppressed',
@@ -53,6 +54,8 @@ export const messageStatusEnum = pgEnum('message_status', [
   'skipped',
 ])
 export const eventTypeEnum = pgEnum('event_type', [
+  'contact.confirmation_requested',
+  'contact.confirmed',
   'contact.subscribed',
   'contact.unsubscribed',
   'contact.suppressed',
@@ -68,6 +71,14 @@ export const eventTypeEnum = pgEnum('event_type', [
   'engagement.clicked',
   'engagement.opened_by_bot',
   'engagement.clicked_by_bot',
+])
+
+export const confirmationPurposeEnum = pgEnum('confirmation_purpose', ['double_opt_in'])
+export const confirmationStatusEnum = pgEnum('confirmation_status', [
+  'pending',
+  'confirmed',
+  'expired',
+  'cancelled',
 ])
 
 const timestamps = {
@@ -103,6 +114,33 @@ export const contacts = pgTable(
     uniqueIndex('contacts_email_unique').on(table.email),
     index('contacts_status_idx').on(table.status),
     index('contacts_domain_idx').on(table.emailDomain),
+  ],
+)
+
+export const confirmationRequests = pgTable(
+  'confirmation_requests',
+  {
+    id: uuid('id').primaryKey(),
+    contactId: uuid('contact_id')
+      .notNull()
+      .references(() => contacts.id, { onDelete: 'cascade' }),
+    purpose: confirmationPurposeEnum('purpose').notNull(),
+    tokenHash: text('token_hash').notNull(),
+    status: confirmationStatusEnum('status').notNull().default('pending'),
+    source: text('source').notNull(),
+    requestedAt: timestamp('requested_at', { withTimezone: true }).notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    confirmedAt: timestamp('confirmed_at', { withTimezone: true }),
+    confirmedIpHash: text('confirmed_ip_hash'),
+    confirmedUserAgent: text('confirmed_user_agent'),
+    confirmedSourceUrl: text('confirmed_source_url'),
+    metadata: jsonb('metadata').$type<Record<string, unknown>>().notNull().default({}),
+    ...timestamps,
+  },
+  (table) => [
+    uniqueIndex('confirmation_requests_token_hash_unique').on(table.tokenHash),
+    index('confirmation_requests_contact_purpose_idx').on(table.contactId, table.purpose),
+    index('confirmation_requests_expires_idx').on(table.expiresAt),
   ],
 )
 

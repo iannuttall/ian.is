@@ -20,6 +20,10 @@ const envSchema = z.object({
   TRACKING_SECRET: z.string().optional(),
   SWIPE_INVITE_SECRET: z.string().optional(),
   SWIPE_INVITE_BASE_URL: z.string().url().optional(),
+  CONFIRMATION_SECRET: z.string().optional(),
+  EMAIL_CONFIRMATION_BASE_URL: z.string().url().optional(),
+  EMAIL_CONFIRMATION_TTL_HOURS: positiveIntegerString.optional(),
+  EMAIL_DOUBLE_OPT_IN: booleanString.optional(),
   EMAIL_PROVIDER: z.enum(['ses', 'test']).optional(),
   EMAIL_FROM_EMAIL: z.string().email().optional(),
   EMAIL_FROM_NAME: z.string().optional(),
@@ -49,6 +53,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
       UNSUBSCRIBE_SECRET: parsed.UNSUBSCRIBE_SECRET,
       TRACKING_SECRET: parsed.TRACKING_SECRET,
       SWIPE_INVITE_SECRET: parsed.SWIPE_INVITE_SECRET,
+      CONFIRMATION_SECRET: parsed.CONFIRMATION_SECRET,
       AWS_SNS_WEBHOOK_SECRET: parsed.AWS_SNS_WEBHOOK_SECRET,
     })
   }
@@ -68,6 +73,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
     swipeInvite: {
       secret: parsed.SWIPE_INVITE_SECRET ?? devSecret,
       baseUrl: parsed.SWIPE_INVITE_BASE_URL ?? 'https://swipe.md',
+    },
+    confirmation: {
+      secret: parsed.CONFIRMATION_SECRET ?? devSecret,
+      baseUrl: parsed.EMAIL_CONFIRMATION_BASE_URL ?? 'https://ian.is',
+      ttlHours: parsed.EMAIL_CONFIRMATION_TTL_HOURS ?? 72,
+      doubleOptIn: parsed.EMAIL_DOUBLE_OPT_IN ?? !isTest,
     },
     tracking: {
       trackOpens: parsed.EMAIL_TRACK_OPENS ?? true,

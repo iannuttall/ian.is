@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import { getEmailDomain, normalizeEmail } from './email-address.js'
+import { MemoryConfirmationStore } from './memory-confirmation-store.js'
 import { getMemoryLinkSummaryInsights } from './memory-store-analytics.js'
 import { matchesMemoryAudience } from './memory-store-audience.js'
 import { getMemoryEngagement } from './memory-store-engagement.js'
@@ -81,6 +82,7 @@ export class MemoryEmailStore implements EmailStore {
   readonly externalIds = new Map<string, ContactExternalIdRecord>()
   readonly purchases = new Map<string, PurchaseRecord>()
   readonly valueRollups = new Map<string, ContactValueRecord>()
+  readonly confirmations = new MemoryConfirmationStore(this.contacts, this.events)
 
   private async findContactByInput(input: {
     contactId?: string

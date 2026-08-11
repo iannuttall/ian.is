@@ -15,6 +15,7 @@ import type {
 } from '@email/core'
 import {
   canaryState,
+  confirmationResult,
   doctorReport,
   opsChecklist,
   queueSummary,
@@ -59,12 +60,12 @@ export class FakePlatform implements EmailPlatform {
         liveSwipeInvite?: boolean
       }
     | undefined = undefined
-
   async subscribe(input: { email: string }): Promise<{ id: string }> {
     this.subscribedEmail = input.email
     return { id: 'contact_1' }
   }
 
+  confirmSubscription = async () => confirmationResult()
   async unsubscribeContact(input: {
     emailOrId: string
     broadcastId?: string

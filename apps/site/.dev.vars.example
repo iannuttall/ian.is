@@ -6,6 +6,11 @@
 # Sent as `Authorization: Bearer <token>` by src/pages/api/subscribe.ts.
 LIST_API_TOKEN=""
 
+# Cloudflare's always-pass local test keys. Use real Turnstile keys in prod.
+TURNSTILE_SECRET_KEY="1x0000000000000000000000000000000AA"
+TURNSTILE_SITE_KEY="1x00000000000000000000AA"
+TURNSTILE_TEST_MODE="true"
+
 # Optional: override the newsletter API base (defaults to https://list.ian.is).
 # LIST_API_URL="https://list.ian.is"
 

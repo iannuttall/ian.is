@@ -49,6 +49,10 @@ EMAIL_API_INTERNAL_URL=http://app:3000
 API_TOKEN=change-me
 UNSUBSCRIBE_SECRET=change-me
 TRACKING_SECRET=change-me
+CONFIRMATION_SECRET=change-me
+EMAIL_CONFIRMATION_BASE_URL=https://ian.is
+EMAIL_CONFIRMATION_TTL_HOURS=72
+EMAIL_DOUBLE_OPT_IN=true
 EMAIL_PROVIDER=ses
 EMAIL_FROM_EMAIL=newsletter@example.com
 EMAIL_FROM_NAME="My Newsletter"
@@ -65,6 +69,14 @@ breadcrumb back to the parent site. If omitted, the web pages fall back to
 `BASE_URL` is the public origin used in generated email links.
 `EMAIL_API_INTERNAL_URL` is only used by `packages/web` so public pages can
 forward mutations to the API service without duplicating platform logic.
+
+New signups use double opt-in outside tests. They remain `pending` and are
+excluded from broadcast audiences until a signed confirmation request is
+completed. `EMAIL_CONFIRMATION_BASE_URL` owns the public `/confirm` page;
+`CONFIRMATION_SECRET` signs its 72-hour token. Set `EMAIL_DOUBLE_OPT_IN=false`
+only for imports or controlled local tests that should activate immediately. A
+newly confirmed contact receives the Ian's List welcome email once. Revisiting
+the confirmation link does not send it again.
 
 Open pixel tracking is enabled by default. Disable it while keeping click
 tracking:
@@ -315,6 +327,7 @@ Public routes:
 Protected routes:
 
 - `POST /api/subscribe`
+- `POST /api/confirmations/confirm`
 - `GET /api/doctor`
 - `GET /api/ops/checklist`
 - `POST /api/ops/recover-stuck`

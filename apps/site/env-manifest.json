@@ -1,13 +1,16 @@
 {
-  "bindings": [],
-  "requiredRemote": ["LIST_API_TOKEN"],
+  "bindings": ["LIST_API_URL", "TURNSTILE_TEST_MODE"],
+  "requiredRemote": [
+    "LIST_API_TOKEN",
+    "TURNSTILE_SECRET_KEY",
+    "TURNSTILE_SITE_KEY"
+  ],
   "optionalRemote": [
     "AMA_IP_SALT",
     "DEPLOYED_AT",
     "DEPLOY_ID",
     "DEPLOY_SOURCE",
-    "GIT_SHA",
-    "LIST_API_URL"
+    "GIT_SHA"
   ],
   "d1Migrations": [],
   "r2Seeds": []
