@@ -1,0 +1,207 @@
+---
+import { Button } from "@/components/ui/button";
+import { Select, SelectOption } from "@/components/ui/select";
+
+export interface BotDomain {
+  domain: string;
+  idea?: string;
+  premium: boolean;
+  price: number;
+  currency: string;
+  buyUrl: string;
+}
+
+interface Props {
+  domains: BotDomain[];
+}
+
+const { domains } = Astro.props;
+
+const formatPrice = (domain: BotDomain) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: domain.currency,
+    maximumFractionDigits: domain.price % 1 === 0 ? 0 : 2,
+  }).format(domain.price);
+---
+
+<section
+  class="mt-8 sm:mt-12"
+  x-data={`{
+    filter: 'all',
+    maxLength: 8,
+    maxPrice: 'any',
+    sort: 'recommended',
+    visibleCount: ${domains.length},
+    updateCount() {
+      this.$nextTick(() => {
+        this.visibleCount = Array.from(this.$refs.rows.children)
+          .filter((row) => row.style.display !== 'none').length;
+      });
+    },
+    reset() {
+      this.filter = 'all';
+      this.maxLength = 8;
+      this.maxPrice = 'any';
+      this.sort = 'recommended';
+      this.sortRows();
+      this.updateCount();
+    },
+    sortRows() {
+      const rows = Array.from(this.$refs.rows.children);
+      rows.sort((a, b) => {
+        if (this.sort === 'shortest') return Number(a.dataset.length) - Number(b.dataset.length) || a.dataset.domain.localeCompare(b.dataset.domain);
+        if (this.sort === 'alphabetical') return a.dataset.domain.localeCompare(b.dataset.domain);
+        if (this.sort === 'price-low') return Number(a.dataset.price) - Number(b.dataset.price) || Number(a.dataset.rank) - Number(b.dataset.rank);
+        if (this.sort === 'price-high') return Number(b.dataset.price) - Number(a.dataset.price) || Number(a.dataset.rank) - Number(b.dataset.rank);
+        return Number(a.dataset.rank) - Number(b.dataset.rank);
+      });
+      rows.forEach((row) => this.$refs.rows.appendChild(row));
+    }
+  }`}
+>
+  <div class="flex flex-col gap-4 border-b border-border pb-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h2 class="text-xl font-medium text-foreground">Available names</h2>
+      <p class="mt-1 text-sm text-foreground-muted" aria-live="polite">
+        <span x-text="`${visibleCount} matching names`">{domains.length} reviewed names</span>
+      </p>
+    </div>
+
+    <div
+      class="inline-flex w-fit items-center rounded-lg bg-secondary p-1 ring-1 ring-border"
+      role="group"
+      aria-label="Filter domains"
+    >
+      {[
+        { value: "all", label: "All" },
+        { value: "standard", label: "Standard" },
+        { value: "premium", label: "Premium" },
+      ].map((option) => (
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-sm font-medium text-foreground-muted transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          x-on:click={`filter = '${option.value}'; updateCount()`}
+          x-bind:aria-pressed={`filter === '${option.value}'`}
+          x-bind:class={`filter === '${option.value}' ? 'bg-background-raised text-foreground shadow-xs' : ''`}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="flex items-end gap-2 border-b border-border py-3">
+    <Button
+      type="button"
+      variant="outline"
+      x-on:click="reset()"
+      x-bind:disabled="filter === 'all' && maxLength === 8 && maxPrice === 'any' && sort === 'recommended'"
+    >
+      Reset
+    </Button>
+
+    <div class="grid min-w-0 flex-1 grid-cols-3 gap-2 sm:ml-auto sm:max-w-md">
+    <label class="min-w-0 sm:w-28">
+      <span class="mb-1 block text-xs font-medium text-foreground-soft">Length</span>
+      <Select
+        fullWidth
+        x-model.number="maxLength"
+        x-on:change="updateCount()"
+      >
+        <SelectOption value="8">Any</SelectOption>
+        {[4, 5, 6, 7].map((length) => <SelectOption value={length}>Up to {length}</SelectOption>)}
+      </Select>
+    </label>
+
+    <label class="min-w-0 sm:w-28">
+      <span class="mb-1 block text-xs font-medium text-foreground-soft">Price</span>
+      <Select
+        fullWidth
+        x-model="maxPrice"
+        x-on:change="updateCount()"
+      >
+        <SelectOption value="any">Any</SelectOption>
+        {[130, 650, 1300, 3250, 6500].map((price) => <SelectOption value={price}>Up to ${price.toLocaleString("en-US")}</SelectOption>)}
+      </Select>
+    </label>
+
+    <label class="min-w-0 sm:w-36">
+      <span class="mb-1 block text-xs font-medium text-foreground-soft">Sort</span>
+      <Select
+        fullWidth
+        x-model="sort"
+        x-on:change="sortRows()"
+      >
+        <SelectOption value="recommended">Best</SelectOption>
+        <SelectOption value="shortest">Shortest</SelectOption>
+        <SelectOption value="alphabetical">A–Z</SelectOption>
+        <SelectOption value="price-low">Price ↑</SelectOption>
+        <SelectOption value="price-high">Price ↓</SelectOption>
+      </Select>
+    </label>
+    </div>
+  </div>
+
+  <div class="relative">
+    <table class="w-full table-fixed border-collapse text-left">
+      <thead class="sticky top-0 z-10 bg-background/95 text-sm text-foreground-muted backdrop-blur-sm">
+        <tr class="border-b border-border">
+          <th scope="col" class="w-auto px-3 py-3 font-medium md:w-40">Domain</th>
+          <th scope="col" class="hidden px-3 py-3 font-medium md:table-cell">Business idea</th>
+          <th scope="col" class="hidden w-24 px-3 py-3 font-medium sm:table-cell">Type</th>
+          <th scope="col" class="w-24 px-3 py-3 text-right font-medium">Price</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border" x-ref="rows">
+        {domains.map((domain, rank) => (
+          <tr
+            class="group relative cursor-pointer transition-colors hover:bg-secondary has-[a:focus-visible]:bg-secondary has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-[-2px] has-[a:focus-visible]:outline-ring"
+            data-domain={domain.domain}
+            data-length={domain.domain.split(".")[0].length}
+            data-price={domain.price}
+            data-rank={rank}
+            x-show={`(filter === 'all' || filter === '${domain.premium ? "premium" : "standard"}') && ${domain.domain.split(".")[0].length} <= maxLength && (maxPrice === 'any' || ${domain.price} <= Number(maxPrice))`}
+          >
+            <td class="px-3">
+              <a
+                href={domain.buyUrl}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex min-h-11 max-w-full items-center truncate font-mono text-[15px] font-medium text-foreground after:absolute after:inset-0 focus-visible:outline-none"
+              >
+                <span class="truncate">{domain.domain}</span>
+                <span class="sr-only"> — check at {domain.premium ? "Namecheap" : "Porkbun"}; opens in a new tab</span>
+              </a>
+              <span class="mt-0.5 block text-xs text-foreground-soft sm:hidden">
+                {domain.premium ? "Premium" : "Standard price"}
+              </span>
+              {domain.idea ? (
+                <span class="mt-1 block text-sm leading-snug text-foreground-muted md:hidden">
+                  {domain.idea}
+                </span>
+              ) : null}
+            </td>
+            <td class="hidden px-3 py-3 text-sm text-foreground-muted md:table-cell">
+              {domain.idea ?? <span class="text-foreground-soft">—</span>}
+            </td>
+            <td class="hidden px-3 py-3 text-sm text-foreground-muted sm:table-cell">
+              {domain.premium ? "Premium" : "Standard"}
+            </td>
+            <td class="px-3 py-3 text-right font-mono text-sm tabular-nums text-foreground-muted">
+              {formatPrice(domain)}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="border-t border-border py-5 text-sm leading-relaxed text-foreground-muted">
+    <p>
+      Availability was checked through Namecheap on 20 August 2026. Standard
+      prices came from Porkbun. Premium prices came from Namecheap. A name can
+      be registered or repriced at any time, so check it again before buying.
+    </p>
+  </div>
+</section>

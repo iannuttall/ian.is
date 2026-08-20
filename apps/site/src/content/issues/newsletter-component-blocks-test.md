@@ -72,5 +72,5 @@ This block is included in the cold test email. It is removed from warm/new email
 </Conditional>
 
 <Footer share-url="https://ian.is/issues/newsletter-component-blocks-test">
-**Ian's List** is a weekly email about what I learned actually using AI to run my business.
+**Ian's List** is a monthly email about what I learned actually using AI to run my business.
 </Footer>

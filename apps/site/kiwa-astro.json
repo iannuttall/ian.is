@@ -12,6 +12,7 @@
     "icon",
     "accordion",
     "checkbox",
-    "tooltip"
+    "tooltip",
+    "select"
   ]
 }
