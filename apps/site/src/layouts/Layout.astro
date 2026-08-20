@@ -23,6 +23,7 @@ interface Props {
   noIndex?: boolean;
   ogType?: "website" | "article";
   ogImagePath?: string;
+  ogImageVersion?: string;
   ogTitle?: string;
   ogDescription?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
@@ -30,8 +31,6 @@ interface Props {
   titleTemplate?: boolean;
   /** Hide the shared header/footer chrome (e.g. minimal/auth pages). */
   minimal?: boolean;
-  /** Optional Impeccable direction contract emitted as the first body child. */
-  directionContract?: string;
 }
 
 const {
@@ -41,13 +40,13 @@ const {
   noIndex = false,
   ogType = "website",
   ogImagePath,
+  ogImageVersion,
   ogTitle,
   ogDescription,
   structuredData,
   breadcrumbs,
   titleTemplate = true,
   minimal = false,
-  directionContract,
 } = Astro.props;
 
 const fullTitle = titleTemplate && title !== siteName ? `${title} | ${siteName}` : title;
@@ -55,7 +54,11 @@ const fullOgTitle = ogTitle ?? title;
 const fullOgDescription = ogDescription ?? description;
 const baseUrl = Astro.site ?? new URL(siteUrl);
 const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
-const ogImageUrl = toOgImageUrl(canonicalUrl, ogImagePath);
+const ogSourceUrl = new URL(canonicalUrl);
+if (ogImageVersion) {
+  ogSourceUrl.searchParams.set("og", ogImageVersion);
+}
+const ogImageUrl = toOgImageUrl(ogSourceUrl.toString(), ogImagePath);
 const structuredDataList = (Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []).filter(Boolean);
 const isHome = canonicalPath === "/" || canonicalPath === "";
 const breadcrumbItems =
@@ -129,7 +132,6 @@ const isOgPreview = Astro.url.searchParams.has("og");
     <slot name="head" />
   </head>
   <body class:list={["min-h-screen bg-background antialiased", isOgPreview ? "m-0 overflow-hidden" : ""]}>
-    <Fragment set:html={directionContract ? `<!-- ${directionContract.replaceAll("--", "- -")} -->` : ""} />
     {isOgPreview ? (
       <OgTemplate title={fullOgTitle} description={fullOgDescription} />
     ) : (
