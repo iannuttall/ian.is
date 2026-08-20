@@ -12,21 +12,13 @@ import { webPageSchema } from "@/lib/seo";
 
 const path = "/bot-domains";
 const title = "Available .bot domains";
+const ogDescription = "I checked 5,932 short words and found 308 names you can still register.";
 const description =
   "A reviewed list of 308 short .bot domains that were available to register on 20 August 2026, with standard and premium prices.";
 const domains = (botDomains as BotDomain[]).map((domain) => ({
   ...domain,
   idea: domain.idea ?? botDomainIdeas[domain.domain.replace(".bot", "") as keyof typeof botDomainIdeas],
 }));
-const directionContract = [
-  "IMPECCABLE DIRECTION brian-sites-table",
-  "THESIS: A dated register of real available names; it refuses cards and gated content.",
-  "OWN-WORLD: Ian.is light and dark tokens, static Sans type, mono data, and hairline divided rows.",
-  "STORY: See the method and date, join Ian's List, filter the names, then check one at a registrar.",
-  "FIRST VIEWPORT: Result-led heading and proof line, compact newsletter card, filters, and the first table rows.",
-  "FORM: Dense reference table, first in the ordered structures, seed key brian-sites-table.",
-  "FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance",
-].join(" ");
 
 const structuredData = webPageSchema({
   title,
@@ -39,15 +31,17 @@ const structuredData = webPageSchema({
 <Layout
   title="Available .bot Domains: 308 Reviewed Names"
   description={description}
+  ogTitle={title}
+  ogDescription={ogDescription}
+  ogImageVersion="bot-domains-v2"
   canonicalPath={path}
   breadcrumbs={pageBreadcrumbs(title, path)}
   structuredData={structuredData}
-  directionContract={directionContract}
 >
   <div class="site-frame py-8 sm:py-16">
     <PageHeader
       title={title}
-      subtitle="I checked 5,932 short words and found 308 names you can still register."
+      subtitle={ogDescription}
     >
       <p class="hidden max-w-xl text-base leading-relaxed text-foreground-muted sm:block">
         I reviewed each name for clarity, brand quality, and a plausible bot
