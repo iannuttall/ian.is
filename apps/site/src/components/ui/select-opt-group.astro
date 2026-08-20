@@ -1,0 +1,14 @@
+---
+import { cn } from '@/lib/utils';
+import type { HTMLAttributes } from 'astro/types'
+
+type SelectOptGroupProps = HTMLAttributes<'optgroup'>;
+
+const {
+  class: className,
+  ...props
+} = Astro.props as SelectOptGroupProps
+---
+<optgroup data-slot='select-optgroup' class={cn(className)} {...props}>
+    <slot />
+  </optgroup>

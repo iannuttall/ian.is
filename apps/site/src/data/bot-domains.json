@@ -1,0 +1,2189 @@
+[
+  {
+    "domain": "probe.bot",
+    "idea": "Website uptime investigation agent",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=probe.bot"
+  },
+  {
+    "domain": "entry.bot",
+    "idea": "Automated data entry assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=entry.bot"
+  },
+  {
+    "domain": "format.bot",
+    "idea": "Document formatting automation service",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=format.bot"
+  },
+  {
+    "domain": "notice.bot",
+    "idea": "Compliance notice monitoring service",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=notice.bot"
+  },
+  {
+    "domain": "exact.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=exact.bot"
+  },
+  {
+    "domain": "siren.bot",
+    "idea": "Incident alert response assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=siren.bot"
+  },
+  {
+    "domain": "discuss.bot",
+    "idea": "Meeting discussion summary assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=discuss.bot"
+  },
+  {
+    "domain": "remove.bot",
+    "idea": "Data deletion request agent",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=remove.bot"
+  },
+  {
+    "domain": "branch.bot",
+    "idea": "Git branch cleanup assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=branch.bot"
+  },
+  {
+    "domain": "reduce.bot",
+    "idea": "Cloud cost reduction agent",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=reduce.bot"
+  },
+  {
+    "domain": "enlarge.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=enlarge.bot"
+  },
+  {
+    "domain": "preview.bot",
+    "idea": "Automatic URL preview images",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=preview.bot"
+  },
+  {
+    "domain": "commit.bot",
+    "idea": "AI commit message writer",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=commit.bot"
+  },
+  {
+    "domain": "export.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=export.bot"
+  },
+  {
+    "domain": "arrange.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=arrange.bot"
+  },
+  {
+    "domain": "polish.bot",
+    "idea": "Writing improvement assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=polish.bot"
+  },
+  {
+    "domain": "inquiry.bot",
+    "idea": "Customer inquiry response agent",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=inquiry.bot"
+  },
+  {
+    "domain": "saver.bot",
+    "idea": "Subscription savings finder",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=saver.bot"
+  },
+  {
+    "domain": "describe.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=describe.bot"
+  },
+  {
+    "domain": "phrase.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=phrase.bot"
+  },
+  {
+    "domain": "outline.bot",
+    "idea": "Content outline planning assistant",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=outline.bot"
+  },
+  {
+    "domain": "contrast.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=contrast.bot"
+  },
+  {
+    "domain": "locator.bot",
+    "idea": "Local service discovery agent",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=locator.bot"
+  },
+  {
+    "domain": "adjust.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=adjust.bot"
+  },
+  {
+    "domain": "attach.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=attach.bot"
+  },
+  {
+    "domain": "announce.bot",
+    "idea": "Audience announcement service",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=announce.bot"
+  },
+  {
+    "domain": "divide.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=divide.bot"
+  },
+  {
+    "domain": "theorem.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=theorem.bot"
+  },
+  {
+    "domain": "equation.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=equation.bot"
+  },
+  {
+    "domain": "statute.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=statute.bot"
+  },
+  {
+    "domain": "boolean.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=boolean.bot"
+  },
+  {
+    "domain": "brochure.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=brochure.bot"
+  },
+  {
+    "domain": "usher.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=usher.bot"
+  },
+  {
+    "domain": "locale.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=locale.bot"
+  },
+  {
+    "domain": "roster.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=roster.bot"
+  },
+  {
+    "domain": "lexicon.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=lexicon.bot"
+  },
+  {
+    "domain": "rebuild.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=rebuild.bot"
+  },
+  {
+    "domain": "nickname.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=nickname.bot"
+  },
+  {
+    "domain": "prefix.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=prefix.bot"
+  },
+  {
+    "domain": "baseline.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=baseline.bot"
+  },
+  {
+    "domain": "preserve.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=preserve.bot"
+  },
+  {
+    "domain": "tackle.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=tackle.bot"
+  },
+  {
+    "domain": "hooks.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=hooks.bot"
+  },
+  {
+    "domain": "merger.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=merger.bot"
+  },
+  {
+    "domain": "decimal.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=decimal.bot"
+  },
+  {
+    "domain": "inherit.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=inherit.bot"
+  },
+  {
+    "domain": "reprint.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=reprint.bot"
+  },
+  {
+    "domain": "shipment.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=shipment.bot"
+  },
+  {
+    "domain": "numeric.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=numeric.bot"
+  },
+  {
+    "domain": "unwrap.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=unwrap.bot"
+  },
+  {
+    "domain": "fraction.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=fraction.bot"
+  },
+  {
+    "domain": "minimize.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=minimize.bot"
+  },
+  {
+    "domain": "waveform.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=waveform.bot"
+  },
+  {
+    "domain": "enroll.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=enroll.bot"
+  },
+  {
+    "domain": "primer.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=primer.bot"
+  },
+  {
+    "domain": "imagery.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=imagery.bot"
+  },
+  {
+    "domain": "pathway.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=pathway.bot"
+  },
+  {
+    "domain": "mutex.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=mutex.bot"
+  },
+  {
+    "domain": "subset.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=subset.bot"
+  },
+  {
+    "domain": "variant.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=variant.bot"
+  },
+  {
+    "domain": "conclude.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=conclude.bot"
+  },
+  {
+    "domain": "metaphor.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=metaphor.bot"
+  },
+  {
+    "domain": "validity.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=validity.bot"
+  },
+  {
+    "domain": "detour.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=detour.bot"
+  },
+  {
+    "domain": "textbook.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=textbook.bot"
+  },
+  {
+    "domain": "comma.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=comma.bot"
+  },
+  {
+    "domain": "markup.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=markup.bot"
+  },
+  {
+    "domain": "rename.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=rename.bot"
+  },
+  {
+    "domain": "slogan.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=slogan.bot"
+  },
+  {
+    "domain": "unpack.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=unpack.bot"
+  },
+  {
+    "domain": "uncover.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=uncover.bot"
+  },
+  {
+    "domain": "disclose.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=disclose.bot"
+  },
+  {
+    "domain": "maximize.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=maximize.bot"
+  },
+  {
+    "domain": "opener.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=opener.bot"
+  },
+  {
+    "domain": "revise.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=revise.bot"
+  },
+  {
+    "domain": "dictate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=dictate.bot"
+  },
+  {
+    "domain": "footer.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=footer.bot"
+  },
+  {
+    "domain": "roundup.bot",
+    "idea": "Weekly activity email recap",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=roundup.bot"
+  },
+  {
+    "domain": "initiate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=initiate.bot"
+  },
+  {
+    "domain": "notation.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=notation.bot"
+  },
+  {
+    "domain": "concise.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=concise.bot"
+  },
+  {
+    "domain": "reopen.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=reopen.bot"
+  },
+  {
+    "domain": "rewind.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=rewind.bot"
+  },
+  {
+    "domain": "shader.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=shader.bot"
+  },
+  {
+    "domain": "reclaim.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=reclaim.bot"
+  },
+  {
+    "domain": "subtitle.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=subtitle.bot"
+  },
+  {
+    "domain": "selector.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=selector.bot"
+  },
+  {
+    "domain": "subtotal.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=subtotal.bot"
+  },
+  {
+    "domain": "rotate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=rotate.bot"
+  },
+  {
+    "domain": "prudent.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=prudent.bot"
+  },
+  {
+    "domain": "footnote.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=footnote.bot"
+  },
+  {
+    "domain": "tweak.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=tweak.bot"
+  },
+  {
+    "domain": "listener.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=listener.bot"
+  },
+  {
+    "domain": "promoter.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=promoter.bot"
+  },
+  {
+    "domain": "oversee.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=oversee.bot"
+  },
+  {
+    "domain": "readable.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=readable.bot"
+  },
+  {
+    "domain": "catchy.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=catchy.bot"
+  },
+  {
+    "domain": "skim.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=skim.bot"
+  },
+  {
+    "domain": "acronym.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=acronym.bot"
+  },
+  {
+    "domain": "sharpen.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=sharpen.bot"
+  },
+  {
+    "domain": "annotate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=annotate.bot"
+  },
+  {
+    "domain": "exporter.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=exporter.bot"
+  },
+  {
+    "domain": "upscale.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=upscale.bot"
+  },
+  {
+    "domain": "viewport.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=viewport.bot"
+  },
+  {
+    "domain": "makeover.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=makeover.bot"
+  },
+  {
+    "domain": "remake.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=remake.bot"
+  },
+  {
+    "domain": "novelist.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=novelist.bot"
+  },
+  {
+    "domain": "punctual.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=punctual.bot"
+  },
+  {
+    "domain": "decipher.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=decipher.bot"
+  },
+  {
+    "domain": "unzip.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=unzip.bot"
+  },
+  {
+    "domain": "confer.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=confer.bot"
+  },
+  {
+    "domain": "juggle.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=juggle.bot"
+  },
+  {
+    "domain": "revisit.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=revisit.bot"
+  },
+  {
+    "domain": "devise.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=devise.bot"
+  },
+  {
+    "domain": "keystore.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=keystore.bot"
+  },
+  {
+    "domain": "brighten.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=brighten.bot"
+  },
+  {
+    "domain": "recount.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=recount.bot"
+  },
+  {
+    "domain": "retrace.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=retrace.bot"
+  },
+  {
+    "domain": "retake.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=retake.bot"
+  },
+  {
+    "domain": "montage.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=montage.bot"
+  },
+  {
+    "domain": "refuel.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=refuel.bot"
+  },
+  {
+    "domain": "compress.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=compress.bot"
+  },
+  {
+    "domain": "headway.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=headway.bot"
+  },
+  {
+    "domain": "conserve.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=conserve.bot"
+  },
+  {
+    "domain": "overhaul.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=overhaul.bot"
+  },
+  {
+    "domain": "emulate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=emulate.bot"
+  },
+  {
+    "domain": "signify.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=signify.bot"
+  },
+  {
+    "domain": "typist.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=typist.bot"
+  },
+  {
+    "domain": "eloquent.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=eloquent.bot"
+  },
+  {
+    "domain": "cache.bot",
+    "idea": "Website performance caching service",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=cache.bot"
+  },
+  {
+    "domain": "narrate.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=narrate.bot"
+  },
+  {
+    "domain": "expedite.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=expedite.bot"
+  },
+  {
+    "domain": "dispel.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=dispel.bot"
+  },
+  {
+    "domain": "web.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=web.bot"
+  },
+  {
+    "domain": "news.bot",
+    "idea": "Personalised news briefing agent",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=news.bot"
+  },
+  {
+    "domain": "watchful.bot",
+    "premium": false,
+    "price": 52.01,
+    "currency": "USD",
+    "buyUrl": "https://porkbun.com/checkout/search?q=watchful.bot"
+  },
+  {
+    "domain": "see.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=see.bot"
+  },
+  {
+    "domain": "ask.bot",
+    "idea": "Search your company knowledge",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=ask.bot"
+  },
+  {
+    "domain": "map.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=map.bot"
+  },
+  {
+    "domain": "data.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=data.bot"
+  },
+  {
+    "domain": "file.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=file.bot"
+  },
+  {
+    "domain": "list.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=list.bot"
+  },
+  {
+    "domain": "read.bot",
+    "idea": "Research reading companion",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=read.bot"
+  },
+  {
+    "domain": "local.bot",
+    "idea": "Local development setup assistant",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=local.bot"
+  },
+  {
+    "domain": "money.bot",
+    "idea": "Personal money management assistant",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=money.bot"
+  },
+  {
+    "domain": "photo.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=photo.bot"
+  },
+  {
+    "domain": "say.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=say.bot"
+  },
+  {
+    "domain": "next.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=next.bot"
+  },
+  {
+    "domain": "tell.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=tell.bot"
+  },
+  {
+    "domain": "phone.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=phone.bot"
+  },
+  {
+    "domain": "speak.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=speak.bot"
+  },
+  {
+    "domain": "stock.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=stock.bot"
+  },
+  {
+    "domain": "study.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=study.bot"
+  },
+  {
+    "domain": "art.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=art.bot"
+  },
+  {
+    "domain": "note.bot",
+    "idea": "Automatic meeting note taker",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=note.bot"
+  },
+  {
+    "domain": "rate.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=rate.bot"
+  },
+  {
+    "domain": "sale.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=sale.bot"
+  },
+  {
+    "domain": "text.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=text.bot"
+  },
+  {
+    "domain": "clear.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=clear.bot"
+  },
+  {
+    "domain": "safe.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=safe.bot"
+  },
+  {
+    "domain": "song.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=song.bot"
+  },
+  {
+    "domain": "audio.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=audio.bot"
+  },
+  {
+    "domain": "drive.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=drive.bot"
+  },
+  {
+    "domain": "offer.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=offer.bot"
+  },
+  {
+    "domain": "quote.bot",
+    "idea": "Sales quote generation assistant",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=quote.bot"
+  },
+  {
+    "domain": "sound.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=sound.bot"
+  },
+  {
+    "domain": "style.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=style.bot"
+  },
+  {
+    "domain": "spider.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=spider.bot"
+  },
+  {
+    "domain": "film.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=film.bot"
+  },
+  {
+    "domain": "radio.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=radio.bot"
+  },
+  {
+    "domain": "cluster.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=cluster.bot"
+  },
+  {
+    "domain": "glossary.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=glossary.bot"
+  },
+  {
+    "domain": "build.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=build.bot"
+  },
+  {
+    "domain": "spark.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=spark.bot"
+  },
+  {
+    "domain": "logo.bot",
+    "idea": "Instant brand logo maker",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=logo.bot"
+  },
+  {
+    "domain": "focus.bot",
+    "idea": "Distraction blocking work coach",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=focus.bot"
+  },
+  {
+    "domain": "match.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=match.bot"
+  },
+  {
+    "domain": "score.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=score.bot"
+  },
+  {
+    "domain": "message.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=message.bot"
+  },
+  {
+    "domain": "network.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=network.bot"
+  },
+  {
+    "domain": "website.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=website.bot"
+  },
+  {
+    "domain": "menu.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=menu.bot"
+  },
+  {
+    "domain": "number.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=number.bot"
+  },
+  {
+    "domain": "office.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=office.bot"
+  },
+  {
+    "domain": "school.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=school.bot"
+  },
+  {
+    "domain": "current.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=current.bot"
+  },
+  {
+    "domain": "program.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=program.bot"
+  },
+  {
+    "domain": "project.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=project.bot"
+  },
+  {
+    "domain": "aid.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=aid.bot"
+  },
+  {
+    "domain": "host.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=host.bot"
+  },
+  {
+    "domain": "aware.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=aware.bot"
+  },
+  {
+    "domain": "valid.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=valid.bot"
+  },
+  {
+    "domain": "answer.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=answer.bot"
+  },
+  {
+    "domain": "server.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=server.bot"
+  },
+  {
+    "domain": "compare.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=compare.bot"
+  },
+  {
+    "domain": "welcome.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=welcome.bot"
+  },
+  {
+    "domain": "estate.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=estate.bot"
+  },
+  {
+    "domain": "student.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=student.bot"
+  },
+  {
+    "domain": "alarm.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=alarm.bot"
+  },
+  {
+    "domain": "safety.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=safety.bot"
+  },
+  {
+    "domain": "social.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=social.bot"
+  },
+  {
+    "domain": "update.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=update.bot"
+  },
+  {
+    "domain": "journal.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=journal.bot"
+  },
+  {
+    "domain": "weather.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=weather.bot"
+  },
+  {
+    "domain": "direct.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=direct.bot"
+  },
+  {
+    "domain": "picture.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=picture.bot"
+  },
+  {
+    "domain": "rank.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=rank.bot"
+  },
+  {
+    "domain": "tours.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=tours.bot"
+  },
+  {
+    "domain": "charge.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=charge.bot"
+  },
+  {
+    "domain": "simple.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=simple.bot"
+  },
+  {
+    "domain": "finance.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=finance.bot"
+  },
+  {
+    "domain": "printer.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=printer.bot"
+  },
+  {
+    "domain": "protect.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=protect.bot"
+  },
+  {
+    "domain": "taxi.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=taxi.bot"
+  },
+  {
+    "domain": "beauty.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=beauty.bot"
+  },
+  {
+    "domain": "business.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=business.bot"
+  },
+  {
+    "domain": "brief.bot",
+    "idea": "Client brief creation assistant",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=brief.bot"
+  },
+  {
+    "domain": "draft.bot",
+    "idea": "Personalised writing draft assistant",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=draft.bot"
+  },
+  {
+    "domain": "advice.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=advice.bot"
+  },
+  {
+    "domain": "artist.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=artist.bot"
+  },
+  {
+    "domain": "career.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=career.bot"
+  },
+  {
+    "domain": "airport.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=airport.bot"
+  },
+  {
+    "domain": "capital.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=capital.bot"
+  },
+  {
+    "domain": "download.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=download.bot"
+  },
+  {
+    "domain": "shipping.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=shipping.bot"
+  },
+  {
+    "domain": "software.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=software.bot"
+  },
+  {
+    "domain": "clue.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=clue.bot"
+  },
+  {
+    "domain": "mixer.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=mixer.bot"
+  },
+  {
+    "domain": "budget.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=budget.bot"
+  },
+  {
+    "domain": "ticket.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=ticket.bot"
+  },
+  {
+    "domain": "device.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=device.bot"
+  },
+  {
+    "domain": "session.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=session.bot"
+  },
+  {
+    "domain": "logic.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=logic.bot"
+  },
+  {
+    "domain": "repair.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=repair.bot"
+  },
+  {
+    "domain": "speech.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=speech.bot"
+  },
+  {
+    "domain": "benefit.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=benefit.bot"
+  },
+  {
+    "domain": "fashion.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=fashion.bot"
+  },
+  {
+    "domain": "calendar.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=calendar.bot"
+  },
+  {
+    "domain": "language.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=language.bot"
+  },
+  {
+    "domain": "password.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=password.bot"
+  },
+  {
+    "domain": "cam.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=cam.bot"
+  },
+  {
+    "domain": "tune.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=tune.bot"
+  },
+  {
+    "domain": "stream.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=stream.bot"
+  },
+  {
+    "domain": "discount.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=discount.bot"
+  },
+  {
+    "domain": "function.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=function.bot"
+  },
+  {
+    "domain": "response.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=response.bot"
+  },
+  {
+    "domain": "lend.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=lend.bot"
+  },
+  {
+    "domain": "rescue.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=rescue.bot"
+  },
+  {
+    "domain": "balance.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=balance.bot"
+  },
+  {
+    "domain": "archives.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=archives.bot"
+  },
+  {
+    "domain": "wireless.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=wireless.bot"
+  },
+  {
+    "domain": "graphic.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=graphic.bot"
+  },
+  {
+    "domain": "schedule.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=schedule.bot"
+  },
+  {
+    "domain": "tab.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=tab.bot"
+  },
+  {
+    "domain": "buzz.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=buzz.bot"
+  },
+  {
+    "domain": "assist.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=assist.bot"
+  },
+  {
+    "domain": "notify.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=notify.bot"
+  },
+  {
+    "domain": "recipe.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=recipe.bot"
+  },
+  {
+    "domain": "contest.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=contest.bot"
+  },
+  {
+    "domain": "respond.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=respond.bot"
+  },
+  {
+    "domain": "gig.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=gig.bot"
+  },
+  {
+    "domain": "inform.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=inform.bot"
+  },
+  {
+    "domain": "crawl.bot",
+    "idea": "Website crawling and monitoring",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=crawl.bot"
+  },
+  {
+    "domain": "resume.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=resume.bot"
+  },
+  {
+    "domain": "scores.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=scores.bot"
+  },
+  {
+    "domain": "stocks.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=stocks.bot"
+  },
+  {
+    "domain": "surf.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=surf.bot"
+  },
+  {
+    "domain": "tide.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=tide.bot"
+  },
+  {
+    "domain": "banner.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=banner.bot"
+  },
+  {
+    "domain": "bargain.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=bargain.bot"
+  },
+  {
+    "domain": "deposit.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=deposit.bot"
+  },
+  {
+    "domain": "airline.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=airline.bot"
+  },
+  {
+    "domain": "hobby.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=hobby.bot"
+  },
+  {
+    "domain": "widget.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=widget.bot"
+  },
+  {
+    "domain": "template.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=template.bot"
+  },
+  {
+    "domain": "donor.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=donor.bot"
+  },
+  {
+    "domain": "vocal.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=vocal.bot"
+  },
+  {
+    "domain": "fare.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=fare.bot"
+  },
+  {
+    "domain": "webcam.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=webcam.bot"
+  },
+  {
+    "domain": "pension.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=pension.bot"
+  },
+  {
+    "domain": "notebook.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=notebook.bot"
+  },
+  {
+    "domain": "hike.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=hike.bot"
+  },
+  {
+    "domain": "podcast.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=podcast.bot"
+  },
+  {
+    "domain": "planner.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=planner.bot"
+  },
+  {
+    "domain": "ethical.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=ethical.bot"
+  },
+  {
+    "domain": "logical.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=logical.bot"
+  },
+  {
+    "domain": "lyric.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=lyric.bot"
+  },
+  {
+    "domain": "rhyme.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=rhyme.bot"
+  },
+  {
+    "domain": "voyage.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=voyage.bot"
+  },
+  {
+    "domain": "trivia.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=trivia.bot"
+  },
+  {
+    "domain": "startup.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=startup.bot"
+  },
+  {
+    "domain": "dialogue.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=dialogue.bot"
+  },
+  {
+    "domain": "invent.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=invent.bot"
+  },
+  {
+    "domain": "verified.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=verified.bot"
+  },
+  {
+    "domain": "robust.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=robust.bot"
+  },
+  {
+    "domain": "recruit.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=recruit.bot"
+  },
+  {
+    "domain": "errand.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=errand.bot"
+  },
+  {
+    "domain": "riddle.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=riddle.bot"
+  },
+  {
+    "domain": "compute.bot",
+    "premium": true,
+    "price": 6500,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=compute.bot"
+  },
+  {
+    "domain": "educate.bot",
+    "premium": true,
+    "price": 1300,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=educate.bot"
+  },
+  {
+    "domain": "headline.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=headline.bot"
+  },
+  {
+    "domain": "crawler.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=crawler.bot"
+  },
+  {
+    "domain": "metrics.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=metrics.bot"
+  },
+  {
+    "domain": "pinpoint.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=pinpoint.bot"
+  },
+  {
+    "domain": "stylist.bot",
+    "premium": true,
+    "price": 3250,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=stylist.bot"
+  },
+  {
+    "domain": "booker.bot",
+    "premium": true,
+    "price": 650,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=booker.bot"
+  },
+  {
+    "domain": "deduce.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=deduce.bot"
+  },
+  {
+    "domain": "remodel.bot",
+    "premium": true,
+    "price": 130,
+    "currency": "USD",
+    "buyUrl": "https://www.namecheap.com/domains/registration/results/?domain=remodel.bot"
+  }
+]

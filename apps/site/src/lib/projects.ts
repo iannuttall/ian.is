@@ -41,7 +41,7 @@ export const projectPages: ProjectPage[] = [
     platform: "Web, MCP and CLI",
     license: "Starter and Pro",
     accent: "#f97316",
-    title: "Stop re-explaining your project to every AI agent",
+    title: "Keep anything as Markdown",
     description:
       "Keep puts decisions, handoffs, plans, context, and saved source material in one shared library that local and cloud agents can search.",
     metaTitle: "Keep: shared memory for Claude Code, Codex and AI agents",

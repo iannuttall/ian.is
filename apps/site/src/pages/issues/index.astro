@@ -10,7 +10,7 @@ import { webPageSchema } from "@/lib/seo";
 
 const issues = await getVisibleIssues();
 const description =
-  "The Ian's List archive: one short email a week on building with AI, SEO, and small tools.";
+  "The Ian's List archive: one short monthly email on building with AI, SEO, and small tools.";
 const structuredData = webPageSchema({
   title: "Issues",
   description,
@@ -29,7 +29,7 @@ const structuredData = webPageSchema({
   <div class="site-frame py-12 sm:py-16">
     <PageHeader
       title="Issues"
-      subtitle="Every issue of Ian's List, one short email a week."
+      subtitle="Every issue of Ian's List, sent once a month."
     />
 
     <div class="mt-12">
@@ -62,7 +62,7 @@ const structuredData = webPageSchema({
     <div class="mt-16">
       <Newsletter
         heading="Get the next issue"
-        description="One short email a week. No news, no fluff."
+        description="One short email each month. No news, no fluff."
         source="ian.is/issues"
       />
     </div>

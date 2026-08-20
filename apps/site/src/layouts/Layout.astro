@@ -30,6 +30,8 @@ interface Props {
   titleTemplate?: boolean;
   /** Hide the shared header/footer chrome (e.g. minimal/auth pages). */
   minimal?: boolean;
+  /** Optional Impeccable direction contract emitted as the first body child. */
+  directionContract?: string;
 }
 
 const {
@@ -45,6 +47,7 @@ const {
   breadcrumbs,
   titleTemplate = true,
   minimal = false,
+  directionContract,
 } = Astro.props;
 
 const fullTitle = titleTemplate && title !== siteName ? `${title} | ${siteName}` : title;
@@ -126,6 +129,7 @@ const isOgPreview = Astro.url.searchParams.has("og");
     <slot name="head" />
   </head>
   <body class:list={["min-h-screen bg-background antialiased", isOgPreview ? "m-0 overflow-hidden" : ""]}>
+    <Fragment set:html={directionContract ? `<!-- ${directionContract.replaceAll("--", "- -")} -->` : ""} />
     {isOgPreview ? (
       <OgTemplate title={fullOgTitle} description={fullOgDescription} />
     ) : (
