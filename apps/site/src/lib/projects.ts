@@ -461,6 +461,66 @@ export const projectPages: ProjectPage[] = [
     ],
   },
   {
+    slug: "barkeep",
+    name: "Barkeep",
+    repo: "iannuttall/barkeep",
+    primaryAction: {
+      label: "Download for macOS",
+      href: "https://github.com/iannuttall/barkeep/releases/latest",
+      kind: "download",
+    },
+    platform: "macOS 14+",
+    license: "MIT",
+    accent: "#0d9488",
+    title: "Decide which menu bar icons your Mac shows",
+    description:
+      "Barkeep sorts every menu bar item into always visible, hidden, or always hidden, then brings the hidden ones back with one click.",
+    metaTitle: "Barkeep: free menu bar manager for macOS",
+    metaDescription:
+      "A free, open source macOS menu bar manager. Hide, reveal, and rearrange menu bar icons with three sections, search, and global hotkeys. A Bartender alternative.",
+    detailHeading: "A menu bar manager with one rule you can remember",
+    details: [
+      {
+        title: "Three sections, nothing implicit",
+        description:
+          "Every item is always visible, hidden, or always hidden. The Items screen shows all three at once, so no icon sits in a state you cannot see.",
+      },
+      {
+        title: "Accessibility access, no helper process",
+        description:
+          "macOS only exposes other apps' menu bar items through the Accessibility API. Barkeep uses it and runs no privileged helper of its own.",
+      },
+      {
+        title: "It reads the menu bar when you ask",
+        description:
+          "There is no continuous Accessibility scan in the background. Barkeep rescans on demand, so an idle Mac stays idle.",
+      },
+      {
+        title: "Signed, notarised, and quiet to update",
+        description:
+          "Public builds carry a Developer ID signature and Apple notarisation. Sparkle checks for updates in the background and installs signed releases only.",
+      },
+    ],
+    closing: "Keep the icons you use and put the rest behind one dot.",
+    faqs: [
+      {
+        question: "How does Barkeep hide menu bar icons?",
+        answer:
+          "Assign each item to Always visible, Hidden, or Always hidden. Click the Barkeep dot to show or hide the Hidden section, and Option-click it to show every section.",
+      },
+      {
+        question: "Why does Barkeep need Accessibility access?",
+        answer:
+          "macOS only lets an app list, open, and move another app's menu bar items through the Accessibility API. Barkeep registers the request, opens the exact Settings page, and shows a short switch guide over it.",
+      },
+      {
+        question: "Does Barkeep need to stay open?",
+        answer:
+          "Yes. Barkeep is the menu bar item that holds the hidden sections, so quitting it returns every icon to the normal macOS menu bar.",
+      },
+    ],
+  },
+  {
     slug: "unclaimed",
     name: "Unclaimed",
     repo: "iannuttall/unclaimed",
@@ -588,6 +648,13 @@ export const projectPageBySlug = new Map(
 );
 
 const extraProjectFaqs: Record<string, ProjectFaq[]> = {
+  barkeep: [
+    { question: "Is Barkeep a Bartender alternative for Mac?", answer: "Yes. Barkeep is a free, open source menu bar manager that covers the same core job: choosing which menu bar icons stay visible and which sit behind one icon. It is a clean-room implementation and shares no code with Bartender." },
+    { question: "Is Barkeep free and open source?", answer: "Yes. Barkeep uses the MIT licence and the full Swift source is on GitHub. There is no paid tier, licence key, or account." },
+    { question: "How is Barkeep different from Ice?", answer: "Both are free and open source. Barkeep keeps one three-section model with a second menu bar off by default, ships Developer ID signed and notarised builds, and installs updates quietly through Sparkle." },
+    { question: "Can Barkeep stop menu bar icons hiding behind the notch?", answer: "Yes, indirectly. Moving items you rarely need into Hidden or Always hidden shortens the visible row, so the icons you kept stay clear of the notch." },
+    { question: "How do I rearrange menu bar icons on a Mac?", answer: "macOS lets you Command-drag icons along the bar. Barkeep adds a section menu on every item plus drag and drop between sections, so both the order and the visibility stay put." },
+  ],
   keep: [
     { question: "How do session handoffs work?", answer: "Claude Code, Codex, and Pi can load current project notes at the start of a session and save a handoff when the session ends. The handoff records what changed, what remains open, and what the next agent needs." },
     { question: "Do I need MCP to use Keep?", answer: "No. MCP works well inside compatible AI clients, while the Keep CLI covers terminals, scripts, and agents that prefer commands. Both use the same account and library." },

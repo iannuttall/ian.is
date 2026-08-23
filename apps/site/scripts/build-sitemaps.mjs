@@ -151,6 +151,7 @@ const pages = [
   "/about",
   "/advertise",
   "/ama",
+  "/barkeep",
   "/caffeine",
   "/clockwork",
   "/ilo",
