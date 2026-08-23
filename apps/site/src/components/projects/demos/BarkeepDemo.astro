@@ -1,0 +1,178 @@
+---
+/**
+ * Barkeep demo: a working menu bar. Clicking the dot reveals the Hidden
+ * section, Option-click reveals everything, and moving an item between the
+ * three sections updates the bar above it straight away.
+ */
+---
+
+<div
+  class="overflow-hidden rounded-t-2xl border-x border-t border-black/[0.06] bg-background-raised shadow-xs dark:border-white/10"
+  x-data="barkeepDemo"
+>
+  <!-- The menu bar itself -->
+  <div class="border-b border-border-subtle bg-foreground/[0.03] px-3 py-2">
+    <div class="flex items-center justify-end gap-1">
+      <span class="mr-auto hidden text-[12px] font-medium text-foreground-soft sm:inline">Finder</span>
+
+      <template x-for="item in barItems" :key="item.id">
+        <span
+          class="flex size-7 items-center justify-center rounded-md transition-all duration-200"
+          :class="item.section === 'always' ? 'text-foreground' : 'bg-[var(--project-accent)]/10 text-[var(--project-accent)]'"
+          :title="item.name"
+        >
+          <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path :d="item.path"></path>
+          </svg>
+        </span>
+      </template>
+
+      <button
+        type="button"
+        class="flex size-7 shrink-0 items-center justify-center rounded-md text-foreground transition-colors hover:bg-foreground/[0.07]"
+        @click="$event.altKey ? toggleAll() : toggleHidden()"
+        :aria-label="reveal === 'none' ? 'Show hidden menu bar items' : 'Hide menu bar items again'"
+      >
+        <span
+          class="size-2 rounded-full transition-all duration-200"
+          :class="reveal === 'none' ? 'bg-foreground' : 'bg-[var(--project-accent)] scale-125'"
+        ></span>
+      </button>
+
+      <span class="ml-1 shrink-0 font-mono text-[11px] text-foreground-soft tabular-nums">9:41</span>
+    </div>
+  </div>
+
+  <!-- Reveal controls -->
+  <div class="flex flex-wrap items-center gap-2 border-b border-border-subtle px-4 py-2.5">
+    <button
+      type="button"
+      class="rounded-md bg-foreground/[0.055] px-2.5 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-foreground/10"
+      @click="toggleHidden()"
+      x-text="reveal === 'hidden' ? 'Hide again' : 'Click the dot'"
+    ></button>
+    <button
+      type="button"
+      class="rounded-md bg-foreground/[0.055] px-2.5 py-1 text-[12px] font-medium text-foreground transition-colors hover:bg-foreground/10"
+      @click="toggleAll()"
+      x-text="reveal === 'all' ? 'Hide everything' : 'Option-click the dot'"
+    ></button>
+    <span class="text-[12px] text-foreground-soft" x-text="status"></span>
+  </div>
+
+  <!-- The three sections -->
+  <div>
+    <template x-for="section in sections" :key="section.key">
+      <div class="border-b border-border-subtle last:border-b-0">
+        <div class="flex items-center justify-between px-4 pb-1 pt-2">
+          <span class="text-[11px] font-medium uppercase tracking-wide text-foreground-soft" x-text="section.label"></span>
+          <span class="text-[11px] text-foreground-soft" x-text="section.note"></span>
+        </div>
+        <ul class="pb-1.5" role="list">
+          <template x-for="item in itemsIn(section.key)" :key="item.id">
+            <li class="flex items-center gap-3 px-4 py-1">
+              <svg class="size-4 shrink-0 text-foreground-muted" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path :d="item.path"></path>
+              </svg>
+              <span class="min-w-0 flex-1 truncate text-[14px] text-foreground" x-text="item.name"></span>
+              <span class="flex shrink-0 gap-0.5 rounded-md bg-foreground/[0.05] p-0.5" role="group" :aria-label="`Section for ${item.name}`">
+                <template x-for="choice in sections" :key="choice.key">
+                  <button
+                    type="button"
+                    class="rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors"
+                    :class="item.section === choice.key ? 'bg-background-raised text-[var(--project-accent)] shadow-sm' : 'text-foreground-soft hover:text-foreground'"
+                    :aria-pressed="item.section === choice.key"
+                    :title="choice.label"
+                    @click="move(item, choice)"
+                    x-text="choice.short"
+                  ></button>
+                </template>
+              </span>
+            </li>
+          </template>
+          <li x-show="itemsIn(section.key).length === 0" class="px-4 py-1 text-[13px] text-foreground-soft">
+            Nothing here yet
+          </li>
+        </ul>
+      </div>
+    </template>
+  </div>
+
+  <div class="flex items-center justify-between border-t border-border-subtle px-4 py-2.5">
+    <span class="text-[12px] text-foreground-soft">Auto-hide after 5 seconds</span>
+    <span class="font-mono text-[11px] text-foreground-soft" x-text="`${barItems.length} of ${items.length} showing`"></span>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
+
+    type SectionKey = "always" | "hidden" | "alwaysHidden";
+    type DemoItem = { id: string; name: string; path: string; section: SectionKey };
+
+    const icons = {
+      wifi: "M2 6.4a9 9 0 0 1 12 0M4.4 8.9a5.6 5.6 0 0 1 7.2 0M6.8 11.4a2.2 2.2 0 0 1 2.4 0",
+      battery: "M2 6.2h8.6v3.6H2zM12.2 7.4v1.2",
+      cloud: "M4.6 11.6a2.8 2.8 0 0 1 .3-5.6 3.6 3.6 0 0 1 6.8 1.1 2.3 2.3 0 0 1-.3 4.5z",
+      container: "M8 2.4 13.4 5v6L8 13.6 2.6 11V5zM2.6 5 8 7.6 13.4 5M8 7.6v6",
+      chat: "M13.4 9.4a1.8 1.8 0 0 1-1.8 1.8H5.4L2.6 14V4.4a1.8 1.8 0 0 1 1.8-1.8h7.2a1.8 1.8 0 0 1 1.8 1.8z",
+      shield: "M8 2 3 4v3.6c0 3 2.1 5.8 5 6.6 2.9-.8 5-3.6 5-6.6V4z",
+      backup: "M8 2.6v6.8M5.4 7.2 8 9.8l2.6-2.6M2.8 11.2v1.4c0 .5.4.8.8.8h8.8c.4 0 .8-.3.8-.8v-1.4",
+    };
+
+    alpine.data("barkeepDemo", () => ({
+      reveal: "none" as "none" | "hidden" | "all",
+      status: "Hidden items are behind the dot",
+      statusTimer: 0,
+      sections: [
+        { key: "always", label: "Always visible", short: "Visible", note: "Barkeep never hides these" },
+        { key: "hidden", label: "Hidden", short: "Hidden", note: "Click the dot to reveal" },
+        { key: "alwaysHidden", label: "Always hidden", short: "Always", note: "Only on Option-click" },
+      ] as Array<{ key: SectionKey; label: string; short: string; note: string }>,
+      items: [
+        { id: "wifi", name: "Wi-Fi", path: icons.wifi, section: "always" },
+        { id: "battery", name: "Battery", path: icons.battery, section: "always" },
+        { id: "dropbox", name: "Dropbox", path: icons.cloud, section: "hidden" },
+        { id: "docker", name: "Docker", path: icons.container, section: "hidden" },
+        { id: "slack", name: "Slack", path: icons.chat, section: "hidden" },
+        { id: "vpn", name: "VPN", path: icons.shield, section: "alwaysHidden" },
+        { id: "backup", name: "Backup agent", path: icons.backup, section: "alwaysHidden" },
+      ] as DemoItem[],
+
+      itemsIn(section: SectionKey) {
+        return this.items.filter((item: DemoItem) => item.section === section);
+      },
+
+      // The bar renders always-hidden first, then hidden, then the dot's own
+      // always-visible items, which matches how the real reveal expands leftward.
+      get barItems() {
+        const visible: SectionKey[] =
+          this.reveal === "all" ? ["alwaysHidden", "hidden", "always"] : this.reveal === "hidden" ? ["hidden", "always"] : ["always"];
+        return visible.flatMap((section) => this.itemsIn(section));
+      },
+
+      say(message: string) {
+        this.status = message;
+        window.clearTimeout(this.statusTimer);
+        this.statusTimer = window.setTimeout(() => (this.status = ""), 2800);
+      },
+
+      toggleHidden() {
+        this.reveal = this.reveal === "hidden" ? "none" : "hidden";
+        this.say(this.reveal === "hidden" ? "Hidden section revealed" : "Back behind the dot");
+      },
+
+      toggleAll() {
+        this.reveal = this.reveal === "all" ? "none" : "all";
+        this.say(this.reveal === "all" ? "Every section revealed" : "Back behind the dot");
+      },
+
+      move(item: DemoItem, choice: { key: SectionKey; label: string }) {
+        if (item.section === choice.key) return;
+        item.section = choice.key;
+        this.say(`${item.name} moved to ${choice.label}`);
+      },
+    }));
+  });
+</script>

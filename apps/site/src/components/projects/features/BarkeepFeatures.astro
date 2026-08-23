@@ -1,0 +1,152 @@
+---
+import FeatureCard from "@/components/page/FeatureCard.astro";
+import FeatureGrid from "@/components/page/FeatureGrid.astro";
+---
+
+<FeatureGrid heading="What Barkeep adds to the macOS menu bar" columns={2}>
+  <FeatureCard
+    index={0}
+    title="One dot, two reveal states"
+    description="Click the Barkeep dot to show the Hidden section. Option-click it to show everything, including the items you never want on screen."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-foreground"></span>
+        <span class="text-[12px] text-foreground">Click</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">Hidden appears</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-[var(--project-accent)]/25">
+        <span class="size-2 shrink-0 rounded-full bg-[var(--project-accent)]"></span>
+        <span class="font-mono text-[12px] text-foreground">⌥ Click</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">Everything appears</span>
+      </div>
+      <span class="px-1 text-[10px] text-foreground-soft">Auto-hide returns the bar after five seconds</span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={1}
+    title="Search reaches hidden items"
+    description="Open search, type part of a name, and Barkeep opens that menu bar item even when it is sitting in the always hidden section."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 border-b border-border-subtle px-3 py-2">
+        <svg class="size-3.5 shrink-0 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.2" stroke="currentColor" stroke-width="1.3"></circle>
+          <path d="m10.2 10.2 3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+        </svg>
+        <span class="text-[12px] text-foreground">drop</span>
+        <span class="ml-auto h-3 w-px animate-pulse bg-foreground/60"></span>
+      </div>
+      <div class="flex flex-col p-2 text-[12px]">
+        <span class="flex items-center justify-between rounded-md bg-[var(--project-accent)]/10 px-2 py-1.5 text-foreground">
+          Dropbox
+          <span class="text-[10px] text-foreground-soft">Hidden</span>
+        </span>
+        <span class="flex items-center justify-between px-2 py-1.5 text-foreground-muted">
+          Backup agent
+          <span class="text-[10px] text-foreground-soft">Always hidden</span>
+        </span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={2}
+    title="Eight built-in menu bar icons"
+    description="The default is a small dot. Pick another monochrome symbol, or point Barkeep at your own image and it keeps a copy of its own."
+  >
+    <div class="grid w-full max-w-[17rem] grid-cols-4 gap-2">
+      {[
+        { name: "Dot", svg: '<circle cx="10" cy="10" r="3" fill="currentColor" />' },
+        { name: "Ring", svg: '<circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" fill="none" />' },
+        { name: "Ellipsis", svg: '<circle cx="5" cy="10" r="1.4" fill="currentColor" /><circle cx="10" cy="10" r="1.4" fill="currentColor" /><circle cx="15" cy="10" r="1.4" fill="currentColor" />' },
+        { name: "Diamond", svg: '<path d="M10 5.5 14.5 10 10 14.5 5.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none" />' },
+        { name: "Chevrons", svg: '<path d="m11 6-4 4 4 4M15 6l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />' },
+        { name: "Line", svg: '<path d="M5.5 10h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />' },
+        { name: "Sparkle", svg: '<path d="M10 5c.6 3 1.4 3.8 4.4 4.4-3 .6-3.8 1.4-4.4 4.4-.6-3-1.4-3.8-4.4-4.4C8.6 8.8 9.4 8 10 5Z" fill="currentColor" />' },
+        { name: "Grid", svg: '<path d="M6.5 6.5h3v3h-3zM10.5 6.5h3v3h-3zM6.5 10.5h3v3h-3zM10.5 10.5h3v3h-3z" fill="currentColor" />' },
+      ].map((icon, index) => (
+        <span
+          class:list={[
+            "flex aspect-square items-center justify-center rounded-lg bg-background-raised shadow-sm ring-1",
+            index === 0 ? "text-[var(--project-accent)] ring-[var(--project-accent)]/30" : "text-foreground-muted ring-black/[0.04] dark:ring-white/[0.06]",
+          ]}
+          title={icon.name}
+        >
+          <svg class="size-5" viewBox="0 0 20 20" aria-hidden="true" set:html={icon.svg} />
+        </span>
+      ))}
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={3}
+    title="Profiles for how you work"
+    description="Save an arrangement, switch to it, and export it as a file. A meeting layout and a deep work layout can hold different items."
+  >
+    <div class="flex w-full max-w-[17rem] flex-col gap-2">
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-[var(--project-accent)]/25">
+        <span class="size-2 shrink-0 rounded-full bg-[var(--project-accent)]"></span>
+        <span class="text-[13px] text-foreground">Deep work</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">3 visible</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg bg-background-raised px-3 py-2.5 shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+        <span class="size-2 shrink-0 rounded-full bg-foreground/25"></span>
+        <span class="text-[13px] text-foreground-muted">Screen sharing</span>
+        <span class="ml-auto text-[11px] text-foreground-soft">1 visible</span>
+      </div>
+      <span class="px-1 font-mono text-[10px] text-foreground-soft">import · export · launch at login</span>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={4}
+    title="Guided Accessibility setup"
+    description="Barkeep registers the request, opens the exact Accessibility page, and shows a small switch guide over System Settings instead of a wall of text."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="border-b border-border-subtle px-3 py-2 text-[11px] text-foreground-soft">
+        Privacy &amp; Security › Accessibility
+      </div>
+      <div class="flex items-center gap-2 p-3">
+        <span class="flex size-6 items-center justify-center rounded-md bg-[var(--project-accent)]/10">
+          <span class="size-1.5 rounded-full bg-[var(--project-accent)]"></span>
+        </span>
+        <span class="text-[13px] text-foreground">Barkeep</span>
+        <span class="ml-auto flex h-4 w-7 items-center rounded-full bg-[var(--project-accent)] p-0.5">
+          <span class="ml-auto size-3 rounded-full bg-white shadow-sm"></span>
+        </span>
+      </div>
+    </div>
+  </FeatureCard>
+
+  <FeatureCard
+    index={5}
+    title="Nothing leaves the Mac"
+    description="Barkeep reads the menu bar when you ask it to, keeps its arrangement on disk, and sends no item names or usage anywhere."
+  >
+    <div class="w-full max-w-[17rem] overflow-hidden rounded-xl bg-background-raised shadow-sm ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
+      <div class="flex items-center gap-2 border-b border-border-subtle px-3 py-2">
+        <svg class="size-3.5 shrink-0 text-foreground-soft" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M1.5 4.5c0-.6.4-1 1-1h3l1.5 1.5h6c.6 0 1 .4 1 1v6c0 .6-.4 1-1 1h-10.5c-.6 0-1-.4-1-1v-7.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+        </svg>
+        <span class="truncate text-[12px] font-medium text-foreground">Application Support/Barkeep</span>
+      </div>
+      <div class="flex flex-col gap-1.5 p-3 font-mono text-[11px]">
+        <div class="flex items-center justify-between">
+          <span class="text-foreground">items.json</span>
+          <span class="text-[10px] text-foreground-soft">atomic write</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-foreground">profiles/</span>
+          <span class="text-[10px] text-foreground-soft">2 saved</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-foreground-muted">no analytics</span>
+          <span class="text-[10px] text-foreground-soft">no account</span>
+        </div>
+      </div>
+    </div>
+  </FeatureCard>
+</FeatureGrid>
