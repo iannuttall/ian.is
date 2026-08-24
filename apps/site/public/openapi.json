@@ -1,0 +1,299 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Ian Nuttall developer resources API",
+    "summary": "Read the public developer resource index for ian.is.",
+    "description": "This public, read-only API lists Ian Nuttall's APIs, MCP servers, CLIs, agent skills, packages, and source repositories. It requires no authentication and does not expose product accounts or write operations.",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT",
+      "identifier": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ian.is",
+      "description": "Production"
+    }
+  ],
+  "security": [],
+  "tags": [
+    {
+      "name": "Developer resources",
+      "description": "Public developer and agent interfaces published by Ian Nuttall."
+    }
+  ],
+  "paths": {
+    "/api/v1/resources": {
+      "get": {
+        "operationId": "listIanDeveloperResources",
+        "summary": "List developer resources",
+        "description": "List all public developer resources, or filter them by a short text query that matches a name, description, slug, or interface type.",
+        "tags": ["Developer resources"],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "description": "Optional text used to filter the resource list.",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "example": "MCP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Developer resources that match the query.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeveloperResourceList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The query is not valid.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The endpoint received a method other than GET.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources/{slug}": {
+      "get": {
+        "operationId": "getIanDeveloperResource",
+        "summary": "Get one developer resource",
+        "description": "Return one public developer resource by its stable slug, including its interface types and official links.",
+        "tags": ["Developer resources"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Stable identifier for the developer resource.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ian-is",
+                "keep",
+                "seo-skill",
+                "ilo",
+                "mailroom",
+                "caffeine",
+                "unclaimed"
+              ]
+            },
+            "example": "seo-skill"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested developer resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeveloperResource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No public developer resource uses the supplied slug.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "The endpoint received a method other than GET.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DeveloperResourceList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "count", "resources"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the public resource index."
+          },
+          "description": {
+            "type": "string",
+            "description": "Purpose of the public resource index."
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of resources in this response."
+          },
+          "resources": {
+            "type": "array",
+            "description": "Developer resources that match the request.",
+            "items": {
+              "$ref": "#/components/schemas/DeveloperResource"
+            }
+          }
+        }
+      },
+      "DeveloperResource": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slug",
+          "name",
+          "description",
+          "pageUrl",
+          "interfaces",
+          "links"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "Stable identifier used by the detail endpoint."
+          },
+          "name": {
+            "type": "string",
+            "description": "Public product or resource name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the resource."
+          },
+          "pageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical ian.is page for the resource."
+          },
+          "interfaces": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Developer or agent interfaces offered by the resource.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "links": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Official documentation, package, source, API, MCP, or product links.",
+            "items": {
+              "$ref": "#/components/schemas/DeveloperResourceLink"
+            }
+          }
+        }
+      },
+      "DeveloperResourceLink": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "url"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Relationship between the resource and the URL.",
+            "enum": [
+              "api",
+              "documentation",
+              "mcp",
+              "package",
+              "source",
+              "website"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Official URL for this relationship."
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail",
+          "instance",
+          "code",
+          "message",
+          "resolution"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "description": "Stable URI for this problem type."
+          },
+          "title": {
+            "type": "string",
+            "description": "Short human-readable problem title."
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 599,
+            "description": "HTTP status code for this problem."
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable detail for this occurrence."
+          },
+          "instance": {
+            "type": "string",
+            "description": "Request path that caused this problem."
+          },
+          "code": {
+            "type": "string",
+            "description": "Stable machine-readable error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "Plain error message for clients and agents."
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Specific action that can resolve the problem."
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Ian Nuttall developer resources",
+    "url": "https://ian.is/developers"
+  }
+}

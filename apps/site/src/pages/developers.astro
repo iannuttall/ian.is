@@ -46,6 +46,27 @@ const structuredData = webPageSchema({
     </div>
 
     <div class="mt-12 flex max-w-3xl flex-col gap-12">
+      <PageSection title="ian.is API and MCP">
+        <LinkList>
+          <LinkItem title="OpenAPI description" href="/openapi.json" headingLevel="h3">
+            Typed operations and response schemas for the public read-only resource API
+          </LinkItem>
+          <LinkItem title="Developer resource API" href="/api/v1/resources" headingLevel="h3">
+            A JSON index of Ian Nuttall's public APIs, MCP servers, CLIs, packages, and source repositories
+          </LinkItem>
+          <LinkItem title="MCP Registry manifest" href="/server.json" headingLevel="h3">
+            The Streamable HTTP endpoint and public MCP server metadata
+          </LinkItem>
+        </LinkList>
+        <div class="content-prose mt-4">
+          <p>
+            The ian.is API and MCP server are public and read-only. They list
+            developer resources and need no authentication. Product accounts,
+            writes, webhooks, and private data stay with each product.
+          </p>
+        </div>
+      </PageSection>
+
       <PageSection title="Products with developer interfaces">
         <LinkList>
           <LinkItem title="Keep MCP and CLI" href="/keep" headingLevel="h3">
@@ -62,6 +83,9 @@ const structuredData = webPageSchema({
           </LinkItem>
           <LinkItem title="Caffeine CLI and releases" href="/caffeine" headingLevel="h3">
             macOS wake controls and Agent Watch for Claude Code and Codex
+          </LinkItem>
+          <LinkItem title="Unclaimed CLI on npm" href="/unclaimed" headingLevel="h3">
+            A published Node.js command for finding and tracking available single-word domains
           </LinkItem>
         </LinkList>
       </PageSection>

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "is.ian/site",
+  "title": "Ian Nuttall developer resources",
+  "description": "Read Ian Nuttall's public developer resource index through one structured tool.",
+  "version": "1.0.0",
+  "websiteUrl": "https://ian.is/developers",
+  "repository": {
+    "source": "github",
+    "url": "https://github.com/iannuttall/ian.is",
+    "subfolder": "apps/site"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://ian.is/mcp"
+    }
+  ]
+}
