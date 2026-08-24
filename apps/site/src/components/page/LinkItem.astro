@@ -4,16 +4,18 @@ type Props = {
   href?: string;
   meta?: string;
   external?: boolean;
+  headingLevel?: "h3";
 };
 
 import ExternalLink from "@/components/icons/ExternalLink.astro";
 import { externalLinkAttrs, isExternalHref } from "@/lib/external-links.mjs";
 
-const { title, href, meta, external } = Astro.props;
+const { title, href, meta, external, headingLevel } = Astro.props;
 const hasHref = typeof href === "string" && href.length > 0;
 const linkAttrs = hasHref ? externalLinkAttrs(href) : {};
 const isExternal = hasHref && (external ?? isExternalHref(href));
 const Element = hasHref ? "a" : "div";
+const TitleElement = headingLevel ?? "span";
 ---
 
 <li class="flex">
@@ -24,7 +26,7 @@ const Element = hasHref ? "a" : "div";
       hasHref ? "group/list-item" : null,
     ]}
   >
-    <span
+    <TitleElement
       class:list={[
         "text-xl leading-[1.6] font-medium tracking-normal text-foreground underline-offset-1",
         hasHref
@@ -33,7 +35,7 @@ const Element = hasHref ? "a" : "div";
       ]}
     >
       {title}
-    </span>
+    </TitleElement>
     {isExternal ? (
       <ExternalLink
         class="size-5 shrink-0 translate-y-0.5 text-foreground"
