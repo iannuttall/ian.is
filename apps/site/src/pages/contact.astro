@@ -1,0 +1,104 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import PageSection from "@/components/page/PageSection.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { markdownLinkClass } from "@/lib/markdown-links.mjs";
+import { webPageSchema } from "@/lib/seo";
+import { personProfiles, siteUrl } from "@/lib/site";
+
+const siteHost = new URL(siteUrl).hostname.replace(/^www\./, "");
+const sponsorEmail = `sponsor@${siteHost}`;
+const privacyEmail = `privacy@${siteHost}`;
+const title = "Contact Ian Nuttall";
+const description =
+  "Contact Ian Nuttall about his software products, public work, newsletter sponsorships, privacy requests, or a question for his public AMA.";
+const structuredData = webPageSchema({
+  title,
+  description,
+  path: "/contact",
+});
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/contact"
+  breadcrumbs={pageBreadcrumbs("Contact", "/contact")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title={title}
+      subtitle="Use the route that fits your question. It will reach the right place faster."
+    />
+
+    <div class="mt-12 flex max-w-2xl flex-col gap-12">
+      <PageSection title="Questions about my work">
+        <div class="content-prose">
+          <p>
+            Send a question through my <a href="/ama" class={markdownLinkClass}>public AMA</a>
+            if it could help another founder, developer, or marketer. I answer
+            selected questions on the site, with the original context kept
+            beside the answer. This works best for questions about building
+            small products, programmatic SEO, AI agents, and running an
+            internet business.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Product help and bug reports">
+        <div class="content-prose">
+          <p>
+            Start with the relevant page in my <a href="/developers" class={markdownLinkClass}>developer resources</a>.
+            Each page points to the official product site or source repository
+            and lists the interfaces it supports. Public bug reports belong in
+            the matching GitHub repository when one is available. Account and
+            billing questions should use the support route on the product's own
+            website because ian.is does not hold those accounts.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Newsletter sponsorships">
+        <div class="content-prose">
+          <p>
+            The <a href="/advertise" class={markdownLinkClass}>Ian's List sponsor page</a>
+            explains the audience, placement formats, and what makes a good
+            fit. Email <a href={`mailto:${sponsorEmail}?subject=Sponsoring Ian's List`} class={markdownLinkClass}>{sponsorEmail}</a>
+            with the product you want to promote. I will reply with
+            availability and current pricing.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Privacy and legal requests">
+        <div class="content-prose">
+          <p>
+            Email <a href={`mailto:${privacyEmail}`} class={markdownLinkClass}>{privacyEmail}</a>
+            for personal data, privacy, or site policy questions. Include the
+            page or service involved and enough detail for me to identify the
+            request. The <a href="/privacy" class={markdownLinkClass}>privacy policy</a>
+            explains what this site may collect and how that information is
+            used.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Public profiles">
+        <div class="content-prose">
+          <p>
+            You can also find me on <a href={personProfiles.github} target="_blank" rel="noreferrer" class={markdownLinkClass}>GitHub</a>,
+            <a href={personProfiles.x} target="_blank" rel="noreferrer" class={markdownLinkClass}>X</a>,
+            and <a href={personProfiles.linkedin} target="_blank" rel="noreferrer" class={markdownLinkClass}>LinkedIn</a>.
+            These profiles are useful for public work and short messages. Use
+            the routes above when the request includes account details,
+            sponsorship information, or personal data.
+          </p>
+        </div>
+      </PageSection>
+    </div>
+  </div>
+</Layout>

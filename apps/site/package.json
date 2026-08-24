@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:cf": "wrangler dev",
-    "build": "node scripts/check-issue-parity.mjs && node scripts/build-sitemaps.mjs && astro build && node scripts/build-agent-discovery.mjs",
+    "build": "node scripts/check-issue-parity.mjs && node scripts/build-sitemaps.mjs && pnpm test && astro build && node scripts/build-agent-discovery.mjs && node scripts/verify-agent-readiness.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types",
@@ -21,7 +21,8 @@
     "feed": "node scripts/feed.mjs",
     "deploy": "node scripts/deploy.mjs",
     "deploy:built": "node scripts/deploy.mjs --built",
-    "deploy:dry-run": "node scripts/deploy.mjs --dry-run"
+    "deploy:dry-run": "node scripts/deploy.mjs --dry-run",
+    "test": "node --test src/lib/agent-not-found.test.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.1.3",

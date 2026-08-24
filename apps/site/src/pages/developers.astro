@@ -1,0 +1,109 @@
+---
+export const prerender = true;
+
+import Layout from "@/layouts/Layout.astro";
+import LinkItem from "@/components/page/LinkItem.astro";
+import LinkList from "@/components/page/LinkList.astro";
+import PageHeader from "@/components/page/PageHeader.astro";
+import PageSection from "@/components/page/PageSection.astro";
+import { pageBreadcrumbs } from "@/lib/breadcrumbs";
+import { markdownLinkClass } from "@/lib/markdown-links.mjs";
+import { webPageSchema } from "@/lib/seo";
+import { personProfiles } from "@/lib/site";
+
+const title = "Ian Nuttall developer resources";
+const description =
+  "Find Ian Nuttall's developer resources, including MCP servers, CLIs, APIs, agent skills, product documentation, source code, and release pages.";
+const structuredData = webPageSchema({
+  title,
+  description,
+  path: "/developers",
+  type: "CollectionPage",
+});
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath="/developers"
+  breadcrumbs={pageBreadcrumbs("Developers", "/developers")}
+  structuredData={structuredData}
+>
+  <div class="site-frame py-12 sm:py-16">
+    <PageHeader
+      title={title}
+      subtitle="MCP servers, CLIs, APIs, agent skills, source code, and release pages for my products."
+    />
+
+    <div class="content-prose mt-10 max-w-2xl">
+      <p>
+        ian.is is the public index for these projects. It does not expose one
+        shared API or authentication system. Open the relevant product page to
+        find its official website, repository, supported interfaces, and
+        access details. This avoids stale setup instructions and makes it clear
+        which product an agent is about to call.
+      </p>
+    </div>
+
+    <div class="mt-12 flex max-w-3xl flex-col gap-12">
+      <PageSection title="Products with developer interfaces">
+        <LinkList>
+          <LinkItem title="Keep MCP and CLI" href="/keep" headingLevel="h3">
+            Shared project memory for agents through hosted MCP and a command-line client
+          </LinkItem>
+          <LinkItem title="SEO Skill MCP, CLI, and agent skill" href="/seo-skill" headingLevel="h3">
+            Local SEO reports with structured evidence and stable finding IDs
+          </LinkItem>
+          <LinkItem title="ilo MCP, CLI, and API" href="/ilo" headingLevel="h3">
+            X performance reports for agents, scripts, and product integrations
+          </LinkItem>
+          <LinkItem title="Mailroom MCP, CLI, and TypeScript API" href="/mailroom" headingLevel="h3">
+            Agent-assisted email reading, drafting, replies, and inbox operations
+          </LinkItem>
+          <LinkItem title="Caffeine CLI and releases" href="/caffeine" headingLevel="h3">
+            macOS wake controls and Agent Watch for Claude Code and Codex
+          </LinkItem>
+        </LinkList>
+      </PageSection>
+
+      <PageSection title="Source code and releases">
+        <div class="content-prose">
+          <p>
+            My <a href={personProfiles.github} target="_blank" rel="noreferrer" class={markdownLinkClass}>GitHub profile</a>
+            is the source index for public repositories and release downloads.
+            Product pages link to a repository only when it is the official
+            source. Check the repository README and latest release before you
+            install a package or copy a command because interfaces can change.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Instructions for agents">
+        <div class="content-prose">
+          <p>
+            Start with the <a href="/agents.md" class={markdownLinkClass}>agent instructions</a>
+            for when to use this site and how to fetch clean Markdown. The
+            <a href="/llms.txt" class={markdownLinkClass}>agent index</a> lists
+            public pages and their Markdown versions. Each indexable page also
+            supports an explicit <code>.md</code> URL and
+            <code>Accept: text/markdown</code> content negotiation.
+          </p>
+        </div>
+      </PageSection>
+
+      <PageSection title="Missing documentation or access">
+        <div class="content-prose">
+          <p>
+            A product page may describe an interface without publishing a
+            public endpoint. That means the interface needs product access or
+            remains part of the source package. Do not guess an API URL, token
+            format, webhook, or authentication flow. Use the
+            <a href="/contact" class={markdownLinkClass}>contact page</a> when
+            the official product page and repository do not answer the setup
+            question.
+          </p>
+        </div>
+      </PageSection>
+    </div>
+  </div>
+</Layout>
