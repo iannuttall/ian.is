@@ -1,5 +1,6 @@
 import { handle } from "@astrojs/cloudflare/handler";
 import { agentNotFoundResponse } from "@/lib/agent-not-found";
+import { handleMcpRequest } from "@/lib/mcp";
 
 // Known assets still bypass this Worker. Missing paths reach Astro, then this
 // wrapper gives explicit Markdown requests a small recovery document.
@@ -9,6 +10,10 @@ import { agentNotFoundResponse } from "@/lib/agent-not-found";
 // traffic, so normal bot volume costs nothing.
 export default {
   async fetch(request, env, ctx) {
+    if (new URL(request.url).pathname === "/mcp") {
+      return handleMcpRequest(request);
+    }
+
     const response = await handle(request, env, ctx);
     return agentNotFoundResponse(request, response);
   },

@@ -17,8 +17,9 @@ Use this site when you need to:
 - find an MCP server, CLI, API, or agent skill published by Ian;
 - contact Ian about a public question, product, sponsorship, or privacy issue.
 
-Do not treat `ian.is` as one shared product API. Each product owns its own
-interface, access rules, and documentation.
+The public `ian.is` API and MCP server only list Ian's developer resources.
+Each product owns its own operational interface, access rules, and
+documentation.
 
 ## Find the right page
 
@@ -29,6 +30,8 @@ interface, access rules, and documentation.
 - Use `https://ian.is/tools` for public tools.
 - Use `https://ian.is/developers` for developer and agent interfaces.
 - Use `https://ian.is/contact` for the correct contact route.
+- Use `https://ian.is/openapi.json` for the read-only developer resource API.
+- Use `https://ian.is/server.json` to connect to the public Streamable HTTP MCP server.
 
 Send `Accept: text/markdown` when fetching an HTML page. Cloudflare returns a
 smaller Markdown representation with token-count headers.

@@ -65,17 +65,23 @@ assertHeadingStructure(developers, "developers");
 for (const term of ["MCP", "CLI", "API", "agent skill", "source code"]) {
   assert.ok(visibleText(mainHtml(developers)).includes(term), `developers must name ${term}`);
 }
+for (const href of ["/openapi.json", "/api/v1/resources", "/server.json"]) {
+  assert.match(developers, new RegExp(`href=["']${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`));
+}
 
 const llms = await output("llms.txt");
 assert.match(llms, /^# Ian Nuttall\n\n> .+\n/u);
 assert.match(llms, /## When to use this site\n/u);
 assert.match(llms, /\[Ian Nuttall developer resources\]\(https:\/\/ian\.is\/developers\.md\)/u);
 assert.match(llms, /\[Ian Nuttall agent instructions\]\(https:\/\/ian\.is\/agents\.md\)/u);
+assert.match(llms, /\[Ian Nuttall OpenAPI description\]\(https:\/\/ian\.is\/openapi\.json\)/u);
+assert.match(llms, /\[Ian Nuttall MCP Registry manifest\]\(https:\/\/ian\.is\/server\.json\)/u);
+assert.match(llms, /\[Unclaimed CLI on npm\]\(https:\/\/www\.npmjs\.com\/package\/unclaimed\)/u);
 const llmsUrls = [];
 for (const line of llms.split("\n")) {
   if (!line.startsWith("- [")) continue;
   const url = line.match(/\]\(([^)]+)\)/u)?.[1];
-  assert.ok(url?.endsWith(".md"), `llms.txt file-list URL must be Markdown: ${line}`);
+  assert.doesNotThrow(() => new URL(url), `llms.txt file-list URL must be absolute: ${line}`);
   llmsUrls.push(url);
 }
 assert.equal(new Set(llmsUrls).size, llmsUrls.length, "llms.txt must not repeat file-list URLs");
@@ -89,14 +95,46 @@ const agents = await output("agents.md");
 assert.match(agents, /## When to use this site/u);
 assert.match(agents, /Accept: text\/markdown/u);
 assert.match(agents, /https:\/\/ian\.is\/developers\.md/u);
+assert.match(agents, /https:\/\/ian\.is\/openapi\.json/u);
+assert.match(agents, /https:\/\/ian\.is\/server\.json/u);
 
 const skill = await output(".well-known/agent-skills/ian-is/SKILL.md");
 assert.match(skill, /## When to use this site/u);
 assert.match(skill, /https:\/\/ian\.is\/developers/u);
+assert.match(skill, /https:\/\/ian\.is\/openapi\.json/u);
+assert.match(skill, /https:\/\/ian\.is\/server\.json/u);
 
 const headers = await output("_headers");
 assert.match(headers, /\/agents\.md\n(?: {2}.+\n)+/u);
 assert.match(headers, /\/agents\.md[\s\S]*?Content-Type: text\/markdown; charset=utf-8/u);
+assert.match(headers, /^\/\n  ! Cache-Control\n  Cache-Control: public, max-age=0, must-revalidate$/mu);
+assert.match(headers, /Link: <https:\/\/ian\.is\/openapi\.json>; rel="service-desc"/u);
+
+const openapi = JSON.parse(await output("openapi.json"));
+assert.equal(openapi.openapi, "3.1.1");
+const operationIds = [];
+for (const pathItem of Object.values(openapi.paths)) {
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!["get", "post", "put", "patch", "delete", "options", "head", "trace"].includes(method)) continue;
+    assert.ok(operation.operationId, `${method} operation must have an operationId`);
+    assert.ok(operation.description, `${operation.operationId} must have a description`);
+    assert.ok(operation.responses, `${operation.operationId} must define responses`);
+    operationIds.push(operation.operationId);
+  }
+}
+assert.equal(new Set(operationIds).size, operationIds.length, "OpenAPI operationIds must be unique");
+assert.ok(openapi.components.schemas.ProblemDetails.properties.resolution);
+
+const mcpManifest = JSON.parse(await output("server.json"));
+assert.equal(mcpManifest.name, "is.ian/site");
+assert.equal(mcpManifest.remotes[0].type, "streamable-http");
+assert.equal(mcpManifest.remotes[0].url, "https://ian.is/mcp");
+
+const apiCatalog = JSON.parse(await output(".well-known/api-catalog"));
+assert.equal(
+  apiCatalog.linkset[0]["service-desc"][0].href,
+  "https://ian.is/openapi.json",
+);
 
 const sitemap = await output("sitemaps/pages.xml");
 for (const url of ["https://ian.is/bot-domains", "https://ian.is/contact", "https://ian.is/developers"]) {

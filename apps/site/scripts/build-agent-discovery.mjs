@@ -207,7 +207,13 @@ function renderLlmsTxt({ home, pages, siteName }, skills) {
     ["/developers", "Use for MCP servers, CLIs, APIs, agent skills, source code, and product docs."],
     ["/contact", "Use to choose the correct route for a question, product issue, sponsorship, or privacy request."],
   ];
-  const developerPaths = ["/keep", "/seo-skill", "/ilo", "/mailroom"];
+  const developerPaths = ["/keep", "/seo-skill", "/ilo", "/mailroom", "/unclaimed"];
+  const interfaceItems = [
+    ["Ian Nuttall OpenAPI description", "/openapi.json", "Typed operations and response schemas for the public read-only developer resource API."],
+    ["Ian Nuttall developer resource API", "/api/v1/resources", "JSON index of public APIs, MCP servers, CLIs, agent skills, packages, and source repositories."],
+    ["Ian Nuttall MCP Registry manifest", "/server.json", "Connection metadata for the public Streamable HTTP MCP server."],
+    ["Unclaimed CLI on npm", "https://www.npmjs.com/package/unclaimed", "Official published Node.js CLI package from Ian Nuttall."],
+  ];
   const featuredPaths = new Set([
     ...useCases.map(([path]) => path),
     ...developerPaths,
@@ -247,6 +253,11 @@ function renderLlmsTxt({ home, pages, siteName }, skills) {
         return renderPageItem(path, page);
       })
       .join("\n")}`,
+    `## Ian Nuttall developer interfaces\n\n${interfaceItems
+      .map(([label, url, note]) =>
+        `- [${label}](${new URL(url, home.canonical)}): ${note}`,
+      )
+      .join("\n")}`,
     `## Pages\n\n${pageItems.join("\n")}`,
     `## Agent instructions\n\n- [Ian Nuttall agent instructions](${new URL("/agents.md", home.canonical)}): When to use this site, how to fetch Markdown, and how to recover from a missing page.`,
   ];
@@ -261,7 +272,7 @@ function renderLlmsTxt({ home, pages, siteName }, skills) {
     );
   }
 
-  return `# ${siteName}\n\n> ${home.description}\n\nUse this file to choose a source before making a claim or calling a product. Follow each Markdown link for the full page.\n\n${sections.join("\n\n")}\n`;
+  return `# ${siteName}\n\n> ${home.description}\n\nUse this file to choose a source before making a claim or calling a product. Follow each linked resource for its full content or machine-readable contract.\n\n${sections.join("\n\n")}\n`;
 }
 
 const [skills, siteData] = await Promise.all([
