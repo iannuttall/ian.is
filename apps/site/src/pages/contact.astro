@@ -14,7 +14,7 @@ const sponsorEmail = `sponsor@${siteHost}`;
 const privacyEmail = `privacy@${siteHost}`;
 const title = "Contact Ian Nuttall";
 const description =
-  "Contact Ian Nuttall about his software products, public work, newsletter sponsorships, privacy requests, or a question for his public AMA.";
+  "Contact Ian Nuttall about his software products, public work, newsletter sponsorships, or privacy requests.";
 const structuredData = webPageSchema({
   title,
   description,
@@ -39,12 +39,11 @@ const structuredData = webPageSchema({
       <PageSection title="Questions about my work">
         <div class="content-prose">
           <p>
-            Send a question through my <a href="/ama" class={markdownLinkClass}>public AMA</a>
-            if it could help another founder, developer, or marketer. I answer
-            selected questions on the site, with the original context kept
-            beside the answer. This works best for questions about building
-            small products, programmatic SEO, AI agents, and running an
-            internet business.
+            You can find me on <a href={personProfiles.github} target="_blank" rel="noreferrer" class={markdownLinkClass}>GitHub</a>,{" "}
+            <a href={personProfiles.x} target="_blank" rel="noreferrer" class={markdownLinkClass}>X</a>,{" "}
+            and <a href={personProfiles.linkedin} target="_blank" rel="noreferrer" class={markdownLinkClass}>LinkedIn</a>.
+            These profiles work best for questions about my public work and
+            short messages.
           </p>
         </div>
       </PageSection>
@@ -65,9 +64,9 @@ const structuredData = webPageSchema({
       <PageSection title="Newsletter sponsorships">
         <div class="content-prose">
           <p>
-            The <a href="/advertise" class={markdownLinkClass}>Ian's List sponsor page</a>
+            The <a href="/advertise" class={markdownLinkClass}>Ian's List sponsor page</a>{" "}
             explains the audience, placement formats, and what makes a good
-            fit. Email <a href={`mailto:${sponsorEmail}?subject=Sponsoring Ian's List`} class={markdownLinkClass}>{sponsorEmail}</a>
+            fit. Email <a href={`mailto:${sponsorEmail}?subject=Sponsoring Ian's List`} class={markdownLinkClass}>{sponsorEmail}</a>{" "}
             with the product you want to promote. I will reply with
             availability and current pricing.
           </p>
@@ -77,25 +76,12 @@ const structuredData = webPageSchema({
       <PageSection title="Privacy and legal requests">
         <div class="content-prose">
           <p>
-            Email <a href={`mailto:${privacyEmail}`} class={markdownLinkClass}>{privacyEmail}</a>
+            Email <a href={`mailto:${privacyEmail}`} class={markdownLinkClass}>{privacyEmail}</a>{" "}
             for personal data, privacy, or site policy questions. Include the
             page or service involved and enough detail for me to identify the
-            request. The <a href="/privacy" class={markdownLinkClass}>privacy policy</a>
+            request. The <a href="/privacy" class={markdownLinkClass}>privacy policy</a>{" "}
             explains what this site may collect and how that information is
             used.
-          </p>
-        </div>
-      </PageSection>
-
-      <PageSection title="Public profiles">
-        <div class="content-prose">
-          <p>
-            You can also find me on <a href={personProfiles.github} target="_blank" rel="noreferrer" class={markdownLinkClass}>GitHub</a>,
-            <a href={personProfiles.x} target="_blank" rel="noreferrer" class={markdownLinkClass}>X</a>,
-            and <a href={personProfiles.linkedin} target="_blank" rel="noreferrer" class={markdownLinkClass}>LinkedIn</a>.
-            These profiles are useful for public work and short messages. Use
-            the routes above when the request includes account details,
-            sponsorship information, or personal data.
           </p>
         </div>
       </PageSection>
