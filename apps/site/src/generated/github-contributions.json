@@ -1,19 +1,13 @@
 {
   "username": "iannuttall",
   "range": {
-    "start": "2025-08-31",
-    "end": "2026-08-31"
+    "start": "2025-09-01",
+    "end": "2026-09-01"
   },
-  "totalContributions": 6606,
+  "totalContributions": 6657,
   "weeks": [
     {
       "contributionDays": [
-        {
-          "date": "2025-08-31",
-          "contributionCount": 0,
-          "contributionLevel": "NONE",
-          "weekday": 0
-        },
         {
           "date": "2025-09-01",
           "contributionCount": 0,
@@ -2386,14 +2380,14 @@
         },
         {
           "date": "2026-08-28",
-          "contributionCount": 9,
+          "contributionCount": 12,
           "contributionLevel": "FIRST_QUARTILE",
           "weekday": 5
         },
         {
           "date": "2026-08-29",
-          "contributionCount": 0,
-          "contributionLevel": "NONE",
+          "contributionCount": 4,
+          "contributionLevel": "FIRST_QUARTILE",
           "weekday": 6
         }
       ]
@@ -2402,26 +2396,26 @@
       "contributionDays": [
         {
           "date": "2026-08-30",
-          "contributionCount": 16,
+          "contributionCount": 17,
           "contributionLevel": "FIRST_QUARTILE",
           "weekday": 0
         },
         {
           "date": "2026-08-31",
-          "contributionCount": 0,
-          "contributionLevel": "NONE",
+          "contributionCount": 42,
+          "contributionLevel": "FIRST_QUARTILE",
           "weekday": 1
+        },
+        {
+          "date": "2026-09-01",
+          "contributionCount": 1,
+          "contributionLevel": "FIRST_QUARTILE",
+          "weekday": 2
         }
       ]
     }
   ],
   "days": [
-    {
-      "date": "2025-08-31",
-      "contributionCount": 0,
-      "contributionLevel": "NONE",
-      "weekday": 0
-    },
     {
       "date": "2025-09-01",
       "contributionCount": 0,
@@ -4590,27 +4584,33 @@
     },
     {
       "date": "2026-08-28",
-      "contributionCount": 9,
+      "contributionCount": 12,
       "contributionLevel": "FIRST_QUARTILE",
       "weekday": 5
     },
     {
       "date": "2026-08-29",
-      "contributionCount": 0,
-      "contributionLevel": "NONE",
+      "contributionCount": 4,
+      "contributionLevel": "FIRST_QUARTILE",
       "weekday": 6
     },
     {
       "date": "2026-08-30",
-      "contributionCount": 16,
+      "contributionCount": 17,
       "contributionLevel": "FIRST_QUARTILE",
       "weekday": 0
     },
     {
       "date": "2026-08-31",
-      "contributionCount": 0,
-      "contributionLevel": "NONE",
+      "contributionCount": 42,
+      "contributionLevel": "FIRST_QUARTILE",
       "weekday": 1
+    },
+    {
+      "date": "2026-09-01",
+      "contributionCount": 1,
+      "contributionLevel": "FIRST_QUARTILE",
+      "weekday": 2
     }
   ]
 }
