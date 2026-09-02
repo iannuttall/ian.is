@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://ian.is/api/v1/resources",
+      "service-desc": [
+        {
+          "href": "https://ian.is/openapi.json",
+          "type": "application/vnd.oai.openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://ian.is/developers",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

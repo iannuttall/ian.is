@@ -23,8 +23,7 @@
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
-    "html_handling": "drop-trailing-slash",
-    "not_found_handling": "404-page"
+    "html_handling": "drop-trailing-slash"
   },
   "vars": {
     "LIST_API_URL": "https://list.ian.is",

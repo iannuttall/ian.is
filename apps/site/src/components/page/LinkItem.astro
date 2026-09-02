@@ -4,16 +4,18 @@ type Props = {
   href?: string;
   meta?: string;
   external?: boolean;
+  headingLevel?: "h3";
 };
 
 import ExternalLink from "@/components/icons/ExternalLink.astro";
 import { externalLinkAttrs, isExternalHref } from "@/lib/external-links.mjs";
 
-const { title, href, meta, external } = Astro.props;
+const { title, href, meta, external, headingLevel } = Astro.props;
 const hasHref = typeof href === "string" && href.length > 0;
 const linkAttrs = hasHref ? externalLinkAttrs(href) : {};
 const isExternal = hasHref && (external ?? isExternalHref(href));
 const Element = hasHref ? "a" : "div";
+const TitleElement = headingLevel ?? "span";
 const hasDescription = Astro.slots.has("default");
 ---
 
@@ -26,9 +28,9 @@ const hasDescription = Astro.slots.has("default");
       hasHref ? "focus-visible:bg-foreground/[0.05]" : null,
     ]}
   >
-    <span class="font-medium text-foreground">
+    <TitleElement class="text-base font-medium text-foreground">
       {title}
-    </span>
+    </TitleElement>
     {isExternal ? (
       <ExternalLink
         class="size-4 shrink-0 translate-y-0.5 text-foreground-soft"

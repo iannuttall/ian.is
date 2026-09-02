@@ -17,13 +17,14 @@ import { siteName } from "@/lib/site";
       Page not found
     </h1>
     <p class="max-w-lg text-foreground-muted">
-      This page does not exist, or the URL has changed.
+      This page does not exist, or the URL has changed. These links can help
+      you find the right page.
     </p>
-    <a
-      href="/"
-      class="mt-2 inline-flex h-10 w-fit items-center justify-center rounded-md bg-foreground px-5 text-sm font-medium text-background transition-opacity hover:opacity-85"
-    >
-      Go home
-    </a>
+    <ul class="mt-2 flex flex-wrap gap-x-5 gap-y-3 text-sm">
+      <li><a class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft" href="/">Homepage</a></li>
+      <li><a class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft" href="/sitemap.xml">Site map</a></li>
+      <li><a class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft" href="/llms.txt">Agent index</a></li>
+      <li><a class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft" href="/developers">Developer resources</a></li>
+    </ul>
   </section>
 </Layout>

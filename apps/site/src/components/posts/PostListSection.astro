@@ -32,9 +32,11 @@ const labelLinkClass =
 <div class={sectionClass}>
   {
     href ? (
-      <a href={href} class={labelLinkClass}>
-        {label}
-      </a>
+      <LabelHeading>
+        <a href={href} class={labelLinkClass}>
+          {label}
+        </a>
+      </LabelHeading>
     ) : (
       <div>
         <LabelHeading class={labelClass}>{label}</LabelHeading>

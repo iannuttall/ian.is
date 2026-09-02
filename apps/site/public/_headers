@@ -6,6 +6,14 @@
   Link: <https://ian.is/sitemap.xml>; rel="sitemap"; type="application/xml"
   Link: <https://ian.is/llms.txt>; rel="describedby llms-txt"; type="text/markdown"
   Link: <https://ian.is/.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
+  Link: <https://ian.is/openapi.json>; rel="service-desc"; type="application/vnd.oai.openapi+json"
+  Link: <https://ian.is/.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+
+# Always revalidate the homepage so a readiness scan cannot receive HTML from
+# an earlier deployment at a different Cloudflare point of presence.
+/
+  ! Cache-Control
+  Cache-Control: public, max-age=0, must-revalidate
 
 /_astro/*
   ! Cache-Control
@@ -45,6 +53,34 @@
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300, must-revalidate
   Content-Type: text/plain; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+/agents.md
+  ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+  Content-Type: text/markdown; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+/openapi.json
+  ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+  Content-Type: application/vnd.oai.openapi+json; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+/server.json
+  ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+  Content-Type: application/json; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+/.well-known/api-catalog
+  ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+  Content-Type: application/linkset+json; charset=utf-8
   X-Content-Type-Options: nosniff
 
 /.well-known/agent-skills/index.json

@@ -65,7 +65,7 @@ const projects = [
 <PageSection title="Projects">
   <LinkList>
     {projects.map((project) => (
-      <LinkItem title={project.title} href={project.href}>
+      <LinkItem title={project.title} href={project.href} headingLevel="h3">
         {project.description}
       </LinkItem>
     ))}

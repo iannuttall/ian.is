@@ -196,20 +196,71 @@ function cleanTitle(value) {
   return value.replace(/\s+\|\s+[^|]+$/u, "").trim();
 }
 
+function markdownUrl(site, path) {
+  return new URL(path === "/" ? "/index.md" : `${path}.md`, site).toString();
+}
+
 function renderLlmsTxt({ home, pages, siteName }, skills) {
+  const useCases = [
+    ["/about", "Use for Ian's background, work history, and public identity."],
+    ["/posts", "Use for Ian's published writing."],
+    ["/developers", "Use for MCP servers, CLIs, APIs, agent skills, source code, and product docs."],
+    ["/contact", "Use to choose the correct route for a question, product issue, sponsorship, or privacy request."],
+  ];
+  const developerPaths = ["/keep", "/seo-skill", "/ilo", "/mailroom", "/unclaimed"];
+  const interfaceItems = [
+    ["Ian Nuttall OpenAPI description", "/openapi.json", "Typed operations and response schemas for the public read-only developer resource API."],
+    ["Ian Nuttall developer resource API", "/api/v1/resources", "JSON index of public APIs, MCP servers, CLIs, agent skills, packages, and source repositories."],
+    ["Ian Nuttall MCP Registry manifest", "/server.json", "Connection metadata for the public Streamable HTTP MCP server."],
+    ["Unclaimed CLI on npm", "https://www.npmjs.com/package/unclaimed", "Official published Node.js CLI package from Ian Nuttall."],
+  ];
+  const featuredPaths = new Set([
+    ...useCases.map(([path]) => path),
+    ...developerPaths,
+  ]);
+
+  const renderPageItem = (path, page, note = page.description) => {
+    const label = path === "/" ? siteName : cleanTitle(page.title);
+    return `- [${label}](${markdownUrl(home.canonical, path)}): ${note}`;
+  };
+
   const pageItems = [...pages.entries()]
     .filter(([, page]) => !page.noindex)
+    .filter(([path]) => !featuredPaths.has(path))
     .sort(([left], [right]) => {
       if (left === "/") return -1;
       if (right === "/") return 1;
       return left.localeCompare(right, "en-US");
     })
-    .map(([path, page]) => {
-      const label = path === "/" ? siteName : cleanTitle(page.title);
-      return `- [${label}](${page.canonical}): ${page.description}`;
-    });
+    .map(([path, page]) => renderPageItem(path, page));
 
-  const sections = [`## Pages\n\n${pageItems.join("\n")}`];
+  const sections = [
+    `## When to use this site\n\n${useCases
+      .map(([path, note]) => {
+        const page = pages.get(path);
+        if (!page || page.noindex) {
+          throw new Error(`Missing indexable llms.txt use-case page: ${path}`);
+        }
+        return renderPageItem(path, page, note);
+      })
+      .join("\n")}`,
+    `## Developer resources\n\n${developerPaths
+      .map((path) => {
+        const page = pages.get(path);
+        if (!page || page.noindex) {
+          throw new Error(`Missing indexable developer page: ${path}`);
+        }
+        return renderPageItem(path, page);
+      })
+      .join("\n")}`,
+    `## Ian Nuttall developer interfaces\n\n${interfaceItems
+      .map(([label, url, note]) =>
+        `- [${label}](${new URL(url, home.canonical)}): ${note}`,
+      )
+      .join("\n")}`,
+    `## Pages\n\n${pageItems.join("\n")}`,
+    `## Agent instructions\n\n- [Ian Nuttall agent instructions](${new URL("/agents.md", home.canonical)}): When to use this site, how to fetch Markdown, and how to recover from a missing page.`,
+  ];
   if (skills.length > 0) {
     sections.push(
       `## Agent skills\n\n${skills
@@ -221,7 +272,7 @@ function renderLlmsTxt({ home, pages, siteName }, skills) {
     );
   }
 
-  return `# ${siteName}\n\n> ${home.description}\n\n${sections.join("\n\n")}\n`;
+  return `# ${siteName}\n\n> ${home.description}\n\nUse this file to choose a source before making a claim or calling a product. Follow each linked resource for its full content or machine-readable contract.\n\n${sections.join("\n\n")}\n`;
 }
 
 const [skills, siteData] = await Promise.all([
