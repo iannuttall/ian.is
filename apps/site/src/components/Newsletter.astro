@@ -38,7 +38,7 @@ const {
     <p
       hidden
       x-bind:hidden="status !== 'success'"
-      class="col-start-1 row-start-1 flex min-h-11 items-center gap-2 self-center text-sm font-medium text-success"
+      class="col-start-1 row-start-1 flex min-h-10 items-center gap-2 self-center text-sm font-medium text-success"
     >
       <svg
         class="size-4"
@@ -66,13 +66,13 @@ const {
         aria-describedby="newsletter-status"
         placeholder="Enter your email address"
         autocomplete="email"
-        class="h-11 w-full min-w-0 rounded-md sm:flex-1 border-0 bg-muted px-4 text-base text-foreground outline-none transition-[box-shadow] placeholder:text-foreground-soft focus-visible:ring-2 focus-visible:ring-ring/40 aria-invalid:ring-2 aria-invalid:ring-destructive/40"
+        class="h-10 w-full min-w-0 rounded-md sm:flex-1 border-0 bg-muted px-3.5 text-sm text-foreground outline-none transition-[box-shadow] placeholder:text-foreground-soft focus-visible:ring-2 focus-visible:ring-ring/40 aria-invalid:ring-2 aria-invalid:ring-destructive/40"
       />
       <button
         type="submit"
         disabled
         x-bind:disabled="status === 'loading' || !ready"
-        class="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-foreground px-5 text-base font-medium text-background transition-opacity hover:opacity-85 disabled:opacity-60"
+        class="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-md bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 disabled:opacity-60"
       >
         <span hidden x-bind:hidden="status !== 'loading'" class="inline-flex">
           <svg class="size-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
