@@ -5,6 +5,7 @@ import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import ContributionsSection from "@/components/page/ContributionsSection.astro";
 import ElsewhereSection from "@/components/page/ElsewhereSection.astro";
+import PageSection from "@/components/page/PageSection.astro";
 import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
 import { getPublishedPosts } from "@/lib/posts";
@@ -34,6 +35,16 @@ const posts = (await getPublishedPosts()).slice(0, 5);
   </section>
 
   <div class="space-y-16 py-16">
+    <section class="site-frame">
+      <PageSection title="About">
+        <p class="text-pretty text-foreground-muted">
+          I have built internet businesses for over 20 years: programmatic SEO sites, an SEO course, an
+          indexing tool, and an education startup, most of them sold. Now I build small AI tools and use
+          programmatic SEO to get them found. More <a href="/about" class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft">about</a> me.
+        </p>
+      </PageSection>
+    </section>
+
     <section class="site-frame">
       <ProjectsSection />
     </section>
