@@ -13,7 +13,7 @@ const { heading, standfirst, columns = 3, class: className } = Astro.props;
 const columnClass = columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3";
 ---
 
-<section class={cn("site-frame py-16 sm:py-24", className)}>
+<section class={cn("site-frame py-12 sm:py-16", className)}>
   {
     heading ? (
       <div class="flex max-w-2xl flex-col gap-3">

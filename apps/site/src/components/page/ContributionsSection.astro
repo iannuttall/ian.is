@@ -1,8 +1,9 @@
 ---
 /**
  * The GitHub contribution calendar, drawn from the committed snapshot that
- * the daily refresh-data workflow keeps fresh. Rendered fully static; the
- * only client behaviour is one shared tooltip.
+ * the daily refresh-data workflow keeps fresh. Fully static: no tooltips,
+ * no script. The grid is fluid, so it always fits the content column and
+ * never scrolls.
  *
  * The cell ramp mixes --color-foreground with transparent, so it stays a
  * quiet grey in any theme.
@@ -27,19 +28,7 @@ const LEVELS: Record<string, number> = {
 
 const weeks = contributions.weeks as Array<{ contributionDays: Day[] }>;
 const total = contributions.totalContributions.toLocaleString("en-US");
-
-const dayLabel = (day: Day) => {
-  const date = new Date(`${day.date}T00:00:00Z`);
-  const nice = date.toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-  });
-  if (day.contributionCount === 0) return `No contributions · ${nice}`;
-  if (day.contributionCount === 1) return `1 contribution · ${nice}`;
-  return `${day.contributionCount} contributions · ${nice}`;
-};
+const profileUrl = `https://github.com/${contributions.username}`;
 
 // Month labels sit over the first full week of each month, skipping any that
 // would crowd the previous label.
@@ -67,74 +56,73 @@ weeks.forEach((week, index) => {
 ---
 
 <PageSection title="Activity">
-  <div class="contrib relative overflow-x-auto" x-data="contribGraph" @pointerleave="hide()">
-    <div class="w-max min-w-full">
-      <div class="contrib-columns mb-2 grid text-xs leading-4 text-foreground-soft" aria-hidden="true">
-        {monthLabels.map((month) => (
-          <span style={`grid-column-start:${month.column}`} class="row-start-1">{month.label}</span>
-        ))}
-      </div>
-
-      <div
-        class="contrib-columns grid grid-flow-col grid-rows-[repeat(7,var(--contrib-cell))] gap-[var(--contrib-gap)]"
-        role="img"
-        aria-label={`GitHub contribution calendar: ${total} contributions in the last year`}
-      >
-        {weeks.map((week) =>
-          week.contributionDays.map((day) => (
-            <span
-              class="contrib-cell rounded-[2px]"
-              style={`grid-row-start:${day.weekday + 1}`}
-              data-level={LEVELS[day.contributionLevel] ?? 0}
-              data-tip={dayLabel(day)}
-            ></span>
-          )),
-        )}
-      </div>
+  <div class="contrib" style={`--contrib-weeks:${weeks.length}`}>
+    <div class="contrib-columns mb-2 grid text-[10px] leading-4 text-foreground-soft sm:text-xs" aria-hidden="true">
+      {monthLabels.map((month) => (
+        <span style={`grid-column-start:${month.column}`} class="row-start-1 whitespace-nowrap">{month.label}</span>
+      ))}
     </div>
 
     <div
-      x-ref="tip"
-      x-show="open"
-      x-cloak
-      :style="style"
-      class="pointer-events-none absolute z-10 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background"
-      x-text="text"
-      aria-hidden="true"
-    ></div>
+      class="contrib-columns contrib-grid grid"
+      role="img"
+      aria-label={`GitHub contribution calendar: ${total} contributions in the last year`}
+    >
+      {weeks.map((week, column) =>
+        week.contributionDays.map((day) => (
+          <span
+            class="contrib-cell"
+            style={`grid-column-start:${column + 1};grid-row-start:${day.weekday + 1}`}
+            data-level={LEVELS[day.contributionLevel] ?? 0}
+          ></span>
+        )),
+      )}
+    </div>
   </div>
 
   <p class="text-sm text-foreground-soft">
-    {total} contributions in the last year
-    <span aria-hidden="true"> · </span>
     <a
-      href={`https://github.com/${contributions.username}`}
+      href={profileUrl}
       target="_blank"
       rel="noopener noreferrer"
       class="no-underline underline-offset-2 transition-colors hover:text-foreground hover:underline hover:decoration-dotted"
-    >@{contributions.username}</a>
+    >{total} contributions in the last year</a>
   </p>
 </PageSection>
 
 <style>
-  /* 53 columns of 9px cells with 2px gaps fit the content column without
-     scrolling on desktop; narrower screens scroll to the newest weeks. */
+  /* One fluid column per week, so the grid always spans the content column
+     exactly. Cells stay square through aspect-ratio. */
   .contrib {
-    --contrib-cell: 9px;
     --contrib-gap: 2px;
+    overflow: hidden;
   }
   .contrib-columns {
-    grid-auto-columns: var(--contrib-cell);
+    grid-template-columns: repeat(var(--contrib-weeks), minmax(0, 1fr));
     column-gap: var(--contrib-gap);
+  }
+  .contrib-grid {
+    grid-template-rows: repeat(7, auto);
+    row-gap: var(--contrib-gap);
+  }
+  .contrib-cell {
+    aspect-ratio: 1;
+    width: 100%;
+    border-radius: 2px;
+  }
+  @media (width < 40rem) {
+    .contrib {
+      --contrib-gap: 1px;
+    }
+    .contrib-cell {
+      border-radius: 1px;
+    }
   }
 
   /* A single grey ramp built from the foreground colour, so it follows any
      theme automatically and never competes with the content. */
   .contrib-cell {
     background: color-mix(in oklab, var(--color-foreground) 6%, transparent);
-  }
-  .contrib-cell:hover {
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-foreground) 50%, transparent);
   }
   .contrib-cell[data-level="1"] {
     background: color-mix(in oklab, var(--color-foreground) 18%, transparent);
@@ -149,60 +137,3 @@ weeks.forEach((week, index) => {
     background: color-mix(in oklab, var(--color-foreground) 72%, transparent);
   }
 </style>
-
-<script>
-  document.addEventListener("alpine:init", () => {
-    const alpine = (window as unknown as { Alpine: import("alpinejs").Alpine }).Alpine;
-
-    alpine.data("contribGraph", () => ({
-      open: false,
-      text: "",
-      style: "",
-
-      init() {
-        // When the grid overflows (small screens), land on the newest weeks;
-        // scrolling back in time is a deliberate act, catching up is not.
-        this.$el.scrollLeft = this.$el.scrollWidth;
-
-        this.$el.addEventListener("pointerover", (event) => {
-          const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-tip]");
-          if (!cell) {
-            this.open = false;
-            return;
-          }
-          this.text = cell.dataset.tip ?? "";
-          this.open = true;
-
-          // Position once the tooltip has rendered with the new text, so its
-          // measured size is right. Coordinates live in the scroll container's
-          // content space, clamped to the visible area so nothing clips at the
-          // edges; near the top the tooltip flips below the cell instead.
-          this.$nextTick(() => {
-            const container = this.$el as HTMLElement;
-            const tip = this.$refs.tip as HTMLElement;
-            const bounds = container.getBoundingClientRect();
-            const cellBounds = cell.getBoundingClientRect();
-
-            const half = tip.offsetWidth / 2;
-            const centerX = cellBounds.left - bounds.left + container.scrollLeft + cellBounds.width / 2;
-            const minX = container.scrollLeft + half + 2;
-            const maxX = container.scrollLeft + container.clientWidth - half - 2;
-            const x = Math.round(Math.min(Math.max(centerX, minX), maxX) - half);
-
-            const cellTop = cellBounds.top - bounds.top;
-            const y =
-              cellTop - tip.offsetHeight - 6 < 0
-                ? Math.round(cellTop + cellBounds.height + 6)
-                : Math.round(cellTop - tip.offsetHeight - 6);
-
-            this.style = `left:${x}px;top:${y}px`;
-          });
-        });
-      },
-
-      hide() {
-        this.open = false;
-      },
-    }));
-  });
-</script>

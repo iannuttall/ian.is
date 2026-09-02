@@ -107,6 +107,23 @@
     Consolas, monospace;
 }
 
+/*
+  Theme contract
+  --------------
+  Every visual decision on the site resolves to a token in this :root block,
+  so a theme is nothing more than a later rule that redefines some of them
+  (a stylesheet, a `<style>` injected by a tool, or an agent editing values).
+  The tokens a theme is expected to touch, roughly in order of impact:
+
+    --background, --foreground, --foreground-muted, --foreground-soft
+    --border, --muted, --primary, --primary-foreground
+    --font-sans, --font-mono, --body-font-size, --body-line-height
+    --frame-max, --radius
+
+  Everything else derives from those or is a rarely-needed state colour.
+  Components must not hard-code colours, fonts, or widths; if a component
+  needs a new knob, add a token here rather than a literal in the component.
+*/
 :root {
   /* Enables light-dark() and makes native controls follow the OS. */
   color-scheme: light dark;
@@ -152,7 +169,7 @@
   --border-subtle: light-dark(oklch(95% 0 0), oklch(24% 0 0));
   --border-strong: light-dark(oklch(85% 0 0), oklch(38% 0 0));
   --input: light-dark(oklch(92% 0 0), oklch(28% 0 0));
-  --ring: light-dark(#0066db, #ff6b01);
+  --ring: var(--foreground);
 
   --card: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --card-foreground: var(--foreground);
@@ -162,11 +179,14 @@
   --selection-background: light-dark(rgba(0, 154, 250, 0.1), rgba(240, 104, 0, 0.1));
   --selection-foreground: light-dark(#0066db, #ff6b01);
 
-  --primary: light-dark(#0066db, #ff6b01);
-  --primary-soft: var(--selection-background);
-  --primary-hover: light-dark(#005bc4, #f05f00);
-  --primary-active: light-dark(#004da8, #d95500);
-  --primary-foreground: light-dark(#ffffff, #1a0b00);
+  /* The accent is monochrome by default: primary buttons and links are the
+     foreground colour. A theme can swap in a hue by overriding --primary
+     and --primary-foreground alone. */
+  --primary: var(--foreground);
+  --primary-soft: light-dark(oklch(94% 0 0), oklch(30% 0 0));
+  --primary-hover: light-dark(oklch(30% 0 0), oklch(84% 0 0));
+  --primary-active: light-dark(oklch(38% 0 0), oklch(78% 0 0));
+  --primary-foreground: var(--background);
 
   --secondary: light-dark(oklch(96% 0 0), oklch(28% 0 0));
   --secondary-soft: light-dark(oklch(98% 0 0), oklch(24% 0 0));
