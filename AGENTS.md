@@ -243,9 +243,11 @@ marketing formulas, or keyword-stuffed headlines. Use optional `seoTitle` for a
 restrained keyword variation in the browser title without changing the H1.
 - Breadcrumbs are a layout-level convention: pass `breadcrumbs` from
 `apps/site/src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
-`tagBreadcrumbs`) so the visible header trail and JSON-LD `BreadcrumbList`
-stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
-is too long for the header crumb.
+`tagBreadcrumbs`) so the JSON-LD `BreadcrumbList` is right. The header shows
+no visible trail, only the name and a short text nav; keep it that way.
+Post frontmatter may set `breadcrumbTitle` to shorten the JSON-LD label.
+- Draft posts and issues render in `astro dev` for preview and are excluded
+from builds. Never rely on `draft: true` alone to hide content locally.
 - Newsletter lives off-site at [https://list.ian.is](https://list.ian.is) (linked, not embedded), but
 issues are authored in this repo: `apps/site/src/content/issues` is the source
 of what gets sent AND the public archive at `/issues`. The filename is the

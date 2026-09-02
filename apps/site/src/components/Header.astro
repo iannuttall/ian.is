@@ -1,16 +1,46 @@
 ---
-import Breadcrumbs from './Breadcrumbs.astro'
-import MenuToggle from './MenuToggle.astro'
-import type { SeoBreadcrumbItem } from '@/lib/seo'
+/**
+ * One-line site header: the name as the home link on the left, a short
+ * text nav on the right. No menu overlay; everything fits on one row at
+ * every width. Breadcrumb JSON-LD still comes from the layout.
+ */
+const navItems = [
+  { label: "About", href: "/about" },
+  { label: "Posts", href: "/posts" },
+  { label: "Tools", href: "/tools" },
+];
 
-interface Props {
-  breadcrumbs?: SeoBreadcrumbItem[];
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isActive(href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
-
-const { breadcrumbs = [] } = Astro.props;
 ---
 
-<header class="site-frame relative z-[1000] flex items-center gap-1 py-5">
-  <MenuToggle class="-ml-3 size-10 shrink-0 rounded-md" />
-  <Breadcrumbs items={breadcrumbs} />
+<header class="site-frame flex items-center justify-between gap-6 py-6">
+  <a
+    href="/"
+    class="text-sm font-medium text-foreground no-underline underline-offset-2 hover:underline hover:decoration-dotted"
+    aria-current={pathname === "/" ? "page" : undefined}
+  >
+    Ian Nuttall
+  </a>
+  <nav aria-label="Site">
+    <ul class="flex items-center gap-5 text-sm">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class:list={[
+              "no-underline underline-offset-2 transition-colors hover:text-foreground hover:underline hover:decoration-dotted",
+              isActive(item.href) ? "text-foreground" : "text-foreground-muted",
+            ]}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
 </header>
