@@ -36,8 +36,7 @@ const hasDescription = Astro.slots.has("default");
       />
     ) : null}
     {hasDescription ? (
-      <span class="hidden min-w-0 items-baseline gap-2 text-foreground-muted sm:flex [&>p]:m-0">
-        <span aria-hidden="true" class="text-foreground-soft">&mdash;</span>
+      <span class="hidden min-w-0 text-foreground-muted sm:block [&>p]:m-0">
         <slot />
       </span>
     ) : null}
