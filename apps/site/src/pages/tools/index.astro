@@ -4,6 +4,9 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import PageHeader from "@/components/page/PageHeader.astro";
+import LinkList from "@/components/page/LinkList.astro";
+import LinkItem from "@/components/page/LinkItem.astro";
+import { tools } from "@/lib/tools";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { webPageSchema } from "@/lib/seo";
 
@@ -24,10 +27,24 @@ const structuredData = webPageSchema({
 >
   <div class="site-frame py-12 sm:py-16">
     <PageHeader title="Tools" subtitle="Free tools for SEO and AI.">
-      <p class="text-foreground-muted">
-        Nothing here yet, but the first ones are on the way.
-      </p>
+      {tools.length === 0 ? (
+        <p class="text-foreground-muted">
+          Nothing here yet, but the first ones are on the way.
+        </p>
+      ) : null}
     </PageHeader>
+
+    {tools.length > 0 ? (
+      <div class="mt-12">
+        <LinkList>
+          {tools.map((tool) => (
+            <LinkItem title={tool.title} href={tool.href} headingLevel="h3">
+              {tool.description}
+            </LinkItem>
+          ))}
+        </LinkList>
+      </div>
+    ) : null}
 
     <div class="mt-12">
       <Newsletter

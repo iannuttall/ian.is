@@ -2,6 +2,8 @@
 /**
  * Profile links shown as bare URLs: the host in soft grey, the handle in
  * the heading colour, so the eye lands on the part that is actually mine.
+ * The contact and developer pages sit here too, as ian.is/contact and
+ * ian.is/developers, which keeps the header nav to content sections.
  */
 import PageSection from "@/components/page/PageSection.astro";
 import HoverHighlight from "@/components/page/HoverHighlight.astro";
@@ -23,6 +25,8 @@ const links = [
   { label: "Ian Nuttall on GitHub", url: personProfiles.github },
   { label: "Ian Nuttall on LinkedIn", url: personProfiles.linkedin },
   { label: "Ian Nuttall on YouTube", url: personProfiles.youtube },
+  { label: "Contact", url: "https://ian.is/contact", href: "/contact" },
+  { label: "Developer resources", url: "https://ian.is/developers", href: "/developers" },
 ].map((link) => ({ ...link, ...splitUrl(link.url) }));
 ---
 
@@ -32,7 +36,7 @@ const links = [
     {links.map((link) => (
       <li class="flex">
         <a
-          {...externalLinkAttrs(link.url)}
+          {...(link.href ? { href: link.href } : externalLinkAttrs(link.url))}
           data-hover-item
           aria-label={link.label}
           class="flex flex-1 items-baseline rounded-md px-2 py-1.5 no-underline outline-none focus-visible:bg-foreground/[0.05]"

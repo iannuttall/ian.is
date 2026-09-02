@@ -1,14 +1,14 @@
 ---
 /**
- * The footer is one quiet mono row: where the previous visitor came from on
- * the left (filled in after load from /api/last-visit, empty until then so
- * the layout never shifts) and the developer resources link on the right.
+ * The footer is one quiet mono line: "Last visit from" is rendered on the
+ * server; only the location fills in after load, scrambling in from
+ * /api/last-visit and again whenever it changes. The line hides only if
+ * the request fails.
  */
 ---
 
-<footer class="site-frame mt-24 flex items-baseline justify-between gap-4 pb-10 font-mono text-xs text-foreground-soft">
-  <p x-data="lastVisit" class="min-h-4" x-show="label" x-cloak>
+<footer class="site-frame mt-24 pb-10 font-mono text-xs text-foreground-soft">
+  <p x-data="lastVisit" class="min-h-4" x-show="!failed">
     Last visit from <span x-text="label"></span>
   </p>
-  <a href="/developers" class="ml-auto no-underline transition-colors hover:text-foreground">Developers</a>
 </footer>
