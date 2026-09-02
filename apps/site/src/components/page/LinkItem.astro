@@ -14,37 +14,35 @@ const hasHref = typeof href === "string" && href.length > 0;
 const linkAttrs = hasHref ? externalLinkAttrs(href) : {};
 const isExternal = hasHref && (external ?? isExternalHref(href));
 const Element = hasHref ? "a" : "div";
+const hasDescription = Astro.slots.has("default");
 ---
 
 <li class="flex">
   <Element
     {...linkAttrs}
+    {...(hasHref ? { "data-hover-item": true } : {})}
     class:list={[
-      "inline-flex flex-1 items-baseline gap-2 no-underline",
-      hasHref ? "group/list-item" : null,
+      "flex flex-1 items-baseline gap-2 rounded-md px-2 py-1.5 no-underline outline-none",
+      hasHref ? "focus-visible:bg-foreground/[0.05]" : null,
     ]}
   >
-    <span
-      class:list={[
-        "text-base leading-[1.6] font-medium text-foreground underline-offset-1",
-        hasHref
-          ? "transition-colors group-hover/list-item:text-foreground-muted"
-          : null,
-      ]}
-    >
+    <span class="font-medium text-foreground">
       {title}
     </span>
     {isExternal ? (
       <ExternalLink
-        class="size-5 shrink-0 translate-y-0.5 text-foreground"
+        class="size-4 shrink-0 translate-y-0.5 text-foreground-soft"
         aria-hidden="true"
       />
     ) : null}
-    <div class="hidden text-base leading-[1.6] text-foreground-muted sm:block [&>p]:m-0">
-      <slot />
-    </div>
+    {hasDescription ? (
+      <span class="hidden min-w-0 items-baseline gap-2 text-foreground-muted sm:flex [&>p]:m-0">
+        <span aria-hidden="true" class="text-foreground-soft">&mdash;</span>
+        <slot />
+      </span>
+    ) : null}
     {meta ? (
-      <span class="ml-auto hidden shrink-0 text-base leading-[1.6] text-foreground-muted sm:inline">
+      <span class="ml-auto hidden shrink-0 text-foreground-soft sm:inline">
         {meta}
       </span>
     ) : null}

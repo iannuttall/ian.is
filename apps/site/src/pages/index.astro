@@ -4,6 +4,7 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
 import ContributionsSection from "@/components/page/ContributionsSection.astro";
+import ElsewhereSection from "@/components/page/ElsewhereSection.astro";
 import ProjectsSection from "@/components/page/ProjectsSection.astro";
 import PostListSection from "@/components/posts/PostListSection.astro";
 import { getPublishedPosts } from "@/lib/posts";
@@ -46,5 +47,9 @@ const posts = (await getPublishedPosts()).slice(0, 5);
         <PostListSection posts={posts} href="/posts" postHeadingLevel="h3" />
       </section>
     ) : null}
+
+    <section class="site-frame">
+      <ElsewhereSection />
+    </section>
   </div>
 </Layout>

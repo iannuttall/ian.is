@@ -2,6 +2,7 @@ import { registerAccordion } from "./alpine/accordion";
 import { registerAma } from "./alpine/ama";
 import { registerConfirmation } from "./alpine/confirmation";
 import { registerGithubStars } from "./alpine/github-stars";
+import { registerHoverGroup } from "./alpine/hover-group";
 import { registerNewsletter } from "./alpine/newsletter";
 import { registerPortCommands } from "./alpine/port-commands";
 import { registerStars } from "./alpine/stars";
@@ -13,6 +14,7 @@ export default function setup(Alpine: AlpineRuntime) {
   registerAma(Alpine);
   registerConfirmation(Alpine);
   registerGithubStars(Alpine);
+  registerHoverGroup(Alpine);
   registerNewsletter(Alpine);
   registerPortCommands(Alpine);
   registerStars(Alpine);

@@ -346,7 +346,7 @@
   }
 
   /* Links everywhere: heading colour at medium weight, no underline, and
-     they fade to the muted text colour on hover. */
+     they fade to the soft text colour on hover. */
   a {
     transition: color 120ms ease;
   }
@@ -358,7 +358,7 @@
   }
 
   .content-prose a:hover {
-    color: var(--foreground-muted);
+    color: var(--foreground-soft);
   }
 
   .content-prose pre {
@@ -502,7 +502,7 @@
   .docs-prose > p a:hover,
   .docs-prose > ul a:hover,
   .docs-prose > ol a:hover {
-    color: var(--foreground-muted);
+    color: var(--foreground-soft);
   }
 
   .docs-prose > p code,
@@ -713,5 +713,5 @@
 }
 
 .legal-page a:hover {
-  color: var(--foreground-muted);
+  color: var(--foreground-soft);
 }

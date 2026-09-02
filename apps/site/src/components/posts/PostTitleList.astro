@@ -1,4 +1,6 @@
 ---
+import HoverHighlight from "@/components/page/HoverHighlight.astro";
+
 type Props = {
   posts: {
     id: string;
@@ -11,18 +13,17 @@ type Props = {
 
 const { posts, headingLevel = "h2" } = Astro.props;
 const Heading = headingLevel;
-const listClass = "flex flex-col gap-4 sm:gap-1.5";
-const itemClass = "flex";
-const linkClass = "group/list-item inline-flex flex-1 items-center gap-2 no-underline";
-const titleClass =
-  "line-clamp-none text-pretty text-base leading-[1.6] font-medium text-foreground transition-colors group-hover/list-item:text-foreground-muted";
+const linkClass =
+  "flex flex-1 items-center rounded-md px-2 py-1.5 no-underline outline-none focus-visible:bg-foreground/[0.05]";
+const titleClass = "text-pretty text-base font-medium text-foreground";
 ---
 
-<ul class={listClass}>
+<ul class="relative isolate -mx-2 flex flex-col" x-data="hoverGroup">
+  <HoverHighlight />
   {
     posts.map((post) => (
-      <li class={itemClass}>
-        <a href={`/post/${post.id}`} class={linkClass}>
+      <li class="flex">
+        <a href={`/post/${post.id}`} class={linkClass} data-hover-item>
           <Heading class={titleClass}>{post.data.title}</Heading>
         </a>
       </li>

@@ -1,0 +1,45 @@
+---
+/**
+ * Profile links shown as bare URLs: the host in soft grey, the handle in
+ * the heading colour, so the eye lands on the part that is actually mine.
+ */
+import PageSection from "@/components/page/PageSection.astro";
+import HoverHighlight from "@/components/page/HoverHighlight.astro";
+import { externalLinkAttrs } from "@/lib/external-links.mjs";
+import { personProfiles } from "@/lib/site";
+
+function splitUrl(url: string) {
+  const { host, pathname } = new URL(url);
+  const path = pathname.replace(/\/$/, "");
+  const lastSlash = path.lastIndexOf("/");
+  return {
+    prefix: `${host.replace(/^www\./, "")}${path.slice(0, lastSlash + 1)}`,
+    handle: path.slice(lastSlash + 1),
+  };
+}
+
+const links = [
+  { label: "Ian Nuttall on X", url: personProfiles.x },
+  { label: "Ian Nuttall on GitHub", url: personProfiles.github },
+  { label: "Ian Nuttall on LinkedIn", url: personProfiles.linkedin },
+  { label: "Ian Nuttall on YouTube", url: personProfiles.youtube },
+].map((link) => ({ ...link, ...splitUrl(link.url) }));
+---
+
+<PageSection title="Elsewhere">
+  <ul class="relative isolate -mx-2 flex flex-col" x-data="hoverGroup">
+    <HoverHighlight />
+    {links.map((link) => (
+      <li class="flex">
+        <a
+          {...externalLinkAttrs(link.url)}
+          data-hover-item
+          aria-label={link.label}
+          class="flex flex-1 items-baseline rounded-md px-2 py-1.5 no-underline outline-none focus-visible:bg-foreground/[0.05]"
+        >
+          <span class="text-foreground-soft">{link.prefix}</span><span class="font-medium text-foreground">{link.handle}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</PageSection>
