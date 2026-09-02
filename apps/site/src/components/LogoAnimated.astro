@@ -1,0 +1,137 @@
+---
+/**
+ * The site mark with a short Pixar-style bit: the "i" (dot plus the
+ * diagonal it shares with the N) grows eyes, crouches, leaps, and lands
+ * back in its slot hard enough to shove the N's two stems apart before
+ * everything springs back into the logo.
+ *
+ * Plays on hover, and once on load when `autoplay` is set. Under reduced
+ * motion it stays a static mark. Pure CSS keyframes; the only script
+ * toggles a class.
+ */
+type Props = {
+  class?: string;
+  autoplay?: boolean;
+};
+
+const { class: className, autoplay = false } = Astro.props;
+---
+
+<svg
+  viewBox="108 182 400 235"
+  fill="currentColor"
+  aria-hidden="true"
+  data-logo-anim
+  data-autoplay={autoplay ? "" : undefined}
+  class:list={["logo-anim block h-[1em] w-auto overflow-visible", className]}
+>
+  <path class="part left" d="M198.2,213.9l-84.2,198.6h65c8.3,0,17.5-5.5,20.4-12.5l39.9-93.8l0.1-0.9L198.2,213.9z" />
+  <path class="part right" d="M421.1,187.5c-8.3,0-17.4,5.6-20.4,12.5l-35.6,83.9l41.4,90.9l79.5-187.3H421.1z" />
+  <g class="part i">
+    <path d="M297.9,191.9c-1.7-2.9-5.3-4.5-9.7-4.5h-76.8l25.4,56.7h84.8L297.9,191.9z" />
+    <path d="M332.2,267.2h-85.2l63.6,140.8l0.1,0.1c1.6,2.8,5.2,4.4,9.7,4.4h55c5.7,0,12-2.7,16.2-6.7c1.6-1.5,2-3.9,1.1-6L332.2,267.2z" />
+    <rect class="eye" x="238" y="210" width="22" height="8" rx="4" fill="var(--background)" />
+    <rect class="eye" x="271" y="210" width="22" height="8" rx="4" fill="var(--background)" />
+  </g>
+</svg>
+
+<style>
+  .logo-anim .part {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .logo-anim .eye {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    opacity: 0;
+  }
+  .logo-anim.is-playing .i {
+    animation: logo-i-jump 2.6s cubic-bezier(0.3, 0, 0.2, 1) both;
+  }
+  .logo-anim.is-playing .left {
+    animation: logo-left-squash 2.6s ease-out both;
+  }
+  .logo-anim.is-playing .right {
+    animation: logo-right-squash 2.6s ease-out both;
+  }
+  .logo-anim.is-playing .eye {
+    animation: logo-eye 2.6s linear both;
+  }
+
+  /* The i: a beat of stillness, a crouch, the leap, hang time, the landing
+     splat, and two smaller rebounds. */
+  @keyframes logo-i-jump {
+    0%, 22% { transform: translateY(0) scale(1, 1); }
+    30% { transform: translateY(6px) scale(1.12, 0.84); }
+    38% { transform: translateY(-150px) scale(0.88, 1.18) rotate(-5deg); }
+    46% { transform: translateY(-175px) scale(1, 1) rotate(2deg); }
+    54% { transform: translateY(-8px) scale(0.94, 1.1) rotate(0deg); }
+    58% { transform: translateY(6px) scale(1.24, 0.72); }
+    66% { transform: translateY(-14px) scale(0.96, 1.06); }
+    72% { transform: translateY(2px) scale(1.06, 0.95); }
+    78% { transform: translateY(0) scale(0.99, 1.01); }
+    84%, 100% { transform: translateY(0) scale(1, 1); }
+  }
+  /* The N's stems take the hit and spring back. */
+  @keyframes logo-left-squash {
+    0%, 56% { transform: translateX(0) scale(1, 1) rotate(0); }
+    59% { transform: translateX(-14px) scale(1.14, 0.8) rotate(-5deg); }
+    68% { transform: translateX(-4px) scale(0.97, 1.04) rotate(-1deg); }
+    76% { transform: translateX(1px) scale(1.02, 0.98); }
+    86%, 100% { transform: translateX(0) scale(1, 1) rotate(0); }
+  }
+  @keyframes logo-right-squash {
+    0%, 56% { transform: translateX(0) scale(1, 1) rotate(0); }
+    59% { transform: translateX(14px) scale(1.14, 0.8) rotate(5deg); }
+    68% { transform: translateX(4px) scale(0.97, 1.04) rotate(1deg); }
+    76% { transform: translateX(-1px) scale(1.02, 0.98); }
+    86%, 100% { transform: translateX(0) scale(1, 1) rotate(0); }
+  }
+  /* Eyes: appear, blink, squint for the crouch, go wide on the way up,
+     shut on impact, blink again, fade. */
+  @keyframes logo-eye {
+    0% { opacity: 0; transform: scaleY(1); }
+    6% { opacity: 1; transform: scaleY(1); }
+    12% { transform: scaleY(1); }
+    14% { transform: scaleY(0.1); }
+    16% { transform: scaleY(1); }
+    28% { transform: scaleY(1); }
+    31% { transform: scaleY(0.55); }
+    40% { transform: scaleY(1.25); }
+    56% { transform: scaleY(1); }
+    58% { transform: scaleY(0.1); }
+    64% { transform: scaleY(1); }
+    86% { opacity: 1; transform: scaleY(1); }
+    88% { transform: scaleY(0.1); }
+    90% { transform: scaleY(1); }
+    100% { opacity: 0; transform: scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-anim.is-playing .part,
+    .logo-anim.is-playing .eye {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<SVGSVGElement>("[data-logo-anim]").forEach((logo) => {
+    const trigger = logo.closest("a") ?? logo;
+    const play = () => {
+      if (reduced || logo.classList.contains("is-playing")) return;
+      logo.classList.add("is-playing");
+    };
+
+    logo.querySelector(".i")?.addEventListener("animationend", () => {
+      logo.classList.remove("is-playing");
+    });
+    trigger.addEventListener("pointerenter", play);
+
+    if (logo.hasAttribute("data-autoplay")) {
+      window.setTimeout(play, 600);
+    }
+  });
+</script>
