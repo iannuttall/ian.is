@@ -137,7 +137,7 @@
   --body-font-size: 1rem;
   --body-line-height: 1.6;
   --prose-divider-width: 7rem;
-  --prose-divider-height: 0.125rem;
+  --prose-divider-height: 1px;
   --prose-divider-spacing: 4rem;
   --prose-divider-background: repeating-linear-gradient(
     to right,
