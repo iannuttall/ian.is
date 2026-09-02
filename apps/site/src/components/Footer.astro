@@ -1,55 +1,18 @@
 ---
-import Logo from './Logo.astro'
-import { externalLinkAttrs } from "@/lib/external-links.mjs";
-import { personProfiles } from "@/lib/site";
-
-const linkRows = [
-  [
-    { label: 'Posts', href: '/posts' },
-    { label: 'Tools', href: '/tools' },
-  ],
-  [
-    { label: 'Terms', href: '/terms' },
-    { label: 'Privacy', href: '/privacy' },
-    { label: 'Cookies', href: '/cookies' },
-  ],
-]
-
-const linkClass =
-  'text-sm/6 text-foreground-muted underline-offset-2 transition-colors hover:text-foreground hover:underline hover:decoration-dotted'
+/**
+ * The footer is one quiet mono line: where the previous visitor came from.
+ * It fills in after load from /api/last-visit and stays empty until then,
+ * so the layout never shifts.
+ */
 ---
 
-<footer class="mt-20 py-14">
-  <div class="site-frame flex flex-col items-center gap-8 text-center">
-    <a href="/" class="text-foreground no-underline" aria-label="Ian Nuttall home">
-      <Logo class="text-2xl" />
-    </a>
-
-    <nav class="flex flex-col items-center gap-4" aria-label="Footer">
-      {
-        linkRows.map((row) => (
-          <ul class="flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
-            {row.map((link) => (
-              <li>
-                <a class={linkClass} {...externalLinkAttrs(link.href)}>
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ))
-      }
-      <a
-        class="text-2xl/none text-foreground underline-offset-2 transition-colors hover:text-foreground-muted hover:underline hover:decoration-dotted"
-        {...externalLinkAttrs(personProfiles.x)}
-        aria-label="Ian Nuttall on X"
-      >
-        𝕏
-      </a>
-    </nav>
-
-    <p class="text-xs text-foreground-soft">
-      &copy; {new Date().getFullYear()} Ian Nuttall
-    </p>
-  </div>
+<footer class="site-frame mt-24 pb-10">
+  <p
+    x-data="lastVisit"
+    class="min-h-4 font-mono text-xs text-foreground-soft"
+    x-show="label"
+    x-cloak
+  >
+    Last visit from <span x-text="label"></span>
+  </p>
 </footer>

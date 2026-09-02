@@ -3,6 +3,8 @@ export const siteUrl = "https://ian.is";
 // Canonical apex host. www -> apex redirect is handled by a Cloudflare Redirect
 // Rule, never in the Worker (so we avoid `run_worker_first`).
 export const canonicalHost = "ian.is";
+/** Ian's profile photo (400x400), used for bylines and the Person schema. */
+export const personImagePath = "/ian.jpg";
 export const personDescription =
   "Ian Nuttall is a British marketer, software engineer and entrepreneur with over 20 years of experience building internet businesses and AI tools.";
 export const siteDescription =

@@ -1,6 +1,6 @@
 ---
+import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import MenuOverlay from "@/components/MenuOverlay.astro";
 import OgTemplate from "@/components/OgTemplate.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
 import { feedLinks } from "@/lib/feeds";
@@ -138,11 +138,11 @@ const isOgPreview = Astro.url.searchParams.has("og");
       <>
         <a href="#content" class="skip-link">Skip to content</a>
         <div class="flex min-h-screen flex-col">
-          {minimal ? null : <Header breadcrumbs={breadcrumbItems} />}
-          {minimal ? null : <MenuOverlay />}
+          {minimal ? null : <Header />}
           <main id="content" class="flex-1">
             <slot />
           </main>
+          {minimal ? null : <Footer />}
         </div>
         <footer hidden aria-hidden="true">
           <template data-og-template data-og-width="1200" data-og-height="630">

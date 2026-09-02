@@ -51,7 +51,7 @@ const structuredData = blogPostingSchema({
       <p class="tracking-tighter text-foreground-soft">
         {issueLabel ? <span>{issueLabel} - </span> : null}<time datetime={issue.data.pubDate.toISOString()}>{formatIssueDate(issue.data.pubDate)}</time> - {readingMinutes} min read
       </p>
-      <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+      <h1 class="text-pretty text-xl font-medium text-foreground">
         {issue.data.subject}
       </h1>
       {

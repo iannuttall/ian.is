@@ -1,0 +1,15 @@
+---
+/**
+ * The shared sliding highlight for a `hoverGroup` container. Place it as
+ * the first child of the group; items with `data-hover-item` get the pill
+ * behind them. Purely decorative.
+ */
+---
+
+<span
+  aria-hidden="true"
+  x-bind:style="style"
+  x-bind:class="{ 'transition-none': instant }"
+  style="opacity:0"
+  class="pointer-events-none absolute top-0 left-0 -z-10 rounded-md bg-foreground/[0.05] transition-[transform,width,height,opacity] duration-200 ease-out motion-reduce:transition-none"
+></span>

@@ -107,6 +107,23 @@
     Consolas, monospace;
 }
 
+/*
+  Theme contract
+  --------------
+  Every visual decision on the site resolves to a token in this :root block,
+  so a theme is nothing more than a later rule that redefines some of them
+  (a stylesheet, a `<style>` injected by a tool, or an agent editing values).
+  The tokens a theme is expected to touch, roughly in order of impact:
+
+    --background, --foreground, --foreground-muted, --foreground-soft
+    --border, --muted, --primary, --primary-foreground
+    --font-sans, --font-mono, --body-font-size, --body-line-height
+    --frame-max, --radius
+
+  Everything else derives from those or is a rarely-needed state colour.
+  Components must not hard-code colours, fonts, or widths; if a component
+  needs a new knob, add a token here rather than a literal in the component.
+*/
 :root {
   /* Enables light-dark() and makes native controls follow the OS. */
   color-scheme: light dark;
@@ -114,13 +131,13 @@
 
   /* Single source of truth for the page content frame width. Change this one
      value to widen/narrow every page, section, header, and footer at once. */
-  --frame-max: 48rem; /* 3xl */
+  --frame-max: 42.5rem;
   --rail-side-width: 12rem;
   --rail-gap: 2rem;
-  --body-font-size: var(--text-lg);
+  --body-font-size: 1rem;
   --body-line-height: 1.6;
   --prose-divider-width: 7rem;
-  --prose-divider-height: 0.125rem;
+  --prose-divider-height: 1px;
   --prose-divider-spacing: 4rem;
   --prose-divider-background: repeating-linear-gradient(
     to right,
@@ -142,14 +159,17 @@
   --background: light-dark(oklch(98.5% 0 0), oklch(20.5% 0 0));
   --background-raised: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --background-subtle: light-dark(oklch(96% 0 0), oklch(17% 0 0));
-  --foreground: light-dark(oklch(27% 0 0), oklch(90% 0 0));
-  --foreground-muted: light-dark(oklch(45% 0 0), oklch(72% 0 0));
-  --foreground-soft: light-dark(oklch(60% 0 0), oklch(55% 0 0));
+  /* Three text tiers, Oliur-style: headings/links/strong sit on --foreground
+     (near black), running body copy on --foreground-muted, and secondary
+     text (dates, labels, meta) on --foreground-soft. */
+  --foreground: light-dark(oklch(18% 0 0), oklch(93% 0 0));
+  --foreground-muted: light-dark(oklch(43% 0 0), oklch(70% 0 0));
+  --foreground-soft: light-dark(oklch(58% 0 0), oklch(55% 0 0));
   --border: light-dark(oklch(92% 0 0), oklch(28% 0 0));
   --border-subtle: light-dark(oklch(95% 0 0), oklch(24% 0 0));
   --border-strong: light-dark(oklch(85% 0 0), oklch(38% 0 0));
   --input: light-dark(oklch(92% 0 0), oklch(28% 0 0));
-  --ring: light-dark(#0066db, #ff6b01);
+  --ring: var(--foreground);
 
   --card: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --card-foreground: var(--foreground);
@@ -159,11 +179,14 @@
   --selection-background: light-dark(rgba(0, 154, 250, 0.1), rgba(240, 104, 0, 0.1));
   --selection-foreground: light-dark(#0066db, #ff6b01);
 
-  --primary: light-dark(#0066db, #ff6b01);
-  --primary-soft: var(--selection-background);
-  --primary-hover: light-dark(#005bc4, #f05f00);
-  --primary-active: light-dark(#004da8, #d95500);
-  --primary-foreground: light-dark(#ffffff, #1a0b00);
+  /* The accent is monochrome by default: primary buttons and links are the
+     foreground colour. A theme can swap in a hue by overriding --primary
+     and --primary-foreground alone. */
+  --primary: var(--foreground);
+  --primary-soft: light-dark(oklch(94% 0 0), oklch(30% 0 0));
+  --primary-hover: light-dark(oklch(30% 0 0), oklch(84% 0 0));
+  --primary-active: light-dark(oklch(38% 0 0), oklch(78% 0 0));
+  --primary-foreground: var(--background);
 
   --secondary: light-dark(oklch(96% 0 0), oklch(28% 0 0));
   --secondary-soft: light-dark(oklch(98% 0 0), oklch(24% 0 0));
@@ -198,7 +221,7 @@
   }
 
   body {
-    color: var(--foreground);
+    color: var(--foreground-muted);
     font-size: var(--body-font-size);
     line-height: var(--body-line-height);
     /* Inter cv08: capital I with top/bottom serifs (disambiguates I/l/1). */
@@ -214,6 +237,13 @@
     /* 550 was a variable-only weight; static Inter uses 500. */
     font-weight: 500;
     letter-spacing: 0;
+    color: var(--foreground);
+  }
+
+  strong,
+  b {
+    font-weight: 500;
+    color: var(--foreground);
   }
 
   code,
@@ -231,7 +261,7 @@
   }
 
   .content-prose {
-    color: var(--foreground);
+    color: var(--foreground-muted);
   }
 
   .content-prose > * + * {
@@ -239,30 +269,28 @@
   }
 
   .content-prose h1 {
-    max-width: 44rem;
-    font-size: 2.5rem;
-    line-height: 1.08;
+    font-size: 1.5rem;
+    line-height: 1.3;
   }
 
   .content-prose h2 {
     margin-top: 2.5rem;
-    font-size: 1.5rem;
-    line-height: 1.2;
+    font-size: 1.125rem;
+    line-height: 1.4;
   }
 
   .content-prose h3 {
     margin-top: 2rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   /* Body copy matches the about page (PageText): the one text treatment
      for every long-form surface — posts, issues, pages. */
   .content-prose p,
   .content-prose li {
-    font-size: 1.25rem;
+    font-size: 1rem;
     line-height: 1.6;
-    font-weight: 500;
-    color: var(--foreground);
+    color: var(--foreground-muted);
   }
 
   .content-prose mark {
@@ -315,6 +343,22 @@
     padding: 0.125rem 0.25rem;
     color: var(--foreground);
     font-size: 0.875em;
+  }
+
+  /* Links everywhere: heading colour at medium weight, no underline, and
+     they fade to the soft text colour on hover. */
+  a {
+    transition: color 120ms ease;
+  }
+
+  .content-prose a {
+    color: var(--foreground);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .content-prose a:hover {
+    color: var(--foreground-soft);
   }
 
   .content-prose pre {
@@ -450,21 +494,15 @@
   .docs-prose > p a,
   .docs-prose > ul a,
   .docs-prose > ol a {
-    color: var(--primary);
-    text-decoration-line: underline;
-    text-decoration-color: var(--primary);
-    text-underline-offset: 4px;
-    transition:
-      color 150ms,
-      text-decoration-color 150ms;
+    color: var(--foreground);
+    font-weight: 500;
+    text-decoration: none;
   }
 
   .docs-prose > p a:hover,
   .docs-prose > ul a:hover,
   .docs-prose > ol a:hover {
-    color: var(--primary-hover);
-    text-decoration-color: var(--primary-hover);
-    text-decoration-style: dotted;
+    color: var(--foreground-soft);
   }
 
   .docs-prose > p code,
@@ -647,13 +685,13 @@
 }
 
 .legal-page h1 {
-  font-size: 2.5rem;
-  line-height: 1.08;
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
 .legal-page h2 {
   margin-top: 2rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.25;
   color: var(--foreground);
 }
@@ -669,11 +707,11 @@
 }
 
 .legal-page a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  color: var(--foreground);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .legal-page a:hover {
-  text-decoration-style: dotted;
+  color: var(--foreground-soft);
 }

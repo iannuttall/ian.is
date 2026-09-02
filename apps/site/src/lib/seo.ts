@@ -12,6 +12,7 @@ import type {
 } from "schema-dts";
 import {
   personDescription,
+  personImagePath,
   personProfiles,
   siteDescription,
   siteName,
@@ -39,6 +40,7 @@ function personEntity() {
     familyName: "Nuttall",
     description: personDescription,
     url: siteUrl,
+    image: `${siteUrl}${personImagePath}`,
     sameAs: Object.values(personProfiles),
   });
 }

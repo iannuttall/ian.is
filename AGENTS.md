@@ -243,9 +243,21 @@ marketing formulas, or keyword-stuffed headlines. Use optional `seoTitle` for a
 restrained keyword variation in the browser title without changing the H1.
 - Breadcrumbs are a layout-level convention: pass `breadcrumbs` from
 `apps/site/src/lib/breadcrumbs.ts` helpers (`pageBreadcrumbs`, `postBreadcrumbs`,
-`tagBreadcrumbs`) so the visible header trail and JSON-LD `BreadcrumbList`
-stay in sync. Post frontmatter may set `breadcrumbTitle` when the full title
-is too long for the header crumb.
+`tagBreadcrumbs`) so the JSON-LD `BreadcrumbList` is right. The header shows
+no visible trail, only the name and a short text nav; keep it that way.
+Post frontmatter may set `breadcrumbTitle` to shorten the JSON-LD label.
+- Draft posts and issues render in `astro dev` for preview and are excluded
+from builds. Never rely on `draft: true` alone to hide content locally.
+- D1 migrations live in `apps/site/migrations`. Apply them locally with
+`pnpm -C apps/site exec wrangler d1 migrations apply ian-db --local`. The
+remote apply (`--remote`) is a production change: only run it when the user
+asks. Routes that read new tables must fail quietly until then.
+- The footer's "Last visit from City, CC" line is fetched by the browser from
+`/api/last-visit`, which stores only city and country in the `last_visit`
+table. Crawlers never call it, so it costs nothing on static pages.
+- Post view counts work the same way: the browser calls `/api/views/<slug>`
+once per session, which increments the `post_views` row for a slug that
+exists in the posts collection. Static pages never read D1.
 - Newsletter lives off-site at [https://list.ian.is](https://list.ian.is) (linked, not embedded), but
 issues are authored in this repo: `apps/site/src/content/issues` is the source
 of what gets sent AND the public archive at `/issues`. The filename is the

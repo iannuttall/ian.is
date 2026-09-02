@@ -1,16 +1,52 @@
 ---
-import Breadcrumbs from './Breadcrumbs.astro'
-import MenuToggle from './MenuToggle.astro'
-import type { SeoBreadcrumbItem } from '@/lib/seo'
+/**
+ * One-line site header: the mark as the home link on the left, a short
+ * text nav on the right. No menu overlay; everything fits on one row at
+ * every width. Breadcrumb JSON-LD still comes from the layout.
+ */
+import Logo from "@/components/Logo.astro";
+import HoverHighlight from "@/components/page/HoverHighlight.astro";
 
-interface Props {
-  breadcrumbs?: SeoBreadcrumbItem[];
+const navItems = [
+  { label: "Posts", href: "/posts" },
+  { label: "Tools", href: "/tools" },
+  { label: "Contact", href: "/contact" },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isActive(href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
-
-const { breadcrumbs = [] } = Astro.props;
 ---
 
-<header class="site-frame relative z-[1000] flex items-center gap-1 py-5">
-  <MenuToggle class="-ml-3 size-10 shrink-0 rounded-md" />
-  <Breadcrumbs items={breadcrumbs} />
+<header class="site-frame flex items-center justify-between gap-6 py-6">
+  <a
+    href="/"
+    class="text-foreground no-underline transition-opacity hover:opacity-70"
+    aria-label="Ian Nuttall home"
+    aria-current={pathname === "/" ? "page" : undefined}
+  >
+    <Logo class="h-5" />
+  </a>
+  <nav aria-label="Site" class="relative isolate -mr-2.5" x-data="hoverGroup">
+    <HoverHighlight />
+    <ul class="flex items-center gap-1 text-sm">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            data-hover-item
+            class:list={[
+              "block rounded-md px-2.5 py-1 font-medium text-foreground no-underline outline-none focus-visible:bg-foreground/[0.05]",
+              isActive(item.href) ? "bg-foreground/[0.05]" : "",
+            ]}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
 </header>

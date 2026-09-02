@@ -47,7 +47,7 @@ const structuredData = qaPageSchema({
       >
         Asked {formatAmaDate(entry.data.asked)}
       </time>
-      <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+      <h1 class="text-pretty text-xl font-medium text-foreground">
         {entry.data.question}
       </h1>
       {entry.data.context ? (
@@ -63,7 +63,7 @@ const structuredData = qaPageSchema({
 
     <a
       href="/ama"
-      class="mt-16 inline-flex self-start text-sm text-foreground-muted underline-offset-2 hover:text-foreground hover:underline hover:decoration-dotted"
+      class="mt-16 inline-flex self-start text-sm text-foreground-muted underline-offset-2 hover:text-foreground"
     >
       All answered questions
     </a>

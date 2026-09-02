@@ -1,14 +1,22 @@
 ---
 type Props = {
   title: string;
+  /** When set, the section label itself is the link to the full page. */
+  href?: string;
 };
 
-const { title } = Astro.props;
+const { title, href } = Astro.props;
 ---
 
 <section class="flex flex-col gap-3">
-  <h2 class="text-lg leading-[1.6] font-medium tracking-normal text-foreground-soft">
-    {title}
+  <h2 class="text-sm font-medium text-foreground-soft">
+    {href ? (
+      <a href={href} class="no-underline transition-colors hover:text-foreground">
+        {title}
+      </a>
+    ) : (
+      title
+    )}
   </h2>
   <slot />
 </section>

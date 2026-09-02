@@ -1,6 +1,12 @@
 ---
+/**
+ * A list of LinkItems sharing one sliding hover highlight. Items carry a
+ * small negative margin so the highlight pill sits wider than the text.
+ */
+import HoverHighlight from "@/components/page/HoverHighlight.astro";
 ---
 
-<ul class="flex flex-col gap-4 sm:gap-1.5">
+<ul class="relative isolate -mx-2 flex flex-col" x-data="hoverGroup">
+  <HoverHighlight />
   <slot />
 </ul>
