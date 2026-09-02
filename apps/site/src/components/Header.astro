@@ -35,7 +35,7 @@ function isActive(href: string) {
           <a
             href={item.href}
             class:list={[
-              "no-underline underline-offset-2 transition-colors hover:text-foreground hover:underline hover:decoration-dotted",
+              "no-underline underline-offset-2 transition-colors hover:text-foreground",
               isActive(item.href) ? "text-foreground" : "text-foreground-muted",
             ]}
             aria-current={isActive(item.href) ? "page" : undefined}

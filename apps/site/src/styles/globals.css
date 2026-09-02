@@ -345,15 +345,20 @@
     font-size: 0.875em;
   }
 
+  /* Links everywhere: heading colour at medium weight, no underline, and
+     they fade to the muted text colour on hover. */
+  a {
+    transition: color 120ms ease;
+  }
+
   .content-prose a {
     color: var(--foreground);
-    text-decoration: underline;
-    text-decoration-color: var(--border-strong);
-    text-underline-offset: 3px;
+    font-weight: 500;
+    text-decoration: none;
   }
 
   .content-prose a:hover {
-    text-decoration-color: var(--foreground);
+    color: var(--foreground-muted);
   }
 
   .content-prose pre {
@@ -489,21 +494,15 @@
   .docs-prose > p a,
   .docs-prose > ul a,
   .docs-prose > ol a {
-    color: var(--primary);
-    text-decoration-line: underline;
-    text-decoration-color: var(--primary);
-    text-underline-offset: 4px;
-    transition:
-      color 150ms,
-      text-decoration-color 150ms;
+    color: var(--foreground);
+    font-weight: 500;
+    text-decoration: none;
   }
 
   .docs-prose > p a:hover,
   .docs-prose > ul a:hover,
   .docs-prose > ol a:hover {
-    color: var(--primary-hover);
-    text-decoration-color: var(--primary-hover);
-    text-decoration-style: dotted;
+    color: var(--foreground-muted);
   }
 
   .docs-prose > p code,
@@ -708,11 +707,11 @@
 }
 
 .legal-page a {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  color: var(--foreground);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .legal-page a:hover {
-  text-decoration-style: dotted;
+  color: var(--foreground-muted);
 }

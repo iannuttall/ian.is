@@ -28,7 +28,7 @@ const Element = hasHref ? "a" : "div";
       class:list={[
         "text-base leading-[1.6] font-medium text-foreground underline-offset-1",
         hasHref
-          ? "group-hover/list-item:underline group-hover/list-item:decoration-dotted"
+          ? "transition-colors group-hover/list-item:text-foreground-muted"
           : null,
       ]}
     >

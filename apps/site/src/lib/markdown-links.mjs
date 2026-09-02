@@ -6,7 +6,7 @@ import { externalLinkAttrs } from "./external-links.mjs";
 const site = process.env.SITE_URL ?? "https://ian.is";
 
 export const markdownLinkClass =
-  "text-foreground underline underline-offset-2 hover:decoration-dotted";
+  "font-medium text-foreground no-underline transition-colors hover:text-foreground-muted";
 
 /** @typedef {{ type?: string, tagName?: string, properties?: Record<string, unknown>, children?: HastNode[] }} HastNode */
 
