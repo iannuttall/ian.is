@@ -1,4 +1,5 @@
 ---
+import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import OgTemplate from "@/components/OgTemplate.astro";
 import { pageBreadcrumbs } from "@/lib/breadcrumbs";
@@ -141,6 +142,7 @@ const isOgPreview = Astro.url.searchParams.has("og");
           <main id="content" class="flex-1">
             <slot />
           </main>
+          {minimal ? null : <Footer />}
         </div>
         <footer hidden aria-hidden="true">
           <template data-og-template data-og-width="1200" data-og-height="630">

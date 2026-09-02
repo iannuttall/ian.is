@@ -248,6 +248,13 @@ no visible trail, only the name and a short text nav; keep it that way.
 Post frontmatter may set `breadcrumbTitle` to shorten the JSON-LD label.
 - Draft posts and issues render in `astro dev` for preview and are excluded
 from builds. Never rely on `draft: true` alone to hide content locally.
+- D1 migrations live in `apps/site/migrations`. Apply them locally with
+`pnpm -C apps/site exec wrangler d1 migrations apply ian-db --local`. The
+remote apply (`--remote`) is a production change: only run it when the user
+asks. Routes that read new tables must fail quietly until then.
+- The footer's "Last visit from City, CC" line is fetched by the browser from
+`/api/last-visit`, which stores only city and country in the `last_visit`
+table. Crawlers never call it, so it costs nothing on static pages.
 - Newsletter lives off-site at [https://list.ian.is](https://list.ian.is) (linked, not embedded), but
 issues are authored in this repo: `apps/site/src/content/issues` is the source
 of what gets sent AND the public archive at `/issues`. The filename is the
