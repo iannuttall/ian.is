@@ -11,11 +11,11 @@ const { title, subtitle } = Astro.props;
 ---
 
 <header class="flex max-w-2xl flex-col gap-4">
-  <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+  <h1 class="text-pretty text-xl font-medium text-foreground">
     {title}
   </h1>
   {subtitle ? (
-    <p class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px]">
+    <p class="text-pretty text-base text-foreground-muted">
       {subtitle}
     </p>
   ) : null}

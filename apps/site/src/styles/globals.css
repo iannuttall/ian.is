@@ -114,10 +114,10 @@
 
   /* Single source of truth for the page content frame width. Change this one
      value to widen/narrow every page, section, header, and footer at once. */
-  --frame-max: 48rem; /* 3xl */
+  --frame-max: 42.5rem;
   --rail-side-width: 12rem;
   --rail-gap: 2rem;
-  --body-font-size: var(--text-lg);
+  --body-font-size: 1rem;
   --body-line-height: 1.6;
   --prose-divider-width: 7rem;
   --prose-divider-height: 0.125rem;
@@ -142,9 +142,12 @@
   --background: light-dark(oklch(98.5% 0 0), oklch(20.5% 0 0));
   --background-raised: light-dark(oklch(100% 0 0), oklch(24% 0 0));
   --background-subtle: light-dark(oklch(96% 0 0), oklch(17% 0 0));
-  --foreground: light-dark(oklch(27% 0 0), oklch(90% 0 0));
-  --foreground-muted: light-dark(oklch(45% 0 0), oklch(72% 0 0));
-  --foreground-soft: light-dark(oklch(60% 0 0), oklch(55% 0 0));
+  /* Three text tiers, Oliur-style: headings/links/strong sit on --foreground
+     (near black), running body copy on --foreground-muted, and secondary
+     text (dates, labels, meta) on --foreground-soft. */
+  --foreground: light-dark(oklch(18% 0 0), oklch(93% 0 0));
+  --foreground-muted: light-dark(oklch(43% 0 0), oklch(70% 0 0));
+  --foreground-soft: light-dark(oklch(58% 0 0), oklch(55% 0 0));
   --border: light-dark(oklch(92% 0 0), oklch(28% 0 0));
   --border-subtle: light-dark(oklch(95% 0 0), oklch(24% 0 0));
   --border-strong: light-dark(oklch(85% 0 0), oklch(38% 0 0));
@@ -198,7 +201,7 @@
   }
 
   body {
-    color: var(--foreground);
+    color: var(--foreground-muted);
     font-size: var(--body-font-size);
     line-height: var(--body-line-height);
     /* Inter cv08: capital I with top/bottom serifs (disambiguates I/l/1). */
@@ -214,6 +217,13 @@
     /* 550 was a variable-only weight; static Inter uses 500. */
     font-weight: 500;
     letter-spacing: 0;
+    color: var(--foreground);
+  }
+
+  strong,
+  b {
+    font-weight: 500;
+    color: var(--foreground);
   }
 
   code,
@@ -231,7 +241,7 @@
   }
 
   .content-prose {
-    color: var(--foreground);
+    color: var(--foreground-muted);
   }
 
   .content-prose > * + * {
@@ -239,30 +249,28 @@
   }
 
   .content-prose h1 {
-    max-width: 44rem;
-    font-size: 2.5rem;
-    line-height: 1.08;
+    font-size: 1.5rem;
+    line-height: 1.3;
   }
 
   .content-prose h2 {
     margin-top: 2.5rem;
-    font-size: 1.5rem;
-    line-height: 1.2;
+    font-size: 1.125rem;
+    line-height: 1.4;
   }
 
   .content-prose h3 {
     margin-top: 2rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   /* Body copy matches the about page (PageText): the one text treatment
      for every long-form surface — posts, issues, pages. */
   .content-prose p,
   .content-prose li {
-    font-size: 1.25rem;
+    font-size: 1rem;
     line-height: 1.6;
-    font-weight: 500;
-    color: var(--foreground);
+    color: var(--foreground-muted);
   }
 
   .content-prose mark {
@@ -315,6 +323,17 @@
     padding: 0.125rem 0.25rem;
     color: var(--foreground);
     font-size: 0.875em;
+  }
+
+  .content-prose a {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+  }
+
+  .content-prose a:hover {
+    text-decoration-color: var(--foreground);
   }
 
   .content-prose pre {
@@ -647,13 +666,13 @@
 }
 
 .legal-page h1 {
-  font-size: 2.5rem;
-  line-height: 1.08;
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
 .legal-page h2 {
   margin-top: 2rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   line-height: 1.25;
   color: var(--foreground);
 }

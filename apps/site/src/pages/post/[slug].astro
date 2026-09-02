@@ -46,10 +46,10 @@ const structuredData = blogPostingSchema({
 >
   <article class="site-frame py-12 sm:py-16">
     <div class="flex flex-col gap-2">
-      <time class="tracking-tighter text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
+      <time class="text-sm text-foreground-soft" datetime={(post.data.updatedDate ?? post.data.pubDate).toISOString()}>
         {formatPostDate(post.data.updatedDate ?? post.data.pubDate)}
       </time>
-      <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] text-foreground xl:text-4xl xl:-tracking-[0.7px]">
+      <h1 class="text-pretty text-xl font-medium text-foreground">
         {post.data.title}
       </h1>
       {post.data.tags.length > 0 ? (

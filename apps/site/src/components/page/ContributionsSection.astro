@@ -4,8 +4,8 @@
  * the daily refresh-data workflow keeps fresh. Rendered fully static; the
  * only client behaviour is one shared tooltip.
  *
- * The cell ramp mixes --color-primary with transparent, so it follows the
- * theme on its own: blue in light mode, orange in dark.
+ * The cell ramp mixes --color-foreground with transparent, so it stays a
+ * quiet grey in any theme.
  */
 import PageSection from "@/components/page/PageSection.astro";
 import contributions from "@/generated/github-contributions.json";
@@ -64,126 +64,89 @@ weeks.forEach((week, index) => {
     }
   }
 });
-
-// Streaks, computed over the flat day list.
-const allDays = weeks.flatMap((week) => week.contributionDays);
-let longestStreak = 0;
-let streak = 0;
-let bestDay = 0;
-for (const day of allDays) {
-  streak = day.contributionCount > 0 ? streak + 1 : 0;
-  if (streak > longestStreak) longestStreak = streak;
-  if (day.contributionCount > bestDay) bestDay = day.contributionCount;
-}
 ---
 
 <PageSection title="Activity">
-  <div class="contrib-card rounded-2xl bg-foreground/[0.04] p-5 sm:p-6">
-    <div class="flex flex-wrap items-baseline justify-between gap-2">
-      <p class="text-xl font-medium leading-[1.6] tracking-normal text-foreground">
-        {total} contributions <span class="text-foreground-soft">in the last year</span>
-      </p>
-      <a
-        href={`https://github.com/${contributions.username}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-[13px] text-foreground-soft no-underline transition-colors hover:text-foreground"
-      >@{contributions.username} ↗</a>
-    </div>
-
-    <div class="relative mt-5 overflow-x-auto pb-1" x-data="contribGraph" @pointerleave="hide()">
-      <div class="w-max min-w-full">
-        <div class="contrib-columns mb-1.5 grid text-[10px] leading-4 text-foreground-soft" aria-hidden="true">
-          {monthLabels.map((month) => (
-            <span style={`grid-column-start:${month.column}`} class="row-start-1">{month.label}</span>
-          ))}
-        </div>
-
-        <div class="flex gap-2">
-          <div
-            class="grid grid-rows-[repeat(7,var(--contrib-cell))] gap-[2px] text-[9px] leading-[var(--contrib-cell)] text-foreground-soft"
-            aria-hidden="true"
-          >
-            <span class="row-start-2">Mon</span>
-            <span class="row-start-4">Wed</span>
-            <span class="row-start-6">Fri</span>
-          </div>
-
-          <div
-            class="contrib-columns grid grid-flow-col grid-rows-[repeat(7,var(--contrib-cell))] gap-[2px]"
-            role="img"
-            aria-label={`GitHub contribution calendar: ${total} contributions in the last year`}
-          >
-            {weeks.map((week) =>
-              week.contributionDays.map((day) => (
-                <span
-                  class="contrib-cell rounded-[2px]"
-                  style={`grid-row-start:${day.weekday + 1}`}
-                  data-level={LEVELS[day.contributionLevel] ?? 0}
-                  data-tip={dayLabel(day)}
-                ></span>
-              )),
-            )}
-          </div>
-        </div>
+  <div class="contrib relative overflow-x-auto" x-data="contribGraph" @pointerleave="hide()">
+    <div class="w-max min-w-full">
+      <div class="contrib-columns mb-2 grid text-xs leading-4 text-foreground-soft" aria-hidden="true">
+        {monthLabels.map((month) => (
+          <span style={`grid-column-start:${month.column}`} class="row-start-1">{month.label}</span>
+        ))}
       </div>
 
       <div
-        x-ref="tip"
-        x-show="open"
-        x-cloak
-        :style="style"
-        class="pointer-events-none absolute z-10 whitespace-nowrap rounded-lg bg-background-raised px-2.5 py-1.5 text-[12px] text-foreground shadow-md ring-1 ring-black/[0.06] dark:ring-white/10"
-        x-text="text"
-        aria-hidden="true"
-      ></div>
+        class="contrib-columns grid grid-flow-col grid-rows-[repeat(7,var(--contrib-cell))] gap-[var(--contrib-gap)]"
+        role="img"
+        aria-label={`GitHub contribution calendar: ${total} contributions in the last year`}
+      >
+        {weeks.map((week) =>
+          week.contributionDays.map((day) => (
+            <span
+              class="contrib-cell rounded-[2px]"
+              style={`grid-row-start:${day.weekday + 1}`}
+              data-level={LEVELS[day.contributionLevel] ?? 0}
+              data-tip={dayLabel(day)}
+            ></span>
+          )),
+        )}
+      </div>
     </div>
 
-    <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-[12px] text-foreground-soft">
-      <span>Longest streak {longestStreak} days · best day {bestDay} contributions</span>
-      <span class="flex items-center gap-1.5" aria-hidden="true">
-        Less
-        <span class="flex gap-[2px]">
-          {[0, 1, 2, 3, 4].map((level) => (
-            <span class="contrib-cell size-[var(--contrib-cell)] rounded-[2px]" data-level={level}></span>
-          ))}
-        </span>
-        More
-      </span>
-    </div>
+    <div
+      x-ref="tip"
+      x-show="open"
+      x-cloak
+      :style="style"
+      class="pointer-events-none absolute z-10 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background"
+      x-text="text"
+      aria-hidden="true"
+    ></div>
   </div>
+
+  <p class="text-sm text-foreground-soft">
+    {total} contributions in the last year
+    <span aria-hidden="true"> · </span>
+    <a
+      href={`https://github.com/${contributions.username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="no-underline underline-offset-2 transition-colors hover:text-foreground hover:underline hover:decoration-dotted"
+    >@{contributions.username}</a>
+  </p>
 </PageSection>
 
 <style>
-  .contrib-card {
-    --contrib-cell: 10px;
-  }
-  @media (min-width: 640px) {
-    .contrib-card {
-      --contrib-cell: 9px;
-    }
+  /* 53 columns of 9px cells with 2px gaps fit the content column without
+     scrolling on desktop; narrower screens scroll to the newest weeks. */
+  .contrib {
+    --contrib-cell: 9px;
+    --contrib-gap: 2px;
   }
   .contrib-columns {
     grid-auto-columns: var(--contrib-cell);
+    column-gap: var(--contrib-gap);
   }
 
+  /* A single grey ramp built from the foreground colour, so it follows any
+     theme automatically and never competes with the content. */
   .contrib-cell {
-    background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+    background: color-mix(in oklab, var(--color-foreground) 6%, transparent);
   }
   .contrib-cell:hover {
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-foreground) 45%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-foreground) 50%, transparent);
   }
   .contrib-cell[data-level="1"] {
-    background: color-mix(in oklab, var(--color-primary) 22%, transparent);
+    background: color-mix(in oklab, var(--color-foreground) 18%, transparent);
   }
   .contrib-cell[data-level="2"] {
-    background: color-mix(in oklab, var(--color-primary) 45%, transparent);
+    background: color-mix(in oklab, var(--color-foreground) 32%, transparent);
   }
   .contrib-cell[data-level="3"] {
-    background: color-mix(in oklab, var(--color-primary) 70%, transparent);
+    background: color-mix(in oklab, var(--color-foreground) 50%, transparent);
   }
   .contrib-cell[data-level="4"] {
-    background: var(--color-primary);
+    background: color-mix(in oklab, var(--color-foreground) 72%, transparent);
   }
 </style>
 

@@ -17,12 +17,12 @@ const { title } = Astro.props;
     <Fragment slot="left">
       <slot name="left" />
     </Fragment>
-    <div class="flex flex-col gap-8 pt-16 pb-16 sm:pt-24 sm:pb-24">
+    <div class="flex flex-col gap-8 pt-12 pb-10 sm:pt-16 sm:pb-12">
       <div class="flex max-w-2xl flex-col gap-4">
-        <h1 class="max-w-xl text-pretty text-3xl font-medium -tracking-[0.5px] xl:text-4xl xl:-tracking-[0.7px]">
+        <h1 class="text-pretty text-xl font-medium">
           {title}
         </h1>
-        <div class="text-pretty text-2xl/8 font-medium -tracking-[0.2px] text-foreground-muted xl:text-3xl/10 xl:-tracking-[0.4px] [&>p+p]:mt-4 [&>p]:m-0">
+        <div class="text-pretty text-base text-foreground-muted [&>p+p]:mt-4 [&>p]:m-0">
           <slot />
         </div>
       </div>
