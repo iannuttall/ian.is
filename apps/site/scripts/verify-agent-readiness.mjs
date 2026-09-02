@@ -45,9 +45,8 @@ function assertHeadingStructure(html, page) {
 const home = await output("index.html");
 assert.ok(visibleText(mainHtml(home)).length >= 500, "home must include at least 500 visible SSR characters");
 assertHeadingStructure(home, "home");
-for (const href of ["/contact", "/developers"]) {
-  assert.match(home, new RegExp(`href=["']${href}["']`));
-}
+// The home page carries no contact or developer links by design; agents
+// reach those routes through the 404 page, llms.txt, and agents.md below.
 
 const notFound = await output("404.html");
 for (const href of ["/sitemap.xml", "/llms.txt", "/developers"]) {
