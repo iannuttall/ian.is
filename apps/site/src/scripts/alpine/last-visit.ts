@@ -1,10 +1,11 @@
 import type { AlpineRuntime } from "./types";
 
 /**
- * Footer line: "Last visit from City, CC". Fetched after load, then polled
- * every 30 seconds while the tab is visible. When the location changes the
- * text scrambles into the new value, one character at a time, matching the
- * footer signature effect in the keep site. Reduced motion swaps instantly.
+ * Footer line: "Last visit from City, CC". The static text is server
+ * rendered; the location scrambles in after load, then polls every 30
+ * seconds while the tab is visible and scrambles again when it changes,
+ * matching the footer signature effect in the keep site. Reduced motion
+ * swaps instantly. The line hides only if the first request fails.
  */
 const POLL_MS = 30_000;
 const SCRAMBLE_STEPS = 20;
@@ -14,6 +15,7 @@ const SCRAMBLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy
 type LastVisitState = {
   label: string;
   target: string;
+  failed: boolean;
   timer: number | undefined;
   animating: boolean;
   init: () => void;
@@ -33,7 +35,7 @@ async function fetchLastVisit(): Promise<string | null> {
       return `${data.city}, ${data.country}`;
     }
   } catch {
-    // Leave the footer line as it is.
+    // Treated as no data.
   }
   return null;
 }
@@ -44,6 +46,7 @@ export function registerLastVisit(Alpine: AlpineRuntime) {
     (): LastVisitState => ({
       label: "",
       target: "",
+      failed: false,
       timer: undefined,
       animating: false,
 
@@ -60,9 +63,14 @@ export function registerLastVisit(Alpine: AlpineRuntime) {
 
       async refresh() {
         const next = await fetchLastVisit();
-        if (!next || next === this.target) return;
+        if (!next) {
+          if (!this.target) this.failed = true;
+          return;
+        }
+        this.failed = false;
+        if (next === this.target) return;
         this.target = next;
-        if (!this.label || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           this.label = next;
           return;
         }

@@ -1,17 +1,20 @@
 ---
 /**
  * One-line site header: the mark as the home link on the left, a short
- * text nav on the right. No menu overlay; everything fits on one row at
- * every width. Breadcrumb JSON-LD still comes from the layout.
+ * text nav on the right. Posts and Tools appear only once they have
+ * something to show. No menu overlay; everything fits on one row at every
+ * width. Breadcrumb JSON-LD still comes from the layout.
  */
 import Logo from "@/components/Logo.astro";
 import HoverHighlight from "@/components/page/HoverHighlight.astro";
+import { getPublishedPosts } from "@/lib/posts";
+import { tools } from "@/lib/tools";
 
+const posts = await getPublishedPosts();
 const navItems = [
-  { label: "Posts", href: "/posts" },
-  { label: "Tools", href: "/tools" },
-  { label: "Contact", href: "/contact" },
-];
+  posts.length > 0 ? { label: "Posts", href: "/posts" } : null,
+  tools.length > 0 ? { label: "Tools", href: "/tools" } : null,
+].filter((item): item is { label: string; href: string } => item !== null);
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 
@@ -29,24 +32,26 @@ function isActive(href: string) {
   >
     <Logo class="h-5" />
   </a>
-  <nav aria-label="Site" class="relative isolate -mr-2.5" x-data="hoverGroup">
-    <HoverHighlight />
-    <ul class="flex items-center gap-1 text-sm">
-      {navItems.map((item) => (
-        <li>
-          <a
-            href={item.href}
-            data-hover-item
-            class:list={[
-              "block rounded-md px-2.5 py-1 font-medium text-foreground no-underline outline-none focus-visible:bg-foreground/[0.05]",
-              isActive(item.href) ? "bg-foreground/[0.05]" : "",
-            ]}
-            aria-current={isActive(item.href) ? "page" : undefined}
-          >
-            {item.label}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  {navItems.length > 0 ? (
+    <nav aria-label="Site" class="relative isolate -mr-2.5" x-data="hoverGroup">
+      <HoverHighlight />
+      <ul class="flex items-center gap-1 text-sm">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              data-hover-item
+              class:list={[
+                "block rounded-md px-2.5 py-1 font-medium text-foreground no-underline outline-none focus-visible:bg-foreground/[0.05]",
+                isActive(item.href) ? "bg-foreground/[0.05]" : "",
+              ]}
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  ) : null}
 </header>

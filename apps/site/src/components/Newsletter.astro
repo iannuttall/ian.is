@@ -17,11 +17,17 @@ interface Props {
   compact?: boolean;
 }
 
+import { getCollection } from "astro:content";
+
 const {
   heading = "Ian's List",
   description = "What I learned this month actually using AI to run my business.",
   source = "ian.is",
 } = Astro.props;
+
+// The archive link only shows once there is at least one sent issue.
+const publishedIssues = (await getCollection("issues")).filter((issue) => issue.data.draft !== true);
+const hasArchive = publishedIssues.length > 0;
 ---
 
 <section
@@ -87,9 +93,11 @@ const {
   </div>
 
   <p class="mt-2 flex flex-wrap items-baseline gap-x-2 text-sm">
-    <a href="/issues" class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft">
-      Read previous issues &rarr;
-    </a>
+    {hasArchive ? (
+      <a href="/issues" class="font-medium text-foreground no-underline transition-colors hover:text-foreground-soft">
+        Read previous issues &rarr;
+      </a>
+    ) : null}
     <span
       x-data="subscriberCount"
       x-bind:style="visible ? 'opacity: 1' : 'opacity: 0'"
