@@ -4,6 +4,8 @@
  * text nav on the right. No menu overlay; everything fits on one row at
  * every width. Breadcrumb JSON-LD still comes from the layout.
  */
+import Logo from "@/components/Logo.astro";
+
 const navItems = [
   { label: "About", href: "/about" },
   { label: "Posts", href: "/posts" },
@@ -20,10 +22,11 @@ function isActive(href: string) {
 <header class="site-frame flex items-center justify-between gap-6 py-6">
   <a
     href="/"
-    class="text-sm font-medium text-foreground no-underline underline-offset-2 hover:underline hover:decoration-dotted"
+    class="text-foreground no-underline transition-opacity hover:opacity-70"
+    aria-label="Ian Nuttall home"
     aria-current={pathname === "/" ? "page" : undefined}
   >
-    Ian Nuttall
+    <Logo class="h-5" />
   </a>
   <nav aria-label="Site">
     <ul class="flex items-center gap-5 text-sm">
