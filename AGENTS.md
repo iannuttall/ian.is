@@ -255,6 +255,9 @@ asks. Routes that read new tables must fail quietly until then.
 - The footer's "Last visit from City, CC" line is fetched by the browser from
 `/api/last-visit`, which stores only city and country in the `last_visit`
 table. Crawlers never call it, so it costs nothing on static pages.
+- Post view counts work the same way: the browser calls `/api/views/<slug>`
+once per session, which increments the `post_views` row for a slug that
+exists in the posts collection. Static pages never read D1.
 - Newsletter lives off-site at [https://list.ian.is](https://list.ian.is) (linked, not embedded), but
 issues are authored in this repo: `apps/site/src/content/issues` is the source
 of what gets sent AND the public archive at `/issues`. The filename is the

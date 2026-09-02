@@ -4,10 +4,9 @@ export const prerender = true;
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import CodeCopy from "@/components/CodeCopy.astro";
-import TagLink from "@/components/primitives/TagLink.astro";
 import Layout from "@/layouts/Layout.astro";
 import Newsletter from "@/components/Newsletter.astro";
-import PostAuthor from "@/components/posts/PostAuthor.astro";
+import PostMeta from "@/components/posts/PostMeta.astro";
 import { postBreadcrumbs } from "@/lib/breadcrumbs";
 import { formatPostDate, getPublishedPosts } from "@/lib/posts";
 import { blogPostingSchema } from "@/lib/seo";
@@ -60,14 +59,7 @@ const structuredData = blogPostingSchema({
       <h1 class="text-pretty text-2xl font-medium text-foreground">
         {post.data.title}
       </h1>
-      <PostAuthor date={displayDate} dateLabel={formatPostDate(displayDate)} />
-      {post.data.tags.length > 0 ? (
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-foreground-soft">
-          {post.data.tags.map((tag: string) => (
-            <TagLink tag={tag} />
-          ))}
-        </div>
-      ) : null}
+      <PostMeta slug={post.id} date={displayDate} dateLabel={formatPostDate(displayDate)} tags={post.data.tags} />
     </div>
 
     <div class="content-prose mt-10">

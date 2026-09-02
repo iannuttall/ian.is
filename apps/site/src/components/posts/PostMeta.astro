@@ -1,0 +1,57 @@
+---
+/**
+ * Post byline, one mono line: photo and name (linking to X with
+ * rel="author"), the date, the tags, and the view count on the right.
+ * The JSON-LD BlogPosting already points its author at the site's Person
+ * entity; this is the visible half of that.
+ */
+import TagLink from "@/components/primitives/TagLink.astro";
+import { externalLinkAttrs } from "@/lib/external-links.mjs";
+import { personImagePath, personProfiles, siteName } from "@/lib/site";
+
+type Props = {
+  slug: string;
+  date: Date;
+  dateLabel: string;
+  tags: string[];
+};
+
+const { slug, date, dateLabel, tags } = Astro.props;
+---
+
+<div class="flex items-center justify-between gap-4 font-mono text-sm text-foreground-soft">
+  <p class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+    <a
+      {...externalLinkAttrs(personProfiles.x)}
+      rel="author noopener"
+      class="inline-flex items-center gap-1.5 whitespace-nowrap text-foreground-muted no-underline transition-colors hover:text-foreground"
+    >
+      <img
+        src={personImagePath}
+        alt=""
+        width="20"
+        height="20"
+        loading="eager"
+        decoding="async"
+        class="size-5 rounded-full object-cover"
+      />
+      {siteName}
+    </a>
+    <span aria-hidden="true">|</span>
+    <time datetime={date.toISOString()} class="whitespace-nowrap">{dateLabel}</time>
+    {tags.length > 0 ? (
+      <>
+        <span aria-hidden="true">|</span>
+        {tags.map((tag) => <TagLink tag={tag} />)}
+      </>
+    ) : null}
+  </p>
+  <p
+    x-data={`postViews(${JSON.stringify(slug)})`}
+    x-text="label"
+    x-bind:style="label ? 'opacity: 1' : 'opacity: 0'"
+    style="opacity: 0"
+    class="shrink-0 whitespace-nowrap transition-opacity duration-200"
+    aria-live="polite"
+  ></p>
+</div>
